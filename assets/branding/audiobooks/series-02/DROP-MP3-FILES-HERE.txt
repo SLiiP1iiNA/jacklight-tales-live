@@ -1,5 +1,0 @@
-SERIES 2 AUDIO
-
-Drop 30 MP3 files into this folder.
-Use episode-031.mp3 through episode-060.mp3.
-Refresh the website and the available episodes will unlock automatically.

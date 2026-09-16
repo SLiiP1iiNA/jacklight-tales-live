@@ -1,5 +1,0 @@
-SERIES 5 AUDIO
-
-Drop 30 MP3 files into this folder.
-Use episode-121.mp3 through episode-150.mp3.
-Refresh the website and the available episodes will unlock automatically.

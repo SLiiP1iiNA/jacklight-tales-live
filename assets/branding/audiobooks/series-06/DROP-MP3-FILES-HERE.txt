@@ -1,5 +1,0 @@
-SERIES 6 AUDIO
-
-Drop 30 MP3 files into this folder.
-Use episode-151.mp3 through episode-180.mp3.
-Refresh the website and the available episodes will unlock automatically.
