@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="description" content="Find Barnaby and friends in a gentle hidden-object game from JackLight Tales.">
+  <title>Woodland Search · JackLight Tales</title>
+  <link rel="stylesheet" href="tokens.css">
+  <link rel="stylesheet" href="base.css">
+  <link rel="stylesheet" href="desktop.css">
+  <link rel="stylesheet" href="tablet.css">
+  <link rel="stylesheet" href="phone-portrait.css">
+  <link rel="stylesheet" href="phone-landscape.css">
+  <link rel="stylesheet" href="celebration.css">
+</head>
+<body>
+<header>
+  <a class="brand" href="../../index.html"><img src="assets/jlt.png" alt=""><span>JackLight Tales</span></a>
+  <a class="tagline game-home-link" href="../../index.html"><span aria-hidden="true">←</span><span class="tagline-long">Back to JackLight Tales</span><span class="tagline-short">Website</span></a>
+</header>
+<main>
+  <section id="welcome">
+    <img class="welcome-mark" src="assets/jlt.png" alt="JackLight Tales lantern">
+    <p class="eyebrow">A gentle hidden-object game</p>
+    <h1>Who is hiding in the woods?</h1>
+    <p>Find Barnaby, Pip and their woodland friends. Take your time—there is no score and no timer.</p>
+    <button class="tile" id="play">
+      <img src="assets/village.png" alt="A busy lantern-lit woodland village">
+      <span><strong>Enter the woods</strong><small>Ten friends · Five places · Start exploring →</small></span>
+    </button>
+  </section>
+
+  <section id="game" hidden aria-label="Woodland Search game">
+    <aside class="target-panel">
+      <div class="target-card">
+        <p class="eyebrow">Looking for</p>
+        <img id="reference" class="reference" src="assets/pip.png" alt="Pip">
+        <h1 id="target-title">Find Pip</h1>
+        <p id="place-name">The lantern village</p>
+      </div>
+    </aside>
+
+    <div class="play-column">
+      <div class="game-title">
+        <p class="eyebrow">JackLight Tales · Woodland Search</p>
+        <h2>Who is hiding in the woods?</h2>
+      </div>
+      <p id="status" role="status" aria-live="polite">Pip is waiting somewhere in the woods.</p>
+      <div id="stage">
+        <div id="viewport" tabindex="0" role="region" aria-label="Woodland search picture">
+          <div id="scene">
+            <img id="woods" src="assets/village.png" alt="Woodland search scene" draggable="false">
+            <button id="pip" aria-label="Found Pip"><img src="assets/pip.png" alt="" draggable="false"></button>
+          </div>
+        </div>
+
+        <div id="success" hidden role="dialog" aria-modal="true" aria-labelledby="win-title">
+          <div class="celebration" tabindex="-1">
+            <div class="celebration-burst" aria-hidden="true"><span>✦</span><span>🍂</span><span>✧</span><span>🍃</span><span>✦</span><span>🍁</span><span>✧</span><span>🍃</span></div>
+            <img class="celebration-mark" src="assets/jlt.png" alt="">
+            <img id="found-portrait" class="found-portrait" src="assets/pip.png" alt="">
+            <div class="celebration-copy-wrap">
+              <p class="found-kicker">Wonderful spotting!</p>
+              <h2 id="win-title">You found Pip!</h2>
+              <p id="celebration-copy">A little lantern glow for a brilliant find.</p>
+            </div>
+            <div id="next-step" hidden>
+              <img id="next-portrait" src="assets/barnaby.png" alt="">
+              <div><p class="next-kicker">Another path is waiting</p><p id="next-label">Next: Barnaby</p></div>
+              <button id="again">Find Barnaby →</button>
+            </div>
+            <button id="finish">Back to game menu</button>
+          </div>
+        </div>
+      </div>
+      <p class="rotate-tip" aria-hidden="true">↻ Turn sideways for a bigger woodland view</p>
+    </div>
+
+    <aside class="utility-panel">
+      <div class="game-actions">
+        <p id="instructions">Take your time and look carefully through the picture.</p>
+        <div class="action-buttons">
+          <button id="hint">A little hint</button>
+          <button id="shuffle">New search ↻</button>
+          <button id="fullscreen">Full screen</button>
+        </div>
+        <button id="back">Leave the woods</button>
+      </div>
+      <details id="story-shelf">
+        <summary>♫ Listen while you play</summary>
+        <div class="story-controls">
+          <p>Put on a tale and explore at your own pace.</p>
+          <label>Series <select id="series"><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option></select></label>
+          <button id="load-series">Load recordings</button>
+          <label class="local-files">Play files from this device <input id="audio-files" type="file" accept="audio/*,.mp3" multiple></label>
+          <label><input id="random-audio" type="checkbox" checked> Shuffle stories</label>
+          <div><button id="play-audio" disabled>Play</button><button id="next-audio" disabled>Next</button></div>
+          <p id="audio-status" role="status">No recordings are included yet.</p>
+          <audio id="story-audio" controls preload="none"></audio>
+        </div>
+      </details>
+    </aside>
+  </section>
+</main>
+<footer>© 2026 JackLight Tales · Magical stories. Kind hearts.</footer>
+<script src="game-audio.js"></script>
+<script src="game-settings.js"></script>
+<script src="game-data.js"></script>
+<script src="game.js"></script>
+<script src="audio.js"></script>
+</body>
+</html>

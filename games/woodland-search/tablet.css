@@ -1,0 +1,50 @@
+/* TABLET — portrait keeps the whole scene; landscape mirrors desktop more closely. */
+@media (min-width:701px) and (max-width:1100px) and (min-height:521px){
+  body{min-height:100dvh}
+  header{padding:.7rem 1rem}
+  header .brand img{width:3rem;height:3rem}
+  main{padding:0 .8rem 1rem}
+  #game:not([hidden]){display:grid;gap:.7rem}
+  #pip{width:var(--character-tablet)}
+
+  @media (orientation:portrait){
+    #game:not([hidden]){grid-template-rows:auto auto auto}
+    .target-panel{grid-row:1;padding:.6rem .75rem}
+    .target-card{display:grid;grid-template-columns:72px minmax(0,1fr);grid-template-areas:"portrait eyebrow" "portrait title" "portrait place";column-gap:.7rem;align-items:center;text-align:left}
+    .target-card .reference{grid-area:portrait;width:66px;height:74px}
+    .target-card .eyebrow{grid-area:eyebrow;margin:0}
+    #target-title{grid-area:title;font-size:1.55rem}
+    #place-name{grid-area:place;font-size:.95rem;margin:.1rem 0 0}
+    .play-column{grid-row:2}
+    .game-title h2{font-size:1.8rem}
+    #status{margin:.15rem 0 .35rem;text-align:center}
+    #stage{width:100%;aspect-ratio:var(--scene-ratio)}
+    .utility-panel{grid-row:3;padding:.6rem}
+    .game-actions{display:grid;grid-template-columns:1fr 1fr 1fr;gap:.45rem}
+    #instructions{display:none}
+    .action-buttons{display:contents}
+    #fullscreen{display:none}
+    #story-shelf{margin-top:.55rem}
+  }
+
+  @media (orientation:landscape){
+    body.game-active{height:100dvh;overflow:hidden}
+    body.game-active header,body.game-active footer{display:none}
+    body.game-active main{height:100dvh;padding:.5rem;overflow:hidden}
+    #game:not([hidden]){height:100%;grid-template-columns:170px minmax(0,1fr) 210px;grid-template-rows:minmax(0,1fr);align-items:start;gap:.55rem}
+    .target-panel{grid-column:1;padding:.6rem}
+    .target-card .reference{width:74px;height:82px}
+    #target-title{font-size:1.3rem}
+    #place-name{font-size:.82rem}
+    .play-column{grid-column:2}
+    .game-title h2{font-size:1.45rem}
+    .game-title .eyebrow{font-size:.58rem}
+    #status{font-size:.78rem;margin:.05rem 0 .25rem}
+    #stage{width:100%;aspect-ratio:var(--scene-ratio)}
+    .utility-panel{grid-column:3;padding:.55rem}
+    .game-actions p{font-size:.78rem}
+    .action-buttons{flex-direction:column}
+    .action-buttons button,.game-actions>#back{min-height:38px;font-size:.78rem}
+    #fullscreen,#story-shelf{display:none}
+  }
+}

@@ -1,0 +1,44 @@
+.storybook-body [hidden] { display: none !important; }
+.storybook-body .explore-banner img { display: block; width: 100%; height: auto; max-height: none; object-fit: contain; }
+.storybook-body .explore-banner { border: 1px solid #67715a; background: #10251d; }
+.storybook-body .explore-banner__caption { position: static; border: 0; border-radius: 0; background: #10251d; color: #f8f1d9; padding: 1rem 1.25rem; }
+.storybook-body .explore-banner__caption span { color: #f6c95f; }
+.storybook-body .panel-heading:not(.panel-heading--watch) { display: flex; flex-direction: column; align-items: flex-start; gap: 1rem; }
+.storybook-body .panel-heading h2 { line-height: 1.08; letter-spacing: -0.035em; max-width: 22ch; }
+.storybook-body .panel-heading > p { max-width: 65ch; }
+.storybook-body .series-card h3,
+.storybook-body .content-card h3,
+.storybook-body .place-card h3,
+.storybook-body .section-heading--compact h3,
+.storybook-body .game-teaser h3 { color: #f8f1d9; line-height: 1.3; }
+.storybook-body .panel-note { color: #c5cebc; line-height: 1.6; }
+.storybook-body .watch-feature__meta { display: flex; flex-wrap: wrap; gap: .75rem 1.5rem; padding: 1rem; background: #10251d; color: #d7ddcc; }
+.storybook-body .watch-feature__meta a { color: #ffe19a; }
+.storybook-body .watch-stage { min-height: 0; }
+.storybook-body .watch-stage--vertical .youtube-frame { width: min(100%, 25rem, 40.5svh); height: auto; aspect-ratio: 9 / 16; min-height: 0; max-height: none; }
+.storybook-body .watch-stage--landscape .youtube-frame { width: 100%; height: auto; aspect-ratio: 16 / 9; min-height: 0; max-height: none; }
+.storybook-body .youtube-frame iframe { position: absolute; inset: 0; display: block; width: 100%; height: 100%; }
+.storybook-body .map-heading__lantern { width: clamp(6rem, 10vw, 9rem); height: auto; aspect-ratio: 1; margin-bottom: .5rem; }
+.storybook-body .map-heading .map-heading__brand { color: #ffe19a; font-size: clamp(1.8rem, 4vw, 3rem); font-weight: 800; line-height: 1.15; letter-spacing: -.02em; margin: 0; }
+.storybook-body .map-heading > .eyebrow { font-size: 1rem; letter-spacing: .14em; margin: .5rem 0; color: #f6c95f; }
+.storybook-body .map-heading h1 { font-size: clamp(2.1rem, 5vw, 4.5rem); line-height: 1.08; letter-spacing: -.035em; }
+.storybook-body .site-footer { background: #0b1c16; border: 1px solid #3d5041; border-radius: 1.5rem; padding: clamp(1.2rem, 3vw, 2rem); color: #d7ddcc; }
+.storybook-body .site-footer__copyright { color: #c5cebc; }
+.storybook-body .latest-tale__art--portrait { display: grid; grid-template-columns: 1fr 1fr; align-items: center; gap: 1rem; padding: 1.5rem; transform: none; background: radial-gradient(ellipse at 30% 65%, #43502a, #0b1c16 75%); }
+.storybook-body .latest-tale__art--portrait > img { width: 100%; height: auto; max-height: 25rem; aspect-ratio: auto; object-fit: contain; filter: none; }
+.latest-tale__wordmark { display: grid; justify-items: center; text-align: center; gap: .75rem; }
+.storybook-body .latest-tale__wordmark img { width: 6rem; height: 6rem; aspect-ratio: 1; object-fit: contain; filter: none; }
+.latest-tale__wordmark strong { color: #ffe19a; font-size: clamp(1.5rem, 3vw, 2.3rem); line-height: 1.15; }
+.latest-tale__wordmark span { color: #d7ddcc; font-size: .9rem; }
+.storybook-body .latest-tale__art--portrait::after { display: none; }
+@media (max-width: 44rem) {
+  .storybook-body .panel-heading h2 { font-size: clamp(1.8rem, 8vw, 2.6rem); }
+  .storybook-body .map-heading { margin-top: 2rem; }
+  .storybook-body .watch-stage { padding: .4rem; }
+  .storybook-body .latest-tale__art--portrait { padding: 1rem; gap: .5rem; }
+}
+@media (max-height: 700px) {
+  .storybook-body .entrance { overflow-y: auto; }
+  .storybook-body .entrance__story { position: relative; inset: auto; transform: none; margin: 4rem auto 6rem; animation: none; }
+  .storybook-body .entrance__story h1 { font-size: clamp(2rem, 7vw, 3.5rem); }
+}

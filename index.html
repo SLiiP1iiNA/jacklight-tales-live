@@ -1,0 +1,220 @@
+<!doctype html>
+<html lang="en-GB">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <meta name="theme-color" content="#071a16">
+    <meta name="description" content="JackLight Tales is a home for gentle story worlds, beginning with Barnaby and the Whispering Woods — animated tales, artwork, audio and little games for curious hearts.">
+    <meta property="og:title" content="JackLight Tales — The Whispering Woods">
+    <meta property="og:description" content="Step through the lanternlight and wander with Barnaby.">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="assets/images/site/jacklight-tales-banner.webp">
+    <link rel="preload" as="image" href="assets/images/prototype/gateway-desktop.webp" fetchpriority="high">
+    <link rel="preload" as="image" href="assets/images/prototype/gateway-mobile.webp" media="(max-width: 44rem)">
+    <link rel="icon" type="image/png" href="assets/branding/jlt-favicon.png">
+    <link rel="stylesheet" href="css/main.css">
+    <title>JackLight Tales — The Whispering Woods</title>
+  </head>
+
+  <body class="storybook-body entrance-active">
+    <a class="skip-link" href="#woodland-map">Skip to the woodland paths</a>
+
+    <section class="entrance" id="entrance" aria-label="Welcome to JackLight Tales">
+      <picture class="entrance__scene" aria-hidden="true">
+        <source media="(max-width: 44rem)" srcset="assets/images/prototype/gateway-mobile.webp">
+        <img src="assets/images/prototype/gateway-desktop.webp" alt="">
+      </picture>
+      <div class="entrance__veil" aria-hidden="true"></div>
+      <div class="entrance__fireflies" aria-hidden="true">
+        <span></span><span></span><span></span><span></span><span></span>
+        <span></span><span></span><span></span><span></span><span></span>
+      </div>
+
+      <div class="entrance__story">
+        <div class="entrance__brand-lockup">
+          <img src="assets/branding/jlt-lantern.webp" alt="" aria-hidden="true">
+          <span>JACKLIGHT TALES</span>
+        </div>
+        <p class="eyebrow">A little story world by the lanternlight</p>
+        <h1>Enter the <em>Whispering Woods</em></h1>
+        <p class="entrance__welcome">Gentle adventures, curious hearts and small moments of magic are waiting beyond the trees.</p>
+        <button class="story-button story-button--sun" id="enter-site" type="button">
+          <span>Open the woodland gate</span>
+          <span aria-hidden="true">→</span>
+        </button>
+        <p class="entrance__hint"><span aria-hidden="true">✦</span> A little wonder waits beyond the gate</p>
+      </div>
+
+      <div class="entrance__portal" aria-hidden="true">
+        <picture>
+          <source media="(max-width: 44rem)" srcset="assets/images/prototype/world-map-mobile.webp">
+          <img src="assets/images/prototype/world-map-desktop.webp" alt="">
+        </picture>
+      </div>
+
+      <button class="entrance__skip" id="skip-entrance" type="button">Skip to the paths</button>
+    </section>
+
+    <main class="site-shell" id="main-site" tabindex="-1">
+      <header class="site-header storybook-header">
+        <a class="brand" href="./" aria-label="JackLight Tales home">
+          <span class="brand__mark" aria-hidden="true"><img src="assets/branding/jlt-lantern.webp" alt=""></span>
+          <span class="brand__words">
+            <strong>JackLight Tales</strong>
+            <small>Barnaby · The Whispering Woods</small>
+          </span>
+        </a>
+
+        <nav class="site-nav" aria-label="Primary navigation">
+          <button type="button" data-panel="watch"><span aria-hidden="true">▶</span> Watch</button>
+          <button type="button" data-panel="listen"><span aria-hidden="true">♫</span> Listen</button>
+          <button type="button" data-panel="explore" data-panel-section="characters"><span aria-hidden="true">✦</span> Friends</button>
+          <button type="button" data-panel="explore" data-panel-section="artwork"><span aria-hidden="true">✎</span> Artwork</button>
+          <button class="site-nav__play" type="button" data-panel="games"><span aria-hidden="true">◈</span> Games</button>
+          <button type="button" data-panel="grownups">Grown-ups</button>
+        </nav>
+
+        <div class="header-actions">
+          <button class="sound-control" id="sound-control" type="button" aria-pressed="false" aria-label="Turn woodland sound on">
+            <span aria-hidden="true" data-sound-icon>♪</span>
+            <span data-sound-label>Sound off</span>
+          </button>
+          <button class="welcome-replay" type="button" data-replay-entrance aria-label="Replay the woodland entrance">
+            <span aria-hidden="true">↺</span><span>Welcome</span>
+          </button>
+        </div>
+      </header>
+
+      <section class="map-heading" aria-labelledby="map-title">
+        <div class="map-heading__lantern" aria-hidden="true"><img src="assets/branding/jlt-lantern.webp" alt=""></div>
+        <p class="map-heading__brand">JackLight Tales</p>
+        <p class="eyebrow">The paths are lit</p>
+        <h1 id="map-title">Where shall we wander?</h1>
+        <p>Choose a little door into Barnaby's world. Every path opens a new part of the story.</p>
+      </section>
+
+      <section class="woodland-map" id="woodland-map" aria-label="Explore the Whispering Woods">
+        <picture class="woodland-map__art" aria-hidden="true">
+          <source media="(max-width: 44rem)" srcset="assets/images/prototype/world-map-mobile.webp">
+          <img src="assets/images/prototype/world-map-desktop.webp" alt="" fetchpriority="high">
+        </picture>
+        <div class="woodland-map__veil" aria-hidden="true"></div>
+        <div class="woodland-map__mist woodland-map__mist--one" aria-hidden="true"></div>
+        <div class="woodland-map__mist woodland-map__mist--two" aria-hidden="true"></div>
+
+        <button class="map-stop map-stop--watch" type="button" data-panel="watch" aria-describedby="map-watch-copy">
+          <span class="map-stop__marker" aria-hidden="true">▶</span>
+          <span class="map-stop__sign"><strong>Watch the tales</strong><small id="map-watch-copy">The woodland cinema</small><b aria-hidden="true">Open path ↗</b></span>
+        </button>
+
+        <button class="map-stop map-stop--characters" type="button" data-panel="explore" data-panel-section="characters" aria-describedby="map-characters-copy">
+          <span class="map-stop__marker" aria-hidden="true">✦</span>
+          <span class="map-stop__sign"><strong>Meet the friends</strong><small id="map-characters-copy">Who lives beneath the trees?</small><b aria-hidden="true">Open path ↗</b></span>
+        </button>
+
+        <button class="map-stop map-stop--listen" type="button" data-panel="listen" aria-describedby="map-listen-copy">
+          <span class="map-stop__marker" aria-hidden="true">♫</span>
+          <span class="map-stop__sign"><strong>Listen by lanternlight</strong><small id="map-listen-copy">The story nook</small><b aria-hidden="true">Open path ↗</b></span>
+        </button>
+
+        <button class="map-stop map-stop--artwork" type="button" data-panel="explore" data-panel-section="artwork" aria-describedby="map-artwork-copy">
+          <span class="map-stop__marker" aria-hidden="true">✎</span>
+          <span class="map-stop__sign"><strong>Wander through artwork</strong><small id="map-artwork-copy">A peek inside the art burrow</small><b aria-hidden="true">Open path ↗</b></span>
+        </button>
+
+        <div class="map-signature" aria-hidden="true">
+          <img src="assets/branding/jlt-lantern.webp" alt="">
+          <span>JackLight Tales</span>
+        </div>
+      </section>
+
+      <section class="home-ribbon" aria-label="JackLight Tales introduction">
+        <div class="home-ribbon__mark"><img src="assets/branding/jlt-lantern.webp" alt="" aria-hidden="true"></div>
+        <div><p class="eyebrow">The first lantern is lit</p><h2>Welcome to JackLight Tales.</h2></div>
+        <p>JackLight Tales is a home for gentle story worlds. Barnaby and the Whispering Woods is the first path through the gate — with more room to grow when the next world is ready.</p>
+      </section>
+
+      <section class="games-path" aria-labelledby="games-path-title">
+        <div class="games-path__media" aria-hidden="true">
+          <img class="games-path__scene" src="games/woodland-search/assets/woods-1.webp" alt="">
+          <img class="games-path__friend" src="assets/images/characters/little-guardian.png" alt="">
+          <div class="games-path__glow"></div>
+        </div>
+        <div class="games-path__copy">
+          <p class="eyebrow">Play in the Whispering Woods</p>
+          <h2 id="games-path-title">A little game path has opened.</h2>
+          <p>Search wide woodland scenes for Barnaby and his friends. No timer, no score — just careful looking and a little celebration when you find them.</p>
+          <div class="games-path__actions">
+            <button class="story-button story-button--sun" type="button" data-panel="games">Open the games path <span aria-hidden="true">◈</span></button>
+            <a class="text-path" href="games/woodland-search/index.html" data-game-launch>Play Woodland Search <span aria-hidden="true">→</span></a>
+          </div>
+        </div>
+      </section>
+
+      <section class="storybook-glimpses" aria-labelledby="glimpses-title">
+        <div class="storybook-glimpses__heading">
+          <div>
+            <p class="eyebrow">From the art burrow</p>
+            <h2 id="glimpses-title">A couple of places worth wandering into.</h2>
+          </div>
+          <button class="text-path" type="button" data-panel="explore" data-panel-section="artwork">See the artwork <span aria-hidden="true">→</span></button>
+        </div>
+
+        <div class="storybook-glimpses__grid">
+          <figure class="storybook-glimpse">
+            <img src="assets/images/gallery/barnaby-mum-old-oak.webp" alt="Barnaby, Mum, Pip and the tiny green frog looking towards a vast ancient oak in the autumn woods" loading="lazy" decoding="async">
+            <figcaption><strong>The Old Oak</strong><span>Some paths become enormous when you stop and look up.</span></figcaption>
+          </figure>
+          <figure class="storybook-glimpse">
+            <img src="assets/images/gallery/barnaby-leaf-boat.webp" alt="Barnaby, Pip and the tiny green frog riding a giant autumn leaf along a sparkling woodland stream" loading="lazy" decoding="async">
+            <figcaption><strong>A leaf becomes a boat</strong><span>A small idea, a bright stream and exactly enough adventure.</span></figcaption>
+          </figure>
+        </div>
+      </section>
+
+      <section class="latest-tale" aria-labelledby="latest-title">
+        <div class="latest-tale__art latest-tale__art--portrait">
+          <img src="assets/images/characters/barnaby.png" alt="Barnaby in his yellow sweater, ready for an adventure" loading="lazy" decoding="async">
+          <div class="latest-tale__wordmark"><img src="assets/branding/jlt-lantern.webp" alt="" loading="lazy"><strong>JackLight Tales</strong><span>Fresh from the woods</span></div>
+        </div>
+        <div class="latest-tale__copy">
+          <p class="eyebrow">The next little adventure</p>
+          <h2 id="latest-title">Pull up a cushion. Barnaby is waiting.</h2>
+          <p>Follow Barnaby into the Whispering Woods for cosy adventures, curious discoveries and a little everyday magic.</p>
+          <div class="latest-tale__actions">
+            <button class="story-button story-button--berry" type="button" data-panel="watch">Go to the cinema <span aria-hidden="true">▶</span></button>
+            <button class="text-path" type="button" data-panel="grownups">A note for grown-ups <span aria-hidden="true">→</span></button>
+          </div>
+        </div>
+      </section>
+
+      <footer class="site-footer">
+        <div class="site-footer__brand">
+          <span class="brand__mark" aria-hidden="true"><img src="assets/branding/jlt-lantern.webp" alt=""></span>
+          <p><strong>JackLight Tales</strong><span>Gentle story worlds. Kind hearts. One lantern at a time.</span></p>
+        </div>
+        <div class="site-footer__socials" data-social-links aria-label="JackLight Tales social pages">
+          <span>Loading social paths…</span>
+        </div>
+        <nav class="site-footer__legal" aria-label="Footer links">
+          <button type="button" data-panel="grownups">About &amp; contact</button>
+          <button type="button" data-replay-entrance>Replay the entrance</button>
+        </nav>
+        <p class="site-footer__copyright">© 2026 JackLight Tales. All rights reserved.</p>
+      </footer>
+    </main>
+
+    <div class="panel-layer" id="panel-layer" hidden>
+      <div class="panel-backdrop" data-close-panel></div>
+      <section class="panel" id="active-panel" role="dialog" aria-modal="true" aria-labelledby="panel-title">
+        <button class="panel__close" type="button" data-close-panel aria-label="Close this woodland place"><span aria-hidden="true">×</span></button>
+        <div class="panel__content" id="panel-content" aria-live="polite"></div>
+      </section>
+    </div>
+
+    <audio id="woodland-audio" preload="none" loop><source src="" type="audio/mpeg"></audio>
+
+    <noscript><div class="noscript-message">JackLight Tales needs JavaScript enabled to open the woodland paths. Please enable it and reload the page.</div></noscript>
+    <script type="module" src="js/app.js"></script>
+  </body>
+</html>

@@ -1,0 +1,578 @@
+/*
+ * JackLight Tales — final responsive rebuild — 15 Sep 2026
+ * This file is intentionally last in main.css. It resolves older prototype
+ * rules without forcing the working site to be rewritten from scratch.
+ */
+
+/* --------------------------------------------------------------------------
+   Wider desktop composition
+   -------------------------------------------------------------------------- */
+.storybook-body .site-header,
+.storybook-body .woodland-map {
+  width: min(calc(100% - 2rem), 112rem);
+}
+
+.storybook-body .home-ribbon,
+.storybook-body .games-path,
+.storybook-body .storybook-glimpses,
+.storybook-body .latest-tale,
+.storybook-body .site-footer {
+  width: min(calc(100% - 2rem), 90rem);
+}
+
+/* --------------------------------------------------------------------------
+   Navigation: no horizontal swiping at any breakpoint
+   -------------------------------------------------------------------------- */
+.storybook-body .site-nav__play {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: .35rem;
+  min-height: 2.65rem;
+  padding: .68rem .78rem;
+  border: .12rem solid transparent;
+  border-radius: 999px;
+  background: transparent;
+  color: #315841;
+  font: 900 .73rem/1 var(--storybook-display);
+  white-space: nowrap;
+}
+
+.storybook-body .site-nav__play span { color: var(--storybook-berry); }
+
+.storybook-body .site-nav__play:hover,
+.storybook-body .site-nav__play:focus-visible {
+  border-color: rgba(66, 112, 72, .17);
+  background: #fff1a8;
+  color: #174833;
+}
+
+@media (max-width: 75rem) {
+  .storybook-body .site-header { flex-wrap: wrap; }
+
+  .storybook-body .site-nav {
+    order: 3;
+    display: grid;
+    width: 100%;
+    flex: 1 0 100%;
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    gap: .35rem;
+    overflow: visible;
+    margin: 0;
+    padding: .2rem 0 0;
+  }
+
+  .storybook-body .site-nav > button,
+  .storybook-body .site-nav__play {
+    width: 100%;
+    min-width: 0;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 44rem) {
+  .storybook-body .site-header {
+    width: calc(100% - .65rem);
+    gap: .5rem;
+    padding: max(.5rem, env(safe-area-inset-top)) .6rem .6rem;
+  }
+
+  .storybook-body .site-nav {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: .28rem;
+    padding-top: .25rem;
+  }
+
+  .storybook-body .site-nav > button,
+  .storybook-body .site-nav__play {
+    min-height: 2.45rem;
+    padding: .5rem .28rem;
+    font-size: .65rem;
+    line-height: 1.05;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Panel shell: safe-area aware close button, especially iPhone Safari
+   -------------------------------------------------------------------------- */
+.storybook-body .panel-layer {
+  overscroll-behavior: none;
+}
+
+.storybook-body .panel__close {
+  z-index: 20;
+  top: .5rem;
+  flex: 0 0 auto;
+}
+
+@media (max-width: 44rem) {
+  .storybook-body .panel-layer {
+    place-items: end stretch;
+    padding: max(.45rem, env(safe-area-inset-top)) 0 0;
+  }
+
+  .storybook-body .panel {
+    width: 100%;
+    height: calc(100dvh - env(safe-area-inset-top) - .45rem);
+    max-height: calc(100dvh - env(safe-area-inset-top) - .45rem);
+    padding: 0 .85rem calc(1rem + env(safe-area-inset-bottom));
+    border-width: .28rem 0 0;
+    border-radius: 1.35rem 1.35rem 0 0;
+    scroll-padding-top: 4rem;
+  }
+
+  .storybook-body .panel__close {
+    position: sticky;
+    top: .55rem;
+    width: 3rem;
+    height: 3rem;
+    margin: .55rem .05rem .25rem auto;
+    border: 2px solid rgba(255, 226, 145, .55);
+    background: rgba(8, 31, 23, .96);
+    box-shadow: 0 .55rem 1.3rem rgba(0, 0, 0, .32);
+  }
+
+  .storybook-body .panel__content {
+    gap: 1.45rem;
+    padding-bottom: .35rem;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Wide visual language. Character portraits stay portraits; story/location
+   imagery stays 16:9 on every device.
+   -------------------------------------------------------------------------- */
+.storybook-body .explore-banner img,
+.storybook-body .gallery-item img,
+.storybook-body .storybook-glimpse img {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  height: auto;
+  min-height: 0;
+  object-fit: cover;
+}
+
+.storybook-body .place-card {
+  min-height: 0;
+  aspect-ratio: 16 / 9;
+}
+
+.storybook-body .place-card img {
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  object-fit: cover;
+}
+
+.storybook-body .latest-tale__art--portrait {
+  aspect-ratio: 16 / 9;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.storybook-body .latest-tale__art--portrait > img {
+  width: 100%;
+  max-height: none;
+  height: 100%;
+  object-fit: contain;
+}
+
+@media (max-width: 44rem) {
+  .storybook-body .storybook-glimpse,
+  .storybook-body .storybook-glimpse img {
+    min-height: 0;
+  }
+
+  .storybook-body .place-card > div {
+    padding: 2.6rem .8rem .75rem;
+  }
+
+  .storybook-body .place-card p {
+    display: -webkit-box;
+    overflow: hidden;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+  }
+
+  .storybook-body .explore-banner img {
+    min-height: 0;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Games path on the home page
+   -------------------------------------------------------------------------- */
+.games-path {
+  display: grid;
+  grid-template-columns: minmax(0, 1.35fr) minmax(19rem, .65fr);
+  overflow: hidden;
+  margin: clamp(2.2rem, 5vw, 4.5rem) auto 0;
+  border: 1px solid rgba(246, 201, 95, .34);
+  border-radius: 1.5rem;
+  background: linear-gradient(145deg, #0d2c21, #092019);
+  box-shadow: 0 1.4rem 3.6rem rgba(0, 0, 0, .24);
+}
+
+.games-path__media {
+  position: relative;
+  min-width: 0;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.games-path__scene {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: brightness(.92) saturate(.95);
+  transform: scale(1.012);
+}
+
+.games-path__media::after {
+  position: absolute;
+  z-index: 1;
+  inset: 0;
+  background: linear-gradient(90deg, transparent 52%, rgba(6, 26, 19, .82) 100%),
+              linear-gradient(0deg, rgba(5, 20, 15, .35), transparent 55%);
+  content: "";
+}
+
+.games-path__friend {
+  position: absolute;
+  z-index: 3;
+  right: 7%;
+  bottom: 7%;
+  width: clamp(3.5rem, 8vw, 7.8rem);
+  max-height: 42%;
+  object-fit: contain;
+  filter: drop-shadow(0 .6rem .6rem rgba(0, 0, 0, .35));
+}
+
+.games-path__glow {
+  position: absolute;
+  z-index: 2;
+  right: 3%;
+  bottom: -10%;
+  width: 28%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 218, 112, .28), transparent 70%);
+  filter: blur(.2rem);
+}
+
+.games-path__copy {
+  position: relative;
+  z-index: 4;
+  display: grid;
+  align-content: center;
+  gap: .85rem;
+  padding: clamp(1.35rem, 3vw, 2.6rem);
+  color: var(--ink-light);
+}
+
+.games-path__copy h2 {
+  color: #fff1c8;
+  font: 900 clamp(2rem, 3.7vw, 3.5rem)/.98 var(--display);
+  letter-spacing: -.045em;
+}
+
+.games-path__copy > p:not(.eyebrow) {
+  color: rgba(248, 241, 217, .76);
+  font: 700 .9rem/1.55 var(--display);
+}
+
+.games-path__actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: .65rem;
+}
+
+.games-path__actions .text-path { color: #ffe19a; }
+
+@media (max-width: 58rem) {
+  .games-path { grid-template-columns: 1fr; }
+  .games-path__media::after {
+    background: linear-gradient(0deg, rgba(6, 26, 19, .72), transparent 45%);
+  }
+}
+
+@media (max-width: 44rem) {
+  .games-path {
+    width: min(calc(100% - 1.25rem), 38rem);
+    margin-top: 2.6rem;
+    border-radius: 1.2rem;
+  }
+
+  .games-path__copy { padding: 1.1rem; }
+  .games-path__copy h2 { font-size: clamp(1.75rem, 8.5vw, 2.45rem); }
+  .games-path__actions { align-items: stretch; flex-direction: column; }
+  .games-path__actions .story-button,
+  .games-path__actions .text-path { width: 100%; text-align: center; }
+}
+
+/* --------------------------------------------------------------------------
+   Games panel
+   -------------------------------------------------------------------------- */
+.games-panel-heading { max-width: 64rem !important; }
+.games-library { display: grid; gap: 1rem; }
+
+.game-card {
+  overflow: hidden;
+  border: 1px solid rgba(246, 201, 95, .23);
+  border-radius: 1.25rem;
+  background: rgba(7, 27, 21, .78);
+}
+
+.game-card--featured {
+  display: grid;
+  grid-template-columns: minmax(0, 1.25fr) minmax(18rem, .75fr);
+}
+
+.game-card__media {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.game-card__media > img:first-child {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.game-card__media::after {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent 58%, rgba(5, 20, 15, .38));
+  content: "";
+}
+
+.game-card__character {
+  position: absolute;
+  z-index: 2;
+  right: 7%;
+  bottom: 7%;
+  width: clamp(3.2rem, 7vw, 6.8rem) !important;
+  height: auto !important;
+  object-fit: contain !important;
+  filter: drop-shadow(0 .5rem .7rem rgba(0, 0, 0, .4));
+}
+
+.game-card__badge {
+  position: absolute;
+  z-index: 3;
+  top: .8rem;
+  left: .8rem;
+  padding: .4rem .65rem;
+  border: 1px solid rgba(255, 225, 154, .4);
+  border-radius: 999px;
+  background: rgba(7, 27, 21, .83);
+  color: #ffe19a;
+  font: 900 .68rem/1 var(--display);
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  backdrop-filter: blur(.5rem);
+}
+
+.game-card__copy {
+  display: grid;
+  align-content: center;
+  gap: 1.1rem;
+  padding: clamp(1.2rem, 3vw, 2.2rem);
+}
+
+.game-card__copy h3,
+.game-card--coming h3 {
+  margin: .15rem 0 .5rem;
+  color: #fff1c8;
+  font: 900 clamp(1.75rem, 3.5vw, 3rem)/1 var(--display);
+  letter-spacing: -.04em;
+}
+
+.game-card__copy p:not(.eyebrow),
+.game-card--coming p:not(.eyebrow) {
+  color: rgba(248, 241, 217, .72);
+  font: 700 .86rem/1.5 var(--display);
+}
+
+.game-card__actions { display: grid; gap: .65rem; justify-items: start; }
+.game-card__actions .story-button { text-decoration: none; }
+.game-card__note { color: rgba(248, 241, 217, .55); font: 800 .7rem/1.3 var(--display); }
+
+.game-card--coming {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  gap: 1rem;
+  padding: 1.1rem;
+  background: rgba(246, 201, 95, .055);
+}
+
+.game-card--coming h3 { font-size: clamp(1.25rem, 2.2vw, 1.8rem); }
+.game-card__coming-mark {
+  display: grid;
+  width: 3.5rem;
+  aspect-ratio: 1;
+  place-items: center;
+  border: 1px solid rgba(246, 201, 95, .35);
+  border-radius: 50%;
+  background: rgba(246, 201, 95, .09);
+  color: #ffe19a;
+  font-size: 1.3rem;
+}
+
+.storybook-body .game-teaser--play {
+  width: 100%;
+  border-style: solid;
+  color: inherit;
+  text-align: left;
+}
+
+@media (max-width: 52rem) {
+  .game-card--featured { grid-template-columns: 1fr; }
+  .game-card__media::after { background: linear-gradient(0deg, rgba(5, 20, 15, .42), transparent 45%); }
+}
+
+@media (max-width: 44rem) {
+  .game-card__copy { padding: 1rem; }
+  .game-card__copy h3 { font-size: 1.85rem; }
+  .game-card--coming { grid-template-columns: 1fr; }
+  .game-card__coming-mark { width: 3rem; }
+  .game-card__actions,
+  .game-card__actions .story-button { width: 100%; }
+}
+
+/* --------------------------------------------------------------------------
+   Transition into a game
+   -------------------------------------------------------------------------- */
+.game-transition-screen {
+  position: fixed;
+  z-index: 9999;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  background:
+    radial-gradient(circle at 50% 45%, rgba(246, 201, 95, .22), transparent 23rem),
+    rgba(5, 22, 17, .97);
+  opacity: 0;
+  pointer-events: all;
+  transition: opacity .42s ease;
+}
+
+.game-transition-screen.is-visible { opacity: 1; }
+.game-transition-screen__inner { display: grid; justify-items: center; gap: .7rem; color: #ffe8aa; font: 900 .82rem/1.2 var(--display); letter-spacing: .06em; }
+.game-transition-screen__inner img { width: 5.2rem; height: 5.2rem; object-fit: contain; filter: drop-shadow(0 0 1.2rem rgba(246, 201, 95, .4)); }
+
+@media (prefers-reduced-motion: reduce) {
+  .game-transition-screen { transition: none; }
+}
+
+/* --------------------------------------------------------------------------
+   Final full-screen panel pass — desktop + landscape phones
+   -------------------------------------------------------------------------- */
+@media (min-width: 44.01rem) {
+  .storybook-body .panel-layer {
+    place-items: stretch;
+    padding: 0;
+  }
+
+  .storybook-body .panel {
+    width: 100vw;
+    max-width: none;
+    height: 100dvh;
+    max-height: none;
+    padding:
+      max(1rem, env(safe-area-inset-top))
+      max(1.35rem, env(safe-area-inset-right))
+      max(1.35rem, env(safe-area-inset-bottom))
+      max(1.35rem, env(safe-area-inset-left));
+    border: 0;
+    border-radius: 0;
+    background:
+      radial-gradient(circle at 92% 0%, rgba(229, 189, 100, 0.14), transparent 30rem),
+      linear-gradient(145deg, rgba(16, 55, 40, 0.995), rgba(7, 25, 19, 0.995));
+  }
+
+  .storybook-body .panel__content {
+    width: min(100%, 100rem);
+    margin-inline: auto;
+  }
+
+  .storybook-body .panel__close {
+    top: max(.6rem, env(safe-area-inset-top));
+    margin-right: max(.1rem, env(safe-area-inset-right));
+  }
+}
+
+/* iPhones often exceed the portrait breakpoint once rotated. Treat short
+   landscape viewports as phones regardless of CSS width. */
+@media (orientation: landscape) and (max-height: 42rem) {
+  .storybook-body .panel-layer {
+    place-items: stretch;
+    padding: 0;
+  }
+
+  .storybook-body .panel {
+    width: 100vw;
+    height: 100dvh;
+    max-width: none;
+    max-height: none;
+    padding:
+      max(.35rem, env(safe-area-inset-top))
+      max(.7rem, env(safe-area-inset-right))
+      max(.7rem, env(safe-area-inset-bottom))
+      max(.7rem, env(safe-area-inset-left));
+    border: 0;
+    border-radius: 0;
+    scroll-padding-top: 3.2rem;
+  }
+
+  .storybook-body .panel__close {
+    position: sticky;
+    top: max(.25rem, env(safe-area-inset-top));
+    width: 2.65rem;
+    height: 2.65rem;
+    margin: .15rem .05rem .2rem auto;
+    background: rgba(8, 31, 23, .97);
+    box-shadow: 0 .4rem 1rem rgba(0,0,0,.28);
+  }
+
+  .storybook-body .panel__content {
+    width: min(100%, 92rem);
+    gap: 1rem;
+  }
+
+  .storybook-body .panel-heading {
+    align-items: center;
+    gap: .75rem;
+    max-width: none;
+  }
+
+  .storybook-body .panel-heading h2 {
+    max-width: none;
+    font-size: clamp(1.65rem, 7vh, 2.7rem);
+    line-height: .98;
+  }
+
+  .storybook-body .panel-heading > p,
+  .storybook-body .panel-heading > div > p:last-child {
+    font-size: .78rem;
+    line-height: 1.35;
+  }
+
+  .storybook-body .watch-layout,
+  .storybook-body .listen-room {
+    gap: .75rem;
+  }
+
+  .storybook-body .youtube-frame,
+  .storybook-body .youtube-placeholder {
+    min-height: 0;
+  }
+}

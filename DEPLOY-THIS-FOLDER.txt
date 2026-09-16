@@ -1,0 +1,8 @@
+JACKLIGHT TALES — LIVE SITE
+
+This folder is the complete live website.
+
+If you use GitHub Pages or another static host, publish the CONTENTS of this folder at the website root.
+The live root must contain this index.html file alongside assets/, css/, js/, partials/, content/ and games/.
+
+Do NOT publish only games/woodland-search/ or the website will open directly into the game.

@@ -1,0 +1,26 @@
+:root {
+  color-scheme: dark;
+  --forest-950: #06130f;
+  --forest-900: #0a2018;
+  --forest-800: #12382a;
+  --forest-700: #1c533b;
+  --moss-500: #83ae68;
+  --gold-300: #f8dfa0;
+  --gold-400: #e6bd64;
+  --gold-500: #c78f35;
+  --cream-100: #fff9e9;
+  --cream-200: #f5e9c9;
+  --ink: #102019;
+  --glass: rgba(10, 31, 23, 0.88);
+  --glass-light: rgba(255, 249, 233, 0.08);
+  --line: rgba(248, 223, 160, 0.28);
+  --line-soft: rgba(255, 249, 233, 0.13);
+  --shadow: 0 2rem 6rem rgba(0, 0, 0, 0.42);
+  --shadow-soft: 0 1rem 3rem rgba(0, 0, 0, 0.24);
+  --radius-small: 0.75rem;
+  --radius-medium: 1.25rem;
+  --radius-large: 2rem;
+  --page-width: 80rem;
+  --transition-fast: 180ms ease;
+  --transition-slow: 560ms cubic-bezier(0.22, 1, 0.36, 1);
+}

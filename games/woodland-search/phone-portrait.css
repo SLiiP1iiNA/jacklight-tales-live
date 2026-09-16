@@ -1,0 +1,86 @@
+/* PHONE PORTRAIT — the game remains a true 16:9 search scene.
+   No stretched portrait board and no blurred filler behind it. */
+@media (max-width:700px) and (orientation:portrait){
+  html,body{width:100%;min-height:100%;overflow-x:hidden}
+  body.game-active{height:100dvh;overflow:hidden}
+  body.game-active header,body.game-active footer{display:none}
+  body.game-active main{
+    height:100dvh;
+    display:grid;
+    align-items:center;
+    padding:max(.45rem,env(safe-area-inset-top)) .45rem max(.45rem,env(safe-area-inset-bottom));
+    overflow:hidden;
+  }
+
+  #game:not([hidden]){
+    width:100%;
+    height:auto;
+    max-height:100%;
+    display:grid;
+    grid-template-rows:auto auto auto;
+    gap:.42rem;
+    align-content:center;
+  }
+
+  .target-panel{grid-row:1;padding:.38rem .5rem;border-radius:15px}
+  .target-card{
+    display:grid;
+    grid-template-columns:50px minmax(0,1fr);
+    grid-template-areas:"portrait eyebrow" "portrait title" "portrait place";
+    column-gap:.55rem;
+    align-items:center;
+    text-align:left;
+  }
+  .target-card .reference{grid-area:portrait;width:46px;height:50px;margin:0}
+  .target-card .eyebrow{grid-area:eyebrow;margin:0;font-size:.52rem}
+  #target-title{grid-area:title;font-size:1.06rem;line-height:1.03}
+  #place-name{grid-area:place;margin:.06rem 0 0;font-size:.7rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+
+  .play-column{grid-row:2;min-width:0;display:grid;gap:.25rem;justify-items:center}
+  .game-title{display:none}
+  #status{
+    width:100%;
+    min-height:1.45rem;
+    margin:0;
+    display:grid;
+    place-items:center;
+    color:#ffe4a0;
+    font-size:.68rem;
+    line-height:1.1;
+    text-align:center;
+    white-space:normal;
+  }
+
+  #stage{
+    position:relative;
+    width:100%;
+    height:auto;
+    aspect-ratio:var(--scene-ratio);
+    min-height:0;
+    overflow:hidden;
+    border-radius:14px;
+    background:#0b2118;
+    box-shadow:0 12px 30px #0008;
+    transition:none!important;
+  }
+  #stage::before{display:none!important}
+  #viewport,#scene{width:100%;height:100%;overflow:hidden}
+  #woods{width:100%;height:100%;object-fit:cover}
+  #pip{width:var(--character-phone)}
+  .rotate-tip{display:block;margin:.05rem 0 0;color:#aebead;font-size:.6rem;line-height:1.05;text-align:center}
+
+  .utility-panel{grid-row:3;padding:.34rem;border-radius:15px}
+  .game-actions{display:grid;grid-template-columns:1fr 1fr 1fr;gap:.32rem}
+  #instructions{display:none}
+  .action-buttons{display:contents}
+  .action-buttons button,.game-actions>#back{width:100%;min-width:0;min-height:38px;padding:.35rem .2rem;font-size:.66rem;line-height:1}
+  #fullscreen,#story-shelf{display:none}
+}
+
+@media (max-width:390px) and (orientation:portrait){
+  .target-card{grid-template-columns:44px minmax(0,1fr)}
+  .target-card .reference{width:40px;height:44px}
+  #target-title{font-size:.98rem}
+  #place-name{font-size:.64rem}
+  .action-buttons button,.game-actions>#back{font-size:.61rem}
+}
