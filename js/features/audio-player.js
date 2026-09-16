@@ -25,6 +25,9 @@ function loadCatalog(path) {
 }
 
 function audioUrl(catalog, series, episodeNumber) {
+  if (series.audioOverrides?.[episodeNumber]) {
+    return series.audioOverrides[episodeNumber];
+  }
   const padding = Number(catalog.numberPadding) || 3;
   const episode = String(episodeNumber).padStart(padding, "0");
   const filename = (catalog.filenameRule || "episode-{episode}.mp3").replace("{episode}", episode);
