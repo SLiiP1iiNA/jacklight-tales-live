@@ -179,7 +179,8 @@ async function loadSeries(catalog, series, state, { force = false } = {}) {
   let checked = 0;
   let ready = 0;
   await runWithLimit(tracks, 6, async (track) => {
-    const available = await audioExists(track.url, force);
+    // Explicit audio links can play even when the host does not allow fetch checks.
+    const available = Boolean(series.audioOverrides?.[track.episodeNumber]) || await audioExists(track.url, force);
     if (token !== state.checkToken) {
       return;
     }
