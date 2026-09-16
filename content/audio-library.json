@@ -1,0 +1,67 @@
+{
+  "schemaVersion": 1,
+  "filenameRule": "episode-{episode}.mp3",
+  "numberPadding": 3,
+  "series": [
+    {
+      "id": "series-01",
+      "number": 1,
+      "title": "First adventures",
+      "description": "Barnaby’s first thirty paths through the Whispering Woods.",
+      "startEpisode": 1,
+      "episodeCount": 30,
+      "folder": "assets/audio/audiobooks/series-01",
+      "cover": "assets/images/audiobooks/barnaby-series-01-cover.webp"
+    },
+    {
+      "id": "series-02",
+      "number": 2,
+      "title": "Woodland lessons",
+      "description": "Thirty more gentle discoveries, friendships and little lessons.",
+      "startEpisode": 31,
+      "episodeCount": 30,
+      "folder": "assets/audio/audiobooks/series-02",
+      "cover": "assets/images/audiobooks/barnaby-series-01-cover.webp"
+    },
+    {
+      "id": "series-03",
+      "number": 3,
+      "title": "Autumn mysteries",
+      "description": "New paths, old secrets and the changing colours of the woods.",
+      "startEpisode": 61,
+      "episodeCount": 30,
+      "folder": "assets/audio/audiobooks/series-03",
+      "cover": "assets/images/audiobooks/barnaby-series-01-cover.webp"
+    },
+    {
+      "id": "series-04",
+      "number": 4,
+      "title": "Village stories",
+      "description": "Barnaby follows the lanterns into a busier corner of the woods.",
+      "startEpisode": 91,
+      "episodeCount": 30,
+      "folder": "assets/audio/audiobooks/series-04",
+      "cover": "assets/images/audiobooks/barnaby-series-01-cover.webp"
+    },
+    {
+      "id": "series-05",
+      "number": 5,
+      "title": "The travelling circus",
+      "description": "A bright new adventure rolls into Barnaby’s story world.",
+      "startEpisode": 121,
+      "episodeCount": 30,
+      "folder": "assets/audio/audiobooks/series-05",
+      "cover": "assets/images/audiobooks/barnaby-series-01-cover.webp"
+    },
+    {
+      "id": "series-06",
+      "number": 6,
+      "title": "The final paths",
+      "description": "The closing collection of Barnaby’s great woodland journey.",
+      "startEpisode": 151,
+      "episodeCount": 30,
+      "folder": "assets/audio/audiobooks/series-06",
+      "cover": "assets/images/audiobooks/barnaby-series-01-cover.webp"
+    }
+  ]
+}

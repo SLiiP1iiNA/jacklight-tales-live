@@ -1,0 +1,30 @@
+[
+  {
+    "label": "YouTube",
+    "shortLabel": "YouTube",
+    "icon": "YT",
+    "url": "https://www.youtube.com/@JackLightTalesTV",
+    "description": "Watch Barnaby adventures"
+  },
+  {
+    "label": "TikTok",
+    "shortLabel": "TikTok",
+    "icon": "TT",
+    "url": "https://www.tiktok.com/@jacklighttales",
+    "description": "Short woodland moments"
+  },
+  {
+    "label": "Facebook",
+    "shortLabel": "Facebook",
+    "icon": "FB",
+    "url": "https://www.facebook.com/61593336013564/",
+    "description": "Stories and updates"
+  },
+  {
+    "label": "Instagram",
+    "shortLabel": "Instagram",
+    "icon": "IG",
+    "url": "https://www.instagram.com/jacklighttales/",
+    "description": "Artwork and behind the scenes"
+  }
+]

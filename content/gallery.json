@@ -1,0 +1,61 @@
+[
+  {
+    "id": "woods-path",
+    "title": "The sunlit path",
+    "image": "assets/images/gallery/whispering-woods-landscape-01.webp",
+    "alt": "A sunlit path, stream and bridge leading through the Whispering Woods"
+  },
+  {
+    "id": "woods-trail",
+    "title": "The old woodland trail",
+    "image": "assets/images/gallery/whispering-woods-landscape-02.webp",
+    "alt": "A winding trail through ancient trees and glowing woodland plants"
+  },
+  {
+    "id": "woods-at-dusk",
+    "title": "A quiet place to wonder",
+    "image": "assets/images/gallery/whispering-woods-landscape-03.webp",
+    "alt": "A cosy woodland scene surrounded by warm evening light"
+  },
+  {
+    "id": "woods-meadow",
+    "title": "Where the meadow opens",
+    "image": "assets/images/gallery/whispering-woods-landscape-04.webp",
+    "alt": "Barnaby and friends walking into a bright woodland meadow"
+  },
+  {
+    "id": "old-oak-with-mum",
+    "title": "The Old Oak",
+    "description": "Barnaby, Mum, Pip and the little frog pause beneath something much older than the path.",
+    "image": "assets/images/gallery/barnaby-mum-old-oak.webp",
+    "alt": "Barnaby, Mum, Pip and the tiny green frog looking towards a vast ancient oak in the autumn woods"
+  },
+  {
+    "id": "leaf-boat-adventure",
+    "title": "A leaf becomes a boat",
+    "description": "Barnaby, Pip and the little frog turn an autumn stream into a tiny adventure.",
+    "image": "assets/images/gallery/barnaby-leaf-boat.webp",
+    "alt": "Barnaby, Pip and the tiny green frog riding a giant autumn leaf along a sparkling woodland stream"
+  },
+  {
+    "id": "barnaby-burrow",
+    "title": "A light on at home",
+    "description": "Barnaby’s cosy burrow, ready for another story.",
+    "image": "assets/images/places/barnaby-burrow.webp",
+    "alt": "A cosy woodland burrow interior with a glowing fire and round windows"
+  },
+  {
+    "id": "heart-tree",
+    "title": "The Heart Tree",
+    "description": "An ancient landmark at the centre of the old paths.",
+    "image": "assets/images/places/heart-tree.webp",
+    "alt": "An ancient tree with a heart-shaped opening lit by golden woodland light"
+  },
+  {
+    "id": "moonlit-grove",
+    "title": "Moonlit Grove",
+    "description": "A peaceful place for mysteries and quiet discoveries.",
+    "image": "assets/images/places/moonlit-grove.webp",
+    "alt": "A moonlit forest clearing with a pond, bluebells and glowing mushrooms"
+  }
+]
