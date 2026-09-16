@@ -1,8 +1,11 @@
-# Episode card image slot
+# Artwork gallery
 
-Place the thirty approved square crops here when the Episode 1–30 source illustrations have been selected.
+This folder contains web-optimised copies of approved JackLight Tales artwork.
 
-Use `episode-01.webp`, `episode-02.webp`, and so on through `episode-30.webp`.
+Current approved additions from the September 14 polish pass:
+- `barnaby-mum-old-oak.webp` — Barnaby, Mum, Pip and the frog at the Old Oak.
+- `barnaby-leaf-boat.webp` — Barnaby, Pip and the frog on the autumn leaf boat.
 
-Do not substitute random Barnaby artwork: each card should match the correct episode.
+Dad-focused and later Wayfinder artwork from the same generation session was deliberately not added to the public website yet.
 
+Keep full-resolution masters elsewhere and place only web-optimised copies here.
