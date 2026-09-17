@@ -34,6 +34,19 @@ function audioUrl(catalog, series, episodeNumber) {
   return `${series.folder.replace(/\/$/, "")}/${filename}`;
 }
 
+function episodeTitle(series, episodeNumber) {
+  return series.episodeTitles?.[episodeNumber] || `Episode ${episodeNumber}`;
+}
+
+function formatTime(seconds) {
+  if (!Number.isFinite(seconds) || seconds < 0) {
+    return "0:00";
+  }
+  const minutes = Math.floor(seconds / 60);
+  const remainder = Math.floor(seconds % 60);
+  return `${minutes}:${String(remainder).padStart(2, "0")}`;
+}
+
 async function audioExists(url, force = false) {
   if (!force && knownAudio.has(url)) {
     return true;
@@ -79,7 +92,7 @@ function seriesIsReleased(series) {
 
 function createSeriesButton(series) {
   const released = seriesIsReleased(series);
-  const button = makeElement("button", `audiobook-series__button${released ? "" : " is-coming"}`);
+  const button = makeElement("button", `audiobook-series__button${released ? " is-open" : " is-coming"}`);
   button.type = "button";
   button.dataset.audioSeries = series.id;
   button.disabled = !released;
@@ -87,24 +100,43 @@ function createSeriesButton(series) {
   if (!released) {
     button.setAttribute("aria-label", `Series ${series.number}, ${series.title}, coming later`);
   }
-  button.append(makeElement("span", "audiobook-series__number", `Series ${series.number}`));
+  button.append(makeElement("span", "audiobook-series__number", released ? `Series ${series.number} · Open` : `Series ${series.number}`));
   button.append(makeElement("strong", "", series.title));
-  const episodeRange = `Episodes ${String(series.startEpisode).padStart(2, "0")}–${series.startEpisode + series.episodeCount - 1}`;
-  button.append(makeElement("small", "", released ? episodeRange : `Coming later · ${episodeRange}`));
+  button.append(makeElement("small", "", released ? `${series.episodeCount} stories ready` : "Coming later"));
   return button;
 }
 
-function createEpisodeButton(episodeNumber) {
-  const button = makeElement("button", "audiobook-episode is-checking");
+function createEpisodeButton(episodeNumber, title) {
+  const button = makeElement("button", "audiobook-episode");
   button.type = "button";
   button.disabled = true;
   button.dataset.audioEpisode = String(episodeNumber);
-  button.append(makeElement("span", "audiobook-episode__number", String(episodeNumber).padStart(3, "0")));
+  button.append(makeElement("span", "audiobook-episode__number", String(episodeNumber).padStart(2, "0")));
+
   const copy = makeElement("span", "audiobook-episode__copy");
-  copy.append(makeElement("strong", "", `Episode ${episodeNumber}`));
-  copy.append(makeElement("small", "audiobook-episode__state", "Checking for audio…"));
-  button.append(copy, makeElement("span", "audiobook-episode__play", "▶"));
+  copy.append(makeElement("strong", "", title));
+  copy.append(makeElement("small", "audiobook-episode__state", `Story ${String(episodeNumber).padStart(2, "0")} · Getting ready…`));
+
+  const play = makeElement("span", "audiobook-episode__play", "▶");
+  play.setAttribute("aria-hidden", "true");
+  button.append(copy, play);
   return button;
+}
+
+function setButtonsDisabled(buttons, disabled) {
+  buttons.forEach((button) => { button.disabled = disabled; });
+}
+
+function updateToggleButtons(state) {
+  const playing = !state.audio.paused && !state.audio.ended && Boolean(state.audio.src);
+  state.toggleButtons.forEach((button) => {
+    button.disabled = state.activeIndex < 0;
+    button.setAttribute("aria-label", playing ? "Pause story" : "Play story");
+    const icon = button.querySelector("[data-audio-toggle-icon]");
+    if (icon) {
+      icon.textContent = playing ? "❚❚" : "▶";
+    }
+  });
 }
 
 function updateNavigation(state) {
@@ -112,8 +144,43 @@ function updateNavigation(state) {
     .map((track, index) => (track.available ? index : -1))
     .filter((index) => index >= 0);
   const position = readyIndexes.indexOf(state.activeIndex);
-  state.previousButton.disabled = position <= 0;
-  state.nextButton.disabled = position < 0 || position >= readyIndexes.length - 1;
+  setButtonsDisabled(state.previousButtons, position <= 0);
+  setButtonsDisabled(state.nextButtons, position < 0 || position >= readyIndexes.length - 1);
+}
+
+function updateProgress(state) {
+  const duration = state.audio.duration;
+  const current = state.audio.currentTime;
+  const ratio = Number.isFinite(duration) && duration > 0 ? current / duration : 0;
+  state.progress.value = String(Math.round(ratio * 1000));
+  state.progress.disabled = state.activeIndex < 0 || !Number.isFinite(duration);
+  state.currentTime.textContent = formatTime(current);
+  state.duration.textContent = formatTime(duration);
+}
+
+function updateMediaSession(state, track) {
+  if (!("mediaSession" in navigator) || typeof MediaMetadata === "undefined") {
+    return;
+  }
+  try {
+    const artwork = new URL(state.series.cover, window.location.href).href;
+    navigator.mediaSession.metadata = new MediaMetadata({
+      title: track.title,
+      artist: "JackLight Tales",
+      album: `Barnaby and the Whispering Woods · Series ${state.series.number}`,
+      artwork: [{ src: artwork }],
+    });
+  } catch {
+    // Media Session is a progressive enhancement only.
+  }
+}
+
+function setActiveCopy(state, track) {
+  state.title.textContent = track.title;
+  state.subtitle.textContent = `Series ${state.series.number} · Story ${String(track.episodeNumber).padStart(2, "0")} of ${state.series.episodeCount}`;
+  state.miniTitle.textContent = track.title;
+  state.miniLabel.textContent = `Series ${state.series.number} · Story ${String(track.episodeNumber).padStart(2, "0")}`;
+  state.mini.hidden = false;
 }
 
 async function playTrack(state, trackIndex) {
@@ -125,18 +192,20 @@ async function playTrack(state, trackIndex) {
   state.activeIndex = trackIndex;
   state.episodeList.querySelectorAll(".audiobook-episode.is-active").forEach((button) => button.classList.remove("is-active"));
   track.button.classList.add("is-active");
-  state.title.textContent = `Episode ${track.episodeNumber}`;
-  state.subtitle.textContent = `${state.series.title} · Series ${state.series.number}`;
-  state.status.textContent = "Ready to play";
+  setActiveCopy(state, track);
+  state.status.textContent = "Ready by the lantern";
   state.audio.src = track.url;
   state.audio.load();
   updateNavigation(state);
+  updateToggleButtons(state);
+  updateMediaSession(state, track);
+  track.button.scrollIntoView?.({ block: "nearest", behavior: "smooth" });
 
   try {
     await state.audio.play();
-    state.status.textContent = "Now playing";
   } catch {
-    state.status.textContent = "Press play to begin";
+    state.status.textContent = "Press play when you are ready";
+    updateToggleButtons(state);
   }
 }
 
@@ -159,15 +228,21 @@ async function loadSeries(catalog, series, state, { force = false } = {}) {
   state.audio.pause();
   state.audio.removeAttribute("src");
   state.audio.load();
-  state.title.textContent = series.title;
-  state.subtitle.textContent = series.description;
-  state.status.textContent = "Checking this shelf";
+  state.title.textContent = "Choose a story";
+  state.subtitle.textContent = `${series.description}`;
+  state.status.textContent = "The lantern is ready";
   state.cover.src = series.cover;
   state.cover.alt = `Barnaby Series ${series.number} audiobook cover`;
   state.seriesLabel.textContent = `Series ${series.number}`;
-  state.shelfTitle.textContent = `${series.title} episodes`;
-  state.previousButton.disabled = true;
-  state.nextButton.disabled = true;
+  state.shelfTitle.textContent = `Series ${series.number} stories`;
+  state.mini.hidden = true;
+  state.progress.value = "0";
+  state.progress.disabled = true;
+  state.currentTime.textContent = "0:00";
+  state.duration.textContent = "0:00";
+  setButtonsDisabled(state.previousButtons, true);
+  setButtonsDisabled(state.nextButtons, true);
+  updateToggleButtons(state);
 
   state.seriesList.querySelectorAll("[data-audio-series]").forEach((button) => {
     const selected = button.dataset.audioSeries === series.id;
@@ -177,19 +252,21 @@ async function loadSeries(catalog, series, state, { force = false } = {}) {
 
   const tracks = Array.from({ length: series.episodeCount }, (_, index) => {
     const episodeNumber = series.startEpisode + index;
+    const title = episodeTitle(series, episodeNumber);
     return {
       episodeNumber,
+      title,
       url: audioUrl(catalog, series, episodeNumber),
       available: false,
-      button: createEpisodeButton(episodeNumber),
+      button: createEpisodeButton(episodeNumber, title),
     };
   });
+
   state.tracks = tracks;
   state.episodeList.replaceChildren(...tracks.map((track) => track.button));
   state.episodeList.setAttribute("aria-busy", "true");
-  state.count.textContent = `Checking 0 of ${tracks.length}…`;
+  state.count.textContent = "Lighting the story lanterns…";
 
-  let checked = 0;
   let ready = 0;
   await runWithLimit(tracks, 6, async (track) => {
     const available = Boolean(series.audioOverrides?.[track.episodeNumber]) || await audioExists(track.url, force);
@@ -198,20 +275,39 @@ async function loadSeries(catalog, series, state, { force = false } = {}) {
     }
     track.available = available;
     track.button.disabled = !available;
-    track.button.classList.remove("is-checking");
     track.button.classList.toggle("is-ready", available);
-    track.button.querySelector(".audiobook-episode__state").textContent = available ? "Ready to listen" : "Audio coming later";
-    checked += 1;
+    track.button.querySelector(".audiobook-episode__state").textContent = available
+      ? `Story ${String(track.episodeNumber).padStart(2, "0")} · Ready to listen`
+      : `Story ${String(track.episodeNumber).padStart(2, "0")} · Coming later`;
     ready += available ? 1 : 0;
-    state.count.textContent = `Checking ${checked} of ${tracks.length} · ${ready} ready`;
   });
 
   if (token !== state.checkToken) {
     return;
   }
+
   state.episodeList.setAttribute("aria-busy", "false");
-  state.count.textContent = ready === 0 ? `0 of ${tracks.length} ready — this shelf is waiting for audio` : `${ready} of ${tracks.length} ready to listen`;
-  state.status.textContent = ready === 0 ? "This shelf is waiting" : "Choose an available story";
+  state.count.textContent = ready === series.episodeCount
+    ? `${ready} stories ready`
+    : `${ready} of ${series.episodeCount} stories ready`;
+  state.status.textContent = ready ? "Choose a story" : "This shelf is still growing";
+}
+
+function wireMediaSession(state) {
+  if (!("mediaSession" in navigator)) {
+    return;
+  }
+  const safeHandler = (action, handler) => {
+    try {
+      navigator.mediaSession.setActionHandler(action, handler);
+    } catch {
+      // Not every browser supports every action.
+    }
+  };
+  safeHandler("play", () => state.audio.play());
+  safeHandler("pause", () => state.audio.pause());
+  safeHandler("previoustrack", () => moveTrack(state, -1));
+  safeHandler("nexttrack", () => moveTrack(state, 1));
 }
 
 async function buildLibrary(root, contentPath) {
@@ -224,19 +320,27 @@ async function buildLibrary(root, contentPath) {
   }
 
   seriesList.replaceChildren(...catalog.series.map(createSeriesButton));
+
   const state = {
     seriesList,
     episodeList,
-    audio: root.querySelector("[data-audio-element]"),
-    cover: root.querySelector("[data-audio-cover]"),
+    audio: root.closest(".listen-experience").querySelector("[data-audio-element]"),
+    cover: root.closest(".listen-experience").querySelector("[data-audio-cover]"),
     count: root.querySelector("[data-audio-count]"),
-    status: root.querySelector("[data-audio-status]"),
-    title: root.querySelector("[data-audio-title]"),
-    subtitle: root.querySelector("[data-audio-subtitle]"),
+    status: root.closest(".listen-experience").querySelector("[data-audio-status]"),
+    title: root.closest(".listen-experience").querySelector("[data-audio-title]"),
+    subtitle: root.closest(".listen-experience").querySelector("[data-audio-subtitle]"),
     seriesLabel: root.querySelector("[data-audio-series-label]"),
     shelfTitle: root.querySelector("[data-audio-shelf-title]"),
-    previousButton: root.querySelector("[data-audio-previous]"),
-    nextButton: root.querySelector("[data-audio-next]"),
+    previousButtons: [...root.closest(".listen-experience").querySelectorAll("[data-audio-previous]")],
+    nextButtons: [...root.closest(".listen-experience").querySelectorAll("[data-audio-next]")],
+    toggleButtons: [...root.closest(".listen-experience").querySelectorAll("[data-audio-toggle]")],
+    progress: root.closest(".listen-experience").querySelector("[data-audio-progress]"),
+    currentTime: root.closest(".listen-experience").querySelector("[data-audio-current-time]"),
+    duration: root.closest(".listen-experience").querySelector("[data-audio-duration]"),
+    mini: root.querySelector("[data-audio-mini]"),
+    miniTitle: root.querySelector("[data-audio-mini-title]"),
+    miniLabel: root.querySelector("[data-audio-mini-label]"),
     series: releasedSeries[0],
     tracks: [],
     activeIndex: -1,
@@ -246,6 +350,8 @@ async function buildLibrary(root, contentPath) {
   root.addEventListener("click", (event) => {
     const seriesButton = event.target.closest("[data-audio-series]");
     const episodeButton = event.target.closest("[data-audio-episode]");
+    const toggleButton = event.target.closest("[data-audio-toggle]");
+
     if (seriesButton && !seriesButton.disabled) {
       const series = catalog.series.find((item) => item.id === seriesButton.dataset.audioSeries);
       if (series && series.id !== state.series.id && seriesIsReleased(series)) {
@@ -253,30 +359,59 @@ async function buildLibrary(root, contentPath) {
       }
       return;
     }
+
     if (episodeButton && !episodeButton.disabled) {
       const index = state.tracks.findIndex((track) => track.episodeNumber === Number(episodeButton.dataset.audioEpisode));
       playTrack(state, index);
       return;
     }
-    if (event.target.closest("[data-audio-refresh]")) {
-      loadSeries(catalog, state.series, state, { force: true });
+
+    if (toggleButton && !toggleButton.disabled) {
+      if (state.audio.paused || state.audio.ended) {
+        state.audio.play();
+      } else {
+        state.audio.pause();
+      }
       return;
     }
+
     if (event.target.closest("[data-audio-previous]")) {
       moveTrack(state, -1);
+      return;
     }
+
     if (event.target.closest("[data-audio-next]")) {
       moveTrack(state, 1);
     }
   });
 
-  state.audio.addEventListener("play", () => { state.status.textContent = "Now playing"; });
+  state.progress.addEventListener("input", () => {
+    if (!Number.isFinite(state.audio.duration)) {
+      return;
+    }
+    state.audio.currentTime = (Number(state.progress.value) / 1000) * state.audio.duration;
+  });
+
+  state.audio.addEventListener("loadedmetadata", () => updateProgress(state));
+  state.audio.addEventListener("durationchange", () => updateProgress(state));
+  state.audio.addEventListener("timeupdate", () => updateProgress(state));
+  state.audio.addEventListener("play", () => {
+    state.status.textContent = "Now playing by lanternlight";
+    updateToggleButtons(state);
+  });
   state.audio.addEventListener("pause", () => {
     if (state.audio.currentTime > 0 && !state.audio.ended) {
-      state.status.textContent = "Paused";
+      state.status.textContent = "Paused — your place is saved";
     }
+    updateToggleButtons(state);
   });
-  state.audio.addEventListener("ended", () => { state.status.textContent = "Story finished"; });
+  state.audio.addEventListener("ended", () => {
+    state.status.textContent = "Story finished — the next path is waiting";
+    updateToggleButtons(state);
+    updateNavigation(state);
+  });
+
+  wireMediaSession(state);
   await loadSeries(catalog, releasedSeries[0], state);
 }
 
