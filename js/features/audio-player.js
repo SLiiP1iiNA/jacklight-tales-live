@@ -70,14 +70,27 @@ async function runWithLimit(items, limit, task) {
   await Promise.all(workers);
 }
 
+function seriesIsReleased(series) {
+  if (typeof series.released === "boolean") {
+    return series.released;
+  }
+  return Boolean(series.audioOverrides && Object.keys(series.audioOverrides).length);
+}
+
 function createSeriesButton(series) {
-  const button = makeElement("button", "audiobook-series__button");
+  const released = seriesIsReleased(series);
+  const button = makeElement("button", `audiobook-series__button${released ? "" : " is-coming"}`);
   button.type = "button";
   button.dataset.audioSeries = series.id;
+  button.disabled = !released;
   button.setAttribute("aria-pressed", "false");
+  if (!released) {
+    button.setAttribute("aria-label", `Series ${series.number}, ${series.title}, coming later`);
+  }
   button.append(makeElement("span", "audiobook-series__number", `Series ${series.number}`));
   button.append(makeElement("strong", "", series.title));
-  button.append(makeElement("small", "", `Episodes ${String(series.startEpisode).padStart(2, "0")}–${series.startEpisode + series.episodeCount - 1}`));
+  const episodeRange = `Episodes ${String(series.startEpisode).padStart(2, "0")}–${series.startEpisode + series.episodeCount - 1}`;
+  button.append(makeElement("small", "", released ? episodeRange : `Coming later · ${episodeRange}`));
   return button;
 }
 
@@ -179,7 +192,6 @@ async function loadSeries(catalog, series, state, { force = false } = {}) {
   let checked = 0;
   let ready = 0;
   await runWithLimit(tracks, 6, async (track) => {
-    // Explicit audio links can play even when the host does not allow fetch checks.
     const available = Boolean(series.audioOverrides?.[track.episodeNumber]) || await audioExists(track.url, force);
     if (token !== state.checkToken) {
       return;
@@ -206,7 +218,8 @@ async function buildLibrary(root, contentPath) {
   const catalog = await loadCatalog(contentPath);
   const seriesList = root.querySelector("[data-audio-series-list]");
   const episodeList = root.querySelector("[data-audio-episode-list]");
-  if (!seriesList || !episodeList || !Array.isArray(catalog.series) || !catalog.series.length) {
+  const releasedSeries = Array.isArray(catalog.series) ? catalog.series.filter(seriesIsReleased) : [];
+  if (!seriesList || !episodeList || !releasedSeries.length) {
     throw new Error("The audiobook catalog is incomplete");
   }
 
@@ -224,7 +237,7 @@ async function buildLibrary(root, contentPath) {
     shelfTitle: root.querySelector("[data-audio-shelf-title]"),
     previousButton: root.querySelector("[data-audio-previous]"),
     nextButton: root.querySelector("[data-audio-next]"),
-    series: catalog.series[0],
+    series: releasedSeries[0],
     tracks: [],
     activeIndex: -1,
     checkToken: 0,
@@ -233,9 +246,9 @@ async function buildLibrary(root, contentPath) {
   root.addEventListener("click", (event) => {
     const seriesButton = event.target.closest("[data-audio-series]");
     const episodeButton = event.target.closest("[data-audio-episode]");
-    if (seriesButton) {
+    if (seriesButton && !seriesButton.disabled) {
       const series = catalog.series.find((item) => item.id === seriesButton.dataset.audioSeries);
-      if (series && series.id !== state.series.id) {
+      if (series && series.id !== state.series.id && seriesIsReleased(series)) {
         loadSeries(catalog, series, state);
       }
       return;
@@ -264,7 +277,7 @@ async function buildLibrary(root, contentPath) {
     }
   });
   state.audio.addEventListener("ended", () => { state.status.textContent = "Story finished"; });
-  await loadSeries(catalog, catalog.series[0], state);
+  await loadSeries(catalog, releasedSeries[0], state);
 }
 
 export function initAudioPlayer(contentPath) {
@@ -284,7 +297,7 @@ export function initAudioPlayer(contentPath) {
       await buildLibrary(library, contentPath);
     } catch (error) {
       console.error("Audiobook library could not be loaded", error);
-      library.innerHTML = '<div class="panel-error"><h3>The listening room needs a moment.</h3><p>Start the site with Live Server and check <code>content/audio-library.json</code>.</p></div>';
+      library.innerHTML = '<div class="panel-error"><h3>The listening room needs a moment.</h3><p>Something did not load properly. Please close this window and try again.</p></div>';
     }
   });
 }
