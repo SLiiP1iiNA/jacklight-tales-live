@@ -6,7 +6,7 @@
     "episodes": "01–30",
     "cover": "assets/images/audiobooks/barnaby-series-01-cover.webp",
     "videoUrl": "https://www.youtube.com/playlist?list=PLLLqtNZiTQjo",
-    "audio": "",
-    "status": "Animated episodes available; audiobook shelves prepared and waiting for MP3 files."
+    "audio": "content/audio-library.json",
+    "status": "All thirty Series 1 audiobook episodes are ready to listen."
   }
 ]
