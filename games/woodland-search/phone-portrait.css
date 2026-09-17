@@ -1,5 +1,5 @@
-/* PHONE PORTRAIT — the game remains a true 16:9 search scene.
-   No stretched portrait board and no blurred filler behind it. */
+/* PHONE PORTRAIT — keep the full 16:9 search scene visible and provide
+   touch-friendly controls, including one-tap story audio. */
 @media (max-width:700px) and (orientation:portrait){
   html,body{width:100%;min-height:100%;overflow-x:hidden}
   body.game-active{height:100dvh;overflow:hidden}
@@ -70,11 +70,13 @@
   .rotate-tip{display:block;margin:.05rem 0 0;color:#aebead;font-size:.6rem;line-height:1.05;text-align:center}
 
   .utility-panel{grid-row:3;padding:.34rem;border-radius:15px}
-  .game-actions{display:grid;grid-template-columns:1fr 1fr 1fr;gap:.32rem}
+  .game-actions{display:grid;grid-template-columns:1fr 1fr;gap:.32rem}
   #instructions{display:none}
   .action-buttons{display:contents}
-  .action-buttons button,.game-actions>#back{width:100%;min-width:0;min-height:38px;padding:.35rem .2rem;font-size:.66rem;line-height:1}
+  .action-buttons button,.game-actions>#back{width:100%;min-width:0;min-height:40px;padding:.38rem .25rem;font-size:.66rem;line-height:1}
+  .game-actions>#back{grid-column:1/-1}
   #fullscreen,#story-shelf{display:none}
+  #mobile-audio[aria-pressed="true"]{outline:2px solid #ffe29a;outline-offset:1px}
 }
 
 @media (max-width:390px) and (orientation:portrait){
