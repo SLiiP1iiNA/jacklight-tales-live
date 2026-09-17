@@ -1,53 +1,76 @@
-<div class="panel-heading">
-  <p class="eyebrow">Listen by lanternlight</p>
-  <h2 id="panel-title">Thirty gentle stories are ready.</h2>
-  <p>Choose an episode from Series 1, press play, and settle in with Barnaby and the Whispering Woods.</p>
-</div>
-
-<div class="listen-room">
-  <div class="listen-room__cover">
-    <img src="assets/images/audiobooks/barnaby-series-01-cover.webp" alt="Barnaby and friends gathered beneath the Heart Tree — Series 1" loading="lazy" decoding="async">
-  </div>
-  <div class="listen-room__copy">
-    <span class="content-card__label">Series 1 · Now listening</span>
-    <h3>Barnaby and the Whispering Woods</h3>
-    <p>All thirty Series 1 audiobook episodes are available to stream here. Pick any story below, then use the player to pause, continue, or move between available episodes.</p>
-    <div class="listen-room__promise"><span aria-hidden="true">♫</span><p><strong>Made for quiet story time.</strong><span>No downloads or setup needed — just choose a tale and listen.</span></p></div>
-  </div>
-</div>
-
-<section class="audiobook-library" data-audio-library aria-label="Barnaby audiobook library">
-  <div class="audiobook-library__heading">
-    <div><p class="eyebrow">Choose a collection</p><h3>The audiobook shelves</h3></div>
-    <p>Series 1 is ready now. Future collections will light up here as their audiobooks are released.</p>
-  </div>
-
-  <div class="audiobook-series" data-audio-series-list aria-label="Choose an audiobook series">
-    <p class="panel-note">Opening the story shelves…</p>
-  </div>
-
-  <div class="audiobook-workspace">
-    <section class="audiobook-shelf" aria-labelledby="audio-shelf-title">
-      <div class="audiobook-shelf__heading">
-        <div><span class="content-card__label" data-audio-series-label>Series</span><h3 id="audio-shelf-title" data-audio-shelf-title>Episodes</h3></div>
-        <div class="audiobook-shelf__tools"><span data-audio-count aria-live="polite">Opening stories…</span><button type="button" data-audio-refresh>Refresh shelf</button></div>
+<div class="listen-experience">
+  <section class="listen-hero" aria-labelledby="panel-title">
+    <div class="listen-hero__art" aria-hidden="true">
+      <div class="listen-cover-frame">
+        <div class="listen-cover-frame__halo"></div>
+        <img data-audio-cover src="assets/images/audiobooks/barnaby-series-01-cover.webp" alt="Barnaby and friends beneath the Heart Tree — Series 1 audiobook cover">
+        <span class="listen-cover-frame__badge">Series 1 · 30 stories</span>
       </div>
-      <div class="audiobook-episodes" data-audio-episode-list aria-busy="true"></div>
+    </div>
+
+    <div class="listen-hero__story">
+      <p class="eyebrow">Listen by lanternlight</p>
+      <h2 id="panel-title">A quiet little story nook in the woods.</h2>
+      <p class="listen-hero__intro">Choose a tale, settle in, and let Barnaby lead the way. Every Series 1 audiobook is ready to stream here.</p>
+
+      <div class="lantern-player" aria-label="Barnaby audiobook player">
+        <div class="lantern-player__glow" aria-hidden="true"></div>
+        <div class="lantern-player__copy">
+          <span class="audio-player__status" data-audio-status>The lantern is ready</span>
+          <h3 class="audio-player__title" data-audio-title>Choose a story</h3>
+          <p data-audio-subtitle>Thirty gentle tales are waiting beneath the trees.</p>
+        </div>
+
+        <div class="lantern-player__controls" aria-label="Audiobook controls">
+          <button type="button" class="lantern-control lantern-control--small" data-audio-previous disabled aria-label="Previous story"><span aria-hidden="true">←</span></button>
+          <button type="button" class="lantern-control lantern-control--play" data-audio-toggle disabled aria-label="Play story"><span data-audio-toggle-icon aria-hidden="true">▶</span></button>
+          <button type="button" class="lantern-control lantern-control--small" data-audio-next disabled aria-label="Next story"><span aria-hidden="true">→</span></button>
+        </div>
+
+        <div class="lantern-player__progress">
+          <input data-audio-progress type="range" min="0" max="1000" value="0" step="1" aria-label="Story progress" disabled>
+          <div><span data-audio-current-time>0:00</span><span data-audio-duration>0:00</span></div>
+        </div>
+
+        <audio data-audio-element preload="metadata" aria-label="JackLight Tales audiobook"></audio>
+      </div>
+
+      <p class="listen-hero__promise"><span aria-hidden="true">✦</span> No downloads, no setup — just choose a tale and listen.</p>
+    </div>
+  </section>
+
+  <section class="story-shelf" data-audio-library aria-label="Barnaby audiobook library">
+    <div class="story-shelf__heading">
+      <div>
+        <p class="eyebrow">Choose another tale</p>
+        <h3 data-audio-shelf-title>Series 1 stories</h3>
+      </div>
+      <div class="story-shelf__count"><span data-audio-series-label>Series 1</span><strong data-audio-count aria-live="polite">Opening the lanterns…</strong></div>
+    </div>
+
+    <div class="audiobook-episodes" data-audio-episode-list aria-busy="true"></div>
+
+    <section class="growing-shelves" aria-labelledby="growing-shelves-title">
+      <div class="growing-shelves__heading">
+        <p class="eyebrow">The collection is growing</p>
+        <h3 id="growing-shelves-title">More shelves will light up.</h3>
+        <p>Series 1 is open now. Future collections will appear here as their audiobooks are released.</p>
+      </div>
+      <div class="audiobook-series" data-audio-series-list aria-label="Barnaby audiobook collections">
+        <p class="panel-note">Lighting the story shelves…</p>
+      </div>
     </section>
 
-    <aside class="audiobook-player" aria-label="Audiobook player">
-      <img data-audio-cover src="assets/images/audiobooks/barnaby-series-01-cover.webp" alt="Barnaby audiobook cover">
-      <div class="audiobook-player__copy">
-        <span class="audio-player__status" data-audio-status>Choose a story</span>
-        <h3 class="audio-player__title" data-audio-title>The lantern is ready</h3>
-        <p data-audio-subtitle>Select any available episode from the shelf.</p>
+    <div class="mobile-now-playing" data-audio-mini hidden>
+      <div class="mobile-now-playing__copy">
+        <span data-audio-mini-label>Series 1</span>
+        <strong data-audio-mini-title>Choose a story</strong>
       </div>
-      <audio data-audio-element controls preload="metadata" aria-label="JackLight Tales audio player"></audio>
-      <div class="audiobook-player__nav">
-        <button type="button" data-audio-previous disabled><span aria-hidden="true">←</span> Previous</button>
-        <button type="button" data-audio-next disabled>Next <span aria-hidden="true">→</span></button>
+      <div class="mobile-now-playing__controls">
+        <button type="button" data-audio-previous disabled aria-label="Previous story"><span aria-hidden="true">←</span></button>
+        <button type="button" data-audio-toggle disabled aria-label="Play story"><span data-audio-toggle-icon aria-hidden="true">▶</span></button>
+        <button type="button" data-audio-next disabled aria-label="Next story"><span aria-hidden="true">→</span></button>
       </div>
-      <p class="audiobook-player__help">Tip: headphones can make the woodland feel extra cosy.</p>
-    </aside>
-  </div>
-</section>
+    </div>
+  </section>
+</div>
