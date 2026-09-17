@@ -1,7 +1,7 @@
 <div class="panel-heading">
-  <p class="eyebrow">The lantern story nook</p>
-  <h2 id="panel-title">Curl up somewhere cosy.</h2>
-  <p>The listening shelves are ready. As narration files are added, each matching episode wakes up automatically.</p>
+  <p class="eyebrow">Listen by lanternlight</p>
+  <h2 id="panel-title">Thirty gentle stories are ready.</h2>
+  <p>Choose an episode from Series 1, press play, and settle in with Barnaby and the Whispering Woods.</p>
 </div>
 
 <div class="listen-room">
@@ -9,28 +9,28 @@
     <img src="assets/images/audiobooks/barnaby-series-01-cover.webp" alt="Barnaby and friends gathered beneath the Heart Tree — Series 1" loading="lazy" decoding="async">
   </div>
   <div class="listen-room__copy">
-    <span class="content-card__label">The audiobook library</span>
-    <h3>Six series. One hundred and eighty little listens.</h3>
-    <p>Series 1 through Series 6 already have their own thirty-episode shelves. There is no need to rewrite this page as the collection grows.</p>
-    <div class="listen-room__promise"><span aria-hidden="true">♫</span><p><strong>Drop in a correctly named MP3 and refresh.</strong><span>The matching episode button will become playable automatically.</span></p></div>
+    <span class="content-card__label">Series 1 · Now listening</span>
+    <h3>Barnaby and the Whispering Woods</h3>
+    <p>All thirty Series 1 audiobook episodes are available to stream here. Pick any story below, then use the player to pause, continue, or move between available episodes.</p>
+    <div class="listen-room__promise"><span aria-hidden="true">♫</span><p><strong>Made for quiet story time.</strong><span>No downloads or setup needed — just choose a tale and listen.</span></p></div>
   </div>
 </div>
 
 <section class="audiobook-library" data-audio-library aria-label="Barnaby audiobook library">
   <div class="audiobook-library__heading">
-    <div><p class="eyebrow">Choose a collection</p><h3>Story shelves</h3></div>
-    <p>Only files already placed in this website are made available. Empty shelves stay clearly marked.</p>
+    <div><p class="eyebrow">Choose a collection</p><h3>The audiobook shelves</h3></div>
+    <p>Series 1 is ready now. Future collections will light up here as their audiobooks are released.</p>
   </div>
 
   <div class="audiobook-series" data-audio-series-list aria-label="Choose an audiobook series">
-    <p class="panel-note">Preparing the story shelves…</p>
+    <p class="panel-note">Opening the story shelves…</p>
   </div>
 
   <div class="audiobook-workspace">
     <section class="audiobook-shelf" aria-labelledby="audio-shelf-title">
       <div class="audiobook-shelf__heading">
         <div><span class="content-card__label" data-audio-series-label>Series</span><h3 id="audio-shelf-title" data-audio-shelf-title>Episodes</h3></div>
-        <div class="audiobook-shelf__tools"><span data-audio-count aria-live="polite">Checking audio…</span><button type="button" data-audio-refresh>Check again</button></div>
+        <div class="audiobook-shelf__tools"><span data-audio-count aria-live="polite">Opening stories…</span><button type="button" data-audio-refresh>Refresh shelf</button></div>
       </div>
       <div class="audiobook-episodes" data-audio-episode-list aria-busy="true"></div>
     </section>
@@ -38,16 +38,16 @@
     <aside class="audiobook-player" aria-label="Audiobook player">
       <img data-audio-cover src="assets/images/audiobooks/barnaby-series-01-cover.webp" alt="Barnaby audiobook cover">
       <div class="audiobook-player__copy">
-        <span class="audio-player__status" data-audio-status>Choose an available story</span>
+        <span class="audio-player__status" data-audio-status>Choose a story</span>
         <h3 class="audio-player__title" data-audio-title>The lantern is ready</h3>
-        <p data-audio-subtitle>Add an MP3 to awaken its episode button.</p>
+        <p data-audio-subtitle>Select any available episode from the shelf.</p>
       </div>
       <audio data-audio-element controls preload="metadata" aria-label="JackLight Tales audio player"></audio>
       <div class="audiobook-player__nav">
         <button type="button" data-audio-previous disabled><span aria-hidden="true">←</span> Previous</button>
         <button type="button" data-audio-next disabled>Next <span aria-hidden="true">→</span></button>
       </div>
-      <p class="audiobook-player__help">Preferred filename: <code>episode-001.mp3</code>. The number always matches the real episode number.</p>
+      <p class="audiobook-player__help">Tip: headphones can make the woodland feel extra cosy.</p>
     </aside>
   </div>
 </section>
