@@ -1,7 +1,7 @@
 export const siteConfig = {
   entrance: {
     transitionMs: 1450,
-    showOncePerSession: false,
+    showOncePerSession: true,
   },
 
   assets: {
