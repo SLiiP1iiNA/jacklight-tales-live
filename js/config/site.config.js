@@ -50,9 +50,9 @@ export const siteConfig = {
       },
       landscape: {
         label: "Landscape · wide",
-        playlistId: "",
+        videoId: "QVXn6WzFrL4",
         aspect: "landscape",
-        startDate: "2026-09-26",
+        startDate: "2026-09-26T10:30:00+01:00",
       },
     },
   },
