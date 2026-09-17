@@ -1,15 +1,44 @@
+/* JackLight Tales — magical Grown-ups room */
+
+.storybook-body .panel:has(.grownups-experience) {
+  width: min(calc(100vw - 1rem), 118rem);
+  max-width: none;
+  height: calc(100dvh - 1rem);
+  max-height: calc(100dvh - 1rem);
+  overflow: hidden;
+  padding: .55rem;
+  border-radius: 1.6rem;
+}
+
+.storybook-body .panel:has(.grownups-experience) .panel__close {
+  position: absolute;
+  z-index: 30;
+  top: 1rem;
+  right: 1rem;
+  margin: 0;
+  border-color: rgba(255, 224, 146, .5);
+  background: rgba(7, 27, 20, .92);
+  box-shadow: 0 .65rem 1.6rem rgba(0,0,0,.3);
+}
+
+.storybook-body .panel:has(.grownups-experience) .panel__content {
+  height: 100%;
+  min-height: 0;
+  gap: 0;
+}
+
 .grownups-experience {
   position: relative;
   isolation: isolate;
   overflow: hidden;
-  height: calc(100dvh - 10.5rem);
-  min-height: 31rem;
-  max-height: 44rem;
-  border: 1px solid rgba(255, 228, 158, 0.28);
-  border-radius: clamp(1.25rem, 2.5vw, 2rem);
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  border: 1px solid rgba(255, 228, 158, 0.32);
+  border-radius: 1.35rem;
   background-color: #10271d;
   background-image:
-    linear-gradient(90deg, rgba(5, 17, 13, 0.12), rgba(5, 17, 13, 0.04)),
+    linear-gradient(90deg, rgba(5, 17, 13, 0.07), rgba(5, 17, 13, 0.01)),
     url("../../assets/images/site/grownups-hero-desktop.webp"),
     url("../../assets/images/site/entrance-woods-desktop.webp");
   background-size: cover, cover, cover;
@@ -22,12 +51,10 @@
   position: absolute;
   z-index: -2;
   inset: 0;
-  width: 100%;
-  height: 100%;
   background:
-    radial-gradient(circle at 83% 16%, rgba(247, 188, 82, 0.12), transparent 22rem),
-    linear-gradient(90deg, rgba(5, 17, 13, 0.9) 0%, rgba(5, 17, 13, 0.72) 40%, rgba(5, 17, 13, 0.18) 72%, rgba(5, 17, 13, 0.1) 100%),
-    linear-gradient(0deg, rgba(4, 15, 11, 0.82) 0%, transparent 48%);
+    radial-gradient(circle at 84% 15%, rgba(247, 188, 82, 0.12), transparent 25rem),
+    linear-gradient(90deg, rgba(4, 16, 12, 0.92) 0%, rgba(4, 16, 12, 0.72) 36%, rgba(4, 16, 12, 0.22) 67%, rgba(4, 16, 12, 0.08) 100%),
+    linear-gradient(0deg, rgba(4, 15, 11, 0.9) 0%, rgba(4, 15, 11, 0.2) 45%, transparent 66%);
 }
 
 .grownups-experience::before,
@@ -35,101 +62,95 @@
   content: "";
   position: absolute;
   z-index: -1;
-  width: 0.3rem;
-  height: 0.3rem;
+  width: .32rem;
+  height: .32rem;
   border-radius: 50%;
   background: #ffe2a0;
   box-shadow:
-    9vw 7vh 0 rgba(255, 226, 160, 0.56),
-    24vw 16vh 0 rgba(255, 226, 160, 0.35),
-    44vw 9vh 0 rgba(255, 226, 160, 0.48),
-    58vw 24vh 0 rgba(255, 226, 160, 0.3),
-    72vw 13vh 0 rgba(255, 226, 160, 0.42),
-    84vw 31vh 0 rgba(255, 226, 160, 0.3);
-  opacity: 0.55;
+    9vw 7vh 0 rgba(255, 226, 160, .56),
+    24vw 16vh 0 rgba(255, 226, 160, .35),
+    44vw 9vh 0 rgba(255, 226, 160, .48),
+    58vw 24vh 0 rgba(255, 226, 160, .3),
+    72vw 13vh 0 rgba(255, 226, 160, .42),
+    84vw 31vh 0 rgba(255, 226, 160, .3);
+  opacity: .55;
   animation: grownups-fireflies 7s ease-in-out infinite alternate;
   pointer-events: none;
 }
 
-.grownups-experience::before {
-  top: 8%;
-  left: 4%;
-}
-
-.grownups-experience::after {
-  right: 11%;
-  bottom: 19%;
-  animation-delay: -3.5s;
-}
+.grownups-experience::before { top: 8%; left: 4%; }
+.grownups-experience::after { right: 11%; bottom: 19%; animation-delay: -3.5s; }
 
 .grownups-experience__body {
   display: grid;
-  grid-template-rows: minmax(0, 1fr) auto auto;
-  gap: clamp(0.7rem, 1.4vw, 1rem);
+  grid-template-rows: minmax(0, 1fr) auto auto auto;
+  gap: clamp(.65rem, 1.2vw, .95rem);
   height: 100%;
-  padding: clamp(1.35rem, 3vw, 2.5rem);
+  padding: clamp(1.7rem, 3.1vw, 3.2rem) clamp(1.6rem, 3.5vw, 3.8rem) clamp(1.15rem, 2vw, 1.9rem);
 }
 
 .grownups-hero {
   display: grid;
   align-content: center;
   justify-items: start;
-  gap: clamp(0.55rem, 1vw, 0.8rem);
-  width: min(100%, 42rem);
+  gap: clamp(.62rem, 1vw, .9rem);
+  width: min(100%, 50rem);
   min-height: 0;
+  padding-top: .5rem;
 }
 
 .grownups-hero .eyebrow {
   color: #f6d487;
-  text-shadow: 0 2px 18px rgba(0, 0, 0, 0.45);
+  font-size: clamp(.73rem, .85vw, .9rem);
+  text-shadow: 0 2px 18px rgba(0, 0, 0, .45);
 }
 
 .grownups-hero h2 {
-  max-width: 11ch;
+  max-width: 12ch;
   margin: 0;
   color: #fff8e8;
-  font-size: clamp(2.35rem, 5.3vw, 4.9rem);
+  font-size: clamp(3.1rem, 5.4vw, 6rem);
   font-weight: 500;
-  letter-spacing: -0.06em;
-  line-height: 0.9;
+  letter-spacing: -.06em;
+  line-height: .9;
   text-wrap: balance;
-  text-shadow: 0 4px 28px rgba(0, 0, 0, 0.58);
+  text-shadow: 0 4px 28px rgba(0, 0, 0, .58);
 }
 
 .grownups-hero__intro {
-  max-width: 42rem;
+  max-width: 48rem;
   margin: 0;
-  color: rgba(255, 249, 233, 0.9);
+  color: rgba(255, 249, 233, .92);
   font-family: Arial, Helvetica, sans-serif;
-  font-size: clamp(0.9rem, 1.5vw, 1.02rem);
-  line-height: 1.55;
-  text-shadow: 0 2px 16px rgba(0, 0, 0, 0.6);
+  font-size: clamp(1rem, 1.22vw, 1.18rem);
+  line-height: 1.5;
+  text-shadow: 0 2px 16px rgba(0, 0, 0, .6);
 }
 
 .grownups-hero__actions {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.65rem;
-  margin-top: 0.2rem;
+  gap: .72rem;
+  margin-top: .2rem;
 }
 
 .lantern-action {
   position: relative;
   display: inline-flex;
-  min-height: 3rem;
+  min-height: 3.35rem;
   align-items: center;
   justify-content: center;
-  gap: 0.58rem;
+  gap: .62rem;
   overflow: hidden;
-  padding: 0.75rem 1rem;
-  border: 1px solid rgba(255, 233, 176, 0.52);
+  padding: .82rem 1.18rem;
+  border: 1px solid rgba(255, 233, 176, .52);
   border-radius: 999px;
   color: #fff9e9;
   font-family: Arial, Helvetica, sans-serif;
-  font-size: 0.83rem;
+  font-size: clamp(.86rem, 1vw, .98rem);
   font-weight: 800;
   text-decoration: none;
-  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.24);
+  box-shadow: 0 10px 28px rgba(0, 0, 0, .24);
   transition: transform 180ms ease, box-shadow 180ms ease, border-color 180ms ease, filter 180ms ease;
 }
 
@@ -139,7 +160,7 @@
   inset: -40% auto -40% -35%;
   width: 25%;
   transform: rotate(18deg);
-  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.5), transparent);
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,.5), transparent);
   opacity: 0;
   transition: left 520ms ease, opacity 180ms ease;
 }
@@ -147,170 +168,282 @@
 .lantern-action:hover,
 .lantern-action:focus-visible {
   transform: translateY(-2px);
-  border-color: rgba(255, 242, 204, 0.88);
+  border-color: rgba(255, 242, 204, .9);
   filter: brightness(1.05);
 }
 
 .lantern-action:hover::before,
-.lantern-action:focus-visible::before {
-  left: 115%;
-  opacity: 1;
-}
+.lantern-action:focus-visible::before { left: 115%; opacity: 1; }
 
 .lantern-action--support {
   background: linear-gradient(135deg, #dba531, #f0c75d 58%, #c78e22);
   color: #241608;
-  box-shadow: 0 10px 30px rgba(226, 174, 55, 0.28), inset 0 1px rgba(255, 255, 255, 0.38);
+  box-shadow: 0 10px 30px rgba(226, 174, 55, .28), inset 0 1px rgba(255,255,255,.38);
 }
 
 .lantern-action--support:hover,
 .lantern-action--support:focus-visible {
-  box-shadow: 0 14px 34px rgba(226, 174, 55, 0.4), 0 0 22px rgba(255, 218, 130, 0.16);
+  box-shadow: 0 14px 34px rgba(226, 174, 55, .4), 0 0 22px rgba(255, 218, 130, .16);
 }
 
 .lantern-action--contact {
-  background: linear-gradient(135deg, rgba(20, 69, 48, 0.92), rgba(7, 36, 25, 0.94));
-  backdrop-filter: blur(0.5rem);
+  background: linear-gradient(135deg, rgba(20, 69, 48, .94), rgba(7, 36, 25, .96));
+  backdrop-filter: blur(.5rem);
 }
 
 .lantern-action--contact:hover,
 .lantern-action--contact:focus-visible {
-  box-shadow: 0 14px 34px rgba(0, 0, 0, 0.34), 0 0 22px rgba(190, 226, 146, 0.12);
+  box-shadow: 0 14px 34px rgba(0, 0, 0, .34), 0 0 22px rgba(190, 226, 146, .12);
 }
 
-.lantern-action__icon {
-  font-size: 1rem;
-}
-
-.lantern-action__arrow {
-  opacity: 0.72;
-}
+.lantern-action__icon { font-size: 1.05rem; }
+.lantern-action__arrow { opacity: .72; }
 
 .grownups-hero__email {
-  color: rgba(255, 244, 215, 0.82);
+  color: rgba(255, 244, 215, .86);
   font-family: Arial, Helvetica, sans-serif;
-  font-size: 0.76rem;
+  font-size: clamp(.78rem, .9vw, .9rem);
   font-weight: 700;
-  text-underline-offset: 0.22rem;
+  text-underline-offset: .22rem;
 }
 
 .grownups-hero__email:hover,
-.grownups-hero__email:focus-visible {
-  color: #fff6dd;
-}
+.grownups-hero__email:focus-visible { color: #fff6dd; }
 
 .grownups-glance {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: clamp(0.55rem, 1vw, 0.8rem);
+  gap: clamp(.65rem, 1vw, .9rem);
 }
 
 .grownups-glance__card {
   display: grid;
   grid-template-columns: auto minmax(0, 1fr);
-  gap: 0.72rem;
+  gap: .78rem;
   min-width: 0;
-  padding: clamp(0.78rem, 1.5vw, 1rem);
-  border: 1px solid rgba(255, 238, 197, 0.2);
-  border-radius: 1rem;
-  background: linear-gradient(145deg, rgba(7, 29, 20, 0.76), rgba(13, 45, 32, 0.6));
-  box-shadow: inset 0 1px rgba(255,255,255,0.06), 0 12px 28px rgba(0,0,0,0.18);
-  backdrop-filter: blur(0.72rem);
+  padding: clamp(.95rem, 1.35vw, 1.2rem);
+  border: 1px solid rgba(255, 238, 197, .22);
+  border-radius: 1.05rem;
+  background: linear-gradient(145deg, rgba(7, 29, 20, .8), rgba(13, 45, 32, .64));
+  box-shadow: inset 0 1px rgba(255,255,255,.06), 0 12px 28px rgba(0,0,0,.18);
+  backdrop-filter: blur(.72rem);
 }
 
 .grownups-glance__card--gold {
-  border-color: rgba(244, 201, 101, 0.34);
-  background: linear-gradient(145deg, rgba(66, 47, 18, 0.72), rgba(17, 45, 31, 0.68));
+  border-color: rgba(244, 201, 101, .38);
+  background: linear-gradient(145deg, rgba(66, 47, 18, .76), rgba(17, 45, 31, .72));
 }
 
 .grownups-glance__mark {
   display: grid;
-  width: 2rem;
-  height: 2rem;
+  width: 2.25rem;
+  height: 2.25rem;
   place-items: center;
-  border: 1px solid rgba(255, 223, 145, 0.36);
+  border: 1px solid rgba(255, 223, 145, .36);
   border-radius: 50%;
-  background: rgba(5, 22, 15, 0.56);
+  background: rgba(5, 22, 15, .56);
   color: #f2cb6d;
-  font-size: 0.9rem;
+  font-size: .95rem;
 }
 
-.grownups-glance__card > div {
-  display: grid;
-  gap: 0.22rem;
-}
+.grownups-glance__card > div { display: grid; gap: .24rem; }
 
 .grownups-glance__card h3 {
   margin: 0;
   color: #fff8e8;
-  font-size: clamp(0.95rem, 1.35vw, 1.12rem);
+  font-size: clamp(1.05rem, 1.25vw, 1.28rem);
   font-weight: 500;
   line-height: 1.08;
 }
 
 .grownups-glance__card p:last-child {
   margin: 0;
-  color: rgba(255, 249, 233, 0.7);
+  color: rgba(255, 249, 233, .74);
   font-family: Arial, Helvetica, sans-serif;
-  font-size: clamp(0.69rem, 1vw, 0.78rem);
-  line-height: 1.35;
+  font-size: clamp(.74rem, .86vw, .86rem);
+  line-height: 1.38;
+}
+
+.grownups-social-trail {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  gap: 1rem;
+  min-width: 0;
+  padding: .72rem .8rem;
+  border: 1px solid rgba(255, 233, 176, .18);
+  border-radius: 1rem;
+  background: rgba(5, 23, 16, .68);
+  backdrop-filter: blur(.65rem);
+}
+
+.grownups-social-trail__intro {
+  display: grid;
+  gap: .12rem;
+  min-width: 10rem;
+  padding-right: .4rem;
+}
+
+.grownups-social-trail__intro > span {
+  color: rgba(255, 249, 233, .66);
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: .72rem;
+}
+
+.grownups-social-trail__links {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: .5rem;
+  min-width: 0;
+}
+
+.grownups-social-trail .social-link {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: .5rem;
+  min-width: 0;
+  min-height: 2.8rem;
+  padding: .55rem .68rem;
+  border: 1px solid rgba(255, 236, 189, .18);
+  border-radius: .8rem;
+  background: rgba(255, 249, 233, .06);
+  color: #fff8e8;
+  text-decoration: none;
+  transition: transform 160ms ease, background 160ms ease, border-color 160ms ease;
+}
+
+.grownups-social-trail .social-link:hover,
+.grownups-social-trail .social-link:focus-visible {
+  transform: translateY(-1px);
+  border-color: rgba(255, 224, 146, .48);
+  background: rgba(255, 249, 233, .1);
+}
+
+.grownups-social-trail .social-link__icon {
+  display: grid;
+  width: 1.9rem;
+  height: 1.9rem;
+  place-items: center;
+  border: 1px solid rgba(255, 224, 146, .3);
+  border-radius: 50%;
+  color: #f4cc70;
+  font: 900 .58rem/1 Arial, Helvetica, sans-serif;
+}
+
+.grownups-social-trail .social-link__copy {
+  display: grid;
+  min-width: 0;
+}
+
+.grownups-social-trail .social-link__copy strong {
+  overflow: hidden;
+  color: #fff8e8;
+  font: 800 .72rem/1.15 Arial, Helvetica, sans-serif;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.grownups-social-trail .social-link__copy small {
+  overflow: hidden;
+  color: rgba(255, 249, 233, .56);
+  font: 600 .6rem/1.15 Arial, Helvetica, sans-serif;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.grownups-social-trail .social-link__arrow {
+  color: #f4cc70;
+  font-size: .72rem;
 }
 
 .grownups-experience__closing {
   margin: 0;
-  color: rgba(255, 245, 220, 0.74);
+  color: rgba(255, 245, 220, .76);
   font-family: Arial, Helvetica, sans-serif;
-  font-size: 0.7rem;
+  font-size: .72rem;
   text-align: center;
-  text-shadow: 0 2px 14px rgba(0,0,0,0.5);
+  text-shadow: 0 2px 14px rgba(0,0,0,.5);
 }
 
-.grownups-experience__closing span {
-  color: #efc665;
-}
+.grownups-experience__closing span { color: #efc665; }
 
 @keyframes grownups-fireflies {
-  from { transform: translate3d(0, 0, 0); opacity: 0.35; }
-  to { transform: translate3d(0.35rem, -0.45rem, 0); opacity: 0.72; }
+  from { transform: translate3d(0, 0, 0); opacity: .35; }
+  to { transform: translate3d(.35rem, -.45rem, 0); opacity: .72; }
+}
+
+@media (max-width: 74rem) and (min-width: 56.01rem) {
+  .grownups-hero h2 { font-size: clamp(3rem, 6.4vw, 5.2rem); }
+  .grownups-social-trail__links { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .grownups-social-trail .social-link__copy small { display: none; }
 }
 
 @media (max-width: 56rem) {
+  .storybook-body .panel:has(.grownups-experience) {
+    width: 100%;
+    height: calc(100dvh - env(safe-area-inset-top) - .45rem);
+    max-height: calc(100dvh - env(safe-area-inset-top) - .45rem);
+    overflow: auto;
+    padding: 0 .65rem calc(.8rem + env(safe-area-inset-bottom));
+    border-radius: 1.35rem 1.35rem 0 0;
+  }
+
+  .storybook-body .panel:has(.grownups-experience) .panel__close {
+    position: sticky;
+    top: .55rem;
+    right: auto;
+    margin: .55rem .05rem .25rem auto;
+  }
+
+  .storybook-body .panel:has(.grownups-experience) .panel__content {
+    height: auto;
+  }
+
   .grownups-experience {
     height: auto;
-    min-height: calc(100dvh - 6rem);
-    max-height: none;
+    min-height: calc(100dvh - 5rem);
+    overflow: visible;
     background-image:
-      linear-gradient(180deg, rgba(5, 17, 13, 0.02), rgba(5, 17, 13, 0.28)),
+      linear-gradient(180deg, rgba(5, 17, 13, .01), rgba(5, 17, 13, .28)),
       url("../../assets/images/site/grownups-hero-mobile.webp"),
       url("../../assets/images/site/entrance-woods-mobile.webp");
     background-position: center top, center top, center top;
   }
 
   .grownups-experience__body {
-    grid-template-rows: auto auto auto;
+    grid-template-rows: auto auto auto auto;
     gap: 1rem;
     min-height: inherit;
     padding: clamp(1.2rem, 5vw, 2rem);
   }
 
   .grownups-hero {
-    min-height: 55dvh;
+    min-height: 56dvh;
     align-content: end;
     padding-top: 4rem;
   }
 
   .grownups-hero h2 {
-    font-size: clamp(2.5rem, 10vw, 4.2rem);
+    max-width: 10ch;
+    font-size: clamp(2.65rem, 10.5vw, 4.4rem);
   }
 
-  .grownups-glance {
+  .grownups-hero__intro { font-size: .96rem; }
+  .grownups-glance { grid-template-columns: 1fr; }
+
+  .grownups-social-trail {
     grid-template-columns: 1fr;
+  }
+
+  .grownups-social-trail__links {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .grownups-experience__veil {
     background:
-      linear-gradient(180deg, rgba(5, 17, 13, 0.08) 0%, rgba(5, 17, 13, 0.2) 28%, rgba(5, 17, 13, 0.82) 58%, rgba(5, 17, 13, 0.96) 100%),
-      linear-gradient(90deg, rgba(5, 17, 13, 0.35), rgba(5, 17, 13, 0.08));
+      linear-gradient(180deg, rgba(5, 17, 13, .07) 0%, rgba(5, 17, 13, .18) 27%, rgba(5, 17, 13, .84) 58%, rgba(5, 17, 13, .97) 100%),
+      linear-gradient(90deg, rgba(5, 17, 13, .35), rgba(5, 17, 13, .08));
   }
 }
 
@@ -322,25 +455,18 @@
 
   .lantern-action {
     width: 100%;
-    min-height: 3.15rem;
+    min-height: 3.2rem;
   }
 
-  .grownups-hero__email {
-    justify-self: center;
-  }
-
-  .grownups-experience__closing {
-    font-size: 0.66rem;
-  }
+  .grownups-hero__email { justify-self: center; }
+  .grownups-social-trail__links { grid-template-columns: 1fr 1fr; }
+  .grownups-social-trail .social-link__copy small { display: none; }
+  .grownups-experience__closing { font-size: .66rem; }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .grownups-experience::before,
-  .grownups-experience::after {
-    animation: none;
-  }
-
-  .lantern-action {
-    transition: none;
-  }
+  .grownups-experience::after { animation: none; }
+  .lantern-action,
+  .grownups-social-trail .social-link { transition: none; }
 }
