@@ -3,3 +3,21 @@
 .lantern-action--contact span {
   color: #fff9e9 !important;
 }
+
+/* Use the shipped woodland artwork until a dedicated Grown-ups hero is added. */
+.grownups-experience {
+  background-image:
+    linear-gradient(90deg, rgba(5, 17, 13, .06), rgba(5, 17, 13, 0)),
+    url("../../assets/images/site/entrance-woods-desktop.webp") !important;
+  background-size: cover, cover !important;
+  background-position: center, center !important;
+  background-repeat: no-repeat !important;
+}
+
+@media (max-width: 44rem) {
+  .grownups-experience {
+    background-image:
+      linear-gradient(90deg, rgba(5, 17, 13, .06), rgba(5, 17, 13, 0)),
+      url("../../assets/images/site/entrance-woods-mobile.webp") !important;
+  }
+}
