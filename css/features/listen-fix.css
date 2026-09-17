@@ -1,6 +1,5 @@
 /* Listen by Lanternlight — desktop/mobile layout correction */
 
-/* Let the Listen room actually use the viewport instead of looking like a half-page panel. */
 .storybook-body .panel:has(.listen-experience) {
   width: calc(100vw - 2rem);
   max-width: none;
@@ -21,16 +20,14 @@
 }
 
 @media (max-width: 44rem) {
-  .panel-layer:has(.listen-experience) {
-    padding: 0;
-  }
+  .panel-layer:has(.listen-experience) { padding: 0; }
 
   .storybook-body .panel:has(.listen-experience) {
     width: 100vw;
     max-width: 100vw;
     max-height: 100dvh;
     min-height: 100dvh;
-    padding: .85rem .85rem calc(6.3rem + env(safe-area-inset-bottom));
+    padding: .85rem .85rem calc(2rem + env(safe-area-inset-bottom));
     border-radius: 0;
     border-inline: 0;
     overflow-x: hidden;
@@ -42,7 +39,7 @@
   .storybook-body .panel:has(.listen-experience) .panel__close {
     position: sticky;
     top: max(.35rem, env(safe-area-inset-top));
-    z-index: 30;
+    z-index: 40;
     width: 3rem;
     height: 3rem;
     margin: 0 0 -.8rem auto;
@@ -52,9 +49,7 @@
     box-shadow: 0 .45rem 1.3rem rgba(0,0,0,.28);
   }
 
-  .listen-experience {
-    gap: 1rem;
-  }
+  .listen-experience { gap: 1rem; }
 
   .listen-hero {
     grid-template-columns: 1fr;
@@ -69,14 +64,9 @@
   }
 
   .listen-hero::before,
-  .listen-hero::after {
-    display: none;
-  }
+  .listen-hero::after { display: none; }
 
-  .listen-hero__art {
-    order: 0;
-    padding-top: .2rem;
-  }
+  .listen-hero__art { order: 0; padding-top: .2rem; }
 
   .listen-cover-frame {
     width: min(64vw, 15.5rem);
@@ -87,9 +77,9 @@
 
   .listen-cover-frame img {
     width: 100%;
-    aspect-ratio: 1 / 1;
+    aspect-ratio: 1;
     object-fit: cover;
-    object-position: center center;
+    object-position: center;
     border-radius: .88rem;
   }
 
@@ -100,16 +90,8 @@
     font-size: .6rem;
   }
 
-  .listen-hero__story {
-    order: 1;
-    gap: .62rem;
-  }
-
-  .listen-hero__story > .eyebrow {
-    margin: 0;
-    color: #f4cf72;
-    font-size: .68rem;
-  }
+  .listen-hero__story { order: 1; gap: .62rem; }
+  .listen-hero__story > .eyebrow { margin: 0; color: #f4cf72; font-size: .68rem; }
 
   .listen-hero__story > h2 {
     max-width: none;
@@ -137,49 +119,15 @@
     background: linear-gradient(145deg, rgba(7, 36, 25, .96), rgba(12, 54, 36, .92));
   }
 
-  .lantern-player__copy {
-    text-align: left;
-  }
-
-  .lantern-player .audio-player__status {
-    color: #f4cf72 !important;
-  }
-
-  .lantern-player .audio-player__title {
-    max-width: none;
-    color: #fff9eb !important;
-    font-size: 1.35rem;
-    white-space: normal;
-  }
-
-  .lantern-player__copy p {
-    color: rgba(255,249,233,.66) !important;
-  }
-
-  .lantern-player__controls {
-    justify-content: center;
-    gap: .85rem;
-  }
-
-  .lantern-control--small {
-    width: 2.9rem;
-    height: 2.9rem;
-  }
-
-  .lantern-control--play {
-    width: 4.25rem;
-    height: 4.25rem;
-  }
-
-  .lantern-player__progress {
-    width: 100%;
-  }
-
-  .listen-hero__promise {
-    color: rgba(255,249,233,.67) !important;
-    font-size: .72rem;
-    line-height: 1.45;
-  }
+  .lantern-player__copy { text-align: left; }
+  .lantern-player .audio-player__status { color: #f4cf72 !important; }
+  .lantern-player .audio-player__title { max-width: none; color: #fff9eb !important; font-size: 1.35rem; white-space: normal; }
+  .lantern-player__copy p { color: rgba(255,249,233,.66) !important; }
+  .lantern-player__controls { justify-content: center; gap: .85rem; }
+  .lantern-control--small { width: 2.9rem; height: 2.9rem; }
+  .lantern-control--play { width: 4.25rem; height: 4.25rem; }
+  .lantern-player__progress { width: 100%; }
+  .listen-hero__promise { color: rgba(255,249,233,.67) !important; font-size: .72rem; line-height: 1.45; }
 
   .story-shelf {
     gap: .85rem;
@@ -188,99 +136,48 @@
     background: rgba(4, 22, 16, .72);
   }
 
-  .story-shelf__heading {
-    display: grid;
-    gap: .55rem;
-    align-items: start;
-  }
-
+  .story-shelf__heading { display: grid; gap: .55rem; align-items: start; }
   .story-shelf__heading h3,
-  .growing-shelves__heading h3 {
-    color: #fff8e8 !important;
-  }
+  .growing-shelves__heading h3 { color: #fff8e8 !important; }
+  .story-shelf__count { justify-items: start; text-align: left; }
+  .story-shelf .audiobook-episodes { grid-template-columns: 1fr; gap: .58rem; }
+  .story-shelf .audiobook-episode { min-height: 4.9rem; padding: .72rem; }
+  .story-shelf .audiobook-episode__copy strong { color: #fff8e8 !important; white-space: normal; line-height: 1.18; }
+  .story-shelf .audiobook-episode__copy small { color: rgba(255,249,233,.55) !important; }
+  .growing-shelves { margin-top: .5rem; }
+  .audiobook-series { grid-template-columns: 1fr 1fr; }
+  .audiobook-series__button { min-height: 6.4rem; }
 
-  .story-shelf__count {
-    justify-items: start;
-    text-align: left;
-  }
-
-  .story-shelf .audiobook-episodes {
-    grid-template-columns: 1fr;
-    gap: .58rem;
-  }
-
-  .story-shelf .audiobook-episode {
-    min-height: 4.9rem;
-    padding: .72rem;
-  }
-
-  .story-shelf .audiobook-episode__copy strong {
-    color: #fff8e8 !important;
-    white-space: normal;
-    line-height: 1.18;
-  }
-
-  .story-shelf .audiobook-episode__copy small {
-    color: rgba(255,249,233,.55) !important;
-  }
-
-  .growing-shelves {
-    margin-top: .5rem;
-  }
-
-  .audiobook-series {
-    grid-template-columns: 1fr 1fr;
-  }
-
-  .audiobook-series__button {
-    min-height: 6.4rem;
-  }
-
+  /* iOS Safari's moving bottom chrome makes fixed-bottom UI visibly bobble.
+     Keep the mini player inside the scroll container and pin it to the top instead. */
   .mobile-now-playing:not([hidden]) {
-    position: fixed;
-    z-index: 220;
-    left: .7rem;
-    right: .7rem;
-    bottom: calc(.7rem + env(safe-area-inset-bottom));
+    order: -1;
+    position: sticky;
+    top: calc(max(.35rem, env(safe-area-inset-top)) + 3.55rem);
+    z-index: 35;
+    left: auto;
+    right: auto;
+    bottom: auto;
     display: grid;
     grid-template-columns: minmax(0, 1fr) auto;
     align-items: center;
     gap: .7rem;
+    width: 100%;
     padding: .72rem .78rem;
     border: 1px solid rgba(248, 215, 127, .48);
     border-radius: 1rem;
-    background: rgba(5, 27, 19, .96);
-    box-shadow: 0 .9rem 2.2rem rgba(0,0,0,.42), 0 0 1.8rem rgba(231,183,65,.09);
+    background: rgba(5, 27, 19, .97);
+    box-shadow: 0 .55rem 1.4rem rgba(0,0,0,.34);
     backdrop-filter: blur(.9rem);
+    animation: none !important;
+    transform: none !important;
+    transition: none !important;
   }
 
-  .mobile-now-playing__copy {
-    min-width: 0;
-  }
-
-  .mobile-now-playing__copy span {
-    color: #f4cf72;
-    font: 800 .58rem/1.1 Arial, Helvetica, sans-serif;
-    letter-spacing: .08em;
-    text-transform: uppercase;
-  }
-
-  .mobile-now-playing__copy strong {
-    display: block;
-    overflow: hidden;
-    margin-top: .18rem;
-    color: #fff8e8;
-    font-size: .82rem;
-    font-weight: 600;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
-
-  .mobile-now-playing__controls {
-    display: flex;
-    gap: .35rem;
-  }
-
+  .mobile-now-playing__copy { min-width: 0; }
+  .mobile-now-playing__copy span { color: #f4cf72; font: 800 .58rem/1.1 Arial, Helvetica, sans-serif; letter-spacing: .08em; text-transform: uppercase; }
+  .mobile-now-playing__copy strong { display: block; overflow: hidden; margin-top: .18rem; color: #fff8e8; font-size: .82rem; font-weight: 600; text-overflow: ellipsis; white-space: nowrap; }
+  .mobile-now-playing__controls { display: flex; gap: .35rem; }
   .mobile-now-playing__controls button {
     display: grid;
     width: 2.35rem;
@@ -290,10 +187,7 @@
     border-radius: 50%;
     background: rgba(255,255,255,.055);
     color: #fff4d7;
+    transition: none !important;
   }
-
-  .mobile-now-playing__controls button[data-audio-toggle] {
-    background: #d2a43f;
-    color: #201508;
-  }
+  .mobile-now-playing__controls button[data-audio-toggle] { background: #d2a43f; color: #201508; }
 }
