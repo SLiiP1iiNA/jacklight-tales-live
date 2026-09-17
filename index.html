@@ -25,19 +25,32 @@
     .message{max-width:520px;margin:0;color:#fff9e8;font:clamp(17px,1.55vw,22px)/1.55 Arial,sans-serif}
     .character{align-self:end;justify-self:center;width:min(42vw,620px);max-height:88svh;object-fit:contain;object-position:center bottom;filter:drop-shadow(0 18px 25px rgba(0,0,0,.38));z-index:-1}
     footer{position:absolute;left:clamp(22px,5vw,72px);bottom:22px;color:rgba(255,245,214,.72);font:10px/1.4 Arial,sans-serif;letter-spacing:.16em;text-transform:uppercase}
+
     @media(max-width:760px){
-      body{overflow:auto}
-      .page{min-height:100svh;grid-template-columns:1fr;align-items:start;padding:105px 22px 0;text-align:center}
+      html,body{height:100%}
+      body{overflow:hidden}
+      .page{height:100svh;min-height:100svh;display:block;padding:0 20px;text-align:center;overflow:hidden}
       .page::before{background-position:48% center}
-      .page::after{background:linear-gradient(180deg,rgba(7,25,15,.83) 0%,rgba(9,29,18,.57) 54%,rgba(7,23,14,.86) 100%)}
-      .brand{left:50%;transform:translateX(-50%);white-space:nowrap}
-      .copy{padding:0;margin:auto;z-index:1}
-      .eyebrow{margin-bottom:12px}
-      h1{font-size:clamp(54px,18vw,82px)}
-      .rule{margin:20px auto}
-      .message{font-size:16px}
-      .character{width:min(88vw,480px);max-height:52svh;margin:10px auto 0;align-self:end}
+      .page::after{background:linear-gradient(180deg,rgba(7,25,15,.84) 0%,rgba(9,29,18,.53) 48%,rgba(7,23,14,.88) 100%)}
+      .brand{top:18px;left:50%;transform:translateX(-50%);gap:10px;white-space:nowrap;font-size:11px;letter-spacing:.2em}
+      .brand img{width:42px}
+      .copy{position:relative;z-index:2;max-width:350px;margin:0 auto;padding:clamp(118px,18svh,150px) 0 0}
+      .eyebrow{margin-bottom:10px;font-size:10px;letter-spacing:.24em}
+      h1{font-size:clamp(46px,14vw,64px);line-height:.86}
+      h1 span{font-size:.5em;line-height:1.15}
+      .rule{width:52px;margin:14px auto}
+      .message{max-width:330px;margin:0 auto;font-size:14px;line-height:1.38}
+      .character{position:absolute;z-index:1;left:50%;bottom:max(-4px,env(safe-area-inset-bottom));transform:translateX(-50%);width:auto;height:min(39svh,330px);max-width:78vw;max-height:none;margin:0;object-fit:contain;object-position:center bottom}
       footer{display:none}
+    }
+
+    @media(max-width:760px) and (max-height:720px){
+      .copy{padding-top:92px}
+      .eyebrow{font-size:9px;margin-bottom:8px}
+      h1{font-size:clamp(42px,13vw,56px)}
+      .rule{margin:10px auto}
+      .message{font-size:13px;line-height:1.32;max-width:310px}
+      .character{height:min(34svh,250px);max-width:72vw}
     }
   </style>
 </head>
