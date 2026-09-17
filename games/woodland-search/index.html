@@ -82,6 +82,7 @@
         <div class="action-buttons">
           <button id="hint">A little hint</button>
           <button id="shuffle">New search ↻</button>
+          <button id="mobile-audio" type="button" aria-pressed="false">♫ Story audio</button>
           <button id="fullscreen">Full screen</button>
         </div>
         <button id="back">Leave the woods</button>
@@ -89,14 +90,13 @@
       <details id="story-shelf">
         <summary>♫ Listen while you play</summary>
         <div class="story-controls">
-          <p>Put on a tale and explore at your own pace.</p>
+          <p>Choose a Barnaby audiobook and explore at your own pace.</p>
           <label>Series <select id="series"><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option></select></label>
-          <button id="load-series">Load recordings</button>
-          <label class="local-files">Play files from this device <input id="audio-files" type="file" accept="audio/*,.mp3" multiple></label>
+          <button id="load-series">Load this series</button>
           <label><input id="random-audio" type="checkbox" checked> Shuffle stories</label>
-          <div><button id="play-audio" disabled>Play</button><button id="next-audio" disabled>Next</button></div>
-          <p id="audio-status" role="status">No recordings are included yet.</p>
-          <audio id="story-audio" controls preload="none"></audio>
+          <div><button id="play-audio" disabled>Play story</button><button id="next-audio" disabled>Next story</button></div>
+          <p id="audio-status" role="status">Series 1 audiobooks are ready to load.</p>
+          <audio id="story-audio" controls preload="metadata"></audio>
         </div>
       </details>
     </aside>
