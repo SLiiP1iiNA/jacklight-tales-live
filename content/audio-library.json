@@ -1,5 +1,5 @@
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
   "filenameRule": "episode-{episode}.mp3",
   "numberPadding": 3,
   "series": [
@@ -10,6 +10,39 @@
       "description": "Barnaby’s first thirty paths through the Whispering Woods.",
       "startEpisode": 1,
       "episodeCount": 30,
+      "released": true,
+      "episodeTitles": {
+        "1": "Barnaby and the Golden Apple",
+        "2": "Barnaby and the Hidden Door",
+        "3": "Barnaby and the Little Guardian",
+        "4": "Barnaby and the Whispering Tunnel",
+        "5": "Barnaby and the Guardian's Secret",
+        "6": "Barnaby and the Seed of the Whispering Woods",
+        "7": "Barnaby and the Heart of the Forest",
+        "8": "Barnaby and the Moonlit Grove",
+        "9": "Barnaby and a New Little Friend",
+        "10": "Barnaby and the Little Star",
+        "11": "Barnaby and the Seed's Secret",
+        "12": "Barnaby and the Seed Awakens",
+        "13": "Barnaby and the Forgotten Path",
+        "14": "Barnaby and the Little Chime",
+        "15": "Barnaby and the Secret in the Flowers",
+        "16": "Barnaby and the Tree That Remembers",
+        "17": "Barnaby and the Whispering Stream",
+        "18": "Barnaby and the Little Boat",
+        "19": "Barnaby's Very Big Leaf",
+        "20": "Barnaby's Rainy Day",
+        "21": "Barnaby and the Secret Pond",
+        "22": "Barnaby and the Whispering Water",
+        "23": "Barnaby and the Golden Seedling",
+        "24": "Barnaby and the Awakening Forest",
+        "25": "Barnaby and the Heart of the Forest",
+        "26": "Barnaby and the Forest's Secret",
+        "27": "Barnaby Finds the Little Guardian",
+        "28": "Barnaby and the Seed of the Whispering Woods",
+        "29": "Barnaby and the Eyes in the Forest",
+        "30": "Barnaby and the Warmest Place in the Woods"
+      },
       "folder": "assets/audio/audiobooks/series-01",
       "audioOverrides": {
         "1": "https://pub-9ea739df2a0c435bbc605d2f4bfc6fb5.r2.dev/Audiobook%20-%20Series%201/S01E01_%E2%80%94_Barnaby_and_the_Golden_Apple.mp3",
@@ -52,6 +85,7 @@
       "description": "Thirty more gentle discoveries, friendships and little lessons.",
       "startEpisode": 31,
       "episodeCount": 30,
+      "released": false,
       "folder": "assets/audio/audiobooks/series-02",
       "cover": "assets/images/audiobooks/barnaby-series-01-cover.webp"
     },
@@ -62,6 +96,7 @@
       "description": "New paths, old secrets and the changing colours of the woods.",
       "startEpisode": 61,
       "episodeCount": 30,
+      "released": false,
       "folder": "assets/audio/audiobooks/series-03",
       "cover": "assets/images/audiobooks/barnaby-series-01-cover.webp"
     },
@@ -72,6 +107,7 @@
       "description": "Barnaby follows the lanterns into a busier corner of the woods.",
       "startEpisode": 91,
       "episodeCount": 30,
+      "released": false,
       "folder": "assets/audio/audiobooks/series-04",
       "cover": "assets/images/audiobooks/barnaby-series-01-cover.webp"
     },
@@ -82,6 +118,7 @@
       "description": "A bright new adventure rolls into Barnaby’s story world.",
       "startEpisode": 121,
       "episodeCount": 30,
+      "released": false,
       "folder": "assets/audio/audiobooks/series-05",
       "cover": "assets/images/audiobooks/barnaby-series-01-cover.webp"
     },
@@ -92,6 +129,7 @@
       "description": "The closing collection of Barnaby’s great woodland journey.",
       "startEpisode": 151,
       "episodeCount": 30,
+      "released": false,
       "folder": "assets/audio/audiobooks/series-06",
       "cover": "assets/images/audiobooks/barnaby-series-01-cover.webp"
     }
