@@ -1,0 +1,37 @@
+/* JackLight Tales — launch-state polish */
+
+/* Watch room: make the currently available collection read clearly. */
+.series-card--current {
+  border-color: rgba(248, 223, 160, .52) !important;
+  background: rgba(248, 223, 160, .11) !important;
+  box-shadow: inset 0 1px rgba(255, 255, 255, .06), 0 .8rem 1.8rem rgba(0, 0, 0, .12);
+}
+
+.series-card--current > span {
+  color: var(--gold-300) !important;
+}
+
+.series-card--coming {
+  opacity: .58;
+}
+
+/* Audiobook shelves: unreleased collections stay visible without pretending
+   they can already be opened. */
+.audiobook-series__button:disabled,
+.audiobook-series__button.is-coming {
+  cursor: default;
+  opacity: .45;
+  filter: saturate(.7);
+  transform: none !important;
+}
+
+.audiobook-series__button:disabled:hover,
+.audiobook-series__button:disabled:focus-visible {
+  border-color: var(--line-soft);
+  background: rgba(255, 249, 233, .045);
+  transform: none;
+}
+
+.audiobook-series__button.is-coming small {
+  color: rgba(255, 249, 233, .42);
+}
