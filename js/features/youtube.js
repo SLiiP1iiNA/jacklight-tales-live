@@ -47,7 +47,7 @@ function getWatchModes(config) {
       label: "Landscape · wide",
       playlistId: "",
       aspect: "landscape",
-      startDate: "2026-09-26",
+      startDate: "2026-09-26T10:30:00+01:00",
     },
   };
 }
@@ -56,8 +56,23 @@ function hasStarted(startDate) {
   if (!startDate) {
     return false;
   }
-  const start = new Date(`${startDate}T00:00:00`);
+  const value = startDate.includes("T") ? startDate : `${startDate}T00:00:00`;
+  const start = new Date(value);
   return !Number.isNaN(start.valueOf()) && new Date() >= start;
+}
+
+function modeHasSource(mode = {}) {
+  return Boolean(mode.playlistId || mode.videoId);
+}
+
+function watchUrlForMode(mode = {}, channelUrl = "") {
+  if (mode.playlistId) {
+    return `https://www.youtube.com/playlist?list=${encodeURIComponent(mode.playlistId)}`;
+  }
+  if (mode.videoId) {
+    return `https://www.youtube.com/watch?v=${encodeURIComponent(mode.videoId)}`;
+  }
+  return channelUrl;
 }
 
 export function initYouTube(config = {}) {
@@ -82,17 +97,26 @@ export function initYouTube(config = {}) {
       button.setAttribute("aria-selected", String(isActive));
     });
 
-    const playlistUrl = mode.playlistId
-      ? `https://www.youtube.com/playlist?list=${encodeURIComponent(mode.playlistId)}`
-      : channelUrl;
-    setExternalLink(playlistLink, playlistUrl);
+    setExternalLink(playlistLink, watchUrlForMode(mode, channelUrl));
+
+    const waitingForRelease = mode.aspect === "landscape" && mode.startDate && !hasStarted(mode.startDate);
+    if (waitingForRelease) {
+      const message = "The wide Series 1 collection opens here on 26 September at 10:30.";
+      frame.replaceChildren();
+      const placeholder = document.createElement("div");
+      placeholder.className = "youtube-placeholder";
+      placeholder.innerHTML = `<span aria-hidden="true">✦</span><p>${message}</p>`;
+      frame.append(placeholder);
+      if (status) {
+        status.textContent = message;
+      }
+      return;
+    }
 
     const src = makeVideoUrl(mode);
     if (!src) {
       const message = mode.aspect === "landscape"
-        ? hasStarted(mode.startDate)
-          ? "Our longer woodland collection is coming soon. Enjoy the short tales while we prepare it."
-          : "The wide collection will open here from 26 September."
+        ? "Our longer woodland collection is coming soon. Enjoy the short tales while we prepare it."
         : "The Watch room will open when the Barnaby playlist is ready.";
       frame.replaceChildren();
       const placeholder = document.createElement("div");
@@ -117,15 +141,15 @@ export function initYouTube(config = {}) {
     frame.replaceChildren(iframe);
     if (status) {
       status.textContent = mode.aspect === "landscape"
-        ? "Now showing the landscape collection"
+        ? "Now showing the Series 1 landscape collection"
         : "Now showing the vertical Shorts collection";
     }
   }
 
   function wirePanel(root) {
     setExternalLink(root.querySelector("[data-youtube-channel]"), channelUrl);
-    const defaultMode = config.defaultWatchMode
-      || (hasStarted(modes.landscape?.startDate) && modes.landscape?.playlistId ? "landscape" : "shorts");
+    const landscapeReady = hasStarted(modes.landscape?.startDate) && modeHasSource(modes.landscape);
+    const defaultMode = config.defaultWatchMode || (landscapeReady ? "landscape" : "shorts");
     renderMode(root, defaultMode);
 
     if (root.dataset.watchModeWired === "true") {
