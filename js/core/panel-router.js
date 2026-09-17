@@ -56,8 +56,8 @@ export function initPanelRouter(partialPaths) {
       console.error(error);
       content.innerHTML = `
         <div class="panel-error">
-          <h2 id="panel-title">This path is resting</h2>
-          <p>Start the site with Live Server so its separate panel files can load.</p>
+          <h2 id="panel-title">This path needs a moment</h2>
+          <p>Something did not open properly. Please close this window and try the path again.</p>
         </div>
       `;
     }
