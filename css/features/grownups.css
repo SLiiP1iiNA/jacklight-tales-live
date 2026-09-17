@@ -1,0 +1,346 @@
+.grownups-experience {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  height: calc(100dvh - 10.5rem);
+  min-height: 31rem;
+  max-height: 44rem;
+  border: 1px solid rgba(255, 228, 158, 0.28);
+  border-radius: clamp(1.25rem, 2.5vw, 2rem);
+  background-color: #10271d;
+  background-image:
+    linear-gradient(90deg, rgba(5, 17, 13, 0.12), rgba(5, 17, 13, 0.04)),
+    url("../../assets/images/site/grownups-hero-desktop.webp"),
+    url("../../assets/images/site/entrance-woods-desktop.webp");
+  background-size: cover, cover, cover;
+  background-position: center, center, center;
+  background-repeat: no-repeat;
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.36);
+}
+
+.grownups-experience__veil {
+  position: absolute;
+  z-index: -2;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  background:
+    radial-gradient(circle at 83% 16%, rgba(247, 188, 82, 0.12), transparent 22rem),
+    linear-gradient(90deg, rgba(5, 17, 13, 0.9) 0%, rgba(5, 17, 13, 0.72) 40%, rgba(5, 17, 13, 0.18) 72%, rgba(5, 17, 13, 0.1) 100%),
+    linear-gradient(0deg, rgba(4, 15, 11, 0.82) 0%, transparent 48%);
+}
+
+.grownups-experience::before,
+.grownups-experience::after {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  width: 0.3rem;
+  height: 0.3rem;
+  border-radius: 50%;
+  background: #ffe2a0;
+  box-shadow:
+    9vw 7vh 0 rgba(255, 226, 160, 0.56),
+    24vw 16vh 0 rgba(255, 226, 160, 0.35),
+    44vw 9vh 0 rgba(255, 226, 160, 0.48),
+    58vw 24vh 0 rgba(255, 226, 160, 0.3),
+    72vw 13vh 0 rgba(255, 226, 160, 0.42),
+    84vw 31vh 0 rgba(255, 226, 160, 0.3);
+  opacity: 0.55;
+  animation: grownups-fireflies 7s ease-in-out infinite alternate;
+  pointer-events: none;
+}
+
+.grownups-experience::before {
+  top: 8%;
+  left: 4%;
+}
+
+.grownups-experience::after {
+  right: 11%;
+  bottom: 19%;
+  animation-delay: -3.5s;
+}
+
+.grownups-experience__body {
+  display: grid;
+  grid-template-rows: minmax(0, 1fr) auto auto;
+  gap: clamp(0.7rem, 1.4vw, 1rem);
+  height: 100%;
+  padding: clamp(1.35rem, 3vw, 2.5rem);
+}
+
+.grownups-hero {
+  display: grid;
+  align-content: center;
+  justify-items: start;
+  gap: clamp(0.55rem, 1vw, 0.8rem);
+  width: min(100%, 42rem);
+  min-height: 0;
+}
+
+.grownups-hero .eyebrow {
+  color: #f6d487;
+  text-shadow: 0 2px 18px rgba(0, 0, 0, 0.45);
+}
+
+.grownups-hero h2 {
+  max-width: 11ch;
+  margin: 0;
+  color: #fff8e8;
+  font-size: clamp(2.35rem, 5.3vw, 4.9rem);
+  font-weight: 500;
+  letter-spacing: -0.06em;
+  line-height: 0.9;
+  text-wrap: balance;
+  text-shadow: 0 4px 28px rgba(0, 0, 0, 0.58);
+}
+
+.grownups-hero__intro {
+  max-width: 42rem;
+  margin: 0;
+  color: rgba(255, 249, 233, 0.9);
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: clamp(0.9rem, 1.5vw, 1.02rem);
+  line-height: 1.55;
+  text-shadow: 0 2px 16px rgba(0, 0, 0, 0.6);
+}
+
+.grownups-hero__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+  margin-top: 0.2rem;
+}
+
+.lantern-action {
+  position: relative;
+  display: inline-flex;
+  min-height: 3rem;
+  align-items: center;
+  justify-content: center;
+  gap: 0.58rem;
+  overflow: hidden;
+  padding: 0.75rem 1rem;
+  border: 1px solid rgba(255, 233, 176, 0.52);
+  border-radius: 999px;
+  color: #fff9e9;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 0.83rem;
+  font-weight: 800;
+  text-decoration: none;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.24);
+  transition: transform 180ms ease, box-shadow 180ms ease, border-color 180ms ease, filter 180ms ease;
+}
+
+.lantern-action::before {
+  content: "";
+  position: absolute;
+  inset: -40% auto -40% -35%;
+  width: 25%;
+  transform: rotate(18deg);
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.5), transparent);
+  opacity: 0;
+  transition: left 520ms ease, opacity 180ms ease;
+}
+
+.lantern-action:hover,
+.lantern-action:focus-visible {
+  transform: translateY(-2px);
+  border-color: rgba(255, 242, 204, 0.88);
+  filter: brightness(1.05);
+}
+
+.lantern-action:hover::before,
+.lantern-action:focus-visible::before {
+  left: 115%;
+  opacity: 1;
+}
+
+.lantern-action--support {
+  background: linear-gradient(135deg, #dba531, #f0c75d 58%, #c78e22);
+  color: #241608;
+  box-shadow: 0 10px 30px rgba(226, 174, 55, 0.28), inset 0 1px rgba(255, 255, 255, 0.38);
+}
+
+.lantern-action--support:hover,
+.lantern-action--support:focus-visible {
+  box-shadow: 0 14px 34px rgba(226, 174, 55, 0.4), 0 0 22px rgba(255, 218, 130, 0.16);
+}
+
+.lantern-action--contact {
+  background: linear-gradient(135deg, rgba(20, 69, 48, 0.92), rgba(7, 36, 25, 0.94));
+  backdrop-filter: blur(0.5rem);
+}
+
+.lantern-action--contact:hover,
+.lantern-action--contact:focus-visible {
+  box-shadow: 0 14px 34px rgba(0, 0, 0, 0.34), 0 0 22px rgba(190, 226, 146, 0.12);
+}
+
+.lantern-action__icon {
+  font-size: 1rem;
+}
+
+.lantern-action__arrow {
+  opacity: 0.72;
+}
+
+.grownups-hero__email {
+  color: rgba(255, 244, 215, 0.82);
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 0.76rem;
+  font-weight: 700;
+  text-underline-offset: 0.22rem;
+}
+
+.grownups-hero__email:hover,
+.grownups-hero__email:focus-visible {
+  color: #fff6dd;
+}
+
+.grownups-glance {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(0.55rem, 1vw, 0.8rem);
+}
+
+.grownups-glance__card {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 0.72rem;
+  min-width: 0;
+  padding: clamp(0.78rem, 1.5vw, 1rem);
+  border: 1px solid rgba(255, 238, 197, 0.2);
+  border-radius: 1rem;
+  background: linear-gradient(145deg, rgba(7, 29, 20, 0.76), rgba(13, 45, 32, 0.6));
+  box-shadow: inset 0 1px rgba(255,255,255,0.06), 0 12px 28px rgba(0,0,0,0.18);
+  backdrop-filter: blur(0.72rem);
+}
+
+.grownups-glance__card--gold {
+  border-color: rgba(244, 201, 101, 0.34);
+  background: linear-gradient(145deg, rgba(66, 47, 18, 0.72), rgba(17, 45, 31, 0.68));
+}
+
+.grownups-glance__mark {
+  display: grid;
+  width: 2rem;
+  height: 2rem;
+  place-items: center;
+  border: 1px solid rgba(255, 223, 145, 0.36);
+  border-radius: 50%;
+  background: rgba(5, 22, 15, 0.56);
+  color: #f2cb6d;
+  font-size: 0.9rem;
+}
+
+.grownups-glance__card > div {
+  display: grid;
+  gap: 0.22rem;
+}
+
+.grownups-glance__card h3 {
+  margin: 0;
+  color: #fff8e8;
+  font-size: clamp(0.95rem, 1.35vw, 1.12rem);
+  font-weight: 500;
+  line-height: 1.08;
+}
+
+.grownups-glance__card p:last-child {
+  margin: 0;
+  color: rgba(255, 249, 233, 0.7);
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: clamp(0.69rem, 1vw, 0.78rem);
+  line-height: 1.35;
+}
+
+.grownups-experience__closing {
+  margin: 0;
+  color: rgba(255, 245, 220, 0.74);
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 0.7rem;
+  text-align: center;
+  text-shadow: 0 2px 14px rgba(0,0,0,0.5);
+}
+
+.grownups-experience__closing span {
+  color: #efc665;
+}
+
+@keyframes grownups-fireflies {
+  from { transform: translate3d(0, 0, 0); opacity: 0.35; }
+  to { transform: translate3d(0.35rem, -0.45rem, 0); opacity: 0.72; }
+}
+
+@media (max-width: 56rem) {
+  .grownups-experience {
+    height: auto;
+    min-height: calc(100dvh - 6rem);
+    max-height: none;
+    background-image:
+      linear-gradient(180deg, rgba(5, 17, 13, 0.02), rgba(5, 17, 13, 0.28)),
+      url("../../assets/images/site/grownups-hero-mobile.webp"),
+      url("../../assets/images/site/entrance-woods-mobile.webp");
+    background-position: center top, center top, center top;
+  }
+
+  .grownups-experience__body {
+    grid-template-rows: auto auto auto;
+    gap: 1rem;
+    min-height: inherit;
+    padding: clamp(1.2rem, 5vw, 2rem);
+  }
+
+  .grownups-hero {
+    min-height: 55dvh;
+    align-content: end;
+    padding-top: 4rem;
+  }
+
+  .grownups-hero h2 {
+    font-size: clamp(2.5rem, 10vw, 4.2rem);
+  }
+
+  .grownups-glance {
+    grid-template-columns: 1fr;
+  }
+
+  .grownups-experience__veil {
+    background:
+      linear-gradient(180deg, rgba(5, 17, 13, 0.08) 0%, rgba(5, 17, 13, 0.2) 28%, rgba(5, 17, 13, 0.82) 58%, rgba(5, 17, 13, 0.96) 100%),
+      linear-gradient(90deg, rgba(5, 17, 13, 0.35), rgba(5, 17, 13, 0.08));
+  }
+}
+
+@media (max-width: 36rem) {
+  .grownups-hero__actions {
+    display: grid;
+    width: 100%;
+  }
+
+  .lantern-action {
+    width: 100%;
+    min-height: 3.15rem;
+  }
+
+  .grownups-hero__email {
+    justify-self: center;
+  }
+
+  .grownups-experience__closing {
+    font-size: 0.66rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .grownups-experience::before,
+  .grownups-experience::after {
+    animation: none;
+  }
+
+  .lantern-action {
+    transition: none;
+  }
+}
