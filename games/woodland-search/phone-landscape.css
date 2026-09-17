@@ -61,15 +61,16 @@
     left:50%;
     bottom:max(.3rem,env(safe-area-inset-bottom));
     transform:translateX(-50%);
-    width:min(430px,76vw);
+    width:min(520px,88vw);
     padding:.24rem;
     border-radius:999px;
     background:#0d281ce8;
     backdrop-filter:blur(5px)
   }
-  .game-actions{display:grid;grid-template-columns:1fr 1fr 1fr;gap:.25rem}
+  .game-actions{display:grid;grid-template-columns:repeat(4,1fr);gap:.25rem}
   #instructions{display:none}
   .action-buttons{display:contents}
-  .action-buttons button,.game-actions>#back{min-width:0;min-height:34px;padding:.24rem .4rem;font-size:.62rem;line-height:1}
+  .action-buttons button,.game-actions>#back{min-width:0;min-height:34px;padding:.24rem .3rem;font-size:.58rem;line-height:1}
   #fullscreen,#story-shelf{display:none}
+  #mobile-audio[aria-pressed="true"]{outline:2px solid #ffe29a;outline-offset:1px}
 }
