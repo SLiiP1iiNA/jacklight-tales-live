@@ -10,6 +10,10 @@
     hintOne: 'First Hint.mp3',
     hintTwo: 'Second Hint.mp3',
     friendFound: 'Friend Found.mp3',
+    friendFound2: 'Friend Found 2.mp3',
+    friendFound3: 'Friend Found 3.mp3',
+    friendFound4: 'Friend Found 4.mp3',
+    friendFound5: 'Friend Found 5.mp3',
     barnabyFound: 'Barnaby Found.mp3',
     heartSeed: 'Heart Seed Secret.mp3',
     nextLocation: 'Next Location.mp3',
@@ -26,6 +30,8 @@
     console.error('Woodland Search: #luna-audio was not found.');
     return;
   }
+
+  const friendFoundCues = ['friendFound', 'friendFound2', 'friendFound3', 'friendFound4', 'friendFound5'];
 
   player.preload = 'auto';
   player.playsInline = true;
