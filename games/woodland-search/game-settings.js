@@ -1,6 +1,6 @@
 window.WOODLAND_SEARCH_SETTINGS={
   memoryKey:'jlt-woodland-search-v8',
-  soundKey:'jlt-woodland-search-sound',
+  soundKey:'jlt-woodland-search-sound-v2',
   transitionMs:180,
   celebrationRevealMs:900,
   hintMs:3000,
