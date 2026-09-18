@@ -9,17 +9,18 @@
 (() => {
   const base = 'https://pub-9ea739df2a0c435bbc605d2f4bfc6fb5.r2.dev/Game%20Audio/Woodland%20Search/Luna/';
 
+  const file = name => `${base}${encodeURIComponent(name)}`;
   const slots = {
-    welcome: `${base}01_welcome.mp3`,
-    beginSearch: `${base}02_begin_search.mp3`,
-    hintOne: `${base}03_hint_one.mp3`,
-    hintTwo: `${base}04_hint_two.mp3`,
-    friendFound: `${base}05_friend_found.mp3`,
-    barnabyFound: `${base}06_barnaby_found.mp3`,
-    heartSeed: `${base}07_heart_seed.mp3`,
-    nextLocation: `${base}08_next_location.mp3`,
-    allFound: `${base}09_all_found.mp3`,
-    goodbye: `${base}10_goodbye.mp3`
+    welcome: file('Welcome.mp3'),
+    beginSearch: file('Begin Searching.mp3'),
+    hintOne: file('First Hint.mp3'),
+    hintTwo: file('Second Hint.mp3'),
+    friendFound: file('Friend Found.mp3'),
+    barnabyFound: file('Barnaby Found.mp3'),
+    heartSeed: file('Heart Seed Secret.mp3'),
+    nextLocation: file('Next Location.mp3'),
+    allFound: file('Everything Found.mp3'),
+    goodbye: file('Goodbye.mp3')
   };
 
   Object.assign(slots, window.WOODLAND_LUNA_AUDIO || {});
@@ -62,7 +63,10 @@
       try { player.currentTime = 0; } catch {}
     }
 
-    player.play().catch(() => {});
+    player.play().catch(error => {
+      currentName = null;
+      console.warn('Woodland Search audio could not play:', name, error);
+    });
     return player;
   }
 
