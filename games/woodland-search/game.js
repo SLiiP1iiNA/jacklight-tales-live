@@ -126,10 +126,13 @@ function renderResultRoute() {
 }
 
 function updateSeedMeter() {
-  const count = heartSeeds.size;
-  $('seed-count').textContent = `${count} / ${SETTINGS.roundsPerJourney}`;
+  const completed = Math.min(
+    SETTINGS.roundsPerJourney,
+    roundIndex + (found ? 1 : 0)
+  );
+  $('seed-count').textContent = `${completed} / ${SETTINGS.roundsPerJourney}`;
   const meter = document.querySelector('.seed-meter');
-  meter?.setAttribute('aria-label', `${count} of ${SETTINGS.roundsPerJourney} hidden Heart Seeds found`);
+  meter?.setAttribute('aria-label', `${completed} of ${SETTINGS.roundsPerJourney} woodland paths completed`);
 }
 
 function lockGame(locked) {
@@ -299,6 +302,7 @@ function leaveJourney() {
 
 function showCelebration() {
   found = true;
+  updateSeedMeter();
   clearTimeout(hintOfferTimer);
   clearTimeout(hintTimer);
 
@@ -412,20 +416,11 @@ function collectHeartSeed(event) {
 
   seedFoundThisRound = true;
   heartSeeds.add(roundIndex);
-  updateSeedMeter();
 
   seed.classList.add('collected');
   seed.disabled = true;
 
-  const meter = document.querySelector('.seed-meter');
-  meter?.classList.remove('seed-earned');
-  if (meter) {
-    void meter.offsetWidth;
-    meter.classList.add('seed-earned');
-    setTimeout(() => meter.classList.remove('seed-earned'), 700);
-  }
-
-  $('status').textContent = `Heart Seed found — ${heartSeeds.size} of ${SETTINGS.roundsPerJourney}! ✦`;
+  $('status').textContent = 'Heart Seed found — a hidden woodland secret! ✦';
   showStatusToast(2800);
   playCue('heartSeed', { volume: 0.82 });
 
