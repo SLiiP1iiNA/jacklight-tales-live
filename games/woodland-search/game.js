@@ -324,7 +324,7 @@ function playFriendFoundCue() {
   playCue(foundCue, { volume: 0.9 });
 }
 
-function showCelebration() {
+function showCelebration({ seedJustFound = false } = {}) {
   clearTimeout(hintOfferTimer);
   clearTimeout(hintTimer);
   $('continue-found').hidden = true;
@@ -349,7 +349,9 @@ function showCelebration() {
       : `You found ${heartSeeds.size} of ${SETTINGS.roundsPerJourney} hidden Heart Seeds. They are optional little secrets for another wander.`;
     $('continue-path').textContent = 'Wander again ↻';
     $('continue-path').dataset.action = 'restart';
-    if (friendCuePlayed) {
+    if (seedJustFound) {
+      audioLayer?.playSequence(['heartSeed', 'allFound'], { volume: 0.92 });
+    } else if (friendCuePlayed) {
       audioLayer?.playSequence(['nextLocation', 'allFound'], { volume: 0.92 });
     } else {
       playFriendFoundCue();
@@ -365,7 +367,9 @@ function showCelebration() {
       : `Next path: ${nextScene.name}. You can hunt for the Heart Seed again another time.`;
     $('continue-path').textContent = 'Continue the path →';
     $('continue-path').dataset.action = 'continue';
-    if (friendCuePlayed) {
+    if (seedJustFound) {
+      audioLayer?.playSequence(['heartSeed', 'nextLocation'], { volume: 0.9 });
+    } else if (friendCuePlayed) {
       audioLayer?.play('nextLocation', { volume: 0.9 });
     } else {
       playFriendFoundCue();
@@ -491,14 +495,15 @@ function collectHeartSeed(event) {
 
   $('status').textContent = 'Heart Seed found — a hidden woodland secret! ✦';
   showStatusToast(2800);
-  playCue('heartSeed', { volume: 0.82 });
+
+  if (navigator.vibrate) navigator.vibrate(18);
 
   if (found) {
-    showCelebration();
+    showCelebration({ seedJustFound: true });
     return;
   }
 
-  if (navigator.vibrate) navigator.vibrate(18);
+  playCue('heartSeed', { volume: 0.82 });
   setTimeout(() => { seed.hidden = true; }, 420);
 }
 
