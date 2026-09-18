@@ -1,133 +1,117 @@
 /*
  * Woodland Search — Luna voice layer.
- *
- * Uses one persistent DOM <audio> element. Keeping the same media element for
- * every cue is the most reliable approach on iPhone/Safari: the first Begin
- * tap starts Welcome.mp3 directly, then later cues reuse the unlocked player.
+ * Uses one native <audio> element and the exact public Cloudflare R2 URLs.
  */
 (() => {
   const base = 'https://pub-9ea739df2a0c435bbc605d2f4bfc6fb5.r2.dev/Game%20Audio/Woodland%20Search/Luna/';
-  const file = name => `${base}${encodeURIComponent(name)}`;
-
-  const slots = {
-    welcome: file('Welcome.mp3'),
-    beginSearch: file('Begin Searching.mp3'),
-    hintOne: file('First Hint.mp3'),
-    hintTwo: file('Second Hint.mp3'),
-    friendFound: file('Friend Found.mp3'),
-    barnabyFound: file('Barnaby Found.mp3'),
-    heartSeed: file('Heart Seed Secret.mp3'),
-    nextLocation: file('Next Location.mp3'),
-    allFound: file('Everything Found.mp3'),
-    goodbye: file('Goodbye.mp3')
+  const files = {
+    welcome: 'Welcome.mp3',
+    beginSearch: 'Begin Searching.mp3',
+    hintOne: 'First Hint.mp3',
+    hintTwo: 'Second Hint.mp3',
+    friendFound: 'Friend Found.mp3',
+    barnabyFound: 'Barnaby Found.mp3',
+    heartSeed: 'Heart Seed Secret.mp3',
+    nextLocation: 'Next Location.mp3',
+    allFound: 'Everything Found.mp3',
+    goodbye: 'Goodbye.mp3'
   };
 
-  Object.assign(slots, window.WOODLAND_LUNA_AUDIO || {});
+  const slots = Object.fromEntries(
+    Object.entries(files).map(([key, name]) => [key, base + encodeURIComponent(name)])
+  );
 
-  const player = document.getElementById('luna-audio') || new Audio();
+  const player = document.getElementById('luna-audio');
+  if (!player) {
+    console.error('Woodland Search: #luna-audio was not found.');
+    return;
+  }
+
   player.preload = 'auto';
   player.playsInline = true;
-  player.setAttribute('playsinline', '');
-  player.setAttribute('webkit-playsinline', '');
 
   let enabled = true;
+  let queue = [];
+  let queueVolume = 0.92;
   let currentName = null;
-  let queued = [];
-  let queuedVolume = 0.9;
-  let lastError = null;
 
-  function absolute(src) {
-    try { return new URL(src, location.href).href; } catch { return src; }
+  function emitError(name, error) {
+    console.warn('Woodland Search Luna audio failed:', name, error);
+    window.dispatchEvent(new CustomEvent('woodland-audio-error', {
+      detail: {
+        name,
+        src: player.currentSrc || player.src,
+        message: String(error?.message || error || 'Audio could not play')
+      }
+    }));
   }
 
-  function sameSource(src) {
-    const wanted = absolute(src);
-    return player.currentSrc === wanted || player.src === wanted;
-  }
-
-  function setSource(src) {
-    if (sameSource(src)) return;
-    player.src = src;
-    player.load();
-  }
-
-  function resetPlayer({ clearQueue = false } = {}) {
-    try {
-      player.pause();
-      if (Number.isFinite(player.duration) || player.readyState > 0) player.currentTime = 0;
-    } catch {}
-    currentName = null;
-    if (clearQueue) queued = [];
-  }
-
-  function stop() {
-    resetPlayer({ clearQueue: true });
-  }
-
-  async function start(name, volume = 0.9) {
-    if (!enabled) return false;
+  function prepare(name, volume) {
     const src = slots[name];
     if (!src) return false;
 
-    lastError = null;
     currentName = name;
+    player.muted = !enabled;
     player.volume = Math.max(0, Math.min(1, volume));
+    player.src = src;
+    player.load();
+    return true;
+  }
+
+  async function start(name, volume = 0.92) {
+    if (!enabled || !prepare(name, volume)) return false;
 
     try {
-      setSource(src);
-      if (sameSource(src) && player.ended) player.currentTime = 0;
       await player.play();
       return true;
     } catch (error) {
       currentName = null;
-      lastError = error;
-      console.warn('Woodland Search Luna audio could not play:', name, src, error);
-      window.dispatchEvent(new CustomEvent('woodland-audio-error', {
-        detail: { name, src, message: String(error?.message || error || 'Audio could not play') }
-      }));
+      emitError(name, error);
       return false;
     }
   }
 
-  function play(name, { interrupt = true, volume = 0.9 } = {}) {
-    if (!enabled || !slots[name]) return Promise.resolve(false);
-    if (!interrupt && currentName && !player.paused) return Promise.resolve(false);
+  function stop() {
+    queue = [];
+    currentName = null;
+    try {
+      player.pause();
+      player.currentTime = 0;
+    } catch {}
+  }
 
-    queued = [];
-    if (interrupt) resetPlayer();
+  function play(name, { interrupt = true, volume = 0.92 } = {}) {
+    if (!enabled) return Promise.resolve(false);
+    if (!interrupt && !player.paused) return Promise.resolve(false);
+
+    queue = [];
+    if (interrupt) {
+      try { player.pause(); } catch {}
+    }
     return start(name, volume);
   }
 
-  function playSequence(names, { volume = 0.9 } = {}) {
-    const valid = names.filter(name => Boolean(slots[name]));
+  function playSequence(names, { volume = 0.92 } = {}) {
+    const valid = names.filter(name => slots[name]);
     if (!enabled || !valid.length) return Promise.resolve(false);
 
-    queued = valid.slice(1);
-    queuedVolume = volume;
-    resetPlayer();
+    queue = valid.slice(1);
+    queueVolume = volume;
+    try { player.pause(); } catch {}
     return start(valid[0], volume);
   }
 
-  player.addEventListener('ended', async () => {
+  player.addEventListener('ended', () => {
     currentName = null;
-    if (!enabled || !queued.length) return;
-    const next = queued.shift();
-    await start(next, queuedVolume);
+    const next = queue.shift();
+    if (enabled && next) start(next, queueVolume);
   });
 
   player.addEventListener('error', () => {
-    const mediaError = player.error;
+    const failedName = currentName;
     currentName = null;
-    queued = [];
-    lastError = mediaError;
-    console.warn('Woodland Search Luna media error:', mediaError, player.currentSrc || player.src);
-    window.dispatchEvent(new CustomEvent('woodland-audio-error', {
-      detail: {
-        name: currentName,
-        src: player.currentSrc || player.src,
-        message: mediaError ? `Media error ${mediaError.code}` : 'Audio file could not load'
-      }
-    }));
+    queue = [];
+    emitError(failedName, player.error || new Error('Media file could not load'));
   });
 
   function setEnabled(value) {
@@ -142,9 +126,8 @@
     stop,
     setEnabled,
     isEnabled: () => enabled,
-    isPlaying: () => Boolean(currentName && !player.paused),
+    isPlaying: () => enabled && !player.paused,
     current: () => currentName,
-    lastError: () => lastError,
     player,
     slots: { ...slots }
   };
