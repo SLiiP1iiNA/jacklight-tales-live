@@ -16,6 +16,7 @@ let hintTimer = 0;
 let hintOfferTimer = 0;
 let celebrationTimer = 0;
 let resizeTimer = 0;
+let statusToastTimer = 0;
 let loadToken = 0;
 let heartSeeds = new Set();
 
@@ -38,6 +39,15 @@ function clearTimers() {
   clearTimeout(hintTimer);
   clearTimeout(hintOfferTimer);
   clearTimeout(celebrationTimer);
+  clearTimeout(statusToastTimer);
+  $('status')?.classList.remove('is-visible');
+}
+
+function showStatusToast(duration = 3200) {
+  const status = $('status');
+  clearTimeout(statusToastTimer);
+  status.classList.add('is-visible');
+  statusToastTimer = setTimeout(() => status.classList.remove('is-visible'), duration);
 }
 
 function saveSoundPreference(enabled) {
@@ -220,6 +230,7 @@ async function loadRound() {
   } catch {
     if (token === loadToken) {
       $('status').textContent = 'This woodland picture could not open. Try leaving and starting again.';
+      showStatusToast(5200);
       $('stage').classList.remove('scene-changing');
     }
     return;
@@ -350,6 +361,7 @@ $('hint').addEventListener('click', () => {
   if (hintLevel === 0) {
     hintLevel = 1;
     $('status').textContent = currentSpot.hint || 'Look closely around the woodland details.';
+    showStatusToast(4500);
     $('hint').textContent = 'One more hint';
     playCue('hintGentle', { volume: 0.88 });
     return;
@@ -358,6 +370,7 @@ $('hint').addEventListener('click', () => {
   hintLevel = 2;
   $('pip').classList.add('hinted');
   $('status').textContent = 'Watch for a tiny golden glow.';
+  showStatusToast(3500);
   $('hint').textContent = 'Glow shown';
   $('hint').disabled = true;
   playCue('hintStrong', { volume: 0.88 });
@@ -388,6 +401,7 @@ $('heart-seed').addEventListener('click', event => {
   seed.classList.add('collected');
   seed.disabled = true;
   $('status').textContent = 'You found a hidden Heart Seed! ✦';
+  showStatusToast(2600);
   setTimeout(() => { seed.hidden = true; }, 520);
 });
 
