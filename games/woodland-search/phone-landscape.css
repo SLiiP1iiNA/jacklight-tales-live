@@ -9,10 +9,6 @@
 
 /* The JS class is the authoritative phone-landscape switch. The media-query
    form below is kept as a no-JS fallback. */
-html.phone-landscape-mode,
-@media (orientation:landscape) and (max-height:560px) and (max-width:1100px){
-}
-
 /* NOTE: selectors are duplicated with :is() so the same rules work from the
    JS class or the media-query fallback below. */
 html.phone-landscape-mode,
