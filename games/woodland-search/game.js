@@ -282,7 +282,6 @@ function startJourney() {
   $('welcome').hidden = true;
   $('game').hidden = false;
   document.body.classList.add('game-active');
-  setSound(loadSoundPreference());
   updateSeedMeter();
   loadRound();
 }
@@ -358,8 +357,10 @@ function makeLeafPuff(event) {
 }
 
 $('play').addEventListener('click', () => {
-  startJourney();
+  // Keep the first audio play directly inside the user's click gesture.
+  setSound(true);
   audioLayer?.playSequence(['welcome', 'beginSearch'], { volume: 0.92 });
+  startJourney();
 });
 
 $('leave').addEventListener('click', leaveJourney);
