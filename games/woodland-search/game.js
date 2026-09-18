@@ -328,13 +328,13 @@ function showCelebration() {
     $('next-label').textContent = `Next path: ${nextScene.name}.`;
     $('continue-path').textContent = 'Continue the path →';
     $('continue-path').dataset.action = 'continue';
-    playCue(currentCharacter.name === 'Barnaby' ? 'barnabyFound' : 'friendFound', { volume: 0.9 });
+    const foundCue = currentCharacter.name === 'Barnaby' ? 'barnabyFound' : 'friendFound';
+    audioLayer?.playSequence([foundCue, 'nextLocation'], { volume: 0.9 });
   }
 
   $('continue-path').disabled = true;
   celebrationTimer = setTimeout(() => {
     $('continue-path').disabled = false;
-    if (!finalRound) playCue('nextLocation', { interrupt: false, volume: 0.82 });
     $('continue-path').focus({ preventScroll: true });
   }, SETTINGS.celebrationRevealMs);
 }
