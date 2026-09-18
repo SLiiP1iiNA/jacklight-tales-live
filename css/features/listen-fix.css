@@ -151,12 +151,14 @@
   /* Mobile mini-player: keep it completely out of the shelf grid.
      Explicit inset + intrinsic sizing prevents iOS Safari from stretching it. */
   .mobile-now-playing:not([hidden]) {
+    position: static !important;
+    inset: auto !important;
+    top: auto !important;
+    right: auto !important;
+    bottom: auto !important;
+    left: auto !important;
+    z-index: auto !important;
     order: initial !important;
-    position: fixed !important;
-    z-index: 250;
-    inset: auto max(.58rem, env(safe-area-inset-right))
-           calc(.58rem + env(safe-area-inset-bottom))
-           max(.58rem, env(safe-area-inset-left)) !important;
     display: grid;
     grid-template-columns: minmax(0, 1fr) auto;
     grid-auto-rows: max-content;
@@ -166,22 +168,23 @@
     place-self: auto !important;
     gap: .55rem;
     box-sizing: border-box;
-    width: auto !important;
-    inline-size: auto !important;
-    height: max-content !important;
-    block-size: max-content !important;
+    width: 100% !important;
+    inline-size: 100% !important;
+    height: auto !important;
+    block-size: auto !important;
     min-height: 0 !important;
     min-block-size: 0 !important;
-    max-height: 5.25rem !important;
-    max-block-size: 5.25rem !important;
+    max-height: none !important;
+    max-block-size: none !important;
     margin: 0 !important;
     padding: .66rem .68rem;
     border: 1px solid rgba(248, 215, 127, .5);
     border-radius: 1rem;
     background: rgba(5, 27, 19, .98);
-    box-shadow: 0 .9rem 2.4rem rgba(0,0,0,.46);
+    box-shadow: none;
     overflow: hidden;
-    backdrop-filter: blur(.95rem);
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
     animation: none !important;
     transform: none !important;
     transition: none !important;
