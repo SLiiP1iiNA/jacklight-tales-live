@@ -333,9 +333,15 @@
   .mobile-now-playing:not([hidden]) {
     position: fixed;
     z-index: 250;
+    top: auto !important;
     left: max(.58rem, env(safe-area-inset-left));
     right: max(.58rem, env(safe-area-inset-right));
     bottom: calc(.58rem + env(safe-area-inset-bottom));
+    width: auto !important;
+    height: auto !important;
+    min-height: 0 !important;
+    max-height: none !important;
+    order: initial;
     display: grid;
     grid-template-columns: minmax(0, 1fr) auto;
     align-items: center;
