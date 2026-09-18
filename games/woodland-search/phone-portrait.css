@@ -80,6 +80,7 @@
   .route-node span{width:1.28rem;height:1.28rem;font-size:.48rem}
 
   #status{bottom:5.1rem;max-width:86vw;padding:.3rem .58rem;font-size:.62rem;background:rgba(5,27,19,.94)}
+  .path-continue{bottom:8.05rem;max-width:88vw;min-height:38px;padding:.4rem .7rem;font-size:.6rem}
   .game-actions{bottom:calc(.45rem + env(safe-area-inset-bottom));width:calc(100% - 1rem);gap:.3rem;padding:.3rem;border-radius:18px;background:rgba(5,27,19,.95)}
   .game-actions button{min-height:42px;padding:.38rem .25rem;font-size:.62rem}
 
