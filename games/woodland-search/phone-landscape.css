@@ -1,126 +1,205 @@
-/* Woodland Search — phones in landscape.
-   Phone detection is height-led so modern 844–932px-wide phones receive this layout. */
-@media (orientation:landscape) and (max-height:520px) and (max-width:980px){
-  html,body{width:100%;height:100%;overflow:hidden}
+/* Woodland Search — PHONE LANDSCAPE.
+   This file deliberately uses BOTH a viewport media query and a JS-applied
+   html.phone-landscape-mode class. That avoids iOS Safari falling back to the
+   tablet HUD when its browser chrome changes the reported viewport size. */
 
-  /* One-screen welcome when the phone is already rotated */
-  body:not(.game-active){height:100svh;min-height:100svh;overflow:hidden}
-  body:not(.game-active) .site-bar{
-    height:42px;
-    padding:max(.16rem,env(safe-area-inset-top)) max(.55rem,env(safe-area-inset-right)) .16rem max(.55rem,env(safe-area-inset-left));
-  }
-  body:not(.game-active) .brand{gap:.28rem;font-size:.76rem}
-  body:not(.game-active) .brand img{width:1.75rem;height:1.75rem}
-  body:not(.game-active) .game-home-link{font-size:.55rem}
-  body:not(.game-active) footer{display:none}
-  #welcome{
-    width:100%;
-    height:calc(100svh - 42px);
-    min-height:0;
-    padding:.25rem 1rem max(.35rem,env(safe-area-inset-bottom));
-    display:grid;
-    place-items:center;
-    overflow:hidden;
-  }
-  .welcome-copy{width:min(92vw,650px);text-align:center}
-  .welcome-mark{width:2.4rem;margin:0 auto .06rem}
-  #welcome .eyebrow{font-size:.48rem}
-  #welcome h1{max-width:none;margin:.08rem 0 .28rem;font-size:1.95rem;line-height:.94}
-  .welcome-copy>p:not(.eyebrow){max-width:40rem;margin:0 auto .34rem;font-size:.64rem;line-height:1.26}
-  .welcome-promises{justify-content:center;gap:.25rem;margin:0 0 .36rem}
-  .welcome-promises span{padding:.25rem .42rem;font-size:.52rem}
-  #play{min-height:34px;padding:.42rem .82rem;font-size:.64rem}
-  .journey-preview{display:none}
+@media (orientation:landscape) and (max-height:560px) and (max-width:1100px){
+  html{--jlt-phone-landscape:1}
+}
 
-  /* Full-screen game */
-  body.game-active{position:fixed;inset:0;width:100vw;height:100dvh;overflow:hidden}
-  body.game-active .site-bar,body.game-active footer{display:none}
-  body.game-active main{position:fixed;inset:0;width:100vw;height:100dvh;padding:0;overflow:hidden}
-  #game:not([hidden]){position:absolute;inset:0;width:100vw;height:100dvh}
-  #stage{position:absolute;inset:0;width:100%;height:100%;border-radius:0}
-  #woods{object-fit:cover}
-  #pip{width:clamp(38px,5.4vw,49px)}
+/* The JS class is the authoritative phone-landscape switch. The media-query
+   form below is kept as a no-JS fallback. */
+html.phone-landscape-mode,
+@media (orientation:landscape) and (max-height:560px) and (max-width:1100px){
+}
 
-  /* Tiny edge HUD: keep the search picture clear */
-  .mission-hud{
-    top:max(.22rem,env(safe-area-inset-top));
-    left:max(.3rem,env(safe-area-inset-left));
-    width:min(185px,30vw);
-    grid-template-columns:30px minmax(0,1fr);
-    gap:.25rem;
-    padding:.22rem .28rem;
-    border-radius:10px;
-    background:rgba(6,29,20,.88);
-    box-shadow:0 .35rem .9rem rgba(0,0,0,.2);
-  }
-  .reference{width:28px;height:31px}
-  .mission-kicker{margin:0;font-size:0;line-height:1}
-  #path-number{font-size:.34rem;letter-spacing:.07em}
-  #place-name{display:none}
-  #target-title{
-    font-size:.7rem;
-    line-height:1;
-    white-space:nowrap;
-    overflow:hidden;
-    text-overflow:ellipsis;
-  }
-  #mission-line{display:none}
+/* NOTE: selectors are duplicated with :is() so the same rules work from the
+   JS class or the media-query fallback below. */
+html.phone-landscape-mode,
+html.phone-landscape-mode body{
+  width:100%;
+  height:100%;
+  overflow:hidden;
+}
 
-  .route-strip{
-    top:max(.22rem,env(safe-area-inset-top));
-    gap:.14rem;
-    padding:.15rem .22rem;
-    background:rgba(5,27,19,.76);
-  }
-  .route-node{gap:0}
-  .route-node strong{display:none}
-  .route-node span{width:.94rem;height:.94rem;font-size:.36rem}
+html.phone-landscape-mode body:not(.game-active){
+  height:100svh;
+  min-height:100svh;
+  overflow:hidden;
+}
+html.phone-landscape-mode body:not(.game-active) .site-bar{
+  height:40px;
+  padding:max(.12rem,env(safe-area-inset-top)) max(.5rem,env(safe-area-inset-right)) .12rem max(.5rem,env(safe-area-inset-left));
+}
+html.phone-landscape-mode body:not(.game-active) .brand{gap:.24rem;font-size:.72rem}
+html.phone-landscape-mode body:not(.game-active) .brand img{width:1.6rem;height:1.6rem}
+html.phone-landscape-mode body:not(.game-active) .game-home-link{font-size:.52rem}
+html.phone-landscape-mode body:not(.game-active) footer{display:none!important}
+html.phone-landscape-mode #welcome{
+  width:100%;
+  height:calc(100svh - 40px);
+  min-height:0;
+  padding:.18rem 1rem max(.28rem,env(safe-area-inset-bottom));
+  display:grid;
+  place-items:center;
+  overflow:hidden;
+}
+html.phone-landscape-mode .welcome-copy{width:min(92vw,640px);text-align:center}
+html.phone-landscape-mode .welcome-mark{width:2rem;margin:0 auto .03rem}
+html.phone-landscape-mode #welcome .eyebrow{font-size:.43rem}
+html.phone-landscape-mode #welcome h1{max-width:none;margin:.05rem 0 .2rem;font-size:1.72rem;line-height:.92}
+html.phone-landscape-mode .welcome-copy>p:not(.eyebrow){max-width:39rem;margin:0 auto .25rem;font-size:.58rem;line-height:1.2}
+html.phone-landscape-mode .welcome-promises{justify-content:center;gap:.2rem;margin:0 0 .28rem}
+html.phone-landscape-mode .welcome-promises span{padding:.2rem .34rem;font-size:.46rem}
+html.phone-landscape-mode #play{min-height:31px;padding:.34rem .72rem;font-size:.58rem}
+html.phone-landscape-mode .journey-preview{display:none!important}
 
-  .seed-meter{
-    top:max(.22rem,env(safe-area-inset-top));
-    right:max(.3rem,env(safe-area-inset-right));
-    min-height:24px;
-    padding:.18rem .34rem;
-    gap:.22rem;
-    background:rgba(5,27,19,.8);
-  }
-  .seed-icon{width:7px;height:11px}
-  .seed-meter strong{font-size:.44rem}
+/* Game: the picture owns the screen. */
+html.phone-landscape-mode body.game-active{position:fixed!important;inset:0!important;width:100vw!important;height:100dvh!important;overflow:hidden!important}
+html.phone-landscape-mode body.game-active .site-bar,
+html.phone-landscape-mode body.game-active footer{display:none!important}
+html.phone-landscape-mode body.game-active main{position:fixed!important;inset:0!important;width:100vw!important;height:100dvh!important;padding:0!important;overflow:hidden!important}
+html.phone-landscape-mode #game:not([hidden]){position:absolute!important;inset:0!important;width:100vw!important;height:100dvh!important;display:block!important}
+html.phone-landscape-mode #stage{position:absolute!important;inset:0!important;width:100%!important;height:100%!important;max-width:none!important;max-height:none!important;border-radius:0!important}
+html.phone-landscape-mode #viewport,
+html.phone-landscape-mode #scene{position:absolute!important;inset:0!important;width:100%!important;height:100%!important;overflow:hidden!important;border-radius:0!important}
+html.phone-landscape-mode #woods{width:100%!important;height:100%!important;object-fit:cover!important;object-position:center!important}
+html.phone-landscape-mode #pip{width:clamp(38px,5.2vw,48px)!important}
 
-  /* Status is absent during normal searching and only appears as a temporary hint/result toast. */
-  #status{
-    display:none;
-    bottom:calc(2.55rem + env(safe-area-inset-bottom));
-    max-width:58vw;
-    padding:.2rem .46rem;
-    font-size:.49rem;
-    line-height:1.12;
-    background:rgba(5,27,19,.94);
-    pointer-events:none;
-  }
-  #status.is-visible{display:block}
+/* Tiny mission chip — title only. */
+html.phone-landscape-mode .mission-hud{
+  top:max(.16rem,env(safe-area-inset-top))!important;
+  left:max(.22rem,env(safe-area-inset-left))!important;
+  width:auto!important;
+  max-width:180px!important;
+  min-height:0!important;
+  display:grid!important;
+  grid-template-columns:24px minmax(0,1fr)!important;
+  gap:.2rem!important;
+  align-items:center!important;
+  padding:.14rem .22rem!important;
+  border-radius:9px!important;
+  background:rgba(5,27,19,.72)!important;
+  border-color:rgba(255,222,143,.22)!important;
+  box-shadow:none!important;
+  backdrop-filter:blur(3px);
+}
+html.phone-landscape-mode .reference{width:22px!important;height:25px!important}
+html.phone-landscape-mode .mission-kicker,
+html.phone-landscape-mode #mission-line{display:none!important}
+html.phone-landscape-mode #target-title{
+  margin:0!important;
+  font-family:Georgia,"Times New Roman",serif!important;
+  font-size:.58rem!important;
+  line-height:1!important;
+  white-space:nowrap!important;
+  overflow:hidden!important;
+  text-overflow:ellipsis!important;
+}
 
-  /* Slim toolbar */
-  .game-actions{
-    bottom:max(.2rem,env(safe-area-inset-bottom));
-    width:min(330px,56vw);
-    gap:.16rem;
-    padding:.16rem;
-    border-radius:999px;
-    background:rgba(5,27,19,.88);
-    box-shadow:0 .35rem .9rem rgba(0,0,0,.2);
-  }
-  .game-actions button{
-    min-height:31px;
-    padding:.2rem .25rem;
-    font-size:0;
-  }
-  #hint::after{content:"Hint";font-size:.5rem}
-  #hint.is-offering::after{content:"Need hint?";font-size:.5rem}
-  #sound::after{content:"♫ On";font-size:.5rem}
-  #sound[aria-pressed="false"]::after{content:"♫ Off"}
-  #leave::after{content:"Leave";font-size:.5rem}
+/* Five tiny route dots only. */
+html.phone-landscape-mode .route-strip{
+  top:max(.16rem,env(safe-area-inset-top))!important;
+  left:50%!important;
+  transform:translateX(-50%)!important;
+  gap:.1rem!important;
+  padding:.09rem .14rem!important;
+  border-radius:999px!important;
+  background:rgba(5,27,19,.62)!important;
+  border-color:rgba(255,222,143,.18)!important;
+  box-shadow:none!important;
+}
+html.phone-landscape-mode .route-node{gap:0!important}
+html.phone-landscape-mode .route-node strong{display:none!important}
+html.phone-landscape-mode .route-node span{width:.78rem!important;height:.78rem!important;font-size:.3rem!important}
 
-  #heart-seed{width:23px;height:23px}
-  #heart-seed span{width:11px;height:16px}
+/* Seed counter stays visible but occupies almost no artwork. */
+html.phone-landscape-mode .seed-meter{
+  top:max(.16rem,env(safe-area-inset-top))!important;
+  right:max(.22rem,env(safe-area-inset-right))!important;
+  min-height:20px!important;
+  gap:.16rem!important;
+  padding:.12rem .26rem!important;
+  background:rgba(5,27,19,.68)!important;
+  border-color:rgba(255,222,143,.2)!important;
+  box-shadow:none!important;
+}
+html.phone-landscape-mode .seed-icon{width:6px!important;height:9px!important}
+html.phone-landscape-mode .seed-meter strong{font-size:.39rem!important}
+
+/* Normal status text is removed. Hints / found messages appear briefly. */
+html.phone-landscape-mode #status{
+  display:none!important;
+  left:50%!important;
+  top:auto!important;
+  bottom:calc(2.05rem + env(safe-area-inset-bottom))!important;
+  transform:translateX(-50%)!important;
+  width:max-content!important;
+  max-width:56vw!important;
+  margin:0!important;
+  padding:.16rem .38rem!important;
+  font-size:.44rem!important;
+  line-height:1.05!important;
+  white-space:nowrap!important;
+  overflow:hidden!important;
+  text-overflow:ellipsis!important;
+  background:rgba(5,27,19,.88)!important;
+  pointer-events:none!important;
+}
+html.phone-landscape-mode #status.is-visible{display:block!important}
+
+/* Slim control strip — no giant three-button wall. */
+html.phone-landscape-mode .game-actions{
+  left:50%!important;
+  bottom:max(.14rem,env(safe-area-inset-bottom))!important;
+  transform:translateX(-50%)!important;
+  width:min(246px,50vw)!important;
+  display:grid!important;
+  grid-template-columns:repeat(3,minmax(0,1fr))!important;
+  gap:.1rem!important;
+  padding:.1rem!important;
+  border-radius:999px!important;
+  background:rgba(5,27,19,.72)!important;
+  border-color:rgba(255,222,143,.18)!important;
+  box-shadow:none!important;
+}
+html.phone-landscape-mode .game-actions button{
+  min-width:0!important;
+  min-height:27px!important;
+  height:27px!important;
+  padding:.12rem .18rem!important;
+  font-size:0!important;
+  line-height:1!important;
+}
+html.phone-landscape-mode #hint::after{content:"Hint";font-size:.45rem}
+html.phone-landscape-mode #hint.is-offering::after{content:"Hint?";font-size:.45rem}
+html.phone-landscape-mode #sound::after{content:"♫ On";font-size:.45rem}
+html.phone-landscape-mode #sound[aria-pressed="false"]::after{content:"♫ Off"}
+html.phone-landscape-mode #leave::after{content:"Leave";font-size:.45rem}
+
+/* The visible seed stays small, but the tappable area is a full 44px. */
+html.phone-landscape-mode #heart-seed{
+  width:44px!important;
+  height:44px!important;
+  min-height:44px!important;
+  padding:0!important;
+  z-index:16!important;
+  touch-action:manipulation!important;
+}
+html.phone-landscape-mode #heart-seed span{width:11px!important;height:16px!important;pointer-events:none!important}
+
+/* No-JS fallback for actual phone-landscape viewports. */
+@media (orientation:landscape) and (max-height:560px) and (max-width:1100px){
+  html:not(.phone-landscape-mode) body.game-active{position:fixed;inset:0;width:100vw;height:100dvh;overflow:hidden}
+  html:not(.phone-landscape-mode) body.game-active .site-bar,
+  html:not(.phone-landscape-mode) body.game-active footer{display:none!important}
+  html:not(.phone-landscape-mode) body.game-active main{position:fixed;inset:0;width:100vw;height:100dvh;padding:0;overflow:hidden}
+  html:not(.phone-landscape-mode) #game:not([hidden]),
+  html:not(.phone-landscape-mode) #stage,
+  html:not(.phone-landscape-mode) #viewport,
+  html:not(.phone-landscape-mode) #scene{position:absolute;inset:0;width:100%;height:100%}
+  html:not(.phone-landscape-mode) .mission-hud{width:min(180px,25vw)}
+  html:not(.phone-landscape-mode) #mission-line{display:none}
+  html:not(.phone-landscape-mode) .route-node strong{display:none}
+  html:not(.phone-landscape-mode) .game-actions{width:min(246px,50vw)}
 }
