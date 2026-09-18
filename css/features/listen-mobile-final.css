@@ -2,6 +2,16 @@
    Desktop is intentionally untouched. */
 
 @media (max-width: 44rem) {
+  /* Mobile simplification: the full lantern player is intentionally removed.
+     Episode taps use the compact now-playing bar instead. */
+  .lantern-player {
+    display: none !important;
+  }
+
+  .listen-hero__promise {
+    display: none !important;
+  }
+
   .storybook-body .panel:has(.listen-experience) {
     width: 100%;
     max-width: 100%;
