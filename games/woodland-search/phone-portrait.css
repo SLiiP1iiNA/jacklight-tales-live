@@ -1,97 +1,41 @@
-/* PHONE PORTRAIT — larger woodland canvas with touch-friendly controls. */
-@media (max-width:700px) and (orientation:portrait){
-  html,body{width:100%;min-height:100%;overflow-x:hidden}
-  body.game-active{height:100dvh;overflow:hidden}
-  body.game-active header,body.game-active footer{display:none}
-  body.game-active main{
-    height:100dvh;
-    display:grid;
-    align-items:start;
-    padding:max(.35rem,env(safe-area-inset-top)) .35rem max(.35rem,env(safe-area-inset-bottom));
-    overflow:hidden;
-  }
+/* Woodland Search — phones in portrait: one-screen play, no scrolling. */
+@media (max-width:760px) and (orientation:portrait){
+  html,body{width:100%;height:100%;overflow-x:hidden}
+  body.game-active{position:fixed;inset:0;width:100vw;height:100dvh;overflow:hidden}
+  body.game-active .site-bar,body.game-active footer{display:none}
+  body.game-active main{position:fixed;inset:0;width:100vw;height:100dvh;padding:0;overflow:hidden}
+  #game:not([hidden]){position:absolute;inset:0;width:100%;height:100%}
+  #stage{position:absolute;inset:0;width:100%;height:100%;border-radius:0}
+  #woods{object-fit:cover}
+  #pip{width:clamp(44px,12vw,58px)}
 
-  #game:not([hidden]){
-    width:100%;
-    height:100%;
-    max-height:100%;
-    display:grid;
-    grid-template-rows:auto minmax(0,1fr) auto;
-    gap:.38rem;
-    align-content:stretch;
-  }
+  .mission-hud{top:max(.45rem,env(safe-area-inset-top));left:.5rem;width:min(250px,69vw);grid-template-columns:48px minmax(0,1fr);gap:.42rem;padding:.4rem .46rem;border-radius:15px;background:rgba(6,29,20,.94)}
+  .reference{width:44px;height:50px}
+  .mission-kicker{font-size:.43rem}
+  #target-title{font-size:1rem}
+  #mission-line{margin-top:.14rem;font-size:.55rem;line-height:1.16;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
 
-  .target-panel{grid-row:1;padding:.38rem .5rem;border-radius:15px}
-  .target-card{
-    display:grid;
-    grid-template-columns:50px minmax(0,1fr);
-    grid-template-areas:"portrait eyebrow" "portrait title" "portrait place";
-    column-gap:.55rem;
-    align-items:center;
-    text-align:left;
-  }
-  .target-card .reference{grid-area:portrait;width:46px;height:50px;margin:0}
-  .target-card .eyebrow{grid-area:eyebrow;margin:0;font-size:.52rem}
-  #target-title{grid-area:title;font-size:1.06rem;line-height:1.03}
-  #place-name{grid-area:place;margin:.06rem 0 0;font-size:.7rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .seed-meter{top:max(.45rem,env(safe-area-inset-top));right:.5rem;min-height:34px;padding:.3rem .48rem}
+  .seed-icon{width:9px;height:14px}
+  .seed-meter strong{font-size:.55rem}
 
-  .play-column{
-    grid-row:2;
-    min-width:0;
-    min-height:0;
-    display:grid;
-    grid-template-rows:auto minmax(0,1fr) auto;
-    gap:.24rem;
-    justify-items:stretch;
-  }
-  .game-title{display:none}
-  #status{
-    width:100%;
-    min-height:1.45rem;
-    margin:0;
-    display:grid;
-    place-items:center;
-    color:#ffe4a0;
-    font-size:.7rem;
-    line-height:1.1;
-    text-align:center;
-    white-space:normal;
-  }
+  .route-strip{top:auto;bottom:7.45rem;gap:.24rem;padding:.24rem .32rem}
+  .route-node{gap:0}
+  .route-node strong{display:none}
+  .route-node span{width:1.28rem;height:1.28rem;font-size:.48rem}
 
-  #stage{
-    position:relative;
-    width:100%;
-    height:100%;
-    min-height:43dvh;
-    max-height:54dvh;
-    aspect-ratio:auto;
-    overflow:hidden;
-    border-radius:16px;
-    background:#0b2118;
-    box-shadow:0 12px 30px #0008;
-    transition:none!important;
-  }
-  #stage::before{display:none!important}
-  #viewport,#scene{width:100%;height:100%;overflow:hidden}
-  #woods{width:100%;height:100%;object-fit:cover}
-  #pip{width:var(--character-phone)}
-  .rotate-tip{display:block;margin:.04rem 0 0;color:#aebead;font-size:.6rem;line-height:1.05;text-align:center}
+  #status{bottom:5.1rem;max-width:86vw;padding:.3rem .58rem;font-size:.62rem;background:rgba(5,27,19,.94)}
+  .game-actions{bottom:calc(.45rem + env(safe-area-inset-bottom));width:calc(100% - 1rem);gap:.3rem;padding:.3rem;border-radius:18px;background:rgba(5,27,19,.95)}
+  .game-actions button{min-height:42px;padding:.38rem .25rem;font-size:.62rem}
 
-  .utility-panel{grid-row:3;padding:.34rem;border-radius:15px}
-  .game-actions{display:grid;grid-template-columns:1fr 1fr;gap:.32rem}
-  #instructions{display:none}
-  .action-buttons{display:contents}
-  .action-buttons button,.game-actions>#back{width:100%;min-width:0;min-height:42px;padding:.4rem .25rem;font-size:.68rem;line-height:1}
-  .game-actions>#back{grid-column:1/-1}
-  #fullscreen,#story-shelf{display:none}
-  #mobile-audio[aria-pressed="true"]{outline:2px solid #ffe29a;outline-offset:1px}
+  #heart-seed{width:28px;height:28px}
+  #heart-seed span{width:13px;height:19px}
 }
 
-@media (max-width:390px) and (orientation:portrait){
-  .target-card{grid-template-columns:44px minmax(0,1fr)}
-  .target-card .reference{width:40px;height:44px}
-  #target-title{font-size:.98rem}
-  #place-name{font-size:.64rem}
-  #stage{min-height:40dvh;max-height:50dvh}
-  .action-buttons button,.game-actions>#back{font-size:.63rem}
+@media (max-width:380px) and (orientation:portrait){
+  .mission-hud{width:72vw;grid-template-columns:42px minmax(0,1fr)}
+  .reference{width:39px;height:44px}
+  #target-title{font-size:.9rem}
+  #mission-line{font-size:.51rem}
+  .game-actions button{font-size:.57rem}
 }
