@@ -365,8 +365,17 @@ $('play').addEventListener('click', () => {
 $('leave').addEventListener('click', leaveJourney);
 
 $('sound').addEventListener('click', () => {
-  const enabled = $('sound').getAttribute('aria-pressed') !== 'true';
-  setSound(enabled);
+  const currentlyEnabled = $('sound').getAttribute('aria-pressed') === 'true';
+
+  if (currentlyEnabled) {
+    setSound(false);
+    return;
+  }
+
+  setSound(true);
+  // On iPhone/Safari this explicit tap is also a fresh media gesture.
+  // Play a short cue immediately so "Sound on" has an audible result.
+  playCue('beginSearch', { volume: 0.9 });
 });
 
 $('hint').addEventListener('click', () => {
@@ -473,6 +482,12 @@ window.addEventListener('orientationchange', () => {
   }, 80);
 });
 window.visualViewport?.addEventListener('resize', syncPhoneViewportMode);
+
+window.addEventListener('woodland-audio-error', () => {
+  if (!document.body.classList.contains('game-active')) return;
+  $('status').textContent = 'Luna audio could not start. Tap Sound off, then Sound on to try again.';
+  showStatusToast(5200);
+});
 
 setSound(loadSoundPreference());
 renderRoute();
