@@ -124,6 +124,7 @@ html.phone-landscape-mode .seed-icon{width:6px!important;height:9px!important}
 html.phone-landscape-mode .seed-meter strong{font-size:.39rem!important}
 
 /* Normal status text is removed. Hints / found messages appear briefly. */
+html.phone-landscape-mode .path-continue{bottom:3.55rem!important;min-height:27px!important;padding:.12rem .42rem!important;font-size:.45rem!important}
 html.phone-landscape-mode #status{
   display:none!important;
   left:50%!important;
