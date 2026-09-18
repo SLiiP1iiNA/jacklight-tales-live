@@ -83,8 +83,8 @@
   .game-actions{bottom:calc(.45rem + env(safe-area-inset-bottom));width:calc(100% - 1rem);gap:.3rem;padding:.3rem;border-radius:18px;background:rgba(5,27,19,.95)}
   .game-actions button{min-height:42px;padding:.38rem .25rem;font-size:.62rem}
 
-  #heart-seed{width:28px;height:28px}
-  #heart-seed span{width:13px;height:19px}
+  #heart-seed{width:44px;height:44px;min-height:44px;z-index:16;touch-action:manipulation}
+  #heart-seed span{width:13px;height:19px;pointer-events:none}
 }
 
 @media (max-width:380px) and (orientation:portrait){
