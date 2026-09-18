@@ -1,20 +1,21 @@
 :root{
   color-scheme:dark;
-  --bg:#071911;
-  --panel:#173b2a;
-  --panel-deep:#0d281c;
-  --gold:#9b8954;
-  --gold-bright:#ffe09a;
-  --cream:#fff1cf;
-  --text:#eef4e7;
-  --muted:#c8d4c2;
+  --bg:#06150f;
+  --forest:#0b2b1e;
+  --forest-2:#123a29;
+  --forest-3:#1a4b35;
+  --gold:#b99a52;
+  --gold-bright:#ffe39a;
+  --cream:#fff4d6;
+  --text:#eef5e9;
+  --muted:#c4d1c0;
+  --line:rgba(255,225,153,.28);
+  --glass:rgba(5,27,19,.88);
   --scene-ratio:1672 / 941;
-  --scene-aspect:1.7768331562;
   --radius:22px;
-  --radius-small:18px;
+  --radius-small:16px;
   --tap:44px;
-  --desktop-max:1920px;
-  --character-desktop:clamp(50px,3.6vw,72px);
-  --character-tablet:clamp(44px,5.6vw,64px);
-  --character-phone:clamp(40px,10.5vw,48px);
+  --character-desktop:clamp(54px,4.2vw,82px);
+  --character-tablet:clamp(48px,6vw,70px);
+  --character-phone:clamp(42px,11vw,54px);
 }
