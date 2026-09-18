@@ -79,6 +79,8 @@ footer{justify-content:center;color:var(--muted);font-size:.82rem}
 .seed-icon{width:12px;height:18px;border-radius:70% 28% 70% 30%;transform:rotate(38deg);background:linear-gradient(145deg,#fff5a9,#73b95d);box-shadow:0 0 10px rgba(213,235,115,.55)}
 .seed-meter strong{font-size:.7rem}
 #status{left:50%;bottom:4.75rem;transform:translateX(-50%);max-width:min(640px,70vw);margin:0;padding:.42rem .8rem;border:1px solid rgba(255,222,143,.24);border-radius:999px;background:rgba(5,27,19,.86);color:#ffe6a4;font-size:.76rem;line-height:1.15;text-align:center;white-space:normal}
+.path-continue{position:absolute;z-index:21;left:50%;bottom:6.65rem;transform:translateX(-50%);min-height:38px;padding:.45rem .85rem;border:1px solid rgba(255,222,143,.45);border-radius:999px;background:rgba(27,67,48,.94);color:#fff0b2;font-size:.68rem;box-shadow:0 .55rem 1.4rem rgba(0,0,0,.25)}
+.path-continue:hover,.path-continue:focus-visible{border-color:#f0c85f;background:#315b37}
 .game-actions{left:50%;bottom:max(.75rem,env(safe-area-inset-bottom));transform:translateX(-50%);display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.4rem;width:min(570px,68vw);padding:.38rem;border:1px solid rgba(255,222,143,.25);border-radius:999px;background:rgba(5,27,19,.9);box-shadow:0 .8rem 2rem rgba(0,0,0,.28)}
 .game-actions button{min-width:0;min-height:42px;padding:.45rem .55rem;background:rgba(27,67,48,.84);font-size:.72rem}
 #hint.is-offering{border-color:#f4cf72;box-shadow:0 0 0 2px rgba(244,207,114,.12)}
