@@ -1,6 +1,61 @@
-/* Woodland Search — phones in portrait: one-screen play, no scrolling. */
+/* Woodland Search — phones in portrait.
+   Welcome fits inside one screen; gameplay keeps the established portrait layout. */
 @media (max-width:760px) and (orientation:portrait){
-  html,body{width:100%;height:100%;overflow-x:hidden}
+  html,body{width:100%;min-height:100%;overflow-x:hidden}
+
+  /* One-screen mobile welcome */
+  body:not(.game-active){height:100svh;min-height:100svh;overflow:hidden}
+  body:not(.game-active) .site-bar{
+    height:56px;
+    padding:max(.28rem,env(safe-area-inset-top)) .68rem .28rem;
+  }
+  body:not(.game-active) .brand{gap:.35rem;font-size:.88rem}
+  body:not(.game-active) .brand img{width:2.15rem;height:2.15rem}
+  body:not(.game-active) .game-home-link{font-size:.61rem}
+  body:not(.game-active) footer{display:none}
+
+  #welcome{
+    width:100%;
+    height:calc(100svh - 56px);
+    min-height:0;
+    padding:.4rem .9rem max(.7rem,env(safe-area-inset-bottom));
+    display:grid;
+    place-items:center;
+    overflow:hidden;
+  }
+  .welcome-copy{width:min(100%,430px);text-align:center}
+  .welcome-mark{width:3.35rem;margin:0 auto .12rem}
+  #welcome .eyebrow{font-size:.58rem;letter-spacing:.18em}
+  #welcome h1{
+    max-width:10ch;
+    margin:.2rem auto .55rem;
+    font-size:clamp(2.15rem,11.2vw,3.05rem);
+    line-height:.91;
+    letter-spacing:-.04em;
+  }
+  .welcome-copy>p:not(.eyebrow){
+    max-width:23rem;
+    margin:0 auto .68rem;
+    font-size:.8rem;
+    line-height:1.38;
+  }
+  .welcome-promises{
+    justify-content:center;
+    gap:.3rem;
+    margin:0 0 .72rem;
+  }
+  .welcome-promises span{
+    padding:.34rem .52rem;
+    font-size:.61rem;
+  }
+  #play{
+    min-height:46px;
+    padding:.62rem 1.05rem;
+    font-size:.78rem;
+  }
+  .journey-preview{display:none}
+
+  /* Established portrait gameplay */
   body.game-active{position:fixed;inset:0;width:100vw;height:100dvh;overflow:hidden}
   body.game-active .site-bar,body.game-active footer{display:none}
   body.game-active main{position:fixed;inset:0;width:100vw;height:100dvh;padding:0;overflow:hidden}
@@ -33,6 +88,11 @@
 }
 
 @media (max-width:380px) and (orientation:portrait){
+  #welcome h1{font-size:2.12rem}
+  .welcome-copy>p:not(.eyebrow){font-size:.75rem;line-height:1.32}
+  .welcome-promises span{padding:.3rem .42rem;font-size:.56rem}
+  #play{min-height:44px}
+
   .mission-hud{width:72vw;grid-template-columns:42px minmax(0,1fr)}
   .reference{width:39px;height:44px}
   #target-title{font-size:.9rem}
