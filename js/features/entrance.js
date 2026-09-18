@@ -60,6 +60,7 @@ export function initEntrance(settings = {}) {
     entrance.hidden = true;
     entrance.setAttribute("aria-hidden", "true");
     main.inert = false;
+    document.body.classList.remove("entrance-active", "entrance-transitioning");
   } else {
     showEntrance();
   }
