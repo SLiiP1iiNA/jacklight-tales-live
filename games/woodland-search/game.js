@@ -20,6 +20,18 @@ let statusToastTimer = 0;
 let loadToken = 0;
 let heartSeeds = new Set();
 
+function syncPhoneViewportMode() {
+  const viewport = window.visualViewport;
+  const width = viewport?.width || window.innerWidth || document.documentElement.clientWidth;
+  const height = viewport?.height || window.innerHeight || document.documentElement.clientHeight;
+  const landscapePhone = width > height && height <= 560 && width <= 1100;
+  const portraitPhone = height >= width && width <= 760;
+  document.documentElement.classList.toggle('phone-landscape-mode', landscapePhone);
+  document.documentElement.classList.toggle('phone-portrait-mode', portraitPhone);
+}
+
+syncPhoneViewportMode();
+
 function shuffle(items) {
   const copy = [...items];
   for (let i = copy.length - 1; i > 0; i--) {
@@ -114,7 +126,10 @@ function renderResultRoute() {
 }
 
 function updateSeedMeter() {
-  $('seed-count').textContent = `${heartSeeds.size} / ${SETTINGS.roundsPerJourney}`;
+  const count = heartSeeds.size;
+  $('seed-count').textContent = `${count} / ${SETTINGS.roundsPerJourney}`;
+  const meter = document.querySelector('.seed-meter');
+  meter?.setAttribute('aria-label', `${count} of ${SETTINGS.roundsPerJourney} hidden Heart Seeds found`);
 }
 
 function lockGame(locked) {
@@ -390,20 +405,40 @@ $('pip').addEventListener('click', event => {
   showCelebration();
 });
 
-$('heart-seed').addEventListener('click', event => {
-  event.stopPropagation();
-  if (seedFoundThisRound) return;
+function collectHeartSeed(event) {
+  event?.preventDefault();
+  event?.stopPropagation();
+
+  const seed = $('heart-seed');
+  if (seedFoundThisRound || seed.disabled || seed.hidden) return;
+
   seedFoundThisRound = true;
   heartSeeds.add(roundIndex);
   updateSeedMeter();
 
-  const seed = $('heart-seed');
   seed.classList.add('collected');
   seed.disabled = true;
-  $('status').textContent = 'You found a hidden Heart Seed! ✦';
-  showStatusToast(2600);
-  setTimeout(() => { seed.hidden = true; }, 520);
+
+  const meter = document.querySelector('.seed-meter');
+  meter?.classList.remove('seed-earned');
+  if (meter) {
+    void meter.offsetWidth;
+    meter.classList.add('seed-earned');
+    setTimeout(() => meter.classList.remove('seed-earned'), 700);
+  }
+
+  $('status').textContent = `Heart Seed found — ${heartSeeds.size} of ${SETTINGS.roundsPerJourney}! ✦`;
+  showStatusToast(2800);
+  playCue('found', { interrupt: false, volume: 0.58 });
+
+  if (navigator.vibrate) navigator.vibrate(18);
+  setTimeout(() => { seed.hidden = true; }, 420);
+}
+
+$('heart-seed').addEventListener('pointerup', event => {
+  if (event.pointerType === 'touch' || event.pointerType === 'pen') collectHeartSeed(event);
 });
+$('heart-seed').addEventListener('click', collectHeartSeed);
 
 $('viewport').addEventListener('pointerup', makeLeafPuff);
 
@@ -431,11 +466,19 @@ $('success').addEventListener('keydown', event => {
 });
 
 window.addEventListener('resize', () => {
+  syncPhoneViewportMode();
   clearTimeout(resizeTimer);
   resizeTimer = setTimeout(() => {
     if (document.body.classList.contains('game-active') && !found) positionObjects();
   }, 90);
 });
+window.addEventListener('orientationchange', () => {
+  setTimeout(() => {
+    syncPhoneViewportMode();
+    if (document.body.classList.contains('game-active') && !found) positionObjects();
+  }, 80);
+});
+window.visualViewport?.addEventListener('resize', syncPhoneViewportMode);
 
 setSound(loadSoundPreference());
 renderRoute();
