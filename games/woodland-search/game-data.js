@@ -1,15 +1,15 @@
 window.WOODLAND_SEARCH_DATA={
   characters:[
-    {name:'Barnaby',image:'barnaby.png',special:true,foundLine:'Barnaby gives a happy little wave. The path ahead feels brighter already.'},
-    {name:'Pip',image:'pip.png',special:true,foundLine:'Pip peeks out with a grin. That was a very careful bit of spotting.'},
-    {name:'Willow',image:'willow.png',foundLine:'Willow was tucked away among the woodland colours. Lovely finding.'},
-    {name:'Twinkle',image:'twinkle.png',foundLine:'Twinkle sparkles into view. A tiny bit of woodland magic found.'},
-    {name:'the tiny frog',image:'tiny-green-frog.png',foundLine:'The tiny frog gives the smallest proud croak in the whole forest.'},
-    {name:'Mum',image:'mum.png',foundLine:'Mum smiles warmly from her hiding place. Another path is complete.'},
-    {name:'Mr Alder',image:'mr-alder.png',foundLine:'Mr Alder steps out from the trees with his quiet lantern glow.'},
-    {name:'Mr Bramble',image:'mr-bramble.png',foundLine:'Mr Bramble was watching the path all along. Brilliant searching.'},
-    {name:'the Little Guardian',image:'little-guardian.png',foundLine:'The Little Guardian appears with a soft golden shimmer.'},
-    {name:'the Human Girl',image:'human-girl.png',foundLine:'You found the woodland visitor. She looks delighted to be discovered.'}
+    {name:'Barnaby',image:'barnaby.png',special:true,clue:'Look for a little fox in a yellow sweater.',foundLine:'Barnaby gives a happy little wave. The path ahead feels brighter already.'},
+    {name:'Pip',image:'pip.png',special:true,clue:'A small guardian friend is tucked somewhere into the scene.',foundLine:'Pip peeks out with a grin. That was a very careful bit of spotting.'},
+    {name:'Willow',image:'willow.png',clue:'Willow is hiding among the woodland colours.',foundLine:'Willow was tucked away among the woodland colours. Lovely finding.'},
+    {name:'Twinkle',image:'twinkle.png',clue:'Watch for someone tiny with a little touch of woodland sparkle.',foundLine:'Twinkle sparkles into view. A tiny bit of woodland magic found.'},
+    {name:'the tiny frog',image:'tiny-green-frog.png',clue:'Look low down for a very small green friend.',foundLine:'The tiny frog gives the smallest proud croak in the whole forest.'},
+    {name:'Mum',image:'mum.png',clue:'A warm russet fox is waiting quietly somewhere nearby.',foundLine:'Mum smiles warmly from her hiding place. Another path is complete.'},
+    {name:'Mr Alder',image:'mr-alder.png',clue:'Look carefully for Mr Alder among the trees and lantern colours.',foundLine:'Mr Alder steps out from the trees with his quiet lantern glow.'},
+    {name:'Mr Bramble',image:'mr-bramble.png',clue:'Mr Bramble has found himself a clever little hiding place.',foundLine:'Mr Bramble was watching the path all along. Brilliant searching.'},
+    {name:'the Little Guardian',image:'little-guardian.png',clue:'A little guardian is hiding where the woodland feels most magical.',foundLine:'The Little Guardian appears with a soft golden shimmer.'},
+    {name:'the Human Girl',image:'human-girl.png',clue:'A woodland visitor is waiting somewhere along the path.',foundLine:'You found the woodland visitor. She looks delighted to be discovered.'}
   ],
 
   scenes:[
@@ -17,7 +17,7 @@ window.WOODLAND_SEARCH_DATA={
       image:'woods-1.webp',
       name:'Golden Apple Clearing',
       shortName:'Clearing',
-      intro:'The first path opens beneath the golden leaves. Someone is hiding in the clearing.',
+      intro:'The first path opens beneath the golden leaves.',
       spots:[
         {x:13,y:69,hint:'Look near the roots on the left.'},
         {x:29,y:76,hint:'Try the ferns beside the path.'},
@@ -31,7 +31,7 @@ window.WOODLAND_SEARCH_DATA={
       image:'woods-2.webp',
       name:'Glowing Woodland Pool',
       shortName:'Pool',
-      intro:'The path bends toward a glowing pool where roots, moss and little lights crowd the water.',
+      intro:'The path bends toward a glowing pool crowded with roots and little lights.',
       spots:[
         {x:14,y:68,hint:'Look near the little round doorway.'},
         {x:31,y:75,hint:'Try the moss beside the path.'},
@@ -45,7 +45,7 @@ window.WOODLAND_SEARCH_DATA={
       image:'woods-3.webp',
       name:'Little Stream',
       shortName:'Stream',
-      intro:'Water chatters over the stones on the third path. A friend is waiting somewhere nearby.',
+      intro:'Water chatters over the stones on the third woodland path.',
       spots:[
         {x:14,y:77,hint:'Try the mushrooms on the left bank.'},
         {x:29,y:71,hint:'Look beside the rocks near the water.'},
@@ -73,7 +73,7 @@ window.WOODLAND_SEARCH_DATA={
       image:'village.png',
       name:'Lantern Village',
       shortName:'Village',
-      intro:'The final path reaches the lantern village. One last friend is hiding before the whole route lights up.',
+      intro:'The final path reaches the lantern village for one last search.',
       spots:[
         {x:14,y:66,hint:'Try the flowers near the little cart.'},
         {x:31,y:72,hint:'Look beside the cobbled village path.'},
