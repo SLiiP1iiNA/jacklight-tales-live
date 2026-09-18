@@ -1,341 +1,427 @@
-const $=id=>document.getElementById(id);
-const playCue=name=>window.jltGameAudio?.play(name);
-const {characters,scenes}=window.WOODLAND_SEARCH_DATA;
-const SETTINGS=window.WOODLAND_SEARCH_SETTINGS;
+const $ = id => document.getElementById(id);
+const { characters, scenes } = window.WOODLAND_SEARCH_DATA;
+const SETTINGS = window.WOODLAND_SEARCH_SETTINGS;
+const audioLayer = window.jltGameAudio;
 
-let castBag=[];
-let upcomingCharacter;
-let characterIndex=0;
-let sceneBag=[];
-let lastScene='';
-let lastSpotKey='';
-let currentScene=null;
-let currentSpot=null;
-let found=false;
-let hintLevel=0;
-let hintTimer;
-let celebrationTimer;
-let resizeTimer;
-let round=0;
-let transitionBusy=false;
+let journeyCast = [];
+let roundIndex = 0;
+let currentScene = null;
+let currentCharacter = null;
+let currentSpot = null;
+let currentSeedSpot = null;
+let found = false;
+let seedFoundThisRound = false;
+let hintLevel = 0;
+let hintTimer = 0;
+let hintOfferTimer = 0;
+let celebrationTimer = 0;
+let resizeTimer = 0;
+let loadToken = 0;
+let heartSeeds = new Set();
 
-function readMemory(){
-  try{
-    const value=JSON.parse(localStorage.getItem(SETTINGS.memoryKey)||'{}');
-    return value&&typeof value==='object'?value:{};
-  }catch{return {};}
-}
-
-function saveMemory(scene){
-  try{localStorage.setItem(SETTINGS.memoryKey,JSON.stringify({character:characterIndex,scene:scene.image}));}catch{}
-}
-
-function chooseCharacter(){
-  if(!castBag.length){
-    castBag=characters.map((_,i)=>i);
-    for(let i=castBag.length-1;i>0;i--){
-      const j=Math.floor(Math.random()*(i+1));
-      [castBag[i],castBag[j]]=[castBag[j],castBag[i]];
-    }
-    if(castBag[castBag.length-1]===characterIndex){
-      [castBag[0],castBag[castBag.length-1]]=[castBag[castBag.length-1],castBag[0]];
-    }
+function shuffle(items) {
+  const copy = [...items];
+  for (let i = copy.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [copy[i], copy[j]] = [copy[j], copy[i]];
   }
-  return castBag.pop();
+  return copy;
 }
 
-function nextScene(){
-  if(!sceneBag.length){
-    sceneBag=[...scenes];
-    for(let i=sceneBag.length-1;i>0;i--){
-      const j=Math.floor(Math.random()*(i+1));
-      [sceneBag[i],sceneBag[j]]=[sceneBag[j],sceneBag[i]];
-    }
-    if(sceneBag[sceneBag.length-1].image===lastScene){
-      [sceneBag[0],sceneBag[sceneBag.length-1]]=[sceneBag[sceneBag.length-1],sceneBag[0]];
-    }
-  }
-  const scene=sceneBag.pop();
-  lastScene=scene.image;
-  return scene;
+function buildJourneyCast() {
+  const barnaby = characters.find(item => item.name === 'Barnaby');
+  const others = shuffle(characters.filter(item => item !== barnaby));
+  journeyCast = [barnaby, ...others.slice(0, Math.max(0, SETTINGS.roundsPerJourney - 1))];
 }
 
-function chooseSpot(scene){
-  const choices=scene.spots.filter((spot,index)=>`${scene.image}:${index}`!==lastSpotKey);
-  const pool=choices.length?choices:scene.spots;
-  const spot=pool[Math.floor(Math.random()*pool.length)];
-  const index=scene.spots.indexOf(spot);
-  lastSpotKey=`${scene.image}:${index}`;
-  return spot;
-}
-
-function setControlsLocked(locked){
-  $('viewport').inert=locked;
-  $('back').inert=locked;
-  $('hint').inert=locked;
-  $('shuffle').inert=locked;
-  if($('fullscreen'))$('fullscreen').inert=locked;
-}
-
-/*
-  Coordinates are intentionally safe already, but this final guard measures the
-  actual rendered PNG and nudges it back inside the scene if a browser/device
-  would clip even one edge. It also runs again after rotation/resizing.
-*/
-function clampTargetToScene(){
-  if(!currentSpot||$('pip').hidden)return;
-  const scene=$('scene');
-  const target=$('pip');
-  const sceneRect=scene.getBoundingClientRect();
-  const targetRect=target.getBoundingClientRect();
-  if(!sceneRect.width||!sceneRect.height||!targetRect.width||!targetRect.height)return;
-
-  const pad=SETTINGS.targetEdgePadding??8;
-  let dx=0,dy=0;
-  if(targetRect.left<sceneRect.left+pad)dx=(sceneRect.left+pad)-targetRect.left;
-  if(targetRect.right>sceneRect.right-pad)dx=(sceneRect.right-pad)-targetRect.right;
-  if(targetRect.top<sceneRect.top+pad)dy=(sceneRect.top+pad)-targetRect.top;
-  if(targetRect.bottom>sceneRect.bottom-pad)dy=(sceneRect.bottom-pad)-targetRect.bottom;
-
-  if(dx||dy){
-    target.style.left=`${target.offsetLeft+dx}px`;
-    target.style.top=`${target.offsetTop+dy}px`;
-  }
-}
-
-function positionTarget(){
-  if(!currentSpot)return;
-
-  const target=$('pip');
-  const scene=$('scene');
-  const image=$('woods');
-  const rect=scene.getBoundingClientRect();
-
-  /*
-    The game is full-bleed on landscape screens. Because the woodland image
-    uses object-fit: cover, ultrawide monitors and phones crop a little from
-    the top/bottom. Map the hand-picked source-image coordinates through that
-    cover crop so the character still sits on the intended rock/flower/path.
-  */
-  const sourceW=image.naturalWidth||1672;
-  const sourceH=image.naturalHeight||941;
-  if(rect.width&&rect.height&&sourceW&&sourceH){
-    const scale=Math.max(rect.width/sourceW,rect.height/sourceH);
-    const renderedW=sourceW*scale;
-    const renderedH=sourceH*scale;
-    const offsetX=(rect.width-renderedW)/2;
-    const offsetY=(rect.height-renderedH)/2;
-    const left=offsetX+(currentSpot.x/100)*renderedW;
-    const top=offsetY+(currentSpot.y/100)*renderedH;
-    target.style.left=`${left}px`;
-    target.style.top=`${top}px`;
-  }else{
-    target.style.left=`${currentSpot.x}%`;
-    target.style.top=`${currentSpot.y}%`;
-  }
-
-  requestAnimationFrame(clampTargetToScene);
-}
-
-async function start(){
-  if(transitionBusy)return;
-  transitionBusy=true;
-  playCue('transition');
-
-  const token=++round;
+function clearTimers() {
   clearTimeout(hintTimer);
+  clearTimeout(hintOfferTimer);
   clearTimeout(celebrationTimer);
-  found=false;
-  hintLevel=0;
-  currentSpot=null;
+}
 
-  $('welcome').hidden=true;
-  $('game').hidden=false;
-  $('success').hidden=true;
-  $('next-step').hidden=true;
-  document.body.classList.add('game-active');
-  $('stage').classList.add('scene-changing');
-  setControlsLocked(false);
+function saveSoundPreference(enabled) {
+  try { localStorage.setItem(SETTINGS.soundKey, enabled ? '1' : '0'); } catch {}
+}
 
-  const c=characters[characterIndex];
-  await new Promise(resolve=>setTimeout(resolve,SETTINGS.transitionMs));
-  if(token!==round){transitionBusy=false;return;}
+function loadSoundPreference() {
+  try { return localStorage.getItem(SETTINGS.soundKey) !== '0'; } catch { return true; }
+}
 
-  $('target-title').textContent=`Find ${c.name}`;
-  $('reference').src=`assets/${c.image}`;
-  $('reference').alt=c.name;
-  $('pip').querySelector('img').src=`assets/${c.image}`;
-  $('pip').setAttribute('aria-label',`Found ${c.name}`);
+function setSound(enabled) {
+  audioLayer?.setEnabled(enabled);
+  $('sound').setAttribute('aria-pressed', String(enabled));
+  $('sound').textContent = enabled ? '♫ Sound on' : '♫ Sound off';
+  saveSoundPreference(enabled);
+}
 
-  currentScene=nextScene();
-  saveMemory(currentScene);
-  $('place-name').textContent=currentScene.name;
-  $('woods').alt=currentScene.name;
+function playCue(name, options) {
+  return audioLayer?.play(name, options);
+}
 
-  $('pip').hidden=true;
-  $('hint').disabled=true;
-  $('hint').textContent='A little hint';
-  $('woods').src=`assets/${currentScene.image}`;
-  $('stage').style.setProperty('--scene-image',`url("assets/${currentScene.image}")`);
-  $('status').textContent='Opening another woodland path…';
+function chooseSpot(scene) {
+  return scene.spots[Math.floor(Math.random() * scene.spots.length)];
+}
 
-  try{
-    await Promise.all([
-      $('woods').decode(),
-      $('pip').querySelector('img').decode().catch(()=>{})
-    ]);
-  }catch{
-    if(token===round){
-      $('stage').classList.remove('scene-changing');
-      $('status').textContent='This picture could not load. Return to games and try again.';
-    }
-    transitionBusy=false;
-    return;
-  }
-  if(token!==round){transitionBusy=false;return;}
+function chooseSeedSpot(scene, targetSpot) {
+  const sorted = shuffle(scene.seedSpots || []);
+  return sorted.find(spot => {
+    const dx = spot.x - targetSpot.x;
+    const dy = spot.y - targetSpot.y;
+    return Math.hypot(dx, dy) > 16;
+  }) || sorted[0] || { x: 50, y: 50 };
+}
 
-  currentSpot=chooseSpot(currentScene);
-  $('pip').className='';
-  $('pip').disabled=false;
-  $('pip').hidden=false;
-  positionTarget();
-  $('hint').disabled=false;
-  $('status').textContent=`Can you spot ${c.name}?`;
+function renderRoute(target = $('route-strip')) {
+  target.replaceChildren();
+  scenes.slice(0, SETTINGS.roundsPerJourney).forEach((scene, index) => {
+    const item = document.createElement('div');
+    item.className = 'route-node';
+    if (index < roundIndex || (found && index === roundIndex)) item.classList.add('is-complete');
+    if (!found && index === roundIndex) item.classList.add('is-current');
 
-  requestAnimationFrame(()=>{
-    $('stage').classList.remove('scene-changing');
-    transitionBusy=false;
+    const dot = document.createElement('span');
+    dot.textContent = index < roundIndex || (found && index === roundIndex) ? '✓' : String(index + 1);
+
+    const label = document.createElement('strong');
+    label.textContent = scene.shortName;
+
+    item.append(dot, label);
+    target.append(item);
   });
 }
 
-function back(){
-  if(document.fullscreenElement)document.exitFullscreen().catch(()=>{});
-  round++;
-  clearTimeout(hintTimer);
-  clearTimeout(celebrationTimer);
-  transitionBusy=false;
-  currentSpot=null;
-  document.body.classList.remove('game-active');
-  $('game').hidden=true;
-  $('welcome').hidden=false;
-  setControlsLocked(false);
-  $('play').focus({preventScroll:true});
+function renderResultRoute() {
+  const target = $('result-route');
+  target.replaceChildren();
+  scenes.slice(0, SETTINGS.roundsPerJourney).forEach((scene, index) => {
+    const dot = document.createElement('span');
+    dot.className = index <= roundIndex ? 'is-lit' : '';
+    dot.title = scene.name;
+    dot.textContent = index <= roundIndex ? '✦' : '·';
+    target.append(dot);
+  });
 }
 
-$('play').addEventListener('click',()=>{
-  playCue('welcome');
-  const saved=readMemory();
-  characterIndex=Number.isInteger(saved.character)?saved.character:-1;
-  lastScene=saved.scene||lastScene;
-  characterIndex=chooseCharacter();
-  start();
-});
+function updateSeedMeter() {
+  $('seed-count').textContent = `${heartSeeds.size} / ${SETTINGS.roundsPerJourney}`;
+}
 
-$('again').addEventListener('click',()=>{
-  playCue('next');
-  characterIndex=upcomingCharacter;
-  start();
-});
+function lockGame(locked) {
+  $('viewport').inert = locked;
+  $('hint').disabled = locked || found;
+  $('sound').disabled = false;
+  $('leave').disabled = false;
+}
 
-$('back').addEventListener('click',back);
-$('finish').addEventListener('click',back);
+function mapPointToScene(point, element) {
+  const scene = $('scene');
+  const image = $('woods');
+  const rect = scene.getBoundingClientRect();
+  const sourceW = image.naturalWidth || 1672;
+  const sourceH = image.naturalHeight || 941;
+  if (!rect.width || !rect.height || !sourceW || !sourceH) return;
 
-$('shuffle').addEventListener('click',()=>{
-  if(found)return;
-  characterIndex=chooseCharacter();
-  start();
-});
+  const fit = getComputedStyle(image).objectFit || 'cover';
+  const scale = fit === 'contain'
+    ? Math.min(rect.width / sourceW, rect.height / sourceH)
+    : Math.max(rect.width / sourceW, rect.height / sourceH);
 
-$('hint').addEventListener('click',()=>{
-  if(found||!currentSpot)return;
-  clearTimeout(hintTimer);
-  playCue('hint');
+  const renderedW = sourceW * scale;
+  const renderedH = sourceH * scale;
+  const offsetX = (rect.width - renderedW) / 2;
+  const offsetY = (rect.height - renderedH) / 2;
 
-  if(hintLevel===0){
-    hintLevel=1;
-    $('status').textContent=currentSpot.hint||'Look closely around the woodland details.';
-    $('hint').textContent='One more hint';
+  element.style.left = `${offsetX + (point.x / 100) * renderedW}px`;
+  element.style.top = `${offsetY + (point.y / 100) * renderedH}px`;
+}
+
+function clampToScene(element, pad = SETTINGS.targetEdgePadding ?? 8) {
+  if (element.hidden) return;
+  const sceneRect = $('scene').getBoundingClientRect();
+  const rect = element.getBoundingClientRect();
+  if (!sceneRect.width || !sceneRect.height || !rect.width || !rect.height) return;
+
+  let dx = 0;
+  let dy = 0;
+  if (rect.left < sceneRect.left + pad) dx = (sceneRect.left + pad) - rect.left;
+  if (rect.right > sceneRect.right - pad) dx = (sceneRect.right - pad) - rect.right;
+  if (rect.top < sceneRect.top + pad) dy = (sceneRect.top + pad) - rect.top;
+  if (rect.bottom > sceneRect.bottom - pad) dy = (sceneRect.bottom - pad) - rect.bottom;
+
+  if (dx || dy) {
+    element.style.left = `${element.offsetLeft + dx}px`;
+    element.style.top = `${element.offsetTop + dy}px`;
+  }
+}
+
+function positionObjects() {
+  if (currentSpot && !$('pip').hidden) {
+    mapPointToScene(currentSpot, $('pip'));
+    requestAnimationFrame(() => clampToScene($('pip')));
+  }
+  if (currentSeedSpot && !$('heart-seed').hidden) {
+    mapPointToScene(currentSeedSpot, $('heart-seed'));
+    requestAnimationFrame(() => clampToScene($('heart-seed'), 6));
+  }
+}
+
+function offerHintLater() {
+  clearTimeout(hintOfferTimer);
+  hintOfferTimer = setTimeout(() => {
+    if (found || hintLevel > 0) return;
+    $('hint').classList.add('is-offering');
+    $('hint').textContent = 'Need a little hint?';
+    playCue('encourage', { interrupt: false, volume: 0.72 });
+  }, SETTINGS.hintOfferMs);
+}
+
+async function loadRound() {
+  clearTimers();
+  found = false;
+  seedFoundThisRound = heartSeeds.has(roundIndex);
+  hintLevel = 0;
+  const token = ++loadToken;
+
+  currentScene = scenes[roundIndex];
+  currentCharacter = journeyCast[roundIndex];
+  currentSpot = chooseSpot(currentScene);
+  currentSeedSpot = chooseSeedSpot(currentScene, currentSpot);
+
+  $('success').hidden = true;
+  $('pip').hidden = true;
+  $('heart-seed').hidden = true;
+  $('hint').disabled = true;
+  $('hint').classList.remove('is-offering');
+  $('hint').textContent = 'A little hint';
+
+  $('path-number').textContent = `Path ${roundIndex + 1} of ${SETTINGS.roundsPerJourney}`;
+  $('place-name').textContent = currentScene.name;
+  $('target-title').textContent = `Find ${currentCharacter.name}`;
+  $('mission-line').textContent = currentScene.intro;
+  $('reference').src = `assets/${currentCharacter.image}`;
+  $('reference').alt = currentCharacter.name;
+  $('pip').querySelector('img').src = `assets/${currentCharacter.image}`;
+  $('pip').setAttribute('aria-label', `Found ${currentCharacter.name}`);
+  $('woods').alt = currentScene.name;
+  $('status').textContent = 'Opening the next woodland path…';
+
+  renderRoute();
+  updateSeedMeter();
+
+  $('stage').classList.add('scene-changing');
+  $('woods').src = `assets/${currentScene.image}`;
+
+  try {
+    await Promise.all([
+      $('woods').decode(),
+      $('pip').querySelector('img').decode().catch(() => {})
+    ]);
+  } catch {
+    if (token === loadToken) {
+      $('status').textContent = 'This woodland picture could not open. Try leaving and starting again.';
+      $('stage').classList.remove('scene-changing');
+    }
     return;
   }
 
-  hintLevel=2;
-  $('pip').classList.add('hinted');
-  $('status').textContent='Watch for a tiny golden glow.';
-  $('hint').textContent='Hint shown';
-  $('hint').disabled=true;
-  hintTimer=setTimeout(()=>{
-    $('pip').classList.remove('hinted');
-    if(!found){
-      $('hint').disabled=false;
-      $('hint').textContent='Glow again';
-    }
-  },SETTINGS.hintMs);
-});
+  if (token !== loadToken) return;
 
-$('pip').addEventListener('click',()=>{
-  if(found)return;
-  found=true;
+  $('pip').className = '';
+  $('pip').hidden = false;
+  $('pip').disabled = false;
+
+  if (!seedFoundThisRound) {
+    $('heart-seed').className = '';
+    $('heart-seed').hidden = false;
+    $('heart-seed').disabled = false;
+  }
+
+  positionObjects();
+  $('hint').disabled = false;
+  $('status').textContent = `Can you spot ${currentCharacter.name}?`;
+
+  requestAnimationFrame(() => $('stage').classList.remove('scene-changing'));
+
+  playCue(roundIndex === 0 ? 'pathIntro' : 'encourage', { volume: 0.84 });
+  offerHintLater();
+}
+
+function startJourney() {
+  clearTimers();
+  buildJourneyCast();
+  roundIndex = 0;
+  heartSeeds = new Set();
+  $('welcome').hidden = true;
+  $('game').hidden = false;
+  document.body.classList.add('game-active');
+  setSound(loadSoundPreference());
+  updateSeedMeter();
+  loadRound();
+}
+
+function leaveJourney() {
+  clearTimers();
+  ++loadToken;
+  playCue('goodbye', { volume: 0.8 });
+  document.body.classList.remove('game-active');
+  $('game').hidden = true;
+  $('welcome').hidden = false;
+  $('success').hidden = true;
+  $('pip').hidden = true;
+  $('heart-seed').hidden = true;
+  $('play').focus({ preventScroll: true });
+}
+
+function showCelebration() {
+  found = true;
+  clearTimeout(hintOfferTimer);
   clearTimeout(hintTimer);
-  clearTimeout(celebrationTimer);
-  upcomingCharacter=chooseCharacter();
 
-  const c=characters[characterIndex];
-  const next=characters[upcomingCharacter];
-  playCue('found');
+  $('pip').classList.add('found');
+  $('hint').disabled = true;
+  $('found-portrait').src = `assets/${currentCharacter.image}`;
+  $('found-portrait').alt = currentCharacter.name;
+  $('win-title').textContent = `You found ${currentCharacter.name}!`;
+  $('celebration-copy').textContent = currentCharacter.foundLine;
+  $('success').hidden = false;
+  renderRoute();
+  renderResultRoute();
+  lockGame(true);
 
-  $('pip').className='found';
-  $('hint').disabled=true;
-  $('win-title').textContent=`You found ${c.name}!`;
-  $('found-portrait').src=`assets/${c.image}`;
-  $('found-portrait').alt=c.name;
-  $('next-portrait').src=`assets/${next.image}`;
-  $('next-portrait').alt=next.name;
-  $('next-label').textContent=`Next: ${next.name}`;
-  $('again').textContent=`Find ${next.name} →`;
-  $('next-step').hidden=true;
-  $('status').textContent=`You found ${c.name}!`;
-  $('success').hidden=false;
-  setControlsLocked(true);
-  document.querySelector('.celebration')?.focus({preventScroll:true});
+  const finalRound = roundIndex === SETTINGS.roundsPerJourney - 1;
+  if (finalRound) {
+    $('found-kicker').textContent = 'Every path is glowing!';
+    $('next-label').textContent = heartSeeds.size === SETTINGS.roundsPerJourney
+      ? 'You found every hidden Heart Seed too. The whole woodland is shining.'
+      : `You found ${heartSeeds.size} of ${SETTINGS.roundsPerJourney} hidden Heart Seeds. They are optional little secrets for another wander.`;
+    $('continue-path').textContent = 'Wander again ↻';
+    $('continue-path').dataset.action = 'restart';
+    playCue('finale', { volume: 0.92 });
+  } else {
+    const nextScene = scenes[roundIndex + 1];
+    $('found-kicker').textContent = 'Wonderful spotting!';
+    $('next-label').textContent = `Next path: ${nextScene.name}.`;
+    $('continue-path').textContent = 'Continue the path →';
+    $('continue-path').dataset.action = 'continue';
+    playCue(currentCharacter.special ? 'specialFound' : 'found', { volume: 0.9 });
+  }
 
-  celebrationTimer=setTimeout(()=>{
-    $('next-step').hidden=false;
-    $('status').textContent='Another woodland friend is ready when you are.';
-  },Math.min(700, SETTINGS.celebrationRevealMs || 700));
+  $('continue-path').disabled = true;
+  celebrationTimer = setTimeout(() => {
+    $('continue-path').disabled = false;
+    if (!finalRound) playCue('locationComplete', { interrupt: false, volume: 0.75 });
+    $('continue-path').focus({ preventScroll: true });
+  }, SETTINGS.celebrationRevealMs);
+}
+
+function makeLeafPuff(event) {
+  if (found || event.target.closest('#pip,#heart-seed,.mission-hud,.game-actions,.route-strip,.seed-meter')) return;
+  const rect = $('scene').getBoundingClientRect();
+  if (!rect.width || !rect.height) return;
+
+  const puff = document.createElement('span');
+  puff.className = 'leaf-puff';
+  puff.textContent = Math.random() > 0.45 ? '🍃' : '✦';
+  puff.style.left = `${event.clientX - rect.left}px`;
+  puff.style.top = `${event.clientY - rect.top}px`;
+  $('scene').append(puff);
+  setTimeout(() => puff.remove(), 850);
+}
+
+$('play').addEventListener('click', () => {
+  playCue('welcome', { volume: 0.92 });
+  startJourney();
 });
 
-$('success').addEventListener('keydown',e=>{
-  if(e.key==='Escape'){back();return;}
-  if(e.key==='Tab'){
-    const focusable=[$('again'),$('finish')].filter(el=>el&&!el.hidden&&el.offsetParent!==null);
-    const first=focusable[0],last=focusable[focusable.length-1];
-    if(e.shiftKey&&document.activeElement===first){
-      e.preventDefault();
-      last?.focus({preventScroll:true});
-    }else if(!e.shiftKey&&document.activeElement===last){
-      e.preventDefault();
-      first?.focus({preventScroll:true});
+$('leave').addEventListener('click', leaveJourney);
+
+$('sound').addEventListener('click', () => {
+  const enabled = $('sound').getAttribute('aria-pressed') !== 'true';
+  setSound(enabled);
+});
+
+$('hint').addEventListener('click', () => {
+  if (found || !currentSpot) return;
+  clearTimeout(hintTimer);
+  clearTimeout(hintOfferTimer);
+  $('hint').classList.remove('is-offering');
+
+  if (hintLevel === 0) {
+    hintLevel = 1;
+    $('status').textContent = currentSpot.hint || 'Look closely around the woodland details.';
+    $('hint').textContent = 'One more hint';
+    playCue('hintGentle', { volume: 0.88 });
+    return;
+  }
+
+  hintLevel = 2;
+  $('pip').classList.add('hinted');
+  $('status').textContent = 'Watch for a tiny golden glow.';
+  $('hint').textContent = 'Glow shown';
+  $('hint').disabled = true;
+  playCue('hintStrong', { volume: 0.88 });
+
+  hintTimer = setTimeout(() => {
+    $('pip').classList.remove('hinted');
+    if (!found) {
+      $('hint').disabled = false;
+      $('hint').textContent = 'Glow again';
     }
+  }, SETTINGS.hintMs);
+});
+
+$('pip').addEventListener('click', event => {
+  event.stopPropagation();
+  if (found) return;
+  showCelebration();
+});
+
+$('heart-seed').addEventListener('click', event => {
+  event.stopPropagation();
+  if (seedFoundThisRound) return;
+  seedFoundThisRound = true;
+  heartSeeds.add(roundIndex);
+  updateSeedMeter();
+
+  const seed = $('heart-seed');
+  seed.classList.add('collected');
+  seed.disabled = true;
+  $('status').textContent = 'You found a hidden Heart Seed! ✦';
+  setTimeout(() => { seed.hidden = true; }, 520);
+});
+
+$('viewport').addEventListener('pointerup', makeLeafPuff);
+
+$('continue-path').addEventListener('click', () => {
+  if ($('continue-path').dataset.action === 'restart') {
+    buildJourneyCast();
+    roundIndex = 0;
+    heartSeeds = new Set();
+    updateSeedMeter();
+    lockGame(false);
+    loadRound();
+    return;
+  }
+
+  roundIndex += 1;
+  lockGame(false);
+  loadRound();
+});
+
+$('success').addEventListener('keydown', event => {
+  if (event.key === 'Escape') {
+    event.preventDefault();
+    leaveJourney();
   }
 });
 
-if(!document.fullscreenEnabled)$('fullscreen').hidden=true;
-$('fullscreen').addEventListener('click',async()=>{
-  try{
-    if(document.fullscreenElement)await document.exitFullscreen();
-    else await document.documentElement.requestFullscreen();
-  }catch{
-    $('status').textContent='Full screen is unavailable here.';
-  }
-});
-
-document.addEventListener('fullscreenchange',()=>{
-  $('fullscreen').textContent=document.fullscreenElement?'Exit full screen':'Full screen';
-});
-
-window.addEventListener('resize',()=>{
+window.addEventListener('resize', () => {
   clearTimeout(resizeTimer);
-  resizeTimer=setTimeout(()=>{
-    if(document.body.classList.contains('game-active')&&!found)positionTarget();
-  },80);
+  resizeTimer = setTimeout(() => {
+    if (document.body.classList.contains('game-active') && !found) positionObjects();
+  }, 90);
 });
+
+setSound(loadSoundPreference());
+renderRoute();
