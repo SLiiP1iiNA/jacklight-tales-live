@@ -197,7 +197,6 @@ function offerHintLater() {
     if (found || hintLevel > 0) return;
     $('hint').classList.add('is-offering');
     $('hint').textContent = 'Need a little hint?';
-    playCue('encourage', { interrupt: false, volume: 0.72 });
   }, SETTINGS.hintOfferMs);
 }
 
@@ -269,7 +268,6 @@ async function loadRound() {
 
   requestAnimationFrame(() => $('stage').classList.remove('scene-changing'));
 
-  playCue(roundIndex === 0 ? 'pathIntro' : 'encourage', { volume: 0.84 });
   offerHintLater();
 }
 
@@ -323,20 +321,20 @@ function showCelebration() {
       : `You found ${heartSeeds.size} of ${SETTINGS.roundsPerJourney} hidden Heart Seeds. They are optional little secrets for another wander.`;
     $('continue-path').textContent = 'Wander again ↻';
     $('continue-path').dataset.action = 'restart';
-    playCue('finale', { volume: 0.92 });
+    playCue('allFound', { volume: 0.92 });
   } else {
     const nextScene = scenes[roundIndex + 1];
     $('found-kicker').textContent = 'Wonderful spotting!';
     $('next-label').textContent = `Next path: ${nextScene.name}.`;
     $('continue-path').textContent = 'Continue the path →';
     $('continue-path').dataset.action = 'continue';
-    playCue(currentCharacter.special ? 'specialFound' : 'found', { volume: 0.9 });
+    playCue(currentCharacter.name === 'Barnaby' ? 'barnabyFound' : 'friendFound', { volume: 0.9 });
   }
 
   $('continue-path').disabled = true;
   celebrationTimer = setTimeout(() => {
     $('continue-path').disabled = false;
-    if (!finalRound) playCue('locationComplete', { interrupt: false, volume: 0.75 });
+    if (!finalRound) playCue('nextLocation', { interrupt: false, volume: 0.82 });
     $('continue-path').focus({ preventScroll: true });
   }, SETTINGS.celebrationRevealMs);
 }
@@ -356,8 +354,8 @@ function makeLeafPuff(event) {
 }
 
 $('play').addEventListener('click', () => {
-  playCue('welcome', { volume: 0.92 });
   startJourney();
+  audioLayer?.playSequence(['welcome', 'beginSearch'], { volume: 0.92 });
 });
 
 $('leave').addEventListener('click', leaveJourney);
@@ -378,7 +376,7 @@ $('hint').addEventListener('click', () => {
     $('status').textContent = currentSpot.hint || 'Look closely around the woodland details.';
     showStatusToast(4500);
     $('hint').textContent = 'One more hint';
-    playCue('hintGentle', { volume: 0.88 });
+    playCue('hintOne', { volume: 0.88 });
     return;
   }
 
@@ -388,7 +386,7 @@ $('hint').addEventListener('click', () => {
   showStatusToast(3500);
   $('hint').textContent = 'Glow shown';
   $('hint').disabled = true;
-  playCue('hintStrong', { volume: 0.88 });
+  playCue('hintTwo', { volume: 0.88 });
 
   hintTimer = setTimeout(() => {
     $('pip').classList.remove('hinted');
@@ -429,7 +427,7 @@ function collectHeartSeed(event) {
 
   $('status').textContent = `Heart Seed found — ${heartSeeds.size} of ${SETTINGS.roundsPerJourney}! ✦`;
   showStatusToast(2800);
-  playCue('found', { interrupt: false, volume: 0.58 });
+  playCue('heartSeed', { volume: 0.82 });
 
   if (navigator.vibrate) navigator.vibrate(18);
   setTimeout(() => { seed.hidden = true; }, 420);
@@ -450,6 +448,7 @@ $('continue-path').addEventListener('click', () => {
     updateSeedMeter();
     lockGame(false);
     loadRound();
+    playCue('beginSearch', { volume: 0.9 });
     return;
   }
 
