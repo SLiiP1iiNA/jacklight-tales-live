@@ -148,27 +148,40 @@
   .audiobook-series { grid-template-columns: 1fr 1fr; }
   .audiobook-series__button { min-height: 6.4rem; }
 
-  /* iOS Safari's moving bottom chrome makes fixed-bottom UI visibly bobble.
-     Keep the mini player inside the scroll container and pin it to the top instead. */
+  /* Mobile mini-player: keep it completely out of the shelf grid.
+     Explicit inset + intrinsic sizing prevents iOS Safari from stretching it. */
   .mobile-now-playing:not([hidden]) {
-    order: -1;
-    position: sticky;
-    top: calc(max(.35rem, env(safe-area-inset-top)) + 3.55rem);
-    z-index: 35;
-    left: auto;
-    right: auto;
-    bottom: auto;
+    order: initial !important;
+    position: fixed !important;
+    z-index: 250;
+    inset: auto max(.58rem, env(safe-area-inset-right))
+           calc(.58rem + env(safe-area-inset-bottom))
+           max(.58rem, env(safe-area-inset-left)) !important;
     display: grid;
     grid-template-columns: minmax(0, 1fr) auto;
+    grid-auto-rows: max-content;
     align-items: center;
-    gap: .7rem;
-    width: 100%;
-    padding: .72rem .78rem;
-    border: 1px solid rgba(248, 215, 127, .48);
+    align-content: center;
+    align-self: auto !important;
+    place-self: auto !important;
+    gap: .55rem;
+    box-sizing: border-box;
+    width: auto !important;
+    inline-size: auto !important;
+    height: max-content !important;
+    block-size: max-content !important;
+    min-height: 0 !important;
+    min-block-size: 0 !important;
+    max-height: 5.25rem !important;
+    max-block-size: 5.25rem !important;
+    margin: 0 !important;
+    padding: .66rem .68rem;
+    border: 1px solid rgba(248, 215, 127, .5);
     border-radius: 1rem;
-    background: rgba(5, 27, 19, .97);
-    box-shadow: 0 .55rem 1.4rem rgba(0,0,0,.34);
-    backdrop-filter: blur(.9rem);
+    background: rgba(5, 27, 19, .98);
+    box-shadow: 0 .9rem 2.4rem rgba(0,0,0,.46);
+    overflow: hidden;
+    backdrop-filter: blur(.95rem);
     animation: none !important;
     transform: none !important;
     transition: none !important;
