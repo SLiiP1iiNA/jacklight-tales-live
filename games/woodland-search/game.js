@@ -198,7 +198,7 @@ async function loadRound() {
   $('path-number').textContent = `Path ${roundIndex + 1} of ${SETTINGS.roundsPerJourney}`;
   $('place-name').textContent = currentScene.name;
   $('target-title').textContent = `Find ${currentCharacter.name}`;
-  $('mission-line').textContent = currentScene.intro;
+  $('mission-line').textContent = `${currentScene.intro} ${currentCharacter.clue || ''}`.trim();
   $('reference').src = `assets/${currentCharacter.image}`;
   $('reference').alt = currentCharacter.name;
   $('pip').querySelector('img').src = `assets/${currentCharacter.image}`;
@@ -239,7 +239,7 @@ async function loadRound() {
 
   positionObjects();
   $('hint').disabled = false;
-  $('status').textContent = `Can you spot ${currentCharacter.name}?`;
+  $('status').textContent = `Can you spot ${currentCharacter.name}? Take your time.`;
 
   requestAnimationFrame(() => $('stage').classList.remove('scene-changing'));
 
