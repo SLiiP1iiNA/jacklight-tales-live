@@ -19,6 +19,22 @@ let resizeTimer = 0;
 let statusToastTimer = 0;
 let loadToken = 0;
 let heartSeeds = new Set();
+let friendFoundBag = [];
+let lastFriendFoundCue = null;
+
+const FRIEND_FOUND_CUES = ['friendFound', 'friendFound2', 'friendFound3', 'friendFound4', 'friendFound5'];
+
+function refillFriendFoundBag() {
+  const pool = FRIEND_FOUND_CUES.filter(cue => cue !== lastFriendFoundCue);
+  friendFoundBag = shuffle(pool);
+}
+
+function chooseFriendFoundCue() {
+  if (!friendFoundBag.length) refillFriendFoundBag();
+  const cue = friendFoundBag.shift();
+  lastFriendFoundCue = cue;
+  return cue;
+}
 
 function syncPhoneViewportMode() {
   const viewport = window.visualViewport;
@@ -331,7 +347,9 @@ function showCelebration() {
     $('next-label').textContent = `Next path: ${nextScene.name}.`;
     $('continue-path').textContent = 'Continue the path →';
     $('continue-path').dataset.action = 'continue';
-    const foundCue = currentCharacter.name === 'Barnaby' ? 'barnabyFound' : 'friendFound';
+    const foundCue = currentCharacter.name === 'Barnaby'
+      ? 'barnabyFound'
+      : chooseFriendFoundCue();
     audioLayer?.playSequence([foundCue, 'nextLocation'], { volume: 0.9 });
   }
 
