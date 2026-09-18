@@ -1,76 +1,31 @@
-/* PHONE LANDSCAPE — true edge-to-edge full-bleed board.
-   The scene covers the visible Safari viewport, including notched phones; HUD
-   controls stay inside safe areas. */
-@media (orientation:landscape) and (max-height:520px) and (hover:none) and (pointer:coarse){
+/* Woodland Search — phones in landscape: image-first, edge-to-edge. */
+@media (max-width:760px) and (orientation:landscape){
   html,body{width:100%;height:100%;overflow:hidden}
   body.game-active{position:fixed;inset:0;width:100vw;height:100dvh;overflow:hidden}
-  body.game-active header,body.game-active footer{display:none}
+  body.game-active .site-bar,body.game-active footer{display:none}
   body.game-active main{position:fixed;inset:0;width:100vw;height:100dvh;padding:0;overflow:hidden}
-  #game:not([hidden]){position:absolute;inset:0;width:100vw;height:100dvh;display:block}
+  #game:not([hidden]){position:absolute;inset:0;width:100vw;height:100dvh}
+  #stage{position:absolute;inset:0;width:100%;height:100%;border-radius:0}
+  #pip{width:clamp(42px,6.2vw,54px)}
 
-  .play-column{position:absolute;inset:0;display:block;min-width:0}
-  .game-title,.rotate-tip{display:none}
-  #stage{position:absolute;inset:0;width:100%;height:100%;max-width:none;max-height:none;aspect-ratio:auto;border-radius:0;transition:none!important}
-  #viewport,#scene{width:100%;height:100%;overflow:hidden;border-radius:0}
-  #scene{aspect-ratio:auto}
-  #woods{width:100%;height:100%;object-fit:cover;object-position:center}
+  .mission-hud{top:max(.38rem,env(safe-area-inset-top));left:max(.42rem,env(safe-area-inset-left));width:min(220px,33vw);grid-template-columns:42px minmax(0,1fr);gap:.38rem;padding:.32rem .4rem;border-radius:13px;background:rgba(6,29,20,.94)}
+  .reference{width:40px;height:44px}
+  .mission-kicker{font-size:.4rem}
+  #target-title{font-size:.82rem}
+  #mission-line{display:none}
 
-  #status{
-    position:absolute;
-    z-index:19;
-    left:50%;
-    top:max(.28rem,env(safe-area-inset-top));
-    transform:translateX(-50%);
-    width:max-content;
-    max-width:46vw;
-    margin:0;
-    padding:.22rem .55rem;
-    border:1px solid #9f8f5f66;
-    border-radius:999px;
-    background:#0a2419cc;
-    color:#ffe5a2;
-    font-size:.54rem;
-    line-height:1.05;
-    text-align:center;
-    white-space:nowrap;
-    overflow:hidden;
-    text-overflow:ellipsis;
-    pointer-events:none;
-  }
-  #pip{width:clamp(40px,6vw,50px)}
+  .route-strip{top:max(.38rem,env(safe-area-inset-top));gap:.2rem;padding:.2rem .28rem}
+  .route-node{gap:0}
+  .route-node strong{display:none}
+  .route-node span{width:1.08rem;height:1.08rem;font-size:.42rem}
 
-  .target-panel{
-    position:absolute;
-    z-index:20;
-    left:max(.38rem,env(safe-area-inset-left));
-    top:max(.38rem,env(safe-area-inset-top));
-    width:132px;
-    padding:.3rem .4rem;
-    border-radius:14px;
-    background:linear-gradient(165deg,#173b2af2,#0b2419f2)
-  }
-  .target-card{display:grid;grid-template-columns:38px minmax(0,1fr);grid-template-areas:"portrait eyebrow" "portrait title" "portrait place";column-gap:.35rem;align-items:center;text-align:left}
-  .target-card .reference{grid-area:portrait;width:36px;height:40px;margin:0}
-  .target-card .eyebrow{grid-area:eyebrow;margin:0;font-size:.42rem;letter-spacing:.12em}
-  #target-title{grid-area:title;font-size:.78rem;line-height:1}
-  #place-name{grid-area:place;margin:.05rem 0 0;font-size:.52rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .seed-meter{top:max(.38rem,env(safe-area-inset-top));right:max(.42rem,env(safe-area-inset-right));min-height:30px;padding:.26rem .45rem;gap:.3rem}
+  .seed-icon{width:9px;height:13px}.seed-meter strong{font-size:.52rem}
 
-  .utility-panel{
-    position:absolute;
-    z-index:20;
-    left:50%;
-    bottom:max(.3rem,env(safe-area-inset-bottom));
-    transform:translateX(-50%);
-    width:min(520px,88vw);
-    padding:.24rem;
-    border-radius:999px;
-    background:#0d281ce8;
-    backdrop-filter:blur(5px)
-  }
-  .game-actions{display:grid;grid-template-columns:repeat(4,1fr);gap:.25rem}
-  #instructions{display:none}
-  .action-buttons{display:contents}
-  .action-buttons button,.game-actions>#back{min-width:0;min-height:34px;padding:.24rem .3rem;font-size:.58rem;line-height:1}
-  #fullscreen,#story-shelf{display:none}
-  #mobile-audio[aria-pressed="true"]{outline:2px solid #ffe29a;outline-offset:1px}
+  #status{bottom:3.15rem;max-width:52vw;padding:.23rem .5rem;font-size:.54rem;background:rgba(5,27,19,.93)}
+  .game-actions{bottom:max(.32rem,env(safe-area-inset-bottom));width:min(420px,70vw);gap:.24rem;padding:.22rem;background:rgba(5,27,19,.94)}
+  .game-actions button{min-height:34px;padding:.3rem .34rem;font-size:.56rem}
+
+  #heart-seed{width:25px;height:25px}
+  #heart-seed span{width:12px;height:18px}
 }
