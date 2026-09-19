@@ -15,7 +15,22 @@ export function initSoundControl(audioPath) {
 
   button.hidden = false;
   source.src = audioPath;
+  audio.volume = 0.12;
   audio.load();
+
+  let resumeAfterPanel = false;
+
+  document.addEventListener("jacklight:panel-opened", () => {
+    resumeAfterPanel = !audio.paused;
+    if (!audio.paused) audio.pause();
+  });
+
+  document.addEventListener("jacklight:panel-closed", () => {
+    if (resumeAfterPanel && audio.paused) {
+      audio.play().catch(() => {});
+    }
+    resumeAfterPanel = false;
+  });
 
   button.addEventListener("click", async () => {
     const shouldPlay = audio.paused;
