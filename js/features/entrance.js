@@ -65,7 +65,13 @@ export function initEntrance(settings = {}) {
     showEntrance();
   }
 
-  enterButton.addEventListener("click", () => hideEntrance());
-  skipButton.addEventListener("click", () => hideEntrance({ immediate: true }));
+  enterButton.addEventListener("click", () => {
+    document.dispatchEvent(new CustomEvent("jacklight:entrance-entered"));
+    hideEntrance();
+  });
+  skipButton.addEventListener("click", () => {
+    document.dispatchEvent(new CustomEvent("jacklight:entrance-entered"));
+    hideEntrance({ immediate: true });
+  });
   replayButtons.forEach((button) => button.addEventListener("click", showEntrance));
 }
