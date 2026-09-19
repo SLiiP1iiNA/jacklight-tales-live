@@ -40,6 +40,7 @@ export function initPanelRouter(partialPaths) {
 
   async function openPanel(panelName, trigger) {
     lastTrigger = trigger;
+    document.dispatchEvent(new CustomEvent("jacklight:panel-opening", { detail: { panelName, trigger } }));
     panel.scrollTop = 0;
     content.innerHTML = "<p>Opening this woodland path…</p>";
     layer.hidden = false;
