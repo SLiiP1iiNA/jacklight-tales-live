@@ -25,6 +25,8 @@
     .message{max-width:520px;margin:0;color:#fff9e8;font:clamp(17px,1.55vw,22px)/1.55 Arial,sans-serif}
     .character{align-self:end;justify-self:center;width:min(42vw,620px);max-height:88svh;object-fit:contain;object-position:center bottom;filter:drop-shadow(0 18px 25px rgba(0,0,0,.38));z-index:-1}
     footer{position:absolute;left:clamp(22px,5vw,72px);bottom:22px;color:rgba(255,245,214,.72);font:10px/1.4 Arial,sans-serif;letter-spacing:.16em;text-transform:uppercase}
+    .sound-toggle{position:absolute;right:clamp(22px,5vw,72px);bottom:18px;z-index:2;padding:10px 14px;border:1px solid rgba(255,245,214,.5);border-radius:999px;background:rgba(7,22,14,.64);color:var(--cream);font:700 11px/1 Arial,sans-serif;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;transition:background .2s,border-color .2s}
+    .sound-toggle:hover,.sound-toggle[aria-pressed="true"]{border-color:var(--gold);background:rgba(20,50,29,.82)}
 
     @media(max-width:760px){
       html,body{height:100%}
@@ -42,6 +44,7 @@
       .message{max-width:330px;margin:0 auto;font-size:14px;line-height:1.38}
       .character{position:absolute;z-index:1;left:50%;bottom:max(-4px,env(safe-area-inset-bottom));transform:translateX(-50%);width:auto;height:min(39svh,330px);max-width:78vw;max-height:none;margin:0;object-fit:contain;object-position:center bottom}
       footer{display:none}
+      .sound-toggle{right:18px;bottom:max(18px,env(safe-area-inset-bottom));font-size:10px}
     }
 
     @media(max-width:760px) and (max-height:720px){
@@ -65,6 +68,43 @@
     </section>
     <img class="character" src="barnaby.png" alt="Barnaby the fox, ready for a woodland adventure">
     <footer>jacklighttales.com</footer>
+    <audio id="woodland-music" preload="auto" loop playsinline aria-hidden="true">
+      <source src="https://pub-9ea739df2a0c435bbc605d2f4bfc6fb5.r2.dev/Website%20-%20Jingles/Morning_in_the_Clearing.mp3" type="audio/mpeg">
+    </audio>
+    <button class="sound-toggle" id="sound-toggle" type="button" aria-pressed="false" aria-label="Turn woodland sound on">♫ Sound on</button>
   </main>
+  <script>
+    (() => {
+      const music = document.getElementById("woodland-music");
+      const toggle = document.getElementById("sound-toggle");
+      music.volume = 0.04;
+
+      function updateToggle() {
+        const isPlaying = !music.paused;
+        toggle.setAttribute("aria-pressed", String(isPlaying));
+        toggle.setAttribute("aria-label", isPlaying ? "Turn woodland sound off" : "Turn woodland sound on");
+        toggle.textContent = isPlaying ? "♫ Sound off" : "♫ Sound on";
+      }
+
+      async function startMusic() {
+        try {
+          await music.play();
+        } catch {}
+        updateToggle();
+      }
+
+      toggle.addEventListener("click", async () => {
+        if (music.paused) await startMusic();
+        else music.pause();
+      });
+      music.addEventListener("play", updateToggle);
+      music.addEventListener("pause", updateToggle);
+
+      startMusic();
+      document.addEventListener("pointerdown", event => {
+        if (!event.target.closest("#sound-toggle")) startMusic();
+      }, { once: true, capture: true });
+    })();
+  </script>
 </body>
 </html>
