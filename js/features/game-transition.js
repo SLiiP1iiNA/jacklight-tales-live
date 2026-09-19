@@ -1,10 +1,22 @@
 export function initGameTransition() {
   let travelling = false;
+  const GAME_STATE_KEY = "jacklight:woodland-audio-state";
 
-  document.addEventListener("click", (event) => {
+  document.addEventListener("click", event => {
     const link = event.target.closest("a[data-game-launch]");
     if (!link || travelling || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) {
       return;
+    }
+
+    const siteAudio = document.querySelector("#woodland-audio");
+    if (siteAudio && !siteAudio.paused) {
+      try {
+        sessionStorage.setItem(GAME_STATE_KEY, JSON.stringify({
+          enabled: true,
+          currentTime: siteAudio.currentTime
+        }));
+        siteAudio.pause();
+      } catch {}
     }
 
     event.preventDefault();
