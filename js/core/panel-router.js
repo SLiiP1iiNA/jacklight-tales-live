@@ -70,6 +70,7 @@ export function initPanelRouter(partialPaths) {
     document.body.classList.remove("panel-open");
     content.replaceChildren();
     panel.scrollTop = 0;
+    document.dispatchEvent(new CustomEvent("jacklight:panel-closed"));
     lastTrigger?.focus();
   }
 
