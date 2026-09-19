@@ -119,6 +119,15 @@ export function initSoundControl(audioPath) {
 
   restoreFromGame();
 
+  if (restoredFromGame) {
+    window.setTimeout(async () => {
+      await startWoodlandSound(NORMAL_VOLUME, 2200);
+      if (siteAudioStarted) {
+        restoredFromGame = false;
+      }
+    }, 0);
+  }
+
   document.addEventListener("jacklight:entrance-entered", () => {
     startWoodlandSound(NORMAL_VOLUME, restoredFromGame ? 2200 : FADE_IN_MS);
     restoredFromGame = false;
