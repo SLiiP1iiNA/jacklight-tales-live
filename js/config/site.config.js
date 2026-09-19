@@ -17,7 +17,7 @@ export const siteConfig = {
       characters: "assets/images/cards/characters.png",
       artwork: "assets/images/cards/artwork.png",
     },
-    woodlandAudio: "",
+    woodlandAudio: "https://pub-9ea739df2a0c435bbc605d2f4bfc6fb5.r2.dev/WhisperingWoods.mp3",
     entranceVideo: "",
   },
 
