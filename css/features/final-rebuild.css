@@ -293,6 +293,13 @@
 
 .games-path__actions .text-path { color: #ffe19a; }
 
+@media (min-width: 44.01rem) {
+  .games-path__actions .story-button--sun {
+    color: #214b38;
+    text-shadow: none;
+  }
+}
+
 @media (max-width: 58rem) {
   .games-path { grid-template-columns: 1fr; }
   .games-path__media::after {
