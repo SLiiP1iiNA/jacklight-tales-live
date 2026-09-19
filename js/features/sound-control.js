@@ -8,6 +8,7 @@ export function initSoundControl(audioPath) {
   let listenOpen = false;
   let audiobookPlaying = false;
   let resumeTimer = null;
+  let siteAudioStarted = false;
 
   if (!audioPath) {
     button.hidden = true;
@@ -15,10 +16,10 @@ export function initSoundControl(audioPath) {
     return;
   }
 
-  button.hidden = true;
+  button.hidden = false;
   button.disabled = false;
   source.src = audioPath;
-  audio.volume = 0.08;
+  audio.volume = 0.05;
   audio.loop = true;
   audio.load();
 
@@ -36,28 +37,39 @@ export function initSoundControl(audioPath) {
   }
 
   async function startWoodlandSound() {
-    if (!listenOpen || audiobookPlaying || !audio.paused) return;
+    if (audiobookPlaying || !audio.paused) return;
     clearResumeTimer();
+
     try {
       await audio.play();
+      siteAudioStarted = true;
       setButtonState(true);
     } catch {
       setButtonState(false);
     }
   }
 
-  function stopWoodlandSound() {
+  function stopWoodlandSound({ reset = false } = {}) {
     clearResumeTimer();
     audio.pause();
-    audio.currentTime = 0;
+    if (reset) audio.currentTime = 0;
     setButtonState(false);
   }
+
+  document.addEventListener("jacklight:entrance-entered", () => {
+    startWoodlandSound();
+  });
+
+  document.addEventListener("pointerdown", () => {
+    if (!siteAudioStarted && !audiobookPlaying) {
+      startWoodlandSound();
+    }
+  }, { once: true, capture: true });
 
   document.addEventListener("jacklight:panel-opening", (event) => {
     if (event.detail.panelName !== "listen") return;
     listenOpen = true;
     audiobookPlaying = false;
-    button.hidden = false;
     startWoodlandSound();
   });
 
@@ -93,12 +105,12 @@ export function initSoundControl(audioPath) {
     if (!listenOpen) return;
     listenOpen = false;
     audiobookPlaying = false;
-    button.hidden = true;
-    stopWoodlandSound();
+    clearResumeTimer();
+    startWoodlandSound();
   });
 
   button.addEventListener("click", async () => {
-    if (!listenOpen || audiobookPlaying) return;
+    if (audiobookPlaying) return;
 
     if (audio.paused) {
       await startWoodlandSound();
