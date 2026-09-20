@@ -38,7 +38,6 @@
 
   let enabled = true;
   let queue = [];
-  let queueVolume = 0.92;
   let currentName = null;
 
   function emitError(name, error) {
@@ -87,8 +86,12 @@
   }
 
   function play(name, { interrupt = true, volume = 0.92 } = {}) {
-    if (!enabled) return Promise.resolve(false);
-    if (!interrupt && !player.paused) return Promise.resolve(false);
+    if (!enabled || !slots[name]) return Promise.resolve(false);
+
+    if (!interrupt && !player.paused) {
+      queue.push({ name, volume });
+      return Promise.resolve(true);
+    }
 
     queue = [];
     if (interrupt) {
@@ -97,20 +100,26 @@
     return start(name, volume);
   }
 
-  function playSequence(names, { volume = 0.92 } = {}) {
+  function playSequence(names, { volume = 0.92, interrupt = true } = {}) {
     const valid = names.filter(name => slots[name]);
     if (!enabled || !valid.length) return Promise.resolve(false);
 
-    queue = valid.slice(1);
-    queueVolume = volume;
-    try { player.pause(); } catch {}
+    if (!interrupt && !player.paused) {
+      valid.forEach(name => queue.push({ name, volume }));
+      return Promise.resolve(true);
+    }
+
+    queue = valid.slice(1).map(name => ({ name, volume }));
+    if (interrupt) {
+      try { player.pause(); } catch {}
+    }
     return start(valid[0], volume);
   }
 
   player.addEventListener('ended', () => {
     currentName = null;
     const next = queue.shift();
-    if (enabled && next) start(next, queueVolume);
+    if (enabled && next) start(next.name, next.volume);
   });
 
   player.addEventListener('error', () => {
