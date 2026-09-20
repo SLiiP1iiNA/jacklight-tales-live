@@ -12,6 +12,9 @@
 #celebration-copy{margin:0;color:#e9efe4;font-size:.82rem;line-height:1.4}
 .celebration-badges{display:flex;flex-wrap:wrap;gap:.35rem;margin-top:.55rem}
 .celebration-badges span{padding:.3rem .5rem;border:1px solid rgba(255,225,151,.24);border-radius:999px;background:rgba(255,255,255,.05);color:#ffe8a8;font-size:.62rem;font-weight:800}
+.celebration-badges #secret-result{display:inline-flex;align-items:center;gap:.3rem}
+#secret-result-image{width:22px;height:22px;object-fit:contain;filter:drop-shadow(0 0 .35rem rgba(255,220,120,.38))}
+#secret-result-name{display:inline-block}
 .journey-result{grid-area:route;display:flex;align-items:center;gap:.7rem;min-width:0;padding:.55rem .65rem;border:1px solid rgba(255,230,160,.18);border-radius:13px;background:rgba(4,28,18,.35)}
 .result-route{display:grid;grid-template-columns:repeat(10,1fr);gap:.22rem;flex:0 0 auto}
 .result-route span{display:grid;place-items:center;width:1.15rem;height:1.15rem;border-radius:50%;border:1px solid rgba(255,225,153,.2);color:rgba(255,239,183,.4);font-size:.55rem}
@@ -30,6 +33,7 @@
   #celebration-copy{font-size:.58rem;line-height:1.23}
   .celebration-badges{gap:.2rem;margin-top:.35rem}
   .celebration-badges span{padding:.22rem .38rem;font-size:.49rem}
+#secret-result-image{width:16px;height:16px}
   .journey-result{gap:.4rem;padding:.38rem .45rem}
   .result-route{gap:.16rem}
   .result-route span{width:.78rem;height:.78rem;font-size:.36rem}
