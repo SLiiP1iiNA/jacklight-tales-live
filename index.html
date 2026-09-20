@@ -109,19 +109,6 @@
           <p>Choose a path into Barnaby's world. Watch the tales, listen by lanternlight, meet the friends, explore the artwork — or wander into a game.</p>
         </div>
 
-        <button class="home-game-path" type="button" data-panel="games" aria-label="Open the Game Paths">
-          <span class="home-game-path__art" aria-hidden="true">
-            <img src="games/woodland-search/assets/woods-1.webp" alt="">
-          </span>
-          <img class="home-game-path__friend" src="assets/images/characters/little-guardian.png" alt="" aria-hidden="true">
-          <span class="home-game-path__glow" aria-hidden="true"></span>
-          <span class="home-game-path__copy">
-            <span class="eyebrow">Play in the Whispering Woods</span>
-            <strong>Wander the Game Paths</strong>
-            <span>Search, discover and see what the woods are hiding. No timer, no score — just a little woodland magic.</span>
-            <span class="home-game-path__cta">Open the games <span aria-hidden="true">◈</span></span>
-          </span>
-        </button>
       </section>
 
       <section class="woodland-map" id="woodland-map" aria-label="Explore the Whispering Woods">
@@ -151,6 +138,11 @@
         <button class="map-stop map-stop--artwork" type="button" data-panel="explore" data-panel-section="artwork" aria-describedby="map-artwork-copy">
           <span class="map-stop__marker" aria-hidden="true">✎</span>
           <span class="map-stop__sign"><strong>Wander through artwork</strong><small id="map-artwork-copy">A peek inside the art burrow</small><b aria-hidden="true">Open path ↗</b></span>
+        </button>
+
+        <button class="map-stop map-stop--games" type="button" data-panel="games" aria-describedby="map-games-copy">
+          <span class="map-stop__marker" aria-hidden="true">◈</span>
+          <span class="map-stop__sign"><strong>Wander the game paths</strong><small id="map-games-copy">Search, discover and play</small><b aria-hidden="true">Open path ↗</b></span>
         </button>
 
       </section>
