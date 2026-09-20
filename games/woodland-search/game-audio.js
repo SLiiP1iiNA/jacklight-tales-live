@@ -80,12 +80,14 @@
 
   async function start(name, volume = 0.92) {
     if (!enabled || !prepare(name, volume)) return false;
+    window.jltWoodlandMusic?.duckForLuna?.();
 
     try {
       await player.play();
       return true;
     } catch (error) {
       currentName = null;
+      window.jltWoodlandMusic?.restoreAfterLuna?.();
       emitError(name, error);
       queue = [];
       resolveIdle();
@@ -96,6 +98,7 @@
   function stop() {
     queue = [];
     currentName = null;
+    window.jltWoodlandMusic?.restoreAfterLuna?.();
     try {
       player.pause();
       player.currentTime = 0;
@@ -140,6 +143,7 @@
     if (enabled && next) {
       start(next.name, next.volume);
     } else {
+      window.jltWoodlandMusic?.restoreAfterLuna?.();
       resolveIdle();
     }
   });
@@ -148,6 +152,7 @@
     const failedName = currentName;
     currentName = null;
     queue = [];
+    window.jltWoodlandMusic?.restoreAfterLuna?.();
     emitError(failedName, player.error || new Error('Media file could not load'));
     resolveIdle();
   });
