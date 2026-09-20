@@ -93,12 +93,35 @@
         </div>
       </header>
 
-      <section class="map-heading" aria-labelledby="map-title">
-        <div class="map-heading__lantern" aria-hidden="true"><img src="assets/branding/jlt-lantern.webp" alt=""></div>
-        <p class="map-heading__brand">JackLight Tales</p>
-        <p class="eyebrow">The paths are lit</p>
-        <h1 id="map-title">Where shall we wander?</h1>
-        <p>Choose a little door into Barnaby's world. Every path opens a new part of the story.</p>
+      <section class="map-heading map-heading--home" aria-labelledby="map-title">
+        <div class="home-compass__intro">
+          <div class="home-compass__brand">
+            <span class="home-compass__brand-mark" aria-hidden="true">
+              <img src="assets/branding/jlt-lantern.webp" alt="">
+            </span>
+            <span class="home-compass__brand-words">
+              <strong>JackLight Tales</strong>
+              <small>The Whispering Woods</small>
+            </span>
+          </div>
+          <p class="eyebrow">Five little paths into the woods</p>
+          <h1 id="map-title">Where shall we wander?</h1>
+          <p>Choose a path into Barnaby's world. Watch the tales, listen by lanternlight, meet the friends, explore the artwork — or wander into a game.</p>
+        </div>
+
+        <button class="home-game-path" type="button" data-panel="games" aria-label="Open the Game Paths">
+          <span class="home-game-path__art" aria-hidden="true">
+            <img src="games/woodland-search/assets/woods-1.webp" alt="">
+          </span>
+          <img class="home-game-path__friend" src="assets/images/characters/little-guardian.png" alt="" aria-hidden="true">
+          <span class="home-game-path__glow" aria-hidden="true"></span>
+          <span class="home-game-path__copy">
+            <span class="eyebrow">Play in the Whispering Woods</span>
+            <strong>Wander the Game Paths</strong>
+            <span>Search, discover and see what the woods are hiding. No timer, no score — just a little woodland magic.</span>
+            <span class="home-game-path__cta">Open the games <span aria-hidden="true">◈</span></span>
+          </span>
+        </button>
       </section>
 
       <section class="woodland-map" id="woodland-map" aria-label="Explore the Whispering Woods">
@@ -130,10 +153,6 @@
           <span class="map-stop__sign"><strong>Wander through artwork</strong><small id="map-artwork-copy">A peek inside the art burrow</small><b aria-hidden="true">Open path ↗</b></span>
         </button>
 
-        <div class="map-signature" aria-hidden="true">
-          <img src="assets/branding/jlt-lantern.webp" alt="">
-          <span>JackLight Tales</span>
-        </div>
       </section>
 
       <section class="home-ribbon" aria-label="JackLight Tales introduction">
