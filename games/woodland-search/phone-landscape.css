@@ -120,7 +120,12 @@ html.phone-landscape-mode .seed-meter{
   border-color:rgba(255,222,143,.2)!important;
   box-shadow:none!important;
 }
+html.phone-landscape-mode .secret-meter{
+  top:calc(max(.16rem,env(safe-area-inset-top)) + 22px)!important;
+  right:max(.22rem,env(safe-area-inset-right))!important;
+}
 html.phone-landscape-mode .seed-icon{width:6px!important;height:9px!important}
+html.phone-landscape-mode .secret-icon{width:6px!important;height:6px!important;font-size:.34rem!important}
 html.phone-landscape-mode .seed-meter strong{font-size:.39rem!important}
 
 /* Normal status text is removed. Hints / found messages appear briefly. */
