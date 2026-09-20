@@ -1,7 +1,8 @@
 (() => {
   const AUDIO_URL = 'https://pub-9ea739df2a0c435bbc605d2f4bfc6fb5.r2.dev/Website%20-%20Jingles/Morning_in_the_Clearing.mp3';
   const STATE_KEY = 'jacklight:woodland-audio-state';
-  const GAME_VOLUME = 0.025;
+  const GAME_VOLUME = 0.018;
+  const LUNA_DUCK_VOLUME = 0.0035;
   const FADE_MS = 1800;
 
   const audio = document.getElementById('woodland-music');
@@ -13,6 +14,12 @@
   audio.volume = 0;
 
   let fadeFrame = null;
+  let lunaDucked = false;
+
+  function setLunaDuck(ducked) {
+    lunaDucked = Boolean(ducked);
+    fadeTo(lunaDucked ? LUNA_DUCK_VOLUME : GAME_VOLUME, lunaDucked ? 120 : 700);
+  }
 
   function cancelFade() {
     if (fadeFrame) {
@@ -71,6 +78,12 @@
       }
     }
   } catch {}
+
+  window.jltWoodlandMusic = {
+    duckForLuna: () => setLunaDuck(true),
+    restoreAfterLuna: () => setLunaDuck(false),
+    isPlaying: () => !audio.paused
+  };
 
   startMusic();
   document.addEventListener('pointerdown', retryAfterGesture, { once: true, capture: true });
