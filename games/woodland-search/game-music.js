@@ -1,5 +1,5 @@
 (() => {
-  const AUDIO_URL = 'https://pub-9ea739df2a0c435bbc605d2f4bfc6fb5.r2.dev/Website%20-%20Jingles/Morning_in_the_Clearing.mp3?v=2';
+  const AUDIO_URL = 'https://pub-9ea739df2a0c435bbc605d2f4bfc6fb5.r2.dev/Website%20-%20Jingles/Morning_in_the_Clearing-v2.mp3';
   const STATE_KEY = 'jacklight:woodland-audio-state';
   const GAME_VOLUME = 0.08;
   const LUNA_DUCK_VOLUME = 0.012;
