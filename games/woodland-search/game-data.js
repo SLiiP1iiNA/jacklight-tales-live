@@ -90,6 +90,7 @@ window.WOODLAND_SEARCH_DATA={
     },
     {
       image:'assets/woods-6.webp',
+      visualVariant:'sunlit',
       name:'The Sunlit Path',
       shortName:'Sunlit',
       intro:'A bright woodland path winds onward through tall trees and sparkling water.',
@@ -105,6 +106,7 @@ window.WOODLAND_SEARCH_DATA={
     },
     {
       image:'assets/woods-7.webp',
+      visualVariant:'old-trail',
       name:'The Old Woodland Trail',
       shortName:'Trail',
       intro:'Ancient trees lean over an older trail where the forest feels wonderfully deep.',
@@ -120,6 +122,7 @@ window.WOODLAND_SEARCH_DATA={
     },
     {
       image:'assets/woods-8.webp',
+      visualVariant:'evening',
       name:'The Quiet Evening Woods',
       shortName:'Evening',
       intro:'Golden evening light settles over a quieter corner of the Whispering Woods.',
@@ -135,6 +138,7 @@ window.WOODLAND_SEARCH_DATA={
     },
     {
       image:'assets/woods-9.webp',
+      visualVariant:'meadow',
       name:'Where the Meadow Opens',
       shortName:'Meadow',
       intro:'The trees open into a broad meadow with room to wander and notice tiny things.',
