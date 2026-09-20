@@ -404,7 +404,13 @@ function maybePlaceSecretItem() {
   $('secret-item').hidden = false;
 }
 
-async function loadRound() {
+async function applySceneVisual(scene) {
+  const root = $('scene');
+  root.dataset.sceneVariant = scene?.visualVariant || 'default';
+  root.dataset.sceneName = scene?.name || '';
+}
+
+function loadRound() {
   clearTimers();
   found = false;
   friendCuePlayed = false;
@@ -418,6 +424,7 @@ async function loadRound() {
 
   currentScene = journeyScenes[roundIndex];
   currentCharacter = journeyCast[roundIndex];
+  applySceneVisual(currentScene);
   currentSpot = chooseSpot(currentScene);
   currentSeedSpot = chooseSeedSpot(currentScene, currentSpot);
 
