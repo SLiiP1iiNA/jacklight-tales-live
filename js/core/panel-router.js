@@ -42,6 +42,8 @@ export function initPanelRouter(partialPaths) {
     lastTrigger = trigger;
     document.dispatchEvent(new CustomEvent("jacklight:panel-opening", { detail: { panelName, trigger } }));
     panel.scrollTop = 0;
+    layer.classList.toggle("panel-layer--watch", panelName === "watch");
+    panel.classList.toggle("panel--watch", panelName === "watch");
     content.innerHTML = "<p>Opening this woodland path…</p>";
     layer.hidden = false;
     document.body.classList.add("panel-open");
@@ -71,6 +73,8 @@ export function initPanelRouter(partialPaths) {
     document.body.classList.remove("panel-open");
     content.replaceChildren();
     panel.scrollTop = 0;
+    layer.classList.remove("panel-layer--watch");
+    panel.classList.remove("panel--watch");
     document.dispatchEvent(new CustomEvent("jacklight:panel-closed"));
     lastTrigger?.focus();
   }

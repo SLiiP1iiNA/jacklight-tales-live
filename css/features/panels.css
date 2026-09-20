@@ -7,6 +7,10 @@
   padding: 1rem;
 }
 
+.panel-layer--watch {
+  place-items: center;
+}
+
 .panel-backdrop {
   position: absolute;
   inset: 0;

@@ -89,7 +89,7 @@ window.WOODLAND_SEARCH_DATA={
       secretItem:{id:'lantern-key',name:'Little Lantern Key',image:'secrets/little-lantern-key.png',spots:[{x:39,y:49},{x:67,y:58},{x:84,y:78}]}
     },
     {
-      image:'../../assets/images/gallery/whispering-woods-landscape-01.webp',
+      image:'assets/woods-6.webp',
       name:'The Sunlit Path',
       shortName:'Sunlit',
       intro:'A bright woodland path winds onward through tall trees and sparkling water.',
@@ -104,7 +104,7 @@ window.WOODLAND_SEARCH_DATA={
       secretItem:{id:'map-feather',name:'Explorer Feather',image:'secrets/explorer-feather.png',spots:[{x:43,y:57},{x:73,y:47},{x:86,y:78}]}
     },
     {
-      image:'../../assets/images/gallery/whispering-woods-landscape-02.webp',
+      image:'assets/woods-7.webp',
       name:'The Old Woodland Trail',
       shortName:'Trail',
       intro:'Ancient trees lean over an older trail where the forest feels wonderfully deep.',
@@ -119,7 +119,7 @@ window.WOODLAND_SEARCH_DATA={
       secretItem:{id:'oak-leaf',name:'Old Oak Leaf',image:'secrets/old-oak-leaf.png',spots:[{x:24,y:54},{x:58,y:49},{x:78,y:79}]}
     },
     {
-      image:'../../assets/images/gallery/whispering-woods-landscape-03.webp',
+      image:'assets/woods-8.webp',
       name:'The Quiet Evening Woods',
       shortName:'Evening',
       intro:'Golden evening light settles over a quieter corner of the Whispering Woods.',
@@ -134,7 +134,7 @@ window.WOODLAND_SEARCH_DATA={
       secretItem:{id:'old-map',name:'Folded Woodland Map',image:'secrets/folded-woodland-map.png',spots:[{x:41,y:61},{x:67,y:76},{x:88,y:53}]}
     },
     {
-      image:'../../assets/images/gallery/whispering-woods-landscape-04.webp',
+      image:'assets/woods-9.webp',
       name:'Where the Meadow Opens',
       shortName:'Meadow',
       intro:'The trees open into a broad meadow with room to wander and notice tiny things.',

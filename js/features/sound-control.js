@@ -167,6 +167,7 @@ export function initSoundControl(audioPath) {
     if (!storyAudio) return;
 
     storyAudio.addEventListener("play", () => {
+      if (!listenOpen || !storyAudio.isConnected) return;
       audiobookPlaying = true;
       clearResumeTimer();
       fadeTo(0, FADE_OUT_MS).then(() => {
@@ -176,6 +177,7 @@ export function initSoundControl(audioPath) {
     });
 
     storyAudio.addEventListener("pause", () => {
+      if (!listenOpen || !storyAudio.isConnected) return;
       audiobookPlaying = true;
       clearResumeTimer();
       fadeTo(0, FADE_OUT_MS).then(() => {
@@ -185,6 +187,7 @@ export function initSoundControl(audioPath) {
     });
 
     storyAudio.addEventListener("ended", () => {
+      if (!listenOpen || !storyAudio.isConnected) return;
       audiobookPlaying = false;
       clearResumeTimer();
       resumeTimer = window.setTimeout(() => {
