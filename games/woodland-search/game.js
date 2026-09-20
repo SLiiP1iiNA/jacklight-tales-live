@@ -4,6 +4,8 @@ const SETTINGS = window.WOODLAND_SEARCH_SETTINGS;
 const audioLayer = window.jltGameAudio;
 
 let journeyCast = [];
+let journeyScenes = [];
+let lastJourneyScene = null;
 let roundIndex = 0;
 let currentScene = null;
 let currentCharacter = null;
@@ -83,6 +85,18 @@ function buildJourneyCast() {
   const barnaby = characters.find(item => item.name === 'Barnaby');
   const others = shuffle(characters.filter(item => item !== barnaby));
   journeyCast = [barnaby, ...others].slice(0, SETTINGS.roundsPerJourney);
+}
+
+function buildJourneyScenes() {
+  const shuffled = shuffle(scenes);
+  if (shuffled.length > 1 && lastJourneyScene) {
+    const differentIndex = shuffled.findIndex(scene => scene.name !== lastJourneyScene);
+    if (differentIndex > 0) {
+      [shuffled[0], shuffled[differentIndex]] = [shuffled[differentIndex], shuffled[0]];
+    }
+  }
+  journeyScenes = shuffled.slice(0, SETTINGS.roundsPerJourney);
+  lastJourneyScene = journeyScenes[0]?.name || null;
 }
 
 function clearTimers() {
@@ -206,12 +220,74 @@ function positionObjects() {
   }
 }
 
+function isRoundComplete() {
+  return found && seedFoundThisRound && secretItemFoundThisRound;
+}
+
+function getHintTarget() {
+  if (!found) return 'character';
+  if (!seedFoundThisRound) return 'seed';
+  if (!secretItemFoundThisRound) return 'secret';
+  return null;
+}
+
+function describePoint(point) {
+  if (!point) return 'Look carefully through the woodland scene.';
+  const horizontal = point.x < 34 ? 'left' : point.x > 66 ? 'right' : 'middle';
+  const vertical = point.y < 40 ? 'upper' : point.y > 65 ? 'lower' : 'middle';
+  if (horizontal === 'middle' && vertical === 'middle') return 'Look around the middle of the woodland scene.';
+  if (horizontal === 'middle') return 'Look in the ' + vertical + ' middle of the woodland scene.';
+  if (vertical === 'middle') return 'Look around the middle-' + horizontal + ' part of the woodland scene.';
+  return 'Look in the ' + vertical + '-' + horizontal + ' part of the woodland scene.';
+}
+
+function updateRoundObjective() {
+  if (!currentScene || !currentCharacter) return;
+
+  if (!found) {
+    $('target-title').textContent = 'Find ' + currentCharacter.name;
+    $('mission-line').textContent = (currentScene.intro + ' ' + (currentCharacter.clue || '')).trim();
+    return;
+  }
+
+  if (!seedFoundThisRound) {
+    $('target-title').textContent = 'Find the Heart Seed';
+    $('mission-line').textContent = 'Wonderful! Now find the glowing Heart Seed hidden on this path.';
+    return;
+  }
+
+  if (!secretItemFoundThisRound && currentSecretItem) {
+    $('target-title').textContent = 'Find the secret';
+    $('mission-line').textContent = 'One little ' + currentSecretItem.name.toLowerCase() + ' is still hiding somewhere nearby.';
+    return;
+  }
+
+  $('target-title').textContent = 'Path complete';
+  $('mission-line').textContent = 'All three little discoveries are safe. ✦';
+}
+
+function clearHintVisuals() {
+  $('pip').classList.remove('hinted');
+  $('heart-seed').classList.remove('hinted');
+  $('secret-item').classList.remove('hinted');
+}
+
+function resetHintState() {
+  clearTimeout(hintTimer);
+  clearTimeout(hintOfferTimer);
+  clearHintVisuals();
+  hintLevel = 0;
+  $('hint').classList.remove('is-offering');
+  $('hint').textContent = 'A little hint';
+  $('hint').disabled = isRoundComplete();
+}
+
 function offerHintLater() {
   clearTimeout(hintOfferTimer);
   hintOfferTimer = setTimeout(() => {
-    if (found || hintLevel > 0) return;
+    if (isRoundComplete() || hintLevel > 0) return;
     $('hint').classList.add('is-offering');
-    $('hint').textContent = 'Need a little hint?';
+    $('hint').textContent = found ? 'Need help finding the next little thing?' : 'Need a little hint?';
   }, SETTINGS.hintOfferMs);
 }
 
@@ -248,7 +324,7 @@ async function loadRound() {
   hintLevel = 0;
   const token = ++loadToken;
 
-  currentScene = scenes[roundIndex];
+  currentScene = journeyScenes[roundIndex];
   currentCharacter = journeyCast[roundIndex];
   currentSpot = chooseSpot(currentScene);
   currentSeedSpot = chooseSeedSpot(currentScene, currentSpot);
@@ -260,8 +336,7 @@ async function loadRound() {
   $('hint').disabled = true;
   $('hint').classList.remove('is-offering');
   $('hint').textContent = 'A little hint';
-  $('continue-found').hidden = true;
-  $('continue-found').disabled = false;
+  clearHintVisuals();
   $('finish').hidden = true;
 
   $('path-number').textContent = 'Path ' + (roundIndex + 1) + ' of ' + SETTINGS.roundsPerJourney;
@@ -311,6 +386,8 @@ async function loadRound() {
 
   positionObjects();
   $('hint').disabled = false;
+  updateRoundObjective();
+  resetHintState();
   $('status').textContent = 'Can you spot ' + currentCharacter.name + '? Take your time.';
 
   requestAnimationFrame(() => $('stage').classList.remove('scene-changing'));
@@ -320,6 +397,7 @@ async function loadRound() {
 function startJourney() {
   clearTimers();
   buildJourneyCast();
+  buildJourneyScenes();
   roundIndex = 0;
   heartSeeds = new Set();
   secretItems = new Set();
@@ -362,16 +440,17 @@ function updateSecretMeter() {
 
 function renderRoute(target = $('route-strip')) {
   target.replaceChildren();
-  scenes.slice(0, SETTINGS.roundsPerJourney).forEach((scene, index) => {
+  const routeScenes = journeyScenes.length ? journeyScenes : scenes;
+  routeScenes.slice(0, SETTINGS.roundsPerJourney).forEach((scene, index) => {
     const item = document.createElement('div');
     item.className = 'route-node';
     item.title = 'Path ' + (index + 1) + ': ' + scene.name;
     item.setAttribute('aria-label', item.title);
-    if (index < roundIndex || (found && index === roundIndex)) item.classList.add('is-complete');
-    if (!found && index === roundIndex) item.classList.add('is-current');
+    if (index < roundIndex || (isRoundComplete() && index === roundIndex)) item.classList.add('is-complete');
+    if (!isRoundComplete() && index === roundIndex) item.classList.add('is-current');
 
     const dot = document.createElement('span');
-    dot.textContent = index < roundIndex || (found && index === roundIndex) ? '✓' : String(index + 1);
+    dot.textContent = index < roundIndex || (isRoundComplete() && index === roundIndex) ? '✓' : String(index + 1);
     const label = document.createElement('strong');
     label.textContent = scene.shortName;
 
@@ -383,7 +462,8 @@ function renderRoute(target = $('route-strip')) {
 function renderResultRoute() {
   const target = $('result-route');
   target.replaceChildren();
-  scenes.slice(0, SETTINGS.roundsPerJourney).forEach((scene, index) => {
+  const routeScenes = journeyScenes.length ? journeyScenes : scenes;
+  routeScenes.slice(0, SETTINGS.roundsPerJourney).forEach((scene, index) => {
     const dot = document.createElement('span');
     dot.className = index <= roundIndex ? 'is-lit' : '';
     dot.title = scene.name;
@@ -394,7 +474,7 @@ function renderResultRoute() {
 
 function lockGame(locked) {
   $('viewport').inert = locked;
-  $('hint').disabled = locked || found;
+  $('hint').disabled = locked || isRoundComplete();
   $('sound').disabled = false;
   $('leave').disabled = false;
 }
@@ -446,9 +526,9 @@ async function unlockCelebrationControls() {
 }
 
 function showCelebration({ seedJustFound = false } = {}) {
+  if (!isRoundComplete()) return;
   clearTimeout(hintOfferTimer);
   clearTimeout(hintTimer);
-  $('continue-found').hidden = true;
 
   $('pip').classList.add('found');
   $('pip').disabled = true;
@@ -485,7 +565,7 @@ function showCelebration({ seedJustFound = false } = {}) {
       audioLayer?.play('allFound', { volume: 0.92, interrupt: false });
     }
   } else {
-    const nextScene = scenes[roundIndex + 1];
+    const nextScene = journeyScenes[roundIndex + 1];
     $('found-kicker').textContent = secretItemFoundThisRound
       ? 'A little secret was waiting too.'
       : 'Wonderful spotting!';
@@ -516,24 +596,17 @@ function handleCharacterFound() {
   found = true;
   $('pip').classList.add('found');
   $('pip').disabled = true;
-  $('hint').disabled = true;
   playFriendFoundCue();
 
-  if (seedFoundThisRound) {
-    showCelebration();
-    return;
-  }
-
-  $('status').textContent = 'You found ' + currentCharacter.name + '! A hidden Heart Seed may still be nearby.';
+  updateRoundObjective();
+  resetHintState();
+  $('status').textContent = seedFoundThisRound
+    ? 'You found ' + currentCharacter.name + '! One little secret is still hiding nearby.'
+    : 'You found ' + currentCharacter.name + '! Now look for the Heart Seed.';
   showStatusToast(4200);
-  $('continue-found').hidden = false;
-  $('continue-found').disabled = true;
+  offerHintLater();
 
-  (async () => {
-    await (audioLayer?.waitForIdle?.() || Promise.resolve());
-    if (!$('continue-found').hidden && !found) $('continue-found').disabled = false;
-    if (!$('continue-found').hidden && found) $('continue-found').disabled = false;
-  })();
+  if (isRoundComplete()) showCelebration();
 }
 
 function makeLeafPuff(event) {
@@ -567,12 +640,20 @@ function collectHeartSeed(event) {
   showStatusToast(2800);
   if (navigator.vibrate) navigator.vibrate(18);
 
-  if (found) {
-    showCelebration({ seedJustFound: true });
+  updateRoundObjective();
+  resetHintState();
+
+  if (isRoundComplete()) {
+    setTimeout(() => showCelebration({ seedJustFound: true }), 460);
     return;
   }
 
   playCue('heartSeed', { interrupt: false, volume: 0.82 });
+  $('status').textContent = found
+    ? 'Heart Seed found! Now look for the little secret hiding nearby.'
+    : 'Heart Seed found! Keep searching for ' + currentCharacter.name + '.';
+  showStatusToast(3200);
+  offerHintLater();
   setTimeout(() => { seed.hidden = true; }, 420);
 }
 
@@ -599,6 +680,19 @@ function collectSecretItem(event) {
   if (navigator.vibrate) navigator.vibrate(12);
   playCue(chooseSecretFindCue(), { interrupt: false, volume: 0.72 });
 
+  updateRoundObjective();
+  resetHintState();
+
+  if (isRoundComplete()) {
+    setTimeout(() => showCelebration(), 460);
+  } else {
+    $('status').textContent = found
+      ? (seedFoundThisRound ? 'Secret found! This path is complete. ✦' : 'Secret found! The Heart Seed is still hiding nearby.')
+      : 'Secret found! Keep searching for ' + currentCharacter.name + '.';
+    showStatusToast(3200);
+    offerHintLater();
+  }
+
   setTimeout(() => {
     $('secret-item').hidden = true;
     $('secret-item').classList.remove('collected');
@@ -624,31 +718,47 @@ $('sound').addEventListener('click', () => {
 });
 
 $('hint').addEventListener('click', () => {
-  if (found || !currentSpot || mischiefEscapedThisRound) return;
+  if (isRoundComplete() || mischiefEscapedThisRound) return;
+  const target = getHintTarget();
+  if (!target) return;
+
   clearTimeout(hintTimer);
   clearTimeout(hintOfferTimer);
   $('hint').classList.remove('is-offering');
+  clearHintVisuals();
+
+  const point = target === 'character' ? currentSpot : target === 'seed' ? currentSeedSpot : currentSecretSpot;
 
   if (hintLevel === 0) {
     hintLevel = 1;
-    $('status').textContent = currentSpot.hint || 'Look closely around the woodland details.';
-    showStatusToast(4500);
+    const firstHint = target === 'character'
+      ? (currentSpot.hint || 'Look closely around the woodland details.')
+      : target === 'seed'
+        ? 'The Heart Seed is still hiding nearby. ' + describePoint(currentSeedSpot)
+        : 'A tiny ' + currentSecretItem.name.toLowerCase() + ' is still hiding nearby. ' + describePoint(currentSecretSpot);
+    $('status').textContent = firstHint;
+    showStatusToast(4800);
     $('hint').textContent = 'One more hint';
     playCue('hintOne', { interrupt: false, volume: 0.88 });
     return;
   }
 
   hintLevel = 2;
-  $('pip').classList.add('hinted');
-  $('status').textContent = 'Watch for a tiny golden glow.';
+  const element = target === 'character' ? $('pip') : target === 'seed' ? $('heart-seed') : $('secret-item');
+  element.classList.add('hinted');
+  $('status').textContent = target === 'character'
+    ? 'Watch for a tiny golden glow around ' + currentCharacter.name + '.'
+    : target === 'seed'
+      ? 'Watch for the golden Heart Seed glow.'
+      : 'Watch for the little woodland secret glow.';
   showStatusToast(3500);
   $('hint').textContent = 'Glow shown';
   $('hint').disabled = true;
   playCue('hintTwo', { interrupt: false, volume: 0.88 });
 
   hintTimer = setTimeout(() => {
-    $('pip').classList.remove('hinted');
-    if (!found) {
+    element.classList.remove('hinted');
+    if (!isRoundComplete()) {
       $('hint').disabled = false;
       $('hint').textContent = 'Glow again';
     }
@@ -672,16 +782,12 @@ $('secret-item').addEventListener('click', collectSecretItem);
 
 $('viewport').addEventListener('pointerup', makeLeafPuff);
 
-$('continue-found').addEventListener('click', () => {
-  $('continue-found').hidden = true;
-  showCelebration();
-});
-
 $('continue-path').addEventListener('click', () => {
   if ($('continue-path').disabled) return;
 
   if ($('continue-path').dataset.action === 'restart') {
     buildJourneyCast();
+    buildJourneyScenes();
     roundIndex = 0;
     heartSeeds = new Set();
     secretItems = new Set();
