@@ -42,6 +42,7 @@ export const siteConfig = {
     channelId: "UCkVmyA-xY2LVIy46WfHV-DQ",
     playlistId: "PLLLqtNZiTQjo",
     featuredVideoId: "ZxmrxHcUXWY",
+    comingSoonAudio: "https://pub-9ea739df2a0c435bbc605d2f4bfc6fb5.r2.dev/Website%20-%20Jingles/Morning_in_the_Clearing-v2.mp3",
     watchModes: {
       shorts: {
         label: "Shorts · vertical",
