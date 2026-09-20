@@ -12,6 +12,7 @@
   .route-strip{top:1rem}
   .route-node strong{display:none}
   .seed-meter{top:1rem;right:1rem}
+   .secret-meter{top:calc(1rem + 46px);right:1rem}
   .game-actions{width:min(560px,72vw)}
 }
 
