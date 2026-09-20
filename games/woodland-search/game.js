@@ -205,19 +205,111 @@ function clampToScene(element, pad = SETTINGS.targetEdgePadding ?? 8) {
   }
 }
 
+function objectsOverlap(first, second, gap = 10) {
+  if (!first || !second || first.hidden || second.hidden) return false;
+  const a = first.getBoundingClientRect();
+  const b = second.getBoundingClientRect();
+  if (!a.width || !a.height || !b.width || !b.height) return false;
+
+  return (
+    a.left < b.right + gap &&
+    a.right > b.left - gap &&
+    a.top < b.bottom + gap &&
+    a.bottom > b.top - gap
+  );
+}
+
+function placeObjectAtPoint(element, point, pad = 6) {
+  mapPointToScene(point, element);
+  clampToScene(element, pad);
+}
+
+function randomFallbackSpots(count = 32) {
+  return Array.from({ length: count }, () => ({
+    x: 10 + Math.random() * 80,
+    y: 14 + Math.random() * 72
+  }));
+}
+
+function findSafeObjectSpot(element, candidates, blockers, pad = 10) {
+  const unique = [];
+  const seen = new Set();
+
+  [...candidates, ...randomFallbackSpots()].forEach(point => {
+    if (!point) return;
+    const key = Math.round(point.x * 10) + ':' + Math.round(point.y * 10);
+    if (seen.has(key)) return;
+    seen.add(key);
+    unique.push(point);
+  });
+
+  for (const point of unique) {
+    placeObjectAtPoint(element, point, pad);
+    if (!blockers.some(blocker => objectsOverlap(element, blocker, pad))) {
+      return point;
+    }
+  }
+
+  return candidates[0] || { x: 50, y: 50 };
+}
+
+function resolveObjectOverlaps() {
+  const pip = $('pip');
+  const seed = $('heart-seed');
+  const secret = $('secret-item');
+
+  if (!pip.hidden && !mischiefEscapedThisRound) {
+    placeObjectAtPoint(pip, currentSpot, 8);
+  }
+
+  if (!seed.hidden) {
+    const seedCandidates = [
+      currentSeedSpot,
+      ...shuffle(currentScene.seedSpots || [])
+    ];
+    currentSeedSpot = findSafeObjectSpot(seed, seedCandidates, [pip], 8);
+  }
+
+  if (!secret.hidden) {
+    const secretCandidates = [
+      currentSecretSpot,
+      ...shuffle(currentScene.secretItem?.spots || [])
+    ];
+    currentSecretSpot = findSafeObjectSpot(secret, secretCandidates, [pip, seed], 8);
+  }
+
+  // One final pass catches any edge-clamping interaction between the three.
+  if (!seed.hidden && objectsOverlap(seed, pip, 8)) {
+    currentSeedSpot = findSafeObjectSpot(
+      seed,
+      shuffle(currentScene.seedSpots || []),
+      [pip, secret],
+      8
+    );
+  }
+
+  if (!secret.hidden && (objectsOverlap(secret, pip, 8) || objectsOverlap(secret, seed, 8))) {
+    currentSecretSpot = findSafeObjectSpot(
+      secret,
+      shuffle(currentScene.secretItem?.spots || []),
+      [pip, seed],
+      8
+    );
+  }
+}
+
 function positionObjects() {
   if (currentSpot && !$('pip').hidden && !mischiefEscapedThisRound) {
     mapPointToScene(currentSpot, $('pip'));
-    requestAnimationFrame(() => clampToScene($('pip')));
   }
   if (currentSeedSpot && !$('heart-seed').hidden) {
     mapPointToScene(currentSeedSpot, $('heart-seed'));
-    requestAnimationFrame(() => clampToScene($('heart-seed'), 6));
   }
   if (currentSecretSpot && !$('secret-item').hidden) {
     mapPointToScene(currentSecretSpot, $('secret-item'));
-    requestAnimationFrame(() => clampToScene($('secret-item'), 6));
   }
+
+  resolveObjectOverlaps();
 }
 
 function isRoundComplete() {
@@ -482,7 +574,15 @@ function lockGame(locked) {
 function startMischiefRun() {
   if (!currentCharacter?.mischief || mischiefEscapedThisRound || found) return false;
 
-  const candidates = shuffle(currentScene.spots.filter(spot => Math.hypot(spot.x - currentSpot.x, spot.y - currentSpot.y) > 28));
+  const candidates = shuffle(currentScene.spots.filter(spot => {
+    if (Math.hypot(spot.x - currentSpot.x, spot.y - currentSpot.y) <= 28) return false;
+    const pixel = scenePixelPoint(spot);
+    const seedPixel = currentSeedSpot ? scenePixelPoint(currentSeedSpot) : null;
+    const secretPixel = currentSecretSpot ? scenePixelPoint(currentSecretSpot) : null;
+    const farFromSeed = !seedPixel || Math.hypot(pixel.left - seedPixel.left, pixel.top - seedPixel.top) > 70;
+    const farFromSecret = !secretPixel || Math.hypot(pixel.left - secretPixel.left, pixel.top - secretPixel.top) > 70;
+    return farFromSeed && farFromSecret;
+  }));
   const nextSpot = candidates[0] || chooseSpot(currentScene);
   const nextPixel = scenePixelPoint(nextSpot);
 
