@@ -511,6 +511,7 @@ function startJourney() {
 
 function leaveJourney() {
   clearTimers();
+  window.jltWoodlandGameMusic?.stop?.();
   ++loadToken;
   playCue('goodbye', { volume: 0.8 });
   document.body.classList.remove('game-active');
@@ -809,6 +810,7 @@ function collectSecretItem(event) {
 $('play').addEventListener('click', () => {
   setSound(true);
   startJourney();
+  window.jltWoodlandGameMusic?.start?.();
   audioLayer?.playSequence?.(['welcome', 'beginSearch'], { volume: 0.92 });
 });
 
