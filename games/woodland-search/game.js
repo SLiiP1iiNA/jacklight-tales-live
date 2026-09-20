@@ -226,7 +226,10 @@ function maybePlaceSecretItem() {
 
   currentSecretItem = sceneItem;
   currentSecretSpot = chooseSecretSpot(currentScene, currentSpot, currentSeedSpot);
-  const image = $('secret-item').querySelector('img');
+  const secretButton = $('secret-item');
+  secretButton.disabled = false;
+  secretButton.classList.remove('collected');
+  const image = secretButton.querySelector('img');
   image.src = 'assets/' + sceneItem.image;
   image.alt = '';
   $('secret-item').setAttribute('aria-label', 'Hidden secret: ' + sceneItem.name);
