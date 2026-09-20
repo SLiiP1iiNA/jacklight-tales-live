@@ -124,6 +124,10 @@ function loadSoundPreference() {
 
 function setSound(enabled) {
   audioLayer?.setEnabled?.(enabled);
+  window.jltWoodlandGameMusic?.setEnabled?.(enabled);
+  if (enabled && document.body.classList.contains('game-active')) {
+    window.jltWoodlandGameMusic?.start?.();
+  }
   $('sound').setAttribute('aria-pressed', String(enabled));
   $('sound').textContent = enabled ? '♫ Sound on' : '♫ Sound off';
   saveSoundPreference(enabled);
