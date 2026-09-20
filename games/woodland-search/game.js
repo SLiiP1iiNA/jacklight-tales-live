@@ -22,6 +22,7 @@ let heartSeeds = new Set();
 let friendFoundBag = [];
 let friendCuePlayed = false;
 let lastFriendFoundCue = null;
+let currentFriendFoundCue = null;
 
 const FRIEND_FOUND_CUES = ['friendFound', 'friendFound2', 'friendFound3', 'friendFound4', 'friendFound5'];
 
@@ -237,6 +238,7 @@ async function loadRound() {
   $('hint').classList.remove('is-offering');
   $('hint').textContent = 'A little hint';
   $('continue-found').hidden = true;
+  $('finish').hidden = true;
 
   $('path-number').textContent = `Path ${roundIndex + 1} of ${SETTINGS.roundsPerJourney}`;
   $('place-name').textContent = currentScene.name;
@@ -321,7 +323,8 @@ function playFriendFoundCue() {
   const foundCue = currentCharacter.name === 'Barnaby'
     ? 'barnabyFound'
     : chooseFriendFoundCue();
-  playCue(foundCue, { volume: 0.9 });
+  currentFriendFoundCue = foundCue;
+  playCue(foundCue, { interrupt: false, volume: 0.9 });
 }
 
 function showCelebration({ seedJustFound = false } = {}) {
@@ -342,6 +345,7 @@ function showCelebration({ seedJustFound = false } = {}) {
   lockGame(true);
 
   const finalRound = roundIndex === SETTINGS.roundsPerJourney - 1;
+  $('finish').hidden = !finalRound;
   if (finalRound) {
     $('found-kicker').textContent = 'Every path is glowing!';
     $('next-label').textContent = heartSeeds.size === SETTINGS.roundsPerJourney
@@ -350,12 +354,12 @@ function showCelebration({ seedJustFound = false } = {}) {
     $('continue-path').textContent = 'Where shall we wander? ↻';
     $('continue-path').dataset.action = 'restart';
     if (seedJustFound) {
-      audioLayer?.playSequence(['heartSeed', 'allFound'], { volume: 0.92 });
+      audioLayer?.playSequence(['heartSeed', 'allFound'], { volume: 0.92, interrupt: false });
     } else if (friendCuePlayed) {
-      audioLayer?.playSequence(['nextLocation', 'allFound'], { volume: 0.92 });
+      audioLayer?.playSequence(['nextLocation', 'allFound'], { volume: 0.92, interrupt: false });
     } else {
       playFriendFoundCue();
-      audioLayer?.play('allFound', { volume: 0.92 });
+      audioLayer?.play('allFound', { volume: 0.92, interrupt: false });
     }
   } else {
     const nextScene = scenes[roundIndex + 1];
@@ -368,9 +372,9 @@ function showCelebration({ seedJustFound = false } = {}) {
     $('continue-path').textContent = 'Where shall we wander? →';
     $('continue-path').dataset.action = 'continue';
     if (seedJustFound) {
-      audioLayer?.playSequence(['heartSeed', 'nextLocation'], { volume: 0.9 });
+      audioLayer?.playSequence(['heartSeed', 'nextLocation'], { volume: 0.9, interrupt: false });
     } else if (friendCuePlayed) {
-      audioLayer?.play('nextLocation', { volume: 0.9 });
+      audioLayer?.play('nextLocation', { volume: 0.9, interrupt: false });
     } else {
       playFriendFoundCue();
       audioLayer?.play('nextLocation', { volume: 0.9 });
@@ -452,7 +456,7 @@ $('hint').addEventListener('click', () => {
     $('status').textContent = currentSpot.hint || 'Look closely around the woodland details.';
     showStatusToast(4500);
     $('hint').textContent = 'One more hint';
-    playCue('hintOne', { volume: 0.88 });
+    playCue('hintOne', { interrupt: false, volume: 0.88 });
     return;
   }
 
@@ -462,7 +466,7 @@ $('hint').addEventListener('click', () => {
   showStatusToast(3500);
   $('hint').textContent = 'Glow shown';
   $('hint').disabled = true;
-  playCue('hintTwo', { volume: 0.88 });
+  playCue('hintTwo', { interrupt: false, volume: 0.88 });
 
   hintTimer = setTimeout(() => {
     $('pip').classList.remove('hinted');
@@ -503,7 +507,7 @@ function collectHeartSeed(event) {
     return;
   }
 
-  playCue('heartSeed', { volume: 0.82 });
+  playCue('heartSeed', { interrupt: false, volume: 0.82 });
   setTimeout(() => { seed.hidden = true; }, 420);
 }
 
