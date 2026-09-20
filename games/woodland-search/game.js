@@ -93,14 +93,14 @@ function loadSoundPreference() {
 }
 
 function setSound(enabled) {
-  audioLayer?.setEnabled(enabled);
+  audioLayer?.setEnabled?.(enabled);
   $('sound').setAttribute('aria-pressed', String(enabled));
   $('sound').textContent = enabled ? '♫ Sound on' : '♫ Sound off';
   saveSoundPreference(enabled);
 }
 
 function playCue(name, options) {
-  return audioLayer?.play(name, options);
+  return audioLayer?.play?.(name, options);
 }
 
 function chooseSpot(scene) {
@@ -567,8 +567,8 @@ function collectSecretItem(event) {
 
 $('play').addEventListener('click', () => {
   setSound(true);
-  audioLayer?.playSequence(['welcome', 'beginSearch'], { volume: 0.92 });
   startJourney();
+  audioLayer?.playSequence?.(['welcome', 'beginSearch'], { volume: 0.92 });
 });
 
 $('leave').addEventListener('click', leaveJourney);
