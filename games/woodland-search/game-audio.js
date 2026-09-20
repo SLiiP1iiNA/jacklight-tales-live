@@ -1,6 +1,6 @@
 /*
  * Woodland Search — Luna voice layer.
- * Uses one native <audio> element and the exact public Cloudflare R2 URLs.
+ * Queue-aware so quick taps never cut Luna off mid-sentence.
  */
 (() => {
   const base = 'https://pub-9ea739df2a0c435bbc605d2f4bfc6fb5.r2.dev/Game%20Audio/Woodland%20Search/Luna/';
@@ -31,14 +31,13 @@
     return;
   }
 
-  const friendFoundCues = ['friendFound', 'friendFound2', 'friendFound3', 'friendFound4', 'friendFound5'];
-
   player.preload = 'auto';
   player.playsInline = true;
 
   let enabled = true;
   let queue = [];
   let currentName = null;
+  let idleWaiters = [];
 
   function emitError(name, error) {
     console.warn('Woodland Search Luna audio failed:', name, error);
@@ -51,10 +50,23 @@
     }));
   }
 
+  function resolveIdle() {
+    if (enabled && (currentName || !player.paused || queue.length)) return;
+    const waiters = idleWaiters;
+    idleWaiters = [];
+    waiters.forEach(resolve => resolve());
+  }
+
+  function waitForIdle() {
+    if (!enabled || (!currentName && player.paused && !queue.length)) {
+      return Promise.resolve();
+    }
+    return new Promise(resolve => idleWaiters.push(resolve));
+  }
+
   function prepare(name, volume) {
     const src = slots[name];
     if (!src) return false;
-
     currentName = name;
     player.muted = !enabled;
     player.volume = Math.max(0, Math.min(1, volume));
@@ -72,6 +84,8 @@
     } catch (error) {
       currentName = null;
       emitError(name, error);
+      queue = [];
+      resolveIdle();
       return false;
     }
   }
@@ -83,12 +97,13 @@
       player.pause();
       player.currentTime = 0;
     } catch {}
+    resolveIdle();
   }
 
   function play(name, { interrupt = true, volume = 0.92 } = {}) {
     if (!enabled || !slots[name]) return Promise.resolve(false);
 
-    if (!interrupt && !player.paused) {
+    if (!interrupt && (!player.paused || currentName)) {
       queue.push({ name, volume });
       return Promise.resolve(true);
     }
@@ -104,7 +119,7 @@
     const valid = names.filter(name => slots[name]);
     if (!enabled || !valid.length) return Promise.resolve(false);
 
-    if (!interrupt && !player.paused) {
+    if (!interrupt && (!player.paused || currentName)) {
       valid.forEach(name => queue.push({ name, volume }));
       return Promise.resolve(true);
     }
@@ -119,7 +134,11 @@
   player.addEventListener('ended', () => {
     currentName = null;
     const next = queue.shift();
-    if (enabled && next) start(next.name, next.volume);
+    if (enabled && next) {
+      start(next.name, next.volume);
+    } else {
+      resolveIdle();
+    }
   });
 
   player.addEventListener('error', () => {
@@ -127,19 +146,21 @@
     currentName = null;
     queue = [];
     emitError(failedName, player.error || new Error('Media file could not load'));
+    resolveIdle();
   });
 
   function setEnabled(value) {
     enabled = Boolean(value);
     player.muted = !enabled;
     if (!enabled) stop();
+    else resolveIdle();
   }
 
   window.jltGameAudio = {
     play,
     playSequence,
     stop,
-    setEnabled,
+    waitForIdle,
     isEnabled: () => enabled,
     isPlaying: () => enabled && !player.paused,
     current: () => currentName,
