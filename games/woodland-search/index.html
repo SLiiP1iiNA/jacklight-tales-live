@@ -3,18 +3,18 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-  <meta name="description" content="Explore five gentle woodland paths and find Barnaby and his friends in Woodland Search by JackLight Tales.">
+  <meta name="description" content="Explore ten gentle woodland paths and find Barnaby and his friends in Woodland Search by JackLight Tales.">
   <script>
     (()=>{const sync=()=>{const v=window.visualViewport,w=v?.width||innerWidth,h=v?.height||innerHeight;document.documentElement.classList.toggle('phone-landscape-mode',w>h&&h<=560&&w<=1100);document.documentElement.classList.toggle('phone-portrait-mode',h>=w&&w<=760)};sync();addEventListener('orientationchange',()=>setTimeout(sync,80));window.visualViewport?.addEventListener('resize',sync)})();
   </script>
   <title>Woodland Search · JackLight Tales</title>
-  <link rel="stylesheet" href="tokens.css?v=20260918-mobile3">
-  <link rel="stylesheet" href="base.css?v=20260918-gamefix1">
-  <link rel="stylesheet" href="desktop.css?v=20260918-mobile3">
-  <link rel="stylesheet" href="tablet.css?v=20260918-mobile3">
-  <link rel="stylesheet" href="phone-portrait.css?v=20260918-gamefix1">
-  <link rel="stylesheet" href="phone-landscape.css?v=20260918-gamefix1">
-  <link rel="stylesheet" href="celebration.css?v=20260918-mobile3">
+  <link rel="stylesheet" href="tokens.css?v=20260920-ws2">
+  <link rel="stylesheet" href="base.css?v=20260920-ws2">
+  <link rel="stylesheet" href="desktop.css?v=20260920-ws2">
+  <link rel="stylesheet" href="tablet.css?v=20260920-ws2">
+  <link rel="stylesheet" href="phone-portrait.css?v=20260920-ws2">
+  <link rel="stylesheet" href="phone-landscape.css?v=20260920-ws2">
+  <link rel="stylesheet" href="celebration.css?v=20260920-ws2">
 </head>
 <body>
 <header class="site-bar">
@@ -27,22 +27,27 @@
     <div class="welcome-copy">
       <img class="welcome-mark" src="assets/jlt.png" alt="JackLight Tales lantern">
       <p class="eyebrow">Woodland Search</p>
-      <h1 id="welcome-title">A little path is waiting.</h1>
-      <p>Travel through five places in the Whispering Woods. Find a friend in every scene, discover hidden Heart Seeds if you spot them, and take all the time you need.</p>
+      <h1 id="welcome-title">A bigger little adventure is waiting.</h1>
+      <p>Travel through ten places in the Whispering Woods. Find all ten friends, discover hidden Heart Seeds and keep an eye out for little woodland secrets. Take all the time you need.</p>
       <div class="welcome-promises" aria-label="Game features">
-        <span>✦ No timer</span><span>✦ No lives</span><span>✦ Gentle hints</span>
+        <span>✦ 10 paths</span><span>✦ 10 Heart Seeds</span><span>✦ Secret finds</span><span>✦ Gentle hints</span>
       </div>
       <button id="play" class="primary-action" type="button">Begin the search <span aria-hidden="true">→</span></button>
     </div>
 
-    <div class="journey-preview" aria-label="Five woodland places">
+    <div class="journey-preview" aria-label="Ten woodland places">
       <div class="journey-preview__scene"><img src="assets/woods-1.webp" alt=""></div>
       <ol>
-        <li><span>1</span><strong>Golden Apple Clearing</strong></li>
-        <li><span>2</span><strong>Glowing Woodland Pool</strong></li>
+        <li><span>1</span><strong>Golden Apple</strong></li>
+        <li><span>2</span><strong>Glowing Pool</strong></li>
         <li><span>3</span><strong>Little Stream</strong></li>
         <li><span>4</span><strong>Sunflower Valley</strong></li>
         <li><span>5</span><strong>Lantern Village</strong></li>
+        <li><span>6</span><strong>Sunlit Path</strong></li>
+        <li><span>7</span><strong>Old Woodland Trail</strong></li>
+        <li><span>8</span><strong>Quiet Evening</strong></li>
+        <li><span>9</span><strong>Meadow Opening</strong></li>
+        <li><span>10</span><strong>Winter Circus</strong></li>
       </ol>
     </div>
   </section>
@@ -54,6 +59,7 @@
           <img id="woods" src="assets/woods-1.webp" alt="The golden apple clearing" draggable="false">
           <div class="fireflies" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span><span></span></div>
           <button id="heart-seed" type="button" aria-label="A hidden Heart Seed" hidden><span aria-hidden="true"></span></button>
+          <button id="secret-item" type="button" aria-label="A hidden woodland secret" hidden><span aria-hidden="true"></span></button>
           <button id="pip" type="button" aria-label="Found Barnaby" hidden><img src="assets/barnaby.png" alt="" draggable="false"></button>
         </div>
       </div>
@@ -61,7 +67,7 @@
       <div class="mission-hud" aria-live="polite">
         <img id="reference" class="reference" src="assets/barnaby.png" alt="Barnaby">
         <div>
-          <p class="mission-kicker"><span id="path-number">Path 1 of 5</span> · <span id="place-name">Golden Apple Clearing</span></p>
+          <p class="mission-kicker"><span id="path-number">Path 1 of 10</span> · <span id="place-name">Golden Apple Clearing</span></p>
           <h1 id="target-title">Find Barnaby</h1>
           <p id="mission-line">Barnaby has wandered somewhere into the clearing.</p>
         </div>
@@ -71,7 +77,7 @@
 
       <div class="seed-meter" aria-live="polite" title="Hidden Heart Seeds found">
         <span class="seed-icon" aria-hidden="true"></span>
-        <strong id="seed-count">0 / 5</strong>
+        <strong id="seed-count">0 / 10</strong>
       </div>
 
       <p id="status" role="status" aria-live="polite">Look carefully through the clearing.</p>
@@ -91,13 +97,17 @@
             <p id="found-kicker" class="found-kicker">Wonderful spotting!</p>
             <h2 id="win-title">You found Barnaby!</h2>
             <p id="celebration-copy">The path is glowing a little brighter now.</p>
+            <div class="celebration-badges" aria-live="polite">
+              <span id="seed-result" hidden>✦ Heart Seed found</span>
+              <span id="secret-result" hidden>❖ Secret found</span>
+            </div>
           </div>
           <div class="journey-result">
             <div id="result-route" class="result-route" aria-hidden="true"></div>
             <p id="next-label">Another woodland path is waiting.</p>
           </div>
           <div class="celebration-actions">
-            <button id="continue-path" class="primary-action" type="button">Continue the path →</button>
+            <button id="continue-path" class="primary-action" type="button">Where shall we wander? →</button>
             <a id="finish" href="../../index.html" hidden>Return to JackLight Tales</a>
           </div>
         </div>
@@ -112,10 +122,10 @@
   src="https://pub-9ea739df2a0c435bbc605d2f4bfc6fb5.r2.dev/Game%20Audio/Woodland%20Search/Luna/Welcome.mp3"></audio>
 <audio id="woodland-music" preload="auto" loop playsinline webkit-playsinline aria-hidden="true"></audio>
 
-<script src="game-audio.js?v=20260918-audio7"></script>
+<script src="game-audio.js?v=20260920-ws2"></script>
 <script src="game-music.js?v=20260919-audio1"></script>
-<script src="game-settings.js?v=20260918-audio5"></script>
-<script src="game-data.js?v=20260918-mobile3"></script>
-<script src="game.js?v=20260918-audio8"></script>
+<script src="game-settings.js?v=20260920-ws2"></script>
+<script src="game-data.js?v=20260920-ws2"></script>
+<script src="game.js?v=20260920-ws2"></script>
 </body>
 </html>
