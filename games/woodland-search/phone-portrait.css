@@ -71,7 +71,9 @@
   #mission-line{margin-top:.14rem;font-size:.55rem;line-height:1.16;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
 
   .seed-meter{top:max(.45rem,env(safe-area-inset-top));right:.5rem;min-height:34px;padding:.3rem .48rem}
+  .secret-meter{top:calc(max(.45rem,env(safe-area-inset-top)) + 38px);right:.5rem}
   .seed-icon{width:9px;height:14px}
+  .secret-icon{width:11px;height:11px;font-size:.5rem}
   .seed-meter strong{font-size:.55rem}
 
   .route-strip{top:auto;bottom:7.45rem;gap:.24rem;padding:.24rem .32rem}
