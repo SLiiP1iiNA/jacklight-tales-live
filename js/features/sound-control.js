@@ -12,6 +12,7 @@ export function initSoundControl(audioPath) {
   const GAME_STATE_KEY = "jacklight:woodland-audio-state";
 
   let listenOpen = false;
+  let cinemaOpen = false;
   let audiobookPlaying = false;
   let resumeTimer = null;
   let siteAudioStarted = false;
@@ -141,6 +142,17 @@ export function initSoundControl(audioPath) {
   }, { once: true, capture: true });
 
   document.addEventListener("jacklight:panel-opening", event => {
+    if (event.detail.panelName === "watch") {
+      cinemaOpen = true;
+      listenOpen = false;
+      audiobookPlaying = false;
+      clearResumeTimer();
+      stopWoodlandSound();
+      return;
+    }
+
+    cinemaOpen = false;
+
     if (event.detail.panelName !== "listen") return;
     listenOpen = true;
     audiobookPlaying = false;
@@ -182,6 +194,13 @@ export function initSoundControl(audioPath) {
   });
 
   document.addEventListener("jacklight:panel-closed", event => {
+    if (cinemaOpen) {
+      cinemaOpen = false;
+      clearResumeTimer();
+      startWoodlandSound(NORMAL_VOLUME, FADE_IN_MS);
+      return;
+    }
+
     if (event.detail?.panelName && event.detail.panelName !== "listen") return;
     if (!listenOpen) return;
     listenOpen = false;
