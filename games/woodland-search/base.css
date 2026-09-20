@@ -58,7 +58,7 @@ footer{justify-content:center;color:var(--muted);font-size:.82rem}
 #secret-item::before{content:"";position:absolute;inset:7px;border-radius:50%;background:radial-gradient(circle,rgba(255,226,132,.28),transparent 70%);filter:blur(2px);z-index:-1}
 #secret-item img{display:block;width:38px;height:38px;margin:auto;object-fit:contain;filter:drop-shadow(0 .28rem .34rem rgba(0,0,0,.34)) drop-shadow(0 0 9px rgba(255,218,115,.42))}
 #heart-seed.collected,#secret-item.collected{animation:seed-pop .42s ease both}
-.seed-meter.seed-earned{animation:seed-meter-bump .62s ease both}
+.seed-meter.seed-earned,.secret-meter.secret-earned{animation:seed-meter-bump .62s ease both}
 @keyframes seed-meter-bump{0%,100%{transform:scale(1)}35%{transform:scale(1.16)}65%{transform:scale(.98)}}
 .leaf-puff{position:absolute;z-index:14;transform:translate(-50%,-50%);pointer-events:none;font-size:1rem;animation:leaf-puff .8s ease-out both}
 
