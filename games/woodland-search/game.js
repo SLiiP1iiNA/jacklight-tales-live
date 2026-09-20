@@ -4,8 +4,6 @@ const SETTINGS = window.WOODLAND_SEARCH_SETTINGS;
 const audioLayer = window.jltGameAudio;
 
 let journeyCast = [];
-let journeyScenes = [];
-let lastJourneyScene = null;
 let roundIndex = 0;
 let currentScene = null;
 let currentCharacter = null;
@@ -85,18 +83,6 @@ function buildJourneyCast() {
   const barnaby = characters.find(item => item.name === 'Barnaby');
   const others = shuffle(characters.filter(item => item !== barnaby));
   journeyCast = [barnaby, ...others].slice(0, SETTINGS.roundsPerJourney);
-}
-
-function buildJourneyScenes() {
-  const shuffled = shuffle(scenes);
-  if (shuffled.length > 1 && lastJourneyScene) {
-    const differentIndex = shuffled.findIndex(scene => scene.name !== lastJourneyScene);
-    if (differentIndex > 0) {
-      [shuffled[0], shuffled[differentIndex]] = [shuffled[differentIndex], shuffled[0]];
-    }
-  }
-  journeyScenes = shuffled.slice(0, SETTINGS.roundsPerJourney);
-  lastJourneyScene = journeyScenes[0]?.name || null;
 }
 
 function clearTimers() {
@@ -262,7 +248,7 @@ async function loadRound() {
   hintLevel = 0;
   const token = ++loadToken;
 
-  currentScene = journeyScenes[roundIndex];
+  currentScene = scenes[roundIndex];
   currentCharacter = journeyCast[roundIndex];
   currentSpot = chooseSpot(currentScene);
   currentSeedSpot = chooseSeedSpot(currentScene, currentSpot);
@@ -334,7 +320,6 @@ async function loadRound() {
 function startJourney() {
   clearTimers();
   buildJourneyCast();
-  buildJourneyScenes();
   roundIndex = 0;
   heartSeeds = new Set();
   secretItems = new Set();
