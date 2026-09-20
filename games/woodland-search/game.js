@@ -347,7 +347,7 @@ function showCelebration({ seedJustFound = false } = {}) {
     $('next-label').textContent = heartSeeds.size === SETTINGS.roundsPerJourney
       ? 'You found every hidden Heart Seed too. The whole woodland is shining.'
       : `You found ${heartSeeds.size} of ${SETTINGS.roundsPerJourney} hidden Heart Seeds. They are optional little secrets for another wander.`;
-    $('continue-path').textContent = 'Wander again ↻';
+    $('continue-path').textContent = 'Where shall we wander? ↻';
     $('continue-path').dataset.action = 'restart';
     if (seedJustFound) {
       audioLayer?.playSequence(['heartSeed', 'allFound'], { volume: 0.92 });
@@ -365,7 +365,7 @@ function showCelebration({ seedJustFound = false } = {}) {
     $('next-label').textContent = heartSeeds.has(roundIndex)
       ? `Next path: ${nextScene.name}.`
       : `Next path: ${nextScene.name}. You can hunt for the Heart Seed again another time.`;
-    $('continue-path').textContent = 'Continue the path →';
+    $('continue-path').textContent = 'Where shall we wander? →';
     $('continue-path').dataset.action = 'continue';
     if (seedJustFound) {
       audioLayer?.playSequence(['heartSeed', 'nextLocation'], { volume: 0.9 });
