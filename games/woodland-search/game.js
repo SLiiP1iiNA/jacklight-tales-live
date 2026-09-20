@@ -42,6 +42,22 @@ function chooseFriendFoundCue() {
   return cue;
 }
 
+let secretFindBag = [];
+let lastSecretFindCue = null;
+const SECRET_FIND_CUES = ['secretFind1', 'secretFind2', 'secretFind3'];
+
+function refillSecretFindBag() {
+  const pool = SECRET_FIND_CUES.filter(cue => cue !== lastSecretFindCue);
+  secretFindBag = shuffle(pool);
+}
+
+function chooseSecretFindCue() {
+  if (!secretFindBag.length) refillSecretFindBag();
+  const cue = secretFindBag.shift();
+  lastSecretFindCue = cue;
+  return cue;
+}
+
 function syncPhoneViewportMode() {
   const viewport = window.visualViewport;
   const width = viewport?.width || window.innerWidth || document.documentElement.clientWidth;
@@ -201,7 +217,7 @@ function offerHintLater() {
 
 function maybePlaceSecretItem() {
   const sceneItem = currentScene.secretItem;
-  if (!sceneItem || Math.random() > SETTINGS.secretChance) {
+  if (!sceneItem) {
     currentSecretItem = null;
     currentSecretSpot = null;
     $('secret-item').hidden = true;
@@ -210,7 +226,9 @@ function maybePlaceSecretItem() {
 
   currentSecretItem = sceneItem;
   currentSecretSpot = chooseSecretSpot(currentScene, currentSpot, currentSeedSpot);
-  $('secret-item').querySelector('span').textContent = sceneItem.glyph;
+  const image = $('secret-item').querySelector('img');
+  image.src = 'assets/' + sceneItem.image;
+  image.alt = '';
   $('secret-item').setAttribute('aria-label', 'Hidden secret: ' + sceneItem.name);
   $('secret-item').hidden = false;
 }
@@ -264,7 +282,8 @@ async function loadRound() {
   try {
     await Promise.all([
       $('woods').decode(),
-      $('pip').querySelector('img').decode().catch(() => {})
+      $('pip').querySelector('img').decode().catch(() => {}),
+      $('secret-item').querySelector('img').decode().catch(() => {})
     ]);
   } catch {
     if (token === loadToken) {
@@ -301,6 +320,8 @@ function startJourney() {
   roundIndex = 0;
   heartSeeds = new Set();
   secretItems = new Set();
+  secretFindBag = [];
+  lastSecretFindCue = null;
   $('welcome').hidden = true;
   $('game').hidden = false;
   document.body.classList.add('game-active');
@@ -327,6 +348,13 @@ function updateSeedMeter() {
   const collected = Math.min(SETTINGS.roundsPerJourney, heartSeeds.size);
   $('seed-count').textContent = collected + ' / ' + SETTINGS.roundsPerJourney;
   document.querySelector('.seed-meter')?.setAttribute('aria-label', collected + ' of ' + SETTINGS.roundsPerJourney + ' hidden Heart Seeds found');
+  updateSecretMeter();
+}
+
+function updateSecretMeter() {
+  const collected = Math.min(SETTINGS.roundsPerJourney, secretItems.size);
+  $('secret-count').textContent = collected + ' / ' + SETTINGS.roundsPerJourney;
+  $('secret-meter')?.setAttribute('aria-label', collected + ' of ' + SETTINGS.roundsPerJourney + ' hidden woodland secrets found');
 }
 
 function renderRoute(target = $('route-strip')) {
@@ -429,7 +457,9 @@ function showCelebration({ seedJustFound = false } = {}) {
   $('seed-result').hidden = !heartSeeds.has(roundIndex);
   $('secret-result').hidden = !secretItemFoundThisRound;
   if (secretItemFoundThisRound && currentSecretItem) {
-    $('secret-result').textContent = '❖ ' + currentSecretItem.name;
+    $('secret-result-image').src = 'assets/' + currentSecretItem.image;
+    $('secret-result-image').alt = '';
+    $('secret-result-name').textContent = currentSecretItem.name;
   }
   $('success').hidden = false;
   renderRoute();
@@ -504,7 +534,7 @@ function handleCharacterFound() {
 }
 
 function makeLeafPuff(event) {
-  if (found || event.target.closest('#pip,#heart-seed,#secret-item,.mission-hud,.game-actions,.route-strip,.seed-meter')) return;
+  if (found || event.target.closest('#pip,#heart-seed,#secret-item,.mission-hud,.game-actions,.route-strip,.seed-meter,.secret-meter')) return;
   const rect = $('scene').getBoundingClientRect();
   if (!rect.width || !rect.height) return;
 
@@ -551,13 +581,20 @@ function collectSecretItem(event) {
 
   secretItemFoundThisRound = true;
   secretItems.add(currentSecretItem.id);
+  updateSecretMeter();
+  const secretMeter = $('secret-meter');
+  secretMeter?.classList.remove('secret-earned');
+  if (secretMeter) {
+    void secretMeter.offsetWidth;
+    secretMeter.classList.add('secret-earned');
+  }
   $('secret-item').disabled = true;
   $('secret-item').classList.add('collected');
   $('status').textContent = currentSecretItem.name + ' found! A tiny woodland secret.';
   showStatusToast(2600);
 
   if (navigator.vibrate) navigator.vibrate(12);
-  playCue('heartSeed', { interrupt: false, volume: 0.58 });
+  playCue(chooseSecretFindCue(), { interrupt: false, volume: 0.72 });
 
   setTimeout(() => {
     $('secret-item').hidden = true;
