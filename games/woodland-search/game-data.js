@@ -26,7 +26,7 @@ window.WOODLAND_SEARCH_DATA={
         {x:73,y:52,hint:'Try the tree line beyond the path.'}
       ],
       seedSpots:[{x:46,y:64},{x:86,y:58},{x:38,y:79}],
-      secretItem:{id:'golden-apple-charm',name:'Golden Apple Charm',glyph:'✦',spots:[{x:55,y:55},{x:20,y:61},{x:89,y:49}]}
+      secretItem:{id:'golden-apple-charm',name:'Golden Apple Charm',image:'secrets/golden-apple-charm.png',spots:[{x:55,y:55},{x:20,y:61},{x:89,y:49}]}
     },
     {
       image:'assets/woods-2.webp',
@@ -41,7 +41,7 @@ window.WOODLAND_SEARCH_DATA={
         {x:72,y:53,hint:'Try the ancient tree beside the pool.'}
       ],
       seedSpots:[{x:49,y:56},{x:22,y:61},{x:88,y:73}],
-      secretItem:{id:'pool-stone',name:'Moonlit Pool Stone',glyph:'◆',spots:[{x:42,y:51},{x:68,y:62},{x:88,y:53}]}
+      secretItem:{id:'pool-stone',name:'Moonlit Pool Stone',image:'secrets/moonlit-pool-stone.png',spots:[{x:42,y:51},{x:68,y:62},{x:88,y:53}]}
     },
     {
       image:'assets/woods-3.webp',
@@ -56,7 +56,7 @@ window.WOODLAND_SEARCH_DATA={
         {x:82,y:76,hint:'Try the flowers on the right bank.'}
       ],
       seedSpots:[{x:43,y:52},{x:63,y:80},{x:20,y:60}],
-      secretItem:{id:'tiny-bell',name:'Tiny Woodland Bell',glyph:'♢',spots:[{x:33,y:57},{x:59,y:50},{x:77,y:61}]}
+      secretItem:{id:'tiny-bell',name:'Tiny Woodland Bell',image:'secrets/tiny-woodland-bell.png',spots:[{x:33,y:57},{x:59,y:50},{x:77,y:61}]}
     },
     {
       image:'assets/woods-4.webp',
@@ -71,7 +71,7 @@ window.WOODLAND_SEARCH_DATA={
         {x:70,y:53,hint:'Try the hillside near the little bridge.'}
       ],
       seedSpots:[{x:46,y:58},{x:88,y:65},{x:24,y:82}],
-      secretItem:{id:'sunflower-pin',name:'Sunflower Pin',glyph:'✿',spots:[{x:18,y:58},{x:49,y:72},{x:82,y:56}]}
+      secretItem:{id:'sunflower-pin',name:'Sunflower Pin',image:'secrets/sunflower-pin.png',spots:[{x:18,y:58},{x:49,y:72},{x:82,y:56}]}
     },
     {
       image:'assets/village.png',
@@ -86,7 +86,7 @@ window.WOODLAND_SEARCH_DATA={
         {x:83,y:61,hint:'Try the greenery near the water.'}
       ],
       seedSpots:[{x:45,y:59},{x:88,y:68},{x:21,y:78}],
-      secretItem:{id:'lantern-key',name:'Little Lantern Key',glyph:'⚿',spots:[{x:39,y:49},{x:67,y:58},{x:84,y:78}]}
+      secretItem:{id:'lantern-key',name:'Little Lantern Key',image:'secrets/little-lantern-key.png',spots:[{x:39,y:49},{x:67,y:58},{x:84,y:78}]}
     },
     {
       image:'../../assets/images/gallery/whispering-woods-landscape-01.webp',
@@ -101,7 +101,7 @@ window.WOODLAND_SEARCH_DATA={
         {x:83,y:57,hint:'Try the sunlit trees on the right.'}
       ],
       seedSpots:[{x:27,y:55},{x:62,y:54},{x:89,y:70}],
-      secretItem:{id:'map-feather',name:'Explorer Feather',glyph:'❖',spots:[{x:43,y:57},{x:73,y:47},{x:86,y:78}]}
+      secretItem:{id:'map-feather',name:'Explorer Feather',image:'secrets/explorer-feather.png',spots:[{x:43,y:57},{x:73,y:47},{x:86,y:78}]}
     },
     {
       image:'../../assets/images/gallery/whispering-woods-landscape-02.webp',
@@ -116,7 +116,7 @@ window.WOODLAND_SEARCH_DATA={
         {x:84,y:74,hint:'Search the flowers near the far edge.'}
       ],
       seedSpots:[{x:40,y:52},{x:63,y:58},{x:91,y:60}],
-      secretItem:{id:'oak-leaf',name:'Old Oak Leaf',glyph:'❧',spots:[{x:24,y:54},{x:58,y:49},{x:78,y:79}]}
+      secretItem:{id:'oak-leaf',name:'Old Oak Leaf',image:'secrets/old-oak-leaf.png',spots:[{x:24,y:54},{x:58,y:49},{x:78,y:79}]}
     },
     {
       image:'../../assets/images/gallery/whispering-woods-landscape-03.webp',
@@ -131,7 +131,7 @@ window.WOODLAND_SEARCH_DATA={
         {x:84,y:72,hint:'Try the flowers near the stream.'}
       ],
       seedSpots:[{x:48,y:52},{x:77,y:54},{x:27,y:70}],
-      secretItem:{id:'old-map',name:'Folded Woodland Map',glyph:'▧',spots:[{x:41,y:61},{x:67,y:76},{x:88,y:53}]}
+      secretItem:{id:'old-map',name:'Folded Woodland Map',image:'secrets/folded-woodland-map.png',spots:[{x:41,y:61},{x:67,y:76},{x:88,y:53}]}
     },
     {
       image:'../../assets/images/gallery/whispering-woods-landscape-04.webp',
@@ -146,7 +146,7 @@ window.WOODLAND_SEARCH_DATA={
         {x:85,y:74,hint:'Try the right-hand meadow flowers.'}
       ],
       seedSpots:[{x:43,y:55},{x:64,y:62},{x:88,y:58}],
-      secretItem:{id:'blue-ribbon',name:'Woodland Ribbon',glyph:'~',spots:[{x:24,y:60},{x:57,y:51},{x:81,y:61}]}
+      secretItem:{id:'blue-ribbon',name:'Woodland Ribbon',image:'secrets/woodland-ribbon.png',spots:[{x:24,y:60},{x:57,y:51},{x:81,y:61}]}
     },
     {
       image:'assets/woods-10.webp',
@@ -161,7 +161,7 @@ window.WOODLAND_SEARCH_DATA={
         {x:84,y:57,hint:'Try the snowy pines beyond the lights.'}
       ],
       seedSpots:[{x:44,y:59},{x:68,y:55},{x:88,y:69}],
-      secretItem:{id:'circus-ticket',name:'Golden Circus Ticket',glyph:'★',spots:[{x:25,y:57},{x:59,y:53},{x:82,y:66}]}
+      secretItem:{id:'circus-ticket',name:'Golden Circus Ticket',image:'secrets/golden-circus-ticket.png',spots:[{x:25,y:57},{x:59,y:53},{x:82,y:66}]}
     }
   ]
 };
