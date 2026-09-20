@@ -1,23 +1,21 @@
 /*
  * JackLight Tales — home crossroads
- * A focused top-of-home destination strip: big brand + featured game path,
- * followed by the four story-world paths on the woodland map.
+ * The homepage heading stays above the illustrated woodland map.
+ * All five destinations live on the map itself, including the Game Paths.
  */
 
 .storybook-body .map-heading--home {
   display: grid;
-  grid-template-columns: minmax(0, 1.02fr) minmax(22rem, .98fr);
-  align-items: center;
-  gap: clamp(1.5rem, 4vw, 4.5rem);
-  width: min(calc(100% - 2rem), 90rem);
+  width: min(calc(100% - 2rem), 72rem);
+  justify-items: center;
+  gap: .65rem;
   margin: clamp(3rem, 6vw, 5.5rem) auto clamp(1.5rem, 3vw, 2.5rem);
-  justify-items: stretch;
-  text-align: left;
+  text-align: center;
 }
 
 .storybook-body .home-compass__intro {
   display: grid;
-  justify-items: start;
+  justify-items: center;
   gap: .7rem;
   min-width: 0;
 }
@@ -25,6 +23,7 @@
 .storybook-body .home-compass__brand {
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: clamp(.85rem, 1.6vw, 1.25rem);
   margin-bottom: .2rem;
 }
@@ -37,8 +36,7 @@
   place-items: center;
   border: 1px solid rgba(246, 201, 95, .38);
   border-radius: 50%;
-  background:
-    radial-gradient(circle, rgba(246, 201, 95, .2), rgba(4, 14, 12, .7));
+  background: radial-gradient(circle, rgba(246, 201, 95, .2), rgba(4, 14, 12, .7));
   box-shadow:
     0 0 2.5rem rgba(246, 201, 95, .16),
     inset 0 0 1.5rem rgba(246, 201, 95, .07);
@@ -54,6 +52,7 @@
 .storybook-body .home-compass__brand-words {
   display: grid;
   gap: .35rem;
+  text-align: left;
 }
 
 .storybook-body .home-compass__brand-words strong {
@@ -70,7 +69,7 @@
 }
 
 .storybook-body .home-compass__intro h1 {
-  max-width: 11ch;
+  max-width: 14ch;
   color: var(--ink-light);
   font: 900 clamp(2.5rem, 5vw, 5.2rem)/.92 var(--display);
   letter-spacing: -.065em;
@@ -83,159 +82,44 @@
   font: 700 clamp(.9rem, 1.35vw, 1.08rem)/1.5 var(--display);
 }
 
-.storybook-body .home-game-path {
-  position: relative;
-  display: grid;
-  min-height: clamp(15rem, 25vw, 22rem);
-  overflow: hidden;
-  padding: 0;
-  border: 1px solid rgba(246, 201, 95, .34);
-  border-radius: clamp(1.4rem, 2.5vw, 2.2rem);
-  background: #081c16;
-  color: var(--ink-light);
+/* Fifth destination: the Game Paths now lives directly on the illustrated map. */
+.storybook-body .woodland-map .map-stop--games {
+  --stop-color: #6c9f4f;
+  top: 44%;
+  left: 50%;
+  flex-direction: row;
   text-align: left;
+  transform: translateX(-50%) translateY(1rem) scale(.88);
+}
+
+.storybook-body .woodland-map.is-ready .map-stop--games {
+  transform: translateX(-50%) translateY(0) scale(1);
+  transition-delay: 360ms;
+}
+
+.storybook-body .woodland-map .map-stop--games .map-stop__sign {
+  border-color: rgba(108, 159, 79, .4);
+}
+
+.storybook-body .woodland-map .map-stop--games .map-stop__sign::before {
+  background: #6c9f4f;
+}
+
+.storybook-body .woodland-map .map-stop--games .map-stop__marker {
   box-shadow:
-    0 0 0 .25rem rgba(246, 201, 95, .035),
-    0 1.5rem 3.5rem rgba(0, 0, 0, .28);
-  isolation: isolate;
-  cursor: pointer;
+    0 0 0 .13rem rgba(79, 74, 37, .25),
+    0 .35rem 0 rgba(74, 61, 31, .25),
+    0 .8rem 1.2rem rgba(68, 69, 33, .28),
+    0 0 1.5rem rgba(108, 159, 79, .24);
 }
 
-.storybook-body .home-game-path__art,
-.storybook-body .home-game-path__art img {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-}
-
-.storybook-body .home-game-path__art {
-  z-index: 0;
-}
-
-.storybook-body .home-game-path__art img {
-  display: block;
-  object-fit: cover;
-  filter: brightness(.62) saturate(.8) contrast(1.08);
-  transform: scale(1.025);
-  transition: transform 650ms cubic-bezier(.22, 1, .36, 1), filter 400ms ease;
-}
-
-.storybook-body .home-game-path__art::after {
-  position: absolute;
-  inset: 0;
-  background:
-    linear-gradient(90deg, rgba(4, 15, 12, .9), rgba(4, 15, 12, .5) 54%, rgba(4, 15, 12, .2)),
-    linear-gradient(0deg, rgba(4, 15, 12, .55), transparent 60%);
-  content: "";
-}
-
-.storybook-body .home-game-path__friend {
-  position: absolute;
-  z-index: 2;
-  right: 5%;
-  bottom: 4%;
-  width: clamp(4.5rem, 9vw, 8rem);
-  max-height: 62%;
-  object-fit: contain;
-  filter: drop-shadow(0 .7rem .7rem rgba(0, 0, 0, .42));
-  transition: transform 500ms cubic-bezier(.22, 1, .36, 1);
-}
-
-.storybook-body .home-game-path__glow {
-  position: absolute;
-  z-index: 1;
-  right: 4%;
-  bottom: -18%;
-  width: 42%;
-  aspect-ratio: 1;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(246, 201, 95, .3), transparent 68%);
-  filter: blur(.25rem);
-  pointer-events: none;
-}
-
-.storybook-body .home-game-path__copy {
-  position: relative;
-  z-index: 3;
-  display: grid;
-  width: min(75%, 25rem);
-  align-content: center;
-  gap: .55rem;
-  min-height: 100%;
-  padding: clamp(1.35rem, 3vw, 2.2rem);
-}
-
-.storybook-body .home-game-path__copy .eyebrow {
-  color: var(--lantern);
-}
-
-.storybook-body .home-game-path__copy strong {
-  color: #fff1c8;
-  font: 900 clamp(1.8rem, 3.4vw, 3.15rem)/.95 var(--display);
-  letter-spacing: -.045em;
-}
-
-.storybook-body .home-game-path__copy > span:not(.eyebrow):not(.home-game-path__cta) {
-  max-width: 22rem;
-  color: rgba(248, 241, 217, .76);
-  font: 700 .8rem/1.45 var(--display);
-}
-
-.storybook-body .home-game-path__cta {
-  display: inline-flex;
-  width: fit-content;
-  align-items: center;
-  gap: .45rem;
-  margin-top: .25rem;
-  padding: .58rem .78rem;
-  border: 1px solid rgba(255, 230, 162, .3);
-  border-radius: 999px;
-  background: rgba(4, 16, 13, .5);
-  color: #ffe19a;
-  font: 900 .68rem/1 var(--display);
-  backdrop-filter: blur(.55rem);
-}
-
-.storybook-body .home-game-path:hover .home-game-path__art img,
-.storybook-body .home-game-path:focus-visible .home-game-path__art img {
-  filter: brightness(.7) saturate(.9) contrast(1.05);
-  transform: scale(1.055);
-}
-
-.storybook-body .home-game-path:hover .home-game-path__friend,
-.storybook-body .home-game-path:focus-visible .home-game-path__friend {
-  transform: translateY(-.35rem) scale(1.04);
-}
-
-.storybook-body .home-game-path:hover .home-game-path__cta,
-.storybook-body .home-game-path:focus-visible .home-game-path__cta {
-  border-color: rgba(255, 230, 162, .58);
-  background: rgba(246, 201, 95, .12);
-}
-
-.storybook-body .home-game-path:focus-visible {
-  outline: .18rem solid var(--lantern-soft);
-  outline-offset: .28rem;
-}
-
-@media (max-width: 62rem) {
-  .storybook-body .map-heading--home {
-    grid-template-columns: 1fr;
-    gap: 1.5rem;
+@media (max-width: 58rem) {
+  .storybook-body .home-compass__brand {
+    gap: .7rem;
   }
 
-  .storybook-body .home-compass__intro {
-    justify-items: center;
-    text-align: center;
-  }
-
-  .storybook-body .home-compass__intro h1 {
-    max-width: 14ch;
-  }
-
-  .storybook-body .home-game-path {
-    min-height: 18rem;
+  .storybook-body .home-compass__brand-words strong {
+    font-size: clamp(1.8rem, 5vw, 2.8rem);
   }
 }
 
@@ -243,7 +127,7 @@
   .storybook-body .map-heading--home {
     width: min(calc(100% - 1.25rem), 38rem);
     margin-top: 2.2rem;
-    gap: 1.15rem;
+    gap: 1rem;
   }
 
   .storybook-body .home-compass__brand {
@@ -267,41 +151,24 @@
     font-size: clamp(2.25rem, 11vw, 3.55rem);
   }
 
-  .storybook-body .home-game-path {
-    min-height: 15.5rem;
-    border-radius: 1.35rem;
+  .storybook-body .home-compass__intro > p:last-child {
+    max-width: 34rem;
   }
 
-  .storybook-body .home-game-path__copy {
-    width: min(82%, 20rem);
-    padding: 1.1rem;
-  }
-
-  .storybook-body .home-game-path__copy strong {
-    font-size: clamp(1.7rem, 8.2vw, 2.35rem);
-  }
-
-  .storybook-body .home-game-path__friend {
-    right: 1%;
-    bottom: 3%;
-    width: 6.5rem;
+  .storybook-body .woodland-map .map-stop--games {
+    top: 45%;
+    left: 50%;
   }
 }
 
 @media (max-width: 26rem) {
-  .storybook-body .home-game-path__friend {
-    width: 5.5rem;
-    right: -1%;
-  }
-
-  .storybook-body .home-game-path__copy {
-    width: 88%;
+  .storybook-body .woodland-map .map-stop--games {
+    top: 46%;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .storybook-body .home-game-path__art img,
-  .storybook-body .home-game-path__friend {
+  .storybook-body .woodland-map .map-stop--games {
     transition: none;
   }
 }
