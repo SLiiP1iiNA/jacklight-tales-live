@@ -85,7 +85,7 @@
 /* Fifth destination: the Game Paths now lives directly on the illustrated map. */
 .storybook-body .woodland-map .map-stop--games {
   --stop-color: #6c9f4f;
-  top: 44%;
+  top: 80%;
   left: 50%;
   flex-direction: row;
   text-align: left;
@@ -156,14 +156,14 @@
   }
 
   .storybook-body .woodland-map .map-stop--games {
-    top: 45%;
+    top: 80%;
     left: 50%;
   }
 }
 
 @media (max-width: 26rem) {
   .storybook-body .woodland-map .map-stop--games {
-    top: 46%;
+    top: 81%;
   }
 }
 
