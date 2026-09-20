@@ -6,6 +6,5 @@ window.WOODLAND_SEARCH_SETTINGS={
   hintMs:3000,
   hintOfferMs:16000,
   targetEdgePadding:8,
-  secretChance:0.58,
   roundsPerJourney:10
 };
