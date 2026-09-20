@@ -718,7 +718,7 @@ $('sound').addEventListener('click', () => {
 });
 
 $('hint').addEventListener('click', () => {
-  if (isRoundComplete() || mischiefEscapedThisRound) return;
+  if (isRoundComplete()) return;
   const target = getHintTarget();
   if (!target) return;
 
