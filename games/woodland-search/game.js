@@ -9,20 +9,24 @@ let currentScene = null;
 let currentCharacter = null;
 let currentSpot = null;
 let currentSeedSpot = null;
+let currentSecretItem = null;
+let currentSecretSpot = null;
 let found = false;
 let seedFoundThisRound = false;
+let secretItemFoundThisRound = false;
+let mischiefEscapedThisRound = false;
 let hintLevel = 0;
 let hintTimer = 0;
 let hintOfferTimer = 0;
 let celebrationTimer = 0;
-let resizeTimer = 0;
 let statusToastTimer = 0;
+let resizeTimer = 0;
 let loadToken = 0;
 let heartSeeds = new Set();
+let secretItems = new Set();
 let friendFoundBag = [];
 let friendCuePlayed = false;
 let lastFriendFoundCue = null;
-let currentFriendFoundCue = null;
 
 const FRIEND_FOUND_CUES = ['friendFound', 'friendFound2', 'friendFound3', 'friendFound4', 'friendFound5'];
 
@@ -52,7 +56,7 @@ syncPhoneViewportMode();
 
 function shuffle(items) {
   const copy = [...items];
-  for (let i = copy.length - 1; i > 0; i--) {
+  for (let i = copy.length - 1; i > 0; i -= 1) {
     const j = Math.floor(Math.random() * (i + 1));
     [copy[i], copy[j]] = [copy[j], copy[i]];
   }
@@ -62,7 +66,7 @@ function shuffle(items) {
 function buildJourneyCast() {
   const barnaby = characters.find(item => item.name === 'Barnaby');
   const others = shuffle(characters.filter(item => item !== barnaby));
-  journeyCast = [barnaby, ...others.slice(0, Math.max(0, SETTINGS.roundsPerJourney - 1))];
+  journeyCast = [barnaby, ...others].slice(0, SETTINGS.roundsPerJourney);
 }
 
 function clearTimers() {
@@ -112,58 +116,22 @@ function chooseSeedSpot(scene, targetSpot) {
   }) || sorted[0] || { x: 50, y: 50 };
 }
 
-function renderRoute(target = $('route-strip')) {
-  target.replaceChildren();
-  scenes.slice(0, SETTINGS.roundsPerJourney).forEach((scene, index) => {
-    const item = document.createElement('div');
-    item.className = 'route-node';
-    if (index < roundIndex || (found && index === roundIndex)) item.classList.add('is-complete');
-    if (!found && index === roundIndex) item.classList.add('is-current');
-
-    const dot = document.createElement('span');
-    dot.textContent = index < roundIndex || (found && index === roundIndex) ? '✓' : String(index + 1);
-
-    const label = document.createElement('strong');
-    label.textContent = scene.shortName;
-
-    item.append(dot, label);
-    target.append(item);
-  });
+function chooseSecretSpot(scene, targetSpot, seedSpot) {
+  const sorted = shuffle(scene.secretItem?.spots || []);
+  return sorted.find(spot => {
+    if (targetSpot && Math.hypot(spot.x - targetSpot.x, spot.y - targetSpot.y) <= 12) return false;
+    if (seedSpot && Math.hypot(spot.x - seedSpot.x, spot.y - seedSpot.y) <= 10) return false;
+    return true;
+  }) || sorted[0] || { x: 50, y: 50 };
 }
 
-function renderResultRoute() {
-  const target = $('result-route');
-  target.replaceChildren();
-  scenes.slice(0, SETTINGS.roundsPerJourney).forEach((scene, index) => {
-    const dot = document.createElement('span');
-    dot.className = index <= roundIndex ? 'is-lit' : '';
-    dot.title = scene.name;
-    dot.textContent = index <= roundIndex ? '✦' : '·';
-    target.append(dot);
-  });
-}
-
-function updateSeedMeter() {
-  const collected = Math.min(SETTINGS.roundsPerJourney, heartSeeds.size);
-  $('seed-count').textContent = `${collected} / ${SETTINGS.roundsPerJourney}`;
-  const meter = document.querySelector('.seed-meter');
-  meter?.setAttribute('aria-label', `${collected} of ${SETTINGS.roundsPerJourney} hidden Heart Seeds found`);
-}
-
-function lockGame(locked) {
-  $('viewport').inert = locked;
-  $('hint').disabled = locked || found;
-  $('sound').disabled = false;
-  $('leave').disabled = false;
-}
-
-function mapPointToScene(point, element) {
+function scenePixelPoint(point) {
   const scene = $('scene');
   const image = $('woods');
   const rect = scene.getBoundingClientRect();
   const sourceW = image.naturalWidth || 1672;
   const sourceH = image.naturalHeight || 941;
-  if (!rect.width || !rect.height || !sourceW || !sourceH) return;
+  if (!rect.width || !rect.height) return { left: rect.width / 2, top: rect.height / 2 };
 
   const fit = getComputedStyle(image).objectFit || 'cover';
   const scale = fit === 'contain'
@@ -175,8 +143,17 @@ function mapPointToScene(point, element) {
   const offsetX = (rect.width - renderedW) / 2;
   const offsetY = (rect.height - renderedH) / 2;
 
-  element.style.left = `${offsetX + (point.x / 100) * renderedW}px`;
-  element.style.top = `${offsetY + (point.y / 100) * renderedH}px`;
+  return {
+    left: offsetX + (point.x / 100) * renderedW,
+    top: offsetY + (point.y / 100) * renderedH
+  };
+}
+
+function mapPointToScene(point, element) {
+  if (!point || !element) return;
+  const pixel = scenePixelPoint(point);
+  element.style.left = pixel.left + 'px';
+  element.style.top = pixel.top + 'px';
 }
 
 function clampToScene(element, pad = SETTINGS.targetEdgePadding ?? 8) {
@@ -193,19 +170,23 @@ function clampToScene(element, pad = SETTINGS.targetEdgePadding ?? 8) {
   if (rect.bottom > sceneRect.bottom - pad) dy = (sceneRect.bottom - pad) - rect.bottom;
 
   if (dx || dy) {
-    element.style.left = `${element.offsetLeft + dx}px`;
-    element.style.top = `${element.offsetTop + dy}px`;
+    element.style.left = (element.offsetLeft + dx) + 'px';
+    element.style.top = (element.offsetTop + dy) + 'px';
   }
 }
 
 function positionObjects() {
-  if (currentSpot && !$('pip').hidden) {
+  if (currentSpot && !$('pip').hidden && !mischiefEscapedThisRound) {
     mapPointToScene(currentSpot, $('pip'));
     requestAnimationFrame(() => clampToScene($('pip')));
   }
   if (currentSeedSpot && !$('heart-seed').hidden) {
     mapPointToScene(currentSeedSpot, $('heart-seed'));
     requestAnimationFrame(() => clampToScene($('heart-seed'), 6));
+  }
+  if (currentSecretSpot && !$('secret-item').hidden) {
+    mapPointToScene(currentSecretSpot, $('secret-item'));
+    requestAnimationFrame(() => clampToScene($('secret-item'), 6));
   }
 }
 
@@ -218,11 +199,31 @@ function offerHintLater() {
   }, SETTINGS.hintOfferMs);
 }
 
+function maybePlaceSecretItem() {
+  const sceneItem = currentScene.secretItem;
+  if (!sceneItem || Math.random() > SETTINGS.secretChance) {
+    currentSecretItem = null;
+    currentSecretSpot = null;
+    $('secret-item').hidden = true;
+    return;
+  }
+
+  currentSecretItem = sceneItem;
+  currentSecretSpot = chooseSecretSpot(currentScene, currentSpot, currentSeedSpot);
+  $('secret-item').querySelector('span').textContent = sceneItem.glyph;
+  $('secret-item').setAttribute('aria-label', 'Hidden secret: ' + sceneItem.name);
+  $('secret-item').hidden = false;
+}
+
 async function loadRound() {
   clearTimers();
   found = false;
   friendCuePlayed = false;
   seedFoundThisRound = heartSeeds.has(roundIndex);
+  secretItemFoundThisRound = false;
+  mischiefEscapedThisRound = false;
+  currentSecretItem = null;
+  currentSecretSpot = null;
   hintLevel = 0;
   const token = ++loadToken;
 
@@ -234,28 +235,31 @@ async function loadRound() {
   $('success').hidden = true;
   $('pip').hidden = true;
   $('heart-seed').hidden = true;
+  $('secret-item').hidden = true;
   $('hint').disabled = true;
   $('hint').classList.remove('is-offering');
   $('hint').textContent = 'A little hint';
   $('continue-found').hidden = true;
+  $('continue-found').disabled = false;
   $('finish').hidden = true;
 
-  $('path-number').textContent = `Path ${roundIndex + 1} of ${SETTINGS.roundsPerJourney}`;
+  $('path-number').textContent = 'Path ' + (roundIndex + 1) + ' of ' + SETTINGS.roundsPerJourney;
   $('place-name').textContent = currentScene.name;
-  $('target-title').textContent = `Find ${currentCharacter.name}`;
-  $('mission-line').textContent = `${currentScene.intro} ${currentCharacter.clue || ''}`.trim();
-  $('reference').src = `assets/${currentCharacter.image}`;
+  $('target-title').textContent = 'Find ' + currentCharacter.name;
+  $('mission-line').textContent = (currentScene.intro + ' ' + (currentCharacter.clue || '')).trim();
+  $('reference').src = 'assets/' + currentCharacter.image;
   $('reference').alt = currentCharacter.name;
-  $('pip').querySelector('img').src = `assets/${currentCharacter.image}`;
-  $('pip').setAttribute('aria-label', `Found ${currentCharacter.name}`);
+  $('pip').querySelector('img').src = 'assets/' + currentCharacter.image;
+  $('pip').setAttribute('aria-label', 'Find ' + currentCharacter.name);
   $('woods').alt = currentScene.name;
   $('status').textContent = 'Opening the next woodland path…';
 
   renderRoute();
   updateSeedMeter();
+  maybePlaceSecretItem();
 
   $('stage').classList.add('scene-changing');
-  $('woods').src = `assets/${currentScene.image}`;
+  $('woods').src = currentScene.image;
 
   try {
     await Promise.all([
@@ -285,10 +289,9 @@ async function loadRound() {
 
   positionObjects();
   $('hint').disabled = false;
-  $('status').textContent = `Can you spot ${currentCharacter.name}? Take your time.`;
+  $('status').textContent = 'Can you spot ' + currentCharacter.name + '? Take your time.';
 
   requestAnimationFrame(() => $('stage').classList.remove('scene-changing'));
-
   offerHintLater();
 }
 
@@ -297,6 +300,7 @@ function startJourney() {
   buildJourneyCast();
   roundIndex = 0;
   heartSeeds = new Set();
+  secretItems = new Set();
   $('welcome').hidden = true;
   $('game').hidden = false;
   document.body.classList.add('game-active');
@@ -314,17 +318,100 @@ function leaveJourney() {
   $('success').hidden = true;
   $('pip').hidden = true;
   $('heart-seed').hidden = true;
+  $('secret-item').hidden = true;
+  $('finish').hidden = true;
   $('play').focus({ preventScroll: true });
+}
+
+function updateSeedMeter() {
+  const collected = Math.min(SETTINGS.roundsPerJourney, heartSeeds.size);
+  $('seed-count').textContent = collected + ' / ' + SETTINGS.roundsPerJourney;
+  document.querySelector('.seed-meter')?.setAttribute('aria-label', collected + ' of ' + SETTINGS.roundsPerJourney + ' hidden Heart Seeds found');
+}
+
+function renderRoute(target = $('route-strip')) {
+  target.replaceChildren();
+  scenes.slice(0, SETTINGS.roundsPerJourney).forEach((scene, index) => {
+    const item = document.createElement('div');
+    item.className = 'route-node';
+    item.title = 'Path ' + (index + 1) + ': ' + scene.name;
+    item.setAttribute('aria-label', item.title);
+    if (index < roundIndex || (found && index === roundIndex)) item.classList.add('is-complete');
+    if (!found && index === roundIndex) item.classList.add('is-current');
+
+    const dot = document.createElement('span');
+    dot.textContent = index < roundIndex || (found && index === roundIndex) ? '✓' : String(index + 1);
+    const label = document.createElement('strong');
+    label.textContent = scene.shortName;
+
+    item.append(dot, label);
+    target.append(item);
+  });
+}
+
+function renderResultRoute() {
+  const target = $('result-route');
+  target.replaceChildren();
+  scenes.slice(0, SETTINGS.roundsPerJourney).forEach((scene, index) => {
+    const dot = document.createElement('span');
+    dot.className = index <= roundIndex ? 'is-lit' : '';
+    dot.title = scene.name;
+    dot.textContent = index <= roundIndex ? '✦' : '·';
+    target.append(dot);
+  });
+}
+
+function lockGame(locked) {
+  $('viewport').inert = locked;
+  $('hint').disabled = locked || found;
+  $('sound').disabled = false;
+  $('leave').disabled = false;
+}
+
+function startMischiefRun() {
+  if (!currentCharacter?.mischief || mischiefEscapedThisRound || found) return false;
+
+  const candidates = shuffle(currentScene.spots.filter(spot => Math.hypot(spot.x - currentSpot.x, spot.y - currentSpot.y) > 28));
+  const nextSpot = candidates[0] || chooseSpot(currentScene);
+  const nextPixel = scenePixelPoint(nextSpot);
+
+  mischiefEscapedThisRound = true;
+  $('pip').classList.add('mischief-running');
+  $('hint').disabled = true;
+  $('status').textContent = currentCharacter.name + ' is scampering away! Quick — catch them!';
+  showStatusToast(2200);
+
+  requestAnimationFrame(() => {
+    $('pip').style.transition = 'left 720ms cubic-bezier(.2,.8,.25,1), top 720ms cubic-bezier(.2,.8,.25,1)';
+    $('pip').style.left = nextPixel.left + 'px';
+    $('pip').style.top = nextPixel.top + 'px';
+  });
+
+  window.setTimeout(() => {
+    $('pip').style.transition = '';
+    $('pip').classList.remove('mischief-running');
+    if (!found) $('hint').disabled = false;
+  }, 760);
+
+  return true;
 }
 
 function playFriendFoundCue() {
   if (friendCuePlayed) return;
   friendCuePlayed = true;
-  const foundCue = currentCharacter.name === 'Barnaby'
-    ? 'barnabyFound'
-    : chooseFriendFoundCue();
-  currentFriendFoundCue = foundCue;
+  const foundCue = currentCharacter.name === 'Barnaby' ? 'barnabyFound' : chooseFriendFoundCue();
   playCue(foundCue, { interrupt: false, volume: 0.9 });
+}
+
+async function unlockCelebrationControls() {
+  const minimum = new Promise(resolve => setTimeout(resolve, SETTINGS.celebrationMinMs));
+  await Promise.all([
+    audioLayer?.waitForIdle?.() || Promise.resolve(),
+    minimum
+  ]);
+  if ($('success').hidden) return;
+  $('continue-path').disabled = false;
+  $('continue-path').focus({ preventScroll: true });
 }
 
 function showCelebration({ seedJustFound = false } = {}) {
@@ -335,10 +422,15 @@ function showCelebration({ seedJustFound = false } = {}) {
   $('pip').classList.add('found');
   $('pip').disabled = true;
   $('hint').disabled = true;
-  $('found-portrait').src = `assets/${currentCharacter.image}`;
+  $('found-portrait').src = 'assets/' + currentCharacter.image;
   $('found-portrait').alt = currentCharacter.name;
-  $('win-title').textContent = `You found ${currentCharacter.name}!`;
+  $('win-title').textContent = 'You found ' + currentCharacter.name + '!';
   $('celebration-copy').textContent = currentCharacter.foundLine;
+  $('seed-result').hidden = !heartSeeds.has(roundIndex);
+  $('secret-result').hidden = !secretItemFoundThisRound;
+  if (secretItemFoundThisRound && currentSecretItem) {
+    $('secret-result').textContent = '❖ ' + currentSecretItem.name;
+  }
   $('success').hidden = false;
   renderRoute();
   renderResultRoute();
@@ -346,51 +438,49 @@ function showCelebration({ seedJustFound = false } = {}) {
 
   const finalRound = roundIndex === SETTINGS.roundsPerJourney - 1;
   $('finish').hidden = !finalRound;
+
   if (finalRound) {
     $('found-kicker').textContent = 'Every path is glowing!';
-    $('next-label').textContent = heartSeeds.size === SETTINGS.roundsPerJourney
-      ? 'You found every hidden Heart Seed too. The whole woodland is shining.'
-      : `You found ${heartSeeds.size} of ${SETTINGS.roundsPerJourney} hidden Heart Seeds. They are optional little secrets for another wander.`;
+    $('next-label').textContent =
+      '10 paths explored. You found ' + heartSeeds.size + ' of 10 Heart Seeds and ' + secretItems.size + ' of 10 woodland secrets.';
     $('continue-path').textContent = 'Where shall we wander? ↻';
     $('continue-path').dataset.action = 'restart';
+
     if (seedJustFound) {
       audioLayer?.playSequence(['heartSeed', 'allFound'], { volume: 0.92, interrupt: false });
-    } else if (friendCuePlayed) {
-      audioLayer?.playSequence(['nextLocation', 'allFound'], { volume: 0.92, interrupt: false });
     } else {
-      playFriendFoundCue();
       audioLayer?.play('allFound', { volume: 0.92, interrupt: false });
     }
   } else {
     const nextScene = scenes[roundIndex + 1];
-    $('found-kicker').textContent = heartSeeds.has(roundIndex)
-      ? 'Wonderful spotting!'
-      : 'A little secret was waiting too.';
-    $('next-label').textContent = heartSeeds.has(roundIndex)
-      ? `Next path: ${nextScene.name}.`
-      : `Next path: ${nextScene.name}. You can hunt for the Heart Seed again another time.`;
+    $('found-kicker').textContent = secretItemFoundThisRound
+      ? 'A little secret was waiting too.'
+      : 'Wonderful spotting!';
+    $('next-label').textContent = 'Next path: ' + nextScene.name + '.';
     $('continue-path').textContent = 'Where shall we wander? →';
     $('continue-path').dataset.action = 'continue';
+
     if (seedJustFound) {
       audioLayer?.playSequence(['heartSeed', 'nextLocation'], { volume: 0.9, interrupt: false });
-    } else if (friendCuePlayed) {
-      audioLayer?.play('nextLocation', { volume: 0.9, interrupt: false });
     } else {
-      playFriendFoundCue();
-      audioLayer?.play('nextLocation', { interrupt: false, volume: 0.9 });
+      audioLayer?.play('nextLocation', { volume: 0.9, interrupt: false });
     }
   }
 
   $('continue-path').disabled = true;
-  celebrationTimer = setTimeout(() => {
-    $('continue-path').disabled = false;
-    $('continue-path').focus({ preventScroll: true });
-  }, SETTINGS.celebrationRevealMs);
+  clearTimeout(celebrationTimer);
+  celebrationTimer = setTimeout(unlockCelebrationControls, SETTINGS.celebrationMinMs + 20);
+  unlockCelebrationControls();
 }
 
 function handleCharacterFound() {
+  if (found) return;
+  if (currentCharacter?.mischief && !mischiefEscapedThisRound) {
+    startMischiefRun();
+    return;
+  }
+
   found = true;
-  updateSeedMeter();
   $('pip').classList.add('found');
   $('pip').disabled = true;
   $('hint').disabled = true;
@@ -401,29 +491,81 @@ function handleCharacterFound() {
     return;
   }
 
-  $('status').textContent = `You found ${currentCharacter.name}! A hidden Heart Seed may still be nearby.`;
+  $('status').textContent = 'You found ' + currentCharacter.name + '! A hidden Heart Seed may still be nearby.';
   showStatusToast(4200);
   $('continue-found').hidden = false;
-  $('continue-found').textContent = 'Continue without Heart Seed →';
+  $('continue-found').disabled = true;
+
+  (async () => {
+    await (audioLayer?.waitForIdle?.() || Promise.resolve());
+    if (!$('continue-found').hidden && !found) $('continue-found').disabled = false;
+    if (!$('continue-found').hidden && found) $('continue-found').disabled = false;
+  })();
 }
 
-
 function makeLeafPuff(event) {
-  if (found || event.target.closest('#pip,#heart-seed,.mission-hud,.game-actions,.route-strip,.seed-meter')) return;
+  if (found || event.target.closest('#pip,#heart-seed,#secret-item,.mission-hud,.game-actions,.route-strip,.seed-meter')) return;
   const rect = $('scene').getBoundingClientRect();
   if (!rect.width || !rect.height) return;
 
   const puff = document.createElement('span');
   puff.className = 'leaf-puff';
   puff.textContent = Math.random() > 0.45 ? '🍃' : '✦';
-  puff.style.left = `${event.clientX - rect.left}px`;
-  puff.style.top = `${event.clientY - rect.top}px`;
+  puff.style.left = (event.clientX - rect.left) + 'px';
+  puff.style.top = (event.clientY - rect.top) + 'px';
   $('scene').append(puff);
   setTimeout(() => puff.remove(), 850);
 }
 
+function collectHeartSeed(event) {
+  event?.preventDefault();
+  event?.stopPropagation();
+
+  const seed = $('heart-seed');
+  if (seedFoundThisRound || seed.disabled || seed.hidden) return;
+
+  seedFoundThisRound = true;
+  heartSeeds.add(roundIndex);
+  updateSeedMeter();
+  seed.classList.add('collected');
+  seed.disabled = true;
+
+  $('status').textContent = 'Heart Seed found — a hidden woodland secret! ✦';
+  showStatusToast(2800);
+  if (navigator.vibrate) navigator.vibrate(18);
+
+  if (found) {
+    showCelebration({ seedJustFound: true });
+    return;
+  }
+
+  playCue('heartSeed', { interrupt: false, volume: 0.82 });
+  setTimeout(() => { seed.hidden = true; }, 420);
+}
+
+function collectSecretItem(event) {
+  event?.preventDefault();
+  event?.stopPropagation();
+
+  if (!currentSecretItem || secretItemFoundThisRound || $('secret-item').hidden) return;
+
+  secretItemFoundThisRound = true;
+  secretItems.add(currentSecretItem.id);
+  $('secret-item').disabled = true;
+  $('secret-item').classList.add('collected');
+  $('status').textContent = currentSecretItem.name + ' found! A tiny woodland secret.';
+  showStatusToast(2600);
+
+  if (navigator.vibrate) navigator.vibrate(12);
+  playCue('heartSeed', { interrupt: false, volume: 0.58 });
+
+  setTimeout(() => {
+    $('secret-item').hidden = true;
+    $('secret-item').classList.remove('collected');
+  }, 420);
+}
+
 $('play').addEventListener('click', () => {
-  // Keep the first audio play directly inside the user's click gesture.
   setSound(true);
   audioLayer?.playSequence(['welcome', 'beginSearch'], { volume: 0.92 });
   startJourney();
@@ -433,20 +575,16 @@ $('leave').addEventListener('click', leaveJourney);
 
 $('sound').addEventListener('click', () => {
   const currentlyEnabled = $('sound').getAttribute('aria-pressed') === 'true';
-
   if (currentlyEnabled) {
     setSound(false);
     return;
   }
-
   setSound(true);
-  // On iPhone/Safari this explicit tap is also a fresh media gesture.
-  // Play a short cue immediately so "Sound on" has an audible result.
   playCue('beginSearch', { volume: 0.9 });
 });
 
 $('hint').addEventListener('click', () => {
-  if (found || !currentSpot) return;
+  if (found || !currentSpot || mischiefEscapedThisRound) return;
   clearTimeout(hintTimer);
   clearTimeout(hintOfferTimer);
   $('hint').classList.remove('is-offering');
@@ -479,42 +617,18 @@ $('hint').addEventListener('click', () => {
 
 $('pip').addEventListener('click', event => {
   event.stopPropagation();
-  if (found) return;
   handleCharacterFound();
 });
-
-function collectHeartSeed(event) {
-  event?.preventDefault();
-  event?.stopPropagation();
-
-  const seed = $('heart-seed');
-  if (seedFoundThisRound || seed.disabled || seed.hidden) return;
-
-  seedFoundThisRound = true;
-  heartSeeds.add(roundIndex);
-  updateSeedMeter();
-
-  seed.classList.add('collected');
-  seed.disabled = true;
-
-  $('status').textContent = 'Heart Seed found — a hidden woodland secret! ✦';
-  showStatusToast(2800);
-
-  if (navigator.vibrate) navigator.vibrate(18);
-
-  if (found) {
-    showCelebration({ seedJustFound: true });
-    return;
-  }
-
-  playCue('heartSeed', { interrupt: false, volume: 0.82 });
-  setTimeout(() => { seed.hidden = true; }, 420);
-}
 
 $('heart-seed').addEventListener('pointerup', event => {
   if (event.pointerType === 'touch' || event.pointerType === 'pen') collectHeartSeed(event);
 });
 $('heart-seed').addEventListener('click', collectHeartSeed);
+
+$('secret-item').addEventListener('pointerup', event => {
+  if (event.pointerType === 'touch' || event.pointerType === 'pen') collectSecretItem(event);
+});
+$('secret-item').addEventListener('click', collectSecretItem);
 
 $('viewport').addEventListener('pointerup', makeLeafPuff);
 
@@ -524,14 +638,17 @@ $('continue-found').addEventListener('click', () => {
 });
 
 $('continue-path').addEventListener('click', () => {
+  if ($('continue-path').disabled) return;
+
   if ($('continue-path').dataset.action === 'restart') {
     buildJourneyCast();
     roundIndex = 0;
     heartSeeds = new Set();
+    secretItems = new Set();
     updateSeedMeter();
-    lockGame(false);
     loadRound();
     playCue('beginSearch', { volume: 0.9 });
+    lockGame(false);
     return;
   }
 
@@ -554,12 +671,14 @@ window.addEventListener('resize', () => {
     if (document.body.classList.contains('game-active')) positionObjects();
   }, 90);
 });
+
 window.addEventListener('orientationchange', () => {
   setTimeout(() => {
     syncPhoneViewportMode();
     if (document.body.classList.contains('game-active')) positionObjects();
   }, 80);
 });
+
 window.visualViewport?.addEventListener('resize', syncPhoneViewportMode);
 
 window.addEventListener('woodland-audio-error', () => {
