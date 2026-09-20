@@ -127,3 +127,18 @@ footer{justify-content:center;color:var(--muted);font-size:.82rem}
   .route-strip{width:calc(100% - 1.2rem)}
   .route-node span{width:1.22rem;height:1.22rem;font-size:.46rem}
 }
+
+
+/* Four legacy background slots currently contain duplicate artwork.
+   Distinct treatments keep each path visually different without changing
+   the scene-coordinate system used by the hidden finds. */
+#scene::after{content:"";position:absolute;inset:0;z-index:1;pointer-events:none;opacity:0;transition:opacity .35s ease}
+#woods{position:relative;z-index:0}
+#scene[data-scene-variant="sunlit"] #woods{filter:saturate(1.08) brightness(1.08) contrast(1.03) sepia(.05)}
+#scene[data-scene-variant="sunlit"]::after{opacity:1;background:linear-gradient(180deg,rgba(255,244,190,.10),rgba(255,255,255,0))}
+#scene[data-scene-variant="old-trail"] #woods{filter:saturate(.82) brightness(.82) contrast(1.08) hue-rotate(-7deg)}
+#scene[data-scene-variant="old-trail"]::after{opacity:1;background:linear-gradient(180deg,rgba(34,61,39,.16),rgba(8,30,20,.10))}
+#scene[data-scene-variant="evening"] #woods{filter:saturate(.88) brightness(.70) contrast(1.06) sepia(.14) hue-rotate(7deg)}
+#scene[data-scene-variant="evening"]::after{opacity:1;background:linear-gradient(180deg,rgba(89,54,103,.12),rgba(244,164,91,.16))}
+#scene[data-scene-variant="meadow"] #woods{filter:saturate(1.18) brightness(1.05) contrast(.98) hue-rotate(4deg)}
+#scene[data-scene-variant="meadow"]::after{opacity:1;background:linear-gradient(180deg,rgba(255,247,198,.08),rgba(117,181,86,.08))}
