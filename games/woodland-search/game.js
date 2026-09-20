@@ -736,10 +736,19 @@ $('hint').addEventListener('click', () => {
       : target === 'seed'
         ? 'The Heart Seed is still hiding nearby. ' + describePoint(currentSeedSpot)
         : 'A tiny ' + currentSecretItem.name.toLowerCase() + ' is still hiding nearby. ' + describePoint(currentSecretSpot);
+    const element = target === 'character' ? $('pip') : target === 'seed' ? $('heart-seed') : $('secret-item');
+    element.classList.add('hinted');
     $('status').textContent = firstHint;
     showStatusToast(4800);
     $('hint').textContent = 'One more hint';
     playCue('hintOne', { interrupt: false, volume: 0.88 });
+    hintTimer = setTimeout(() => {
+      element.classList.remove('hinted');
+      if (!isRoundComplete()) {
+        $('hint').disabled = false;
+        $('hint').textContent = 'Glow again';
+      }
+    }, Math.min(SETTINGS.hintMs, 3500));
     return;
   }
 
