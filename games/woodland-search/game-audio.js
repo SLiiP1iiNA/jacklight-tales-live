@@ -16,6 +16,9 @@
     friendFound5: 'Friend Found 5.mp3',
     barnabyFound: 'Barnaby Found.mp3',
     heartSeed: 'Heart Seed Secret.mp3',
+    secretFind1: 'Secret Find 1.mp3',
+    secretFind2: 'Secret Find 2.mp3',
+    secretFind3: 'Secret Find 3.mp3',
     nextLocation: 'Next Location.mp3',
     allFound: 'Everything Found.mp3',
     goodbye: 'Goodbye.mp3'
