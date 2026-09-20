@@ -377,7 +377,7 @@ function showCelebration({ seedJustFound = false } = {}) {
       audioLayer?.play('nextLocation', { volume: 0.9, interrupt: false });
     } else {
       playFriendFoundCue();
-      audioLayer?.play('nextLocation', { volume: 0.9 });
+      audioLayer?.play('nextLocation', { interrupt: false, volume: 0.9 });
     }
   }
 
