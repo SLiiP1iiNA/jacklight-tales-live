@@ -336,8 +336,6 @@ async function loadRound() {
   $('hint').disabled = true;
   $('hint').classList.remove('is-offering');
   $('hint').textContent = 'A little hint';
-  $('continue-found').hidden = true;
-  $('continue-found').disabled = false;
   clearHintVisuals();
   $('finish').hidden = true;
 
@@ -531,7 +529,6 @@ function showCelebration({ seedJustFound = false } = {}) {
   if (!isRoundComplete()) return;
   clearTimeout(hintOfferTimer);
   clearTimeout(hintTimer);
-  $('continue-found').hidden = true;
 
   $('pip').classList.add('found');
   $('pip').disabled = true;
