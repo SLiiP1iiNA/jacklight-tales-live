@@ -1,10 +1,11 @@
 window.WOODLAND_SEARCH_SETTINGS={
-  memoryKey:'jlt-woodland-search-v8',
+  memoryKey:'jlt-woodland-search-v10',
   soundKey:'jlt-woodland-search-sound-v2',
   transitionMs:180,
-  celebrationRevealMs:900,
+  celebrationMinMs:700,
   hintMs:3000,
   hintOfferMs:16000,
   targetEdgePadding:8,
-  roundsPerJourney:5
+  secretChance:0.58,
+  roundsPerJourney:10
 };
