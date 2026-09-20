@@ -95,12 +95,14 @@ footer{justify-content:center;color:var(--muted);font-size:.82rem}
   #stage.scene-changing{opacity:.2}
   #stage{transition:opacity .18s ease}
   #pip.hinted{animation:hint-pulse 1.05s ease-in-out 3}
+  #heart-seed.hinted,#secret-item.hinted{animation:hint-target-pulse 1.05s ease-in-out 3}
   #pip.found{animation:found-pop .48s ease-out both}
   #pip.mischief-running{animation:mischief-bob .22s ease-in-out infinite alternate}
   .fireflies span{animation:firefly-drift 5.5s ease-in-out infinite alternate}
   .fireflies span:nth-child(2),.fireflies span:nth-child(5){animation-delay:-2s}
   .fireflies span:nth-child(3),.fireflies span:nth-child(6){animation-delay:-3.6s}
   @keyframes hint-pulse{50%{transform:translate(-50%,-90%) scale(1.13)}}
+  @keyframes hint-target-pulse{50%{transform:translate(-50%,-50%) scale(1.22)}}
   @keyframes found-pop{50%{transform:translate(-50%,-90%) scale(1.16)}}
   @keyframes mischief-bob{to{margin-top:-2px}}
   @keyframes firefly-drift{to{transform:translate(10px,-9px);opacity:.9}}
