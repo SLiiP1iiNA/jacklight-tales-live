@@ -448,11 +448,11 @@ function renderRoute(target = $('route-strip')) {
     item.className = 'route-node';
     item.title = 'Path ' + (index + 1) + ': ' + scene.name;
     item.setAttribute('aria-label', item.title);
-    if (index < roundIndex || (found && index === roundIndex)) item.classList.add('is-complete');
-    if (!found && index === roundIndex) item.classList.add('is-current');
+    if (index < roundIndex || (isRoundComplete() && index === roundIndex)) item.classList.add('is-complete');
+    if (!isRoundComplete() && index === roundIndex) item.classList.add('is-current');
 
     const dot = document.createElement('span');
-    dot.textContent = index < roundIndex || (found && index === roundIndex) ? '✓' : String(index + 1);
+    dot.textContent = index < roundIndex || (isRoundComplete() && index === roundIndex) ? '✓' : String(index + 1);
     const label = document.createElement('strong');
     label.textContent = scene.shortName;
 
