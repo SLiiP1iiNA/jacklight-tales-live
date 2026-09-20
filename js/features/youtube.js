@@ -78,6 +78,31 @@ function watchUrlForMode(mode = {}, channelUrl = "") {
 export function initYouTube(config = {}) {
   const modes = getWatchModes(config);
   const channelUrl = config.channelUrl || (config.channelId ? `https://www.youtube.com/channel/${encodeURIComponent(config.channelId)}` : "");
+  const comingSoonAudioUrl = config.comingSoonAudio || "";
+
+  function syncComingSoonMusic(root, shouldPlay) {
+    const audio = root.querySelector("[data-coming-soon-music]");
+    if (!audio) {
+      return;
+    }
+
+    if (!comingSoonAudioUrl) {
+      audio.pause();
+      return;
+    }
+
+    if (audio.src !== comingSoonAudioUrl) {
+      audio.src = comingSoonAudioUrl;
+      audio.volume = 0.05;
+    }
+
+    if (shouldPlay) {
+      audio.play().catch(() => {});
+    } else {
+      audio.pause();
+      audio.currentTime = 0;
+    }
+  }
 
   function renderMode(root, modeName) {
     const mode = modes[modeName] || modes.shorts || {};
@@ -100,6 +125,7 @@ export function initYouTube(config = {}) {
     setExternalLink(playlistLink, watchUrlForMode(mode, channelUrl));
 
     const waitingForRelease = mode.aspect === "landscape" && mode.startDate && !hasStarted(mode.startDate);
+    syncComingSoonMusic(root, waitingForRelease);
     if (waitingForRelease) {
       const message = "The wide Series 1 collection opens here on 26 September at 10:30.";
       frame.replaceChildren();
