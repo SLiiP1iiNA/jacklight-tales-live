@@ -8,20 +8,32 @@
     'https://pub-9ea739df2a0c435bbc605d2f4bfc6fb5.r2.dev/Game%20Audio/Woodland%20Search/Luna/Where_Wildflowers_Bloom.mp3'
   ];
 
-  // Keep the background music very quiet so Luna's voice and game sounds
-  // remain clearly in the foreground.
-  const GAME_VOLUME = 0.006;
+  // Desktop stays at the existing quiet level.
+  // Mobile speakers make the same source sound much more prominent, so
+  // use a substantially lower level on phones/tablets.
+  const DESKTOP_VOLUME = 0.006;
+  const MOBILE_VOLUME = 0.0015;
 
   const audio = document.getElementById('woodland-music');
   if (!audio) return;
 
+  const mobileQuery = window.matchMedia('(max-width: 900px), (pointer: coarse)');
+
+  function getGameVolume() {
+    return mobileQuery.matches ? MOBILE_VOLUME : DESKTOP_VOLUME;
+  }
+
   audio.loop = false;
   audio.preload = 'none';
   audio.playsInline = true;
-  audio.volume = GAME_VOLUME;
+  audio.volume = getGameVolume();
 
   let enabled = true;
   let trackIndex = 0;
+
+  function applyVolume() {
+    audio.volume = getGameVolume();
+  }
 
   function loadCurrentTrack() {
     const src = TRACKS[trackIndex];
@@ -29,7 +41,7 @@
       audio.src = src;
       audio.load();
     }
-    audio.volume = GAME_VOLUME;
+    applyVolume();
   }
 
   async function start() {
@@ -40,7 +52,7 @@
 
     try {
       await audio.play();
-      audio.volume = GAME_VOLUME;
+      applyVolume();
       return true;
     } catch {
       return false;
@@ -54,7 +66,7 @@
     loadCurrentTrack();
 
     void audio.play().then(() => {
-      audio.volume = GAME_VOLUME;
+      applyVolume();
     }).catch(() => {});
   }
 
@@ -63,27 +75,36 @@
     try { audio.currentTime = 0; } catch {}
     trackIndex = 0;
     audio.src = TRACKS[0];
-    audio.volume = GAME_VOLUME;
+    applyVolume();
   }
 
   function setEnabled(value) {
     enabled = Boolean(value);
     if (!enabled) stop();
-    else audio.volume = GAME_VOLUME;
+    else applyVolume();
   }
 
-  // Compatibility hooks for the Luna layer. The background stays at one
-  // constant quiet level while Luna speaks over it.
+  // Compatibility hooks for the Luna layer.
   function duckForLuna() {
-    if (enabled && !audio.paused) audio.volume = GAME_VOLUME;
+    if (enabled && !audio.paused) applyVolume();
   }
 
   function restoreAfterLuna() {
-    if (enabled) audio.volume = GAME_VOLUME;
+    if (enabled) applyVolume();
   }
 
   audio.addEventListener('ended', playNextTrack);
   window.addEventListener('pagehide', stop);
+
+  const handleViewportChange = () => {
+    applyVolume();
+  };
+
+  if (typeof mobileQuery.addEventListener === 'function') {
+    mobileQuery.addEventListener('change', handleViewportChange);
+  } else if (typeof mobileQuery.addListener === 'function') {
+    mobileQuery.addListener(handleViewportChange);
+  }
 
   window.jltWoodlandMusic = {
     start,
