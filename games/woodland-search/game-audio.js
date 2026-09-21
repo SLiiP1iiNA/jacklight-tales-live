@@ -374,7 +374,6 @@
       void startQueued(next.name, next.volume);
     } else {
       player.volume = 0;
-      window.jltWoodlandMusic?.restoreAfterLuna?.();
       resolveIdle();
     }
   }
@@ -390,7 +389,6 @@
       if (player === activePlayer) {
         currentName = null;
         queue = [];
-        window.jltWoodlandMusic?.restoreAfterLuna?.();
       }
 
       emitError(failedName, player.error || new Error('Media file could not load'));
@@ -404,7 +402,6 @@
     queue = [];
     currentName = null;
     players.forEach(stopPlayer);
-    window.jltWoodlandMusic?.restoreAfterLuna?.();
     resolveIdle();
   }
 
