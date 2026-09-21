@@ -11,7 +11,7 @@
   // Desktop is already balanced correctly.
   // Mobile uses a much lower level so Luna remains clearly in front.
   const DESKTOP_VOLUME = 0.006;
-  const MOBILE_VOLUME = 0.0003;
+  const MOBILE_VOLUME = 0.00003;
 
   const audio = document.getElementById('woodland-music');
   if (!audio) return;
