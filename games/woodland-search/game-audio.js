@@ -62,8 +62,12 @@
   let transitioning = false;
   let idleWaiters = [];
   let transitionToken = 0;
+  let lastRequestName = null;
+  let lastRequestAt = 0;
 
   const FADE_OUT_MS = 70;
+  const MOBILE_VOICE_GAIN = 0.64;
+  const DUPLICATE_REQUEST_GUARD_MS = 260;
   const GAP_MS = 12;
   const FADE_IN_MS = 70;
   const fadeFrames = new WeakMap();
@@ -312,36 +316,51 @@
   function play(name, { interrupt = true, volume = 0.92 } = {}) {
     if (!enabled || !slots[name]) return Promise.resolve(false);
 
+    // Ignore an accidental duplicate request arriving from a mobile tap/click
+    // pair. Legitimate repeats still work once this tiny window has passed.
+    const now = performance.now();
+    if (name === lastRequestName && (now - lastRequestAt) < DUPLICATE_REQUEST_GUARD_MS) {
+      return Promise.resolve(true);
+    }
+    lastRequestName = name;
+    lastRequestAt = now;
+
+    const mobilePhone = window.matchMedia?.('(max-width: 760px)').matches;
+    const effectiveVolume = mobilePhone ? volume * MOBILE_VOICE_GAIN : volume;
+
     if (!interrupt && (transitioning || currentName || anyPlayerPlaying())) {
-      queue.push({ name, volume });
+      queue.push({ name, volume: effectiveVolume });
       return Promise.resolve(true);
     }
 
     queue = [];
 
     if (interrupt) {
-      return interruptAndStart(name, volume);
+      return interruptAndStart(name, effectiveVolume);
     }
 
-    return startNatural(name, volume);
+    return startNatural(name, effectiveVolume);
   }
 
   function playSequence(names, { volume = 0.92, interrupt = true } = {}) {
     const valid = names.filter(name => slots[name]);
     if (!enabled || !valid.length) return Promise.resolve(false);
 
+    const mobilePhone = window.matchMedia?.('(max-width: 760px)').matches;
+    const effectiveVolume = mobilePhone ? volume * MOBILE_VOICE_GAIN : volume;
+
     if (!interrupt && (transitioning || currentName || anyPlayerPlaying())) {
-      valid.forEach(name => queue.push({ name, volume }));
+      valid.forEach(name => queue.push({ name, volume: effectiveVolume }));
       return Promise.resolve(true);
     }
 
     if (!interrupt) {
-      queue = valid.slice(1).map(name => ({ name, volume }));
-      return startNatural(valid[0], volume);
+      queue = valid.slice(1).map(name => ({ name, volume: effectiveVolume }));
+      return startNatural(valid[0], effectiveVolume);
     }
 
-    queue = valid.slice(1).map(name => ({ name, volume }));
-    return interruptAndStart(valid[0], volume);
+    queue = valid.slice(1).map(name => ({ name, volume: effectiveVolume }));
+    return interruptAndStart(valid[0], effectiveVolume);
   }
 
   function handleEnded(player) {
