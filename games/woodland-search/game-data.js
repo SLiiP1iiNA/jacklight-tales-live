@@ -89,7 +89,7 @@ window.WOODLAND_SEARCH_DATA={
       secretItem:{id:'lantern-key',name:'Little Lantern Key',image:'secrets/little-lantern-key.png',spots:[{x:39,y:49},{x:67,y:58},{x:84,y:78}]}
     },
     {
-      image:'assets/woods-6.webp',
+      image:'assets/moonlit-grove.webp',
       visualVariant:'sunlit',
       name:'The Sunlit Path',
       shortName:'Sunlit',
@@ -105,7 +105,7 @@ window.WOODLAND_SEARCH_DATA={
       secretItem:{id:'map-feather',name:'Explorer Feather',image:'secrets/explorer-feather.png',spots:[{x:43,y:57},{x:73,y:47},{x:86,y:78}]}
     },
     {
-      image:'assets/woods-7.webp',
+      image:'assets/heart-tree.webp',
       visualVariant:'old-trail',
       name:'The Old Woodland Trail',
       shortName:'Trail',
@@ -121,7 +121,7 @@ window.WOODLAND_SEARCH_DATA={
       secretItem:{id:'oak-leaf',name:'Old Oak Leaf',image:'secrets/old-oak-leaf.png',spots:[{x:24,y:54},{x:58,y:49},{x:78,y:79}]}
     },
     {
-      image:'assets/woods-8.webp',
+      image:'assets/barnaby-burrow.webp',
       visualVariant:'evening',
       name:'The Quiet Evening Woods',
       shortName:'Evening',
