@@ -45,6 +45,15 @@
   let currentName = null;
   let idleWaiters = [];
 
+  // Tiny voice transitions prevent a click/crackle when gameplay interrupts
+  // Luna quickly. The timings are deliberately short so the response still
+  // feels instant to a child.
+  const VOICE_FADE_OUT_MS = 18;
+  const VOICE_FADE_GAP_MS = 6;
+  const VOICE_FADE_IN_MS = 22;
+  let volumeFrame = 0;
+  let transitionToken = 0;
+
   function emitError(name, error) {
     console.warn('Woodland Search Luna audio failed:', name, error);
     window.dispatchEvent(new CustomEvent('woodland-audio-error', {
@@ -81,12 +90,51 @@
     return true;
   }
 
-  async function start(name, volume = 0.92) {
-    if (!enabled || !prepare(name, volume)) return false;
+  function cancelVoiceFade() {
+    cancelAnimationFrame(volumeFrame);
+    volumeFrame = 0;
+  }
+
+  function fadeVolume(target, duration = 0) {
+    cancelAnimationFrame(volumeFrame);
+    const startVolume = player.volume;
+    const endVolume = Math.max(0, Math.min(1, target));
+
+    if (!duration || Math.abs(startVolume - endVolume) < 0.001) {
+      player.volume = endVolume;
+      return Promise.resolve();
+    }
+
+    const startedAt = performance.now();
+
+    return new Promise(resolve => {
+      const step = now => {
+        const progress = Math.min(1, (now - startedAt) / duration);
+        const eased = progress * (2 - progress);
+        player.volume = startVolume + (endVolume - startVolume) * eased;
+
+        if (progress < 1) {
+          volumeFrame = requestAnimationFrame(step);
+        } else {
+          volumeFrame = 0;
+          player.volume = endVolume;
+          resolve();
+        }
+      };
+
+      volumeFrame = requestAnimationFrame(step);
+    });
+  }
+
+  async function start(name, volume = 0.92, { fadeIn = false } = {}) {
+    cancelVoiceFade();
+    const targetVolume = Math.max(0, Math.min(1, volume));
+    if (!enabled || !prepare(name, fadeIn ? 0 : targetVolume)) return false;
     window.jltWoodlandMusic?.duckForLuna?.();
 
     try {
       await player.play();
+      if (fadeIn) await fadeVolume(targetVolume, VOICE_FADE_IN_MS);
       return true;
     } catch (error) {
       currentName = null;
@@ -99,6 +147,8 @@
   }
 
   function stop() {
+    ++transitionToken;
+    cancelVoiceFade();
     queue = [];
     currentName = null;
     window.jltWoodlandMusic?.restoreAfterLuna?.();
@@ -107,6 +157,30 @@
       player.currentTime = 0;
     } catch {}
     resolveIdle();
+  }
+
+  async function interruptAndStart(name, volume) {
+    const token = ++transitionToken;
+    const wasPlaying = !player.paused || Boolean(currentName);
+
+    cancelVoiceFade();
+
+    if (wasPlaying) {
+      await fadeVolume(0, VOICE_FADE_OUT_MS);
+    }
+
+    if (token !== transitionToken || !enabled) return false;
+
+    try { player.pause(); } catch {}
+
+    // A few milliseconds of silence between the two voice clips removes the
+    // hard edge that can produce a crack when players tap rapidly.
+    if (VOICE_FADE_GAP_MS) {
+      await new Promise(resolve => setTimeout(resolve, VOICE_FADE_GAP_MS));
+    }
+
+    if (token !== transitionToken || !enabled) return false;
+    return start(name, volume, { fadeIn: true });
   }
 
   function play(name, { interrupt = true, volume = 0.92 } = {}) {
@@ -119,9 +193,9 @@
 
     queue = [];
     if (interrupt) {
-      try { player.pause(); } catch {}
+      return interruptAndStart(name, volume);
     }
-    return start(name, volume);
+    return start(name, volume, { fadeIn: true });
   }
 
   function playSequence(names, { volume = 0.92, interrupt = true } = {}) {
@@ -135,9 +209,9 @@
 
     queue = valid.slice(1).map(name => ({ name, volume }));
     if (interrupt) {
-      try { player.pause(); } catch {}
+      return interruptAndStart(valid[0], volume);
     }
-    return start(valid[0], volume);
+    return start(valid[0], volume, { fadeIn: true });
   }
 
   player.addEventListener('ended', () => {
@@ -152,6 +226,8 @@
   });
 
   player.addEventListener('error', () => {
+    ++transitionToken;
+    cancelVoiceFade();
     const failedName = currentName;
     currentName = null;
     queue = [];
