@@ -10,28 +10,51 @@
 
   // Desktop is already balanced correctly.
   // Mobile uses a much lower level so Luna remains clearly in front.
-  const DESKTOP_VOLUME = 0.006;
-  const MOBILE_VOLUME = 0.00003;
+  const DESKTOP_GAIN = 0.006;
+  const MOBILE_GAIN = 0.00003;
 
   const audio = document.getElementById('woodland-music');
   if (!audio) return;
 
   const mobileQuery = window.matchMedia('(max-width: 900px), (pointer: coarse)');
 
-  function getGameVolume() {
-    return mobileQuery.matches ? MOBILE_VOLUME : DESKTOP_VOLUME;
+  function getGameGain() {
+    return mobileQuery.matches ? MOBILE_GAIN : DESKTOP_GAIN;
+  }
+
+  let audioContext = null;
+  let gainNode = null;
+  let mediaSource = null;
+
+  function ensureAudioGraph() {
+    if (gainNode) return true;
+    const AudioCtx = window.AudioContext || window.webkitAudioContext;
+    if (!AudioCtx) return false;
+    try {
+      audioContext = audioContext || new AudioCtx();
+      mediaSource = audioContext.createMediaElementSource(audio);
+      gainNode = audioContext.createGain();
+      mediaSource.connect(gainNode);
+      gainNode.connect(audioContext.destination);
+      gainNode.gain.value = getGameGain();
+      return true;
+    } catch (error) {
+      console.warn('Woodland Search music gain setup failed:', error);
+      return false;
+    }
   }
 
   audio.loop = false;
   audio.preload = 'none';
   audio.playsInline = true;
-  audio.volume = getGameVolume();
+  audio.volume = 1;
 
   let enabled = true;
   let trackIndex = 0;
 
   function applyVolume() {
-    audio.volume = getGameVolume();
+    audio.volume = 1;
+    if (gainNode) gainNode.gain.value = getGameGain();
   }
 
   function loadCurrentTrack() {
@@ -46,6 +69,10 @@
   async function start() {
     if (!enabled) return false;
 
+    ensureAudioGraph();
+    if (audioContext?.state === 'suspended') {
+      try { await audioContext.resume(); } catch {}
+    }
     loadCurrentTrack();
     if (!audio.paused) return true;
 
