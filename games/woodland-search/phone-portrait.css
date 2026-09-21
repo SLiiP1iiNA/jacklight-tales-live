@@ -64,14 +64,14 @@
   #woods{object-fit:cover}
   #pip{width:clamp(44px,12vw,58px)}
 
-  .mission-hud{top:max(.45rem,env(safe-area-inset-top));left:.5rem;width:min(250px,69vw);grid-template-columns:48px minmax(0,1fr);gap:.42rem;padding:.4rem .46rem;border-radius:15px;background:rgba(6,29,20,.94)}
+  .mission-hud{top:calc(max(.45rem,env(safe-area-inset-top)) + 2.15rem);left:.5rem;width:min(250px,69vw);grid-template-columns:48px minmax(0,1fr);gap:.42rem;padding:.4rem .46rem;border-radius:15px;background:rgba(6,29,20,.94)}
   .reference{width:44px;height:50px}
   .mission-kicker{font-size:.43rem}
   #target-title{font-size:1rem}
   #mission-line{margin-top:.14rem;font-size:.55rem;line-height:1.16;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
 
-  .seed-meter{top:max(.45rem,env(safe-area-inset-top));right:.5rem;min-height:34px;padding:.3rem .48rem}
-  .secret-meter{top:calc(max(.45rem,env(safe-area-inset-top)) + 38px);right:.5rem}
+  .seed-meter{top:calc(max(.45rem,env(safe-area-inset-top)) + 2.15rem);right:.5rem;min-height:34px;padding:.3rem .48rem}
+  .secret-meter{top:calc(max(.45rem,env(safe-area-inset-top)) + 4.75rem);right:.5rem}
   .seed-icon{width:9px;height:14px}
   .secret-icon{width:11px;height:11px;font-size:.5rem}
   .seed-meter strong{font-size:.55rem}
