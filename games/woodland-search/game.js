@@ -474,7 +474,15 @@ async function loadRound() {
   maybePlaceSecretItem();
 
   $('stage').classList.add('scene-changing');
-  $('woods').src = currentScene.image + (currentScene.image.includes('?') ? '&' : '?') + 'v=20260921-imgfix1';
+  const sceneImage = currentScene.image;
+  $('woods').onerror = () => {
+    const image = $('woods');
+    if (image.dataset.retryCacheBust === sceneImage) return;
+    image.dataset.retryCacheBust = sceneImage;
+    image.src = sceneImage + (sceneImage.includes('?') ? '&' : '?') + 'v=20260921-imgfallback1';
+  };
+  $('woods').removeAttribute('data-retry-cache-bust');
+  $('woods').src = sceneImage;
 
   try {
     await Promise.all([
