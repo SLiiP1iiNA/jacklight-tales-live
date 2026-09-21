@@ -1,6 +1,8 @@
 /*
  * Woodland Search — Luna voice layer.
- * Queue-aware for intentional sequences, while important game discoveries interrupt stale dialogue.
+ * Queue-aware for intentional sequences. Important discoveries interrupt stale
+ * dialogue, using two audio players so a new line never changes source on the
+ * player that is currently producing the outgoing waveform.
  */
 (() => {
   const base = 'https://pub-9ea739df2a0c435bbc605d2f4bfc6fb5.r2.dev/Game%20Audio/Woodland%20Search/Luna/';
@@ -31,76 +33,95 @@
     Object.entries(files).map(([key, name]) => [key, base + encodeURIComponent(name)])
   );
 
-  const player = document.getElementById('luna-audio');
-  if (!player) {
+  const firstPlayer = document.getElementById('luna-audio');
+  if (!firstPlayer) {
     console.error('Woodland Search: #luna-audio was not found.');
     return;
   }
 
-  player.preload = 'auto';
-  player.playsInline = true;
+  // Two independent players are the important part of this fix. The outgoing
+  // clip can finish fading to zero without its element being forced to load a
+  // completely different file underneath it.
+  const secondPlayer = document.createElement('audio');
+  secondPlayer.id = 'luna-audio-2';
+  secondPlayer.preload = 'auto';
+  secondPlayer.playsInline = true;
+  secondPlayer.setAttribute('aria-hidden', 'true');
+  firstPlayer.insertAdjacentElement('afterend', secondPlayer);
+
+  const players = [firstPlayer, secondPlayer];
+  players.forEach(player => {
+    player.preload = 'auto';
+    player.playsInline = true;
+  });
 
   let enabled = true;
   let queue = [];
   let currentName = null;
+  let activePlayer = firstPlayer;
+  let transitioning = false;
   let idleWaiters = [];
-
-  // Smooth voice transitions prevent clicks/crackles when gameplay interrupts
-  // Luna while she is mid-sentence. A slightly longer ramp is intentional:
-  // it is still effectively instant, but gives the waveform time to reach
-  // silence instead of being chopped abruptly.
-  const VOICE_FADE_OUT_MS = 48;
-  const VOICE_FADE_GAP_MS = 12;
-  const VOICE_FADE_IN_MS = 64;
-  let volumeFrame = 0;
-  let cancelFade = () => {};
   let transitionToken = 0;
+
+  const FADE_OUT_MS = 70;
+  const GAP_MS = 12;
+  const FADE_IN_MS = 70;
+  const fadeFrames = new WeakMap();
+  const fadeCancels = new WeakMap();
 
   function emitError(name, error) {
     console.warn('Woodland Search Luna audio failed:', name, error);
     window.dispatchEvent(new CustomEvent('woodland-audio-error', {
       detail: {
         name,
-        src: player.currentSrc || player.src,
+        src: activePlayer?.currentSrc || activePlayer?.src || '',
         message: String(error?.message || error || 'Audio could not play')
       }
     }));
   }
 
+  function anyPlayerPlaying() {
+    return players.some(player => !player.paused && !player.ended);
+  }
+
   function resolveIdle() {
-    if (enabled && (currentName || !player.paused || queue.length)) return;
+    if (enabled && (transitioning || currentName || anyPlayerPlaying() || queue.length)) return;
     const waiters = idleWaiters;
     idleWaiters = [];
     waiters.forEach(resolve => resolve());
   }
 
   function waitForIdle() {
-    if (!enabled || (!currentName && player.paused && !queue.length)) {
+    if (!enabled || (!transitioning && !currentName && !anyPlayerPlaying() && !queue.length)) {
       return Promise.resolve();
     }
     return new Promise(resolve => idleWaiters.push(resolve));
   }
 
-  function prepare(name, volume) {
+  function stopPlayer(player) {
+    const cancel = fadeCancels.get(player);
+    cancel?.();
+    try { player.pause(); } catch {}
+    try { player.currentTime = 0; } catch {}
+    player.volume = 0;
+  }
+
+  function prepare(player, name) {
     const src = slots[name];
     if (!src) return false;
-    currentName = name;
-    player.muted = !enabled;
-    player.volume = Math.max(0, Math.min(1, volume));
+
+    const cancel = fadeCancels.get(player);
+    cancel?.();
+
+    player.volume = 0;
     player.src = src;
     player.load();
     return true;
   }
 
-  function cancelVoiceFade() {
-    cancelFade();
-    cancelFade = () => {};
-    cancelAnimationFrame(volumeFrame);
-    volumeFrame = 0;
-  }
-
-  function fadeVolume(target, duration = 0) {
-    cancelVoiceFade();
+  function fadePlayer(player, target, duration) {
+    const previousCancel = fadeCancels.get(player);
+    previousCancel?.();
 
     const startVolume = player.volume;
     const endVolume = Math.max(0, Math.min(1, target));
@@ -112,160 +133,268 @@
 
     return new Promise(resolve => {
       let settled = false;
-      let localFrame = 0;
       const startedAt = performance.now();
 
       const finish = () => {
         if (settled) return;
         settled = true;
-        if (localFrame) cancelAnimationFrame(localFrame);
-        volumeFrame = 0;
-        cancelFade = () => {};
-        player.volume = endVolume;
+
+        const frame = fadeFrames.get(player);
+        if (frame) cancelAnimationFrame(frame);
+        fadeFrames.delete(player);
+        fadeCancels.delete(player);
+
+        // Only force the final value when the fade genuinely completed or
+        // another transition explicitly canceled it.
+        if (player.volume !== endVolume && !cancelled) {
+          player.volume = endVolume;
+        }
         resolve();
       };
 
-      cancelFade = finish;
+      let cancelled = false;
+
+      const cancel = () => {
+        if (settled) return;
+        cancelled = true;
+        const frame = fadeFrames.get(player);
+        if (frame) cancelAnimationFrame(frame);
+        fadeFrames.delete(player);
+        fadeCancels.delete(player);
+        settled = true;
+        resolve();
+      };
+
+      fadeCancels.set(player, cancel);
 
       const step = now => {
         if (settled) return;
 
         const progress = Math.min(1, (now - startedAt) / duration);
-        // Smoothstep gives a soft start and soft finish rather than a sharp
-        // linear gain edge.
         const eased = progress * progress * (3 - 2 * progress);
         player.volume = startVolume + (endVolume - startVolume) * eased;
 
         if (progress < 1) {
-          localFrame = requestAnimationFrame(step);
-          volumeFrame = localFrame;
+          const frame = requestAnimationFrame(step);
+          fadeFrames.set(player, frame);
         } else {
           finish();
         }
       };
 
-      localFrame = requestAnimationFrame(step);
-      volumeFrame = localFrame;
+      const frame = requestAnimationFrame(step);
+      fadeFrames.set(player, frame);
     });
   }
 
-  async function start(name, volume = 0.92, { fadeIn = false } = {}) {
-    cancelVoiceFade();
-    const targetVolume = Math.max(0, Math.min(1, volume));
-    if (!enabled || !prepare(name, fadeIn ? 0 : targetVolume)) return false;
-    window.jltWoodlandMusic?.duckForLuna?.();
+  async function fadeAllToSilence() {
+    await Promise.all(players.map(player => {
+      if (player.paused || player.volume <= 0.001) {
+        player.volume = 0;
+        return Promise.resolve();
+      }
+      return fadePlayer(player, 0, FADE_OUT_MS);
+    }));
+  }
+
+  async function startOnPlayer(player, name, volume, token) {
+    if (token !== transitionToken || !enabled || !prepare(player, name)) return false;
 
     try {
       await player.play();
-      if (fadeIn) {
-        await fadeVolume(targetVolume, VOICE_FADE_IN_MS);
-      }
-      return true;
     } catch (error) {
-      cancelVoiceFade();
-      player.volume = 0;
-      currentName = null;
-      window.jltWoodlandMusic?.restoreAfterLuna?.();
-      emitError(name, error);
-      queue = [];
-      resolveIdle();
+      if (token === transitionToken) {
+        emitError(name, error);
+      }
+      stopPlayer(player);
       return false;
     }
-  }
 
-  function stop() {
-    ++transitionToken;
-    cancelVoiceFade();
-    queue = [];
-    currentName = null;
-    window.jltWoodlandMusic?.restoreAfterLuna?.();
-    try {
-      player.pause();
-      player.currentTime = 0;
-    } catch {}
-    resolveIdle();
+    if (token !== transitionToken || !enabled) {
+      stopPlayer(player);
+      return false;
+    }
+
+    await fadePlayer(player, volume, FADE_IN_MS);
+
+    if (token !== transitionToken || !enabled) {
+      stopPlayer(player);
+      return false;
+    }
+
+    return true;
   }
 
   async function interruptAndStart(name, volume) {
     const token = ++transitionToken;
-    const wasPlaying = !player.paused || Boolean(currentName);
+    transitioning = true;
+    currentName = null;
 
-    cancelVoiceFade();
+    // Kill any old queue immediately. Both players are faded to silence before
+    // either one is allowed to load or speak a different clip.
+    await fadeAllToSilence();
 
-    if (wasPlaying) {
-      await fadeVolume(0, VOICE_FADE_OUT_MS);
+    if (token !== transitionToken || !enabled) {
+      if (token === transitionToken) {
+        transitioning = false;
+        resolveIdle();
+      }
+      return false;
     }
 
-    if (token !== transitionToken || !enabled) return false;
+    players.forEach(stopPlayer);
 
-    try { player.pause(); } catch {}
-
-    // A few milliseconds of silence between the two voice clips removes the
-    // hard edge that can produce a crack when players tap rapidly.
-    if (VOICE_FADE_GAP_MS) {
-      await new Promise(resolve => setTimeout(resolve, VOICE_FADE_GAP_MS));
+    if (GAP_MS) {
+      await new Promise(resolve => setTimeout(resolve, GAP_MS));
     }
 
-    if (token !== transitionToken || !enabled) return false;
-    return start(name, volume, { fadeIn: true });
+    if (token !== transitionToken || !enabled) {
+      if (token === transitionToken) {
+        transitioning = false;
+        resolveIdle();
+      }
+      return false;
+    }
+
+    const nextPlayer = activePlayer === players[0] ? players[1] : players[0];
+    currentName = name;
+    activePlayer = nextPlayer;
+
+    const started = await startOnPlayer(nextPlayer, name, volume, token);
+
+    if (token === transitionToken) {
+      transitioning = false;
+      if (!started) currentName = null;
+      resolveIdle();
+    }
+
+    return started;
+  }
+
+  async function startNatural(name, volume = 0.92) {
+    const token = ++transitionToken;
+    transitioning = true;
+    currentName = name;
+
+    const player = activePlayer.paused ? activePlayer : (activePlayer === players[0] ? players[1] : players[0]);
+    activePlayer = player;
+
+    const started = await startOnPlayer(player, name, volume, token);
+
+    if (token === transitionToken) {
+      transitioning = false;
+      if (!started) currentName = null;
+      resolveIdle();
+    }
+
+    return started;
+  }
+
+  async function startQueued(name, volume) {
+    const token = ++transitionToken;
+    transitioning = true;
+    currentName = name;
+
+    const nextPlayer = activePlayer === players[0] ? players[1] : players[0];
+    activePlayer = nextPlayer;
+
+    const started = await startOnPlayer(nextPlayer, name, volume, token);
+
+    if (token === transitionToken) {
+      transitioning = false;
+      if (!started) currentName = null;
+      resolveIdle();
+    }
+
+    return started;
   }
 
   function play(name, { interrupt = true, volume = 0.92 } = {}) {
     if (!enabled || !slots[name]) return Promise.resolve(false);
 
-    if (!interrupt && (!player.paused || currentName)) {
+    if (!interrupt && (transitioning || currentName || anyPlayerPlaying())) {
       queue.push({ name, volume });
       return Promise.resolve(true);
     }
 
     queue = [];
+
     if (interrupt) {
       return interruptAndStart(name, volume);
     }
-    return start(name, volume, { fadeIn: true });
+
+    return startNatural(name, volume);
   }
 
   function playSequence(names, { volume = 0.92, interrupt = true } = {}) {
     const valid = names.filter(name => slots[name]);
     if (!enabled || !valid.length) return Promise.resolve(false);
 
-    if (!interrupt && (!player.paused || currentName)) {
+    if (!interrupt && (transitioning || currentName || anyPlayerPlaying())) {
       valid.forEach(name => queue.push({ name, volume }));
       return Promise.resolve(true);
     }
 
-    queue = valid.slice(1).map(name => ({ name, volume }));
-    if (interrupt) {
-      return interruptAndStart(valid[0], volume);
+    if (!interrupt) {
+      queue = valid.slice(1).map(name => ({ name, volume }));
+      return startNatural(valid[0], volume);
     }
-    return start(valid[0], volume, { fadeIn: true });
+
+    queue = valid.slice(1).map(name => ({ name, volume }));
+    return interruptAndStart(valid[0], volume);
   }
 
-  player.addEventListener('ended', () => {
+  function handleEnded(player) {
+    // Ignore stale players that were silenced during a rapid transition.
+    if (player !== activePlayer || !currentName) return;
+
     currentName = null;
     const next = queue.shift();
+
     if (enabled && next) {
-      start(next.name, next.volume, { fadeIn: true });
+      void startQueued(next.name, next.volume);
     } else {
+      player.volume = 0;
       window.jltWoodlandMusic?.restoreAfterLuna?.();
       resolveIdle();
     }
+  }
+
+  players.forEach(player => {
+    player.addEventListener('ended', () => handleEnded(player));
+    player.addEventListener('error', () => {
+      if (player !== activePlayer && player.paused) return;
+
+      const failedName = currentName;
+      player.volume = 0;
+
+      if (player === activePlayer) {
+        currentName = null;
+        queue = [];
+        window.jltWoodlandMusic?.restoreAfterLuna?.();
+      }
+
+      emitError(failedName, player.error || new Error('Media file could not load'));
+      resolveIdle();
+    });
   });
 
-  player.addEventListener('error', () => {
+  function stop() {
     ++transitionToken;
-    cancelVoiceFade();
-    const failedName = currentName;
-    currentName = null;
+    transitioning = false;
     queue = [];
+    currentName = null;
+    players.forEach(stopPlayer);
     window.jltWoodlandMusic?.restoreAfterLuna?.();
-    emitError(failedName, player.error || new Error('Media file could not load'));
     resolveIdle();
-  });
+  }
 
   function setEnabled(value) {
     enabled = Boolean(value);
-    player.muted = !enabled;
+    players.forEach(player => {
+      player.muted = !enabled;
+    });
+
     if (!enabled) stop();
     else resolveIdle();
   }
@@ -276,9 +405,10 @@
     stop,
     waitForIdle,
     isEnabled: () => enabled,
-    isPlaying: () => enabled && !player.paused,
+    isPlaying: () => enabled && (transitioning || anyPlayerPlaying()),
     current: () => currentName,
-    player,
+    player: firstPlayer,
+    players: [...players],
     slots: { ...slots }
   };
 })();
