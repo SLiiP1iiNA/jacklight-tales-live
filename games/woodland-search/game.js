@@ -405,6 +405,7 @@ function maybePlaceSecretItem() {
   image.src = 'assets/' + sceneItem.image;
   image.alt = '';
   $('secret-item').setAttribute('aria-label', 'Hidden secret: ' + sceneItem.name);
+  $('secret-item').dataset.secretId = sceneItem.id || '';
   $('secret-item').hidden = false;
 }
 
