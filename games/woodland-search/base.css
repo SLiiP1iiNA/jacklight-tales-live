@@ -57,10 +57,10 @@ footer{justify-content:center;color:var(--muted);font-size:.82rem}
 .fireflies{position:absolute;inset:0;pointer-events:none;z-index:3}
 .fireflies span{position:absolute;width:4px;height:4px;border-radius:50%;background:#ffe99f;box-shadow:0 0 12px 4px rgba(255,226,124,.25);opacity:.58}
 .fireflies span:nth-child(1){left:13%;top:20%}.fireflies span:nth-child(2){left:31%;top:63%}.fireflies span:nth-child(3){left:49%;top:29%}.fireflies span:nth-child(4){left:67%;top:56%}.fireflies span:nth-child(5){left:84%;top:25%}.fireflies span:nth-child(6){left:74%;top:78%}
-#heart-seed,#secret-item{position:absolute;z-index:16;width:52px;height:52px;min-height:0;padding:0;border:0;background:transparent;transform:translate(-50%,-50%);overflow:visible}
+#heart-seed,#secret-item{position:absolute;z-index:26;width:58px;height:58px;min-height:0;padding:0;border:0;background:transparent;transform:translate(-50%,-50%);overflow:visible}
 #heart-seed span{display:block;width:15px;height:22px;margin:auto;border-radius:70% 28% 70% 30%;transform:rotate(38deg);background:linear-gradient(145deg,#fff5a9 5%,#b7dc63 45%,#54974f 100%);box-shadow:0 0 8px #f8df71,0 0 20px rgba(124,205,93,.6)}
 #secret-item::before{content:"";position:absolute;inset:7px;border-radius:50%;background:radial-gradient(circle,rgba(255,226,132,.28),transparent 70%);filter:blur(2px);z-index:-1}
-#secret-item img{display:block;width:50px;height:50px;margin:auto;object-fit:contain;filter:drop-shadow(0 .28rem .34rem rgba(0,0,0,.34)) drop-shadow(0 0 9px rgba(255,218,115,.42))}
+#secret-item img{display:block;width:56px;height:56px;margin:auto;object-fit:contain;filter:drop-shadow(0 .32rem .38rem rgba(0,0,0,.38)) drop-shadow(0 0 11px rgba(255,218,115,.62))}
 #heart-seed.collected,#secret-item.collected{animation:seed-pop .42s ease both}
 .seed-meter.seed-earned,.secret-meter.secret-earned{animation:seed-meter-bump .62s ease both}
 @keyframes seed-meter-bump{0%,100%{transform:scale(1)}35%{transform:scale(1.16)}65%{transform:scale(.98)}}
@@ -142,3 +142,21 @@ footer{justify-content:center;color:var(--muted);font-size:.82rem}
 #scene[data-scene-variant="evening"]::after{opacity:1;background:linear-gradient(180deg,rgba(89,54,103,.12),rgba(244,164,91,.16))}
 #scene[data-scene-variant="meadow"] #woods{filter:saturate(1.18) brightness(1.05) contrast(.98) hue-rotate(4deg)}
 #scene[data-scene-variant="meadow"]::after{opacity:1;background:linear-gradient(180deg,rgba(255,247,198,.08),rgba(117,181,86,.08))}
+
+/* The Golden Circus Ticket has a larger, forward-facing treatment so it stays
+   clearly visible against busy circus scenery on every viewport. */
+#secret-item[data-secret-id="circus-ticket"]{
+  z-index:32;
+  width:72px;
+  height:72px;
+  border-radius:12px;
+  background:radial-gradient(circle,rgba(255,227,137,.24),rgba(255,227,137,0) 70%);
+}
+#secret-item[data-secret-id="circus-ticket"] img{
+  width:68px;
+  height:68px;
+  transform:scale(1.12);
+  filter:drop-shadow(0 .36rem .44rem rgba(0,0,0,.44))
+         drop-shadow(0 0 14px rgba(255,221,112,.88))
+         drop-shadow(0 0 24px rgba(255,201,72,.32));
+}
