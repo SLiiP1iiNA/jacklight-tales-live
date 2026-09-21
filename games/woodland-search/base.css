@@ -156,38 +156,38 @@ footer{justify-content:center;color:var(--muted);font-size:.82rem}
 #scene[data-scene-variant="meadow"]::after{opacity:1;background:linear-gradient(180deg,rgba(255,247,198,.08),rgba(117,181,86,.08))}
 
 
-/* Golden Circus Ticket — make this secret unmistakable without making it a
-   huge target. The ticket artwork gets a bright physical-looking backing so
-   it cannot disappear into pale snow, lights, or transparent scenery. */
+/* Golden Circus Ticket — visible enough to spot, without the giant
+   gold rectangle that previously dominated the scene. */
 #secret-item[data-secret-id="circus-ticket"]{
   z-index:40;
-  width:94px;
-  height:62px;
+  width:66px;
+  height:44px;
   min-height:0;
-  padding:4px;
-  border:2px solid rgba(255,234,145,.96);
-  border-radius:11px;
-  background:linear-gradient(135deg,#fff0a8 0%,#f3c955 42%,#c98d24 100%);
-  box-shadow:0 0 0 4px rgba(255,220,106,.18),0 0 24px rgba(255,210,74,.86),0 .45rem .7rem rgba(0,0,0,.48);
+  padding:2px;
+  border:1px solid rgba(255,226,129,.78);
+  border-radius:9px;
+  background:rgba(255,224,117,.10);
+  box-shadow:0 0 0 3px rgba(255,220,106,.10),0 0 17px rgba(255,210,74,.72),0 .28rem .5rem rgba(0,0,0,.34);
 }
 #secret-item[data-secret-id="circus-ticket"]::before{
   content:"";
   position:absolute;
-  inset:4px;
+  inset:2px;
   z-index:0;
-  border:1px dashed rgba(116,72,12,.82);
+  border:1px dashed rgba(255,235,159,.78);
   border-radius:7px;
-  background:linear-gradient(90deg,rgba(255,255,255,.3),rgba(255,245,190,.06),rgba(255,255,255,.28));
+  background:linear-gradient(90deg,rgba(255,245,183,.12),rgba(255,255,255,.03),rgba(255,245,183,.12));
   pointer-events:none;
 }
 #secret-item[data-secret-id="circus-ticket"] img{
   position:relative;
   z-index:1;
   display:block;
-  width:82px;
-  height:50px;
+  width:60px;
+  height:38px;
+  margin:auto;
   transform:none;
   object-fit:contain;
-  filter:drop-shadow(0 .25rem .28rem rgba(0,0,0,.4)) drop-shadow(0 0 10px rgba(255,245,176,.9));
+  filter:drop-shadow(0 .18rem .24rem rgba(0,0,0,.42)) drop-shadow(0 0 8px rgba(255,245,176,.88));
   pointer-events:none;
 }
