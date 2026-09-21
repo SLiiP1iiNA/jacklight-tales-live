@@ -68,9 +68,7 @@
     </section>
     <img class="character" src="barnaby.png" alt="Barnaby the fox, ready for a woodland adventure">
     <footer>jacklighttales.com</footer>
-    <audio id="woodland-music" preload="auto" loop playsinline aria-hidden="true">
-      <source src="https://pub-9ea739df2a0c435bbc605d2f4bfc6fb5.r2.dev/Website%20-%20Jingles/Morning_in_the_Clearing.mp3" type="audio/mpeg">
-    </audio>
+    <audio id="woodland-music" preload="auto" autoplay loop playsinline aria-hidden="true" src="https://pub-9ea739df2a0c435bbc605d2f4bfc6fb5.r2.dev/Website%20-%20Jingles/Morning_in_the_Clearing.mp3"></audio>
     <button class="sound-toggle" id="sound-toggle" type="button" aria-pressed="false" aria-label="Turn woodland sound on">♫ Sound on</button>
   </main>
   <script>
@@ -88,8 +86,11 @@
 
       async function startMusic() {
         try {
+          if (music.readyState === 0) music.load();
           await music.play();
-        } catch {}
+        } catch (error) {
+          // Browser autoplay policy can block sound until the user interacts.
+        }
         updateToggle();
       }
 
@@ -97,13 +98,20 @@
         if (music.paused) await startMusic();
         else music.pause();
       });
+
       music.addEventListener("play", updateToggle);
       music.addEventListener("pause", updateToggle);
+      music.addEventListener("canplay", updateToggle);
+      music.addEventListener("error", updateToggle);
 
       startMusic();
-      document.addEventListener("pointerdown", event => {
+
+      const unlockAudio = event => {
         if (!event.target.closest("#sound-toggle")) startMusic();
-      }, { once: true, capture: true });
+      };
+
+      document.addEventListener("pointerdown", unlockAudio, { once: true, capture: true });
+      document.addEventListener("keydown", startMusic, { once: true, capture: true });
     })();
   </script>
 </body>
