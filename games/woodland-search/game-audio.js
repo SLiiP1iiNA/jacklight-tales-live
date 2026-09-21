@@ -45,13 +45,15 @@
   let currentName = null;
   let idleWaiters = [];
 
-  // Tiny voice transitions prevent a click/crackle when gameplay interrupts
-  // Luna quickly. The timings are deliberately short so the response still
-  // feels instant to a child.
-  const VOICE_FADE_OUT_MS = 18;
-  const VOICE_FADE_GAP_MS = 6;
-  const VOICE_FADE_IN_MS = 22;
+  // Smooth voice transitions prevent clicks/crackles when gameplay interrupts
+  // Luna while she is mid-sentence. A slightly longer ramp is intentional:
+  // it is still effectively instant, but gives the waveform time to reach
+  // silence instead of being chopped abruptly.
+  const VOICE_FADE_OUT_MS = 48;
+  const VOICE_FADE_GAP_MS = 12;
+  const VOICE_FADE_IN_MS = 64;
   let volumeFrame = 0;
+  let cancelFade = () => {};
   let transitionToken = 0;
 
   function emitError(name, error) {
@@ -91,12 +93,15 @@
   }
 
   function cancelVoiceFade() {
+    cancelFade();
+    cancelFade = () => {};
     cancelAnimationFrame(volumeFrame);
     volumeFrame = 0;
   }
 
   function fadeVolume(target, duration = 0) {
-    cancelAnimationFrame(volumeFrame);
+    cancelVoiceFade();
+
     const startVolume = player.volume;
     const endVolume = Math.max(0, Math.min(1, target));
 
@@ -105,24 +110,42 @@
       return Promise.resolve();
     }
 
-    const startedAt = performance.now();
-
     return new Promise(resolve => {
+      let settled = false;
+      let localFrame = 0;
+      const startedAt = performance.now();
+
+      const finish = () => {
+        if (settled) return;
+        settled = true;
+        if (localFrame) cancelAnimationFrame(localFrame);
+        volumeFrame = 0;
+        cancelFade = () => {};
+        player.volume = endVolume;
+        resolve();
+      };
+
+      cancelFade = finish;
+
       const step = now => {
+        if (settled) return;
+
         const progress = Math.min(1, (now - startedAt) / duration);
-        const eased = progress * (2 - progress);
+        // Smoothstep gives a soft start and soft finish rather than a sharp
+        // linear gain edge.
+        const eased = progress * progress * (3 - 2 * progress);
         player.volume = startVolume + (endVolume - startVolume) * eased;
 
         if (progress < 1) {
-          volumeFrame = requestAnimationFrame(step);
+          localFrame = requestAnimationFrame(step);
+          volumeFrame = localFrame;
         } else {
-          volumeFrame = 0;
-          player.volume = endVolume;
-          resolve();
+          finish();
         }
       };
 
-      volumeFrame = requestAnimationFrame(step);
+      localFrame = requestAnimationFrame(step);
+      volumeFrame = localFrame;
     });
   }
 
@@ -134,9 +157,13 @@
 
     try {
       await player.play();
-      if (fadeIn) await fadeVolume(targetVolume, VOICE_FADE_IN_MS);
+      if (fadeIn) {
+        await fadeVolume(targetVolume, VOICE_FADE_IN_MS);
+      }
       return true;
     } catch (error) {
+      cancelVoiceFade();
+      player.volume = 0;
       currentName = null;
       window.jltWoodlandMusic?.restoreAfterLuna?.();
       emitError(name, error);
@@ -218,7 +245,7 @@
     currentName = null;
     const next = queue.shift();
     if (enabled && next) {
-      start(next.name, next.volume);
+      start(next.name, next.volume, { fadeIn: true });
     } else {
       window.jltWoodlandMusic?.restoreAfterLuna?.();
       resolveIdle();
