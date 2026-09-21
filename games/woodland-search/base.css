@@ -143,20 +143,39 @@ footer{justify-content:center;color:var(--muted);font-size:.82rem}
 #scene[data-scene-variant="meadow"] #woods{filter:saturate(1.18) brightness(1.05) contrast(.98) hue-rotate(4deg)}
 #scene[data-scene-variant="meadow"]::after{opacity:1;background:linear-gradient(180deg,rgba(255,247,198,.08),rgba(117,181,86,.08))}
 
-/* The Golden Circus Ticket has a larger, forward-facing treatment so it stays
-   clearly visible against busy circus scenery on every viewport. */
+
+/* Golden Circus Ticket — make this secret unmistakable without making it a
+   huge target. The ticket artwork gets a bright physical-looking backing so
+   it cannot disappear into pale snow, lights, or transparent scenery. */
 #secret-item[data-secret-id="circus-ticket"]{
-  z-index:32;
-  width:72px;
-  height:72px;
-  border-radius:12px;
-  background:radial-gradient(circle,rgba(255,227,137,.24),rgba(255,227,137,0) 70%);
+  z-index:40;
+  width:94px;
+  height:62px;
+  min-height:0;
+  padding:4px;
+  border:2px solid rgba(255,234,145,.96);
+  border-radius:11px;
+  background:linear-gradient(135deg,#fff0a8 0%,#f3c955 42%,#c98d24 100%);
+  box-shadow:0 0 0 4px rgba(255,220,106,.18),0 0 24px rgba(255,210,74,.86),0 .45rem .7rem rgba(0,0,0,.48);
+}
+#secret-item[data-secret-id="circus-ticket"]::before{
+  content:"";
+  position:absolute;
+  inset:4px;
+  z-index:0;
+  border:1px dashed rgba(116,72,12,.82);
+  border-radius:7px;
+  background:linear-gradient(90deg,rgba(255,255,255,.3),rgba(255,245,190,.06),rgba(255,255,255,.28));
+  pointer-events:none;
 }
 #secret-item[data-secret-id="circus-ticket"] img{
-  width:68px;
-  height:68px;
-  transform:scale(1.12);
-  filter:drop-shadow(0 .36rem .44rem rgba(0,0,0,.44))
-         drop-shadow(0 0 14px rgba(255,221,112,.88))
-         drop-shadow(0 0 24px rgba(255,201,72,.32));
+  position:relative;
+  z-index:1;
+  display:block;
+  width:82px;
+  height:50px;
+  transform:none;
+  object-fit:contain;
+  filter:drop-shadow(0 .25rem .28rem rgba(0,0,0,.4)) drop-shadow(0 0 10px rgba(255,245,176,.9));
+  pointer-events:none;
 }
