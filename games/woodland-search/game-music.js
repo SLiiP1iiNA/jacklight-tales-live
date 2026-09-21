@@ -1,6 +1,6 @@
 (() => {
   // Woodland Search background music.
-  // Two quiet ambience tracks play in a fixed order, then repeat:
+  // Two ambience tracks play in a fixed order, then repeat:
   // 1) Dew on the Clover
   // 2) Where Wildflowers Bloom
   const TRACKS = [
@@ -8,53 +8,32 @@
     'https://pub-9ea739df2a0c435bbc605d2f4bfc6fb5.r2.dev/Game%20Audio/Woodland%20Search/Luna/Where_Wildflowers_Bloom.mp3'
   ];
 
-  // Desktop is already balanced correctly.
-  // Mobile uses a much lower level so Luna remains clearly in front.
-  const DESKTOP_GAIN = 0.006;
-  const MOBILE_GAIN = 0.00003;
+  // Desktop stays at the level that was already working correctly.
+  // Mobile is deliberately much lower; the browser's normal media-element
+  // volume control is used directly so there is no Web Audio/CORS path that
+  // can silence the desktop player.
+  const DESKTOP_VOLUME = 0.006;
+  const MOBILE_VOLUME = 0.000003;
 
   const audio = document.getElementById('woodland-music');
   if (!audio) return;
 
   const mobileQuery = window.matchMedia('(max-width: 900px), (pointer: coarse)');
 
-  function getGameGain() {
-    return mobileQuery.matches ? MOBILE_GAIN : DESKTOP_GAIN;
-  }
-
-  let audioContext = null;
-  let gainNode = null;
-  let mediaSource = null;
-
-  function ensureAudioGraph() {
-    if (gainNode) return true;
-    const AudioCtx = window.AudioContext || window.webkitAudioContext;
-    if (!AudioCtx) return false;
-    try {
-      audioContext = audioContext || new AudioCtx();
-      mediaSource = audioContext.createMediaElementSource(audio);
-      gainNode = audioContext.createGain();
-      mediaSource.connect(gainNode);
-      gainNode.connect(audioContext.destination);
-      gainNode.gain.value = getGameGain();
-      return true;
-    } catch (error) {
-      console.warn('Woodland Search music gain setup failed:', error);
-      return false;
-    }
+  function getGameVolume() {
+    return mobileQuery.matches ? MOBILE_VOLUME : DESKTOP_VOLUME;
   }
 
   audio.loop = false;
   audio.preload = 'none';
   audio.playsInline = true;
-  audio.volume = 1;
+  audio.volume = getGameVolume();
 
   let enabled = true;
   let trackIndex = 0;
 
   function applyVolume() {
-    audio.volume = 1;
-    if (gainNode) gainNode.gain.value = getGameGain();
+    audio.volume = getGameVolume();
   }
 
   function loadCurrentTrack() {
@@ -69,10 +48,6 @@
   async function start() {
     if (!enabled) return false;
 
-    ensureAudioGraph();
-    if (audioContext?.state === 'suspended') {
-      try { await audioContext.resume(); } catch {}
-    }
     loadCurrentTrack();
     if (!audio.paused) return true;
 
@@ -121,10 +96,7 @@
   audio.addEventListener('ended', playNextTrack);
   window.addEventListener('pagehide', stop);
 
-  const handleViewportChange = () => {
-    applyVolume();
-  };
-
+  const handleViewportChange = () => applyVolume();
   if (typeof mobileQuery.addEventListener === 'function') {
     mobileQuery.addEventListener('change', handleViewportChange);
   } else if (typeof mobileQuery.addListener === 'function') {
