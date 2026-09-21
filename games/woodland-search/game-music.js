@@ -1,6 +1,12 @@
 (() => {
-  // Quiet ambience track for Woodland Search.
-  const AUDIO_URL = 'https://pub-9ea739df2a0c435bbc605d2f4bfc6fb5.r2.dev/Game%20Audio/Woodland%20Search/Luna/Little_Paws_on_Moss.mp3';
+  // Woodland Search background music.
+  // Two quiet ambience tracks play in a fixed order, then repeat:
+  // 1) Dew on the Clover
+  // 2) Where Wildflowers Bloom
+  const TRACKS = [
+    'https://pub-9ea739df2a0c435bbc605d2f4bfc6fb5.r2.dev/Game%20Audio/Woodland%20Search/Luna/WDew_on_the_Clover.mp3',
+    'https://pub-9ea739df2a0c435bbc605d2f4bfc6fb5.r2.dev/Game%20Audio/Woodland%20Search/Luna/Where_Wildflowers_Bloom.mp3'
+  ];
 
   // Keep the background music consistently very quiet.
   // Luna speaks over it at her normal voice volume; the music never ducks
@@ -10,17 +16,27 @@
   const audio = document.getElementById('woodland-music');
   if (!audio) return;
 
-  audio.src = AUDIO_URL;
-  audio.loop = true;
+  audio.loop = false;
   audio.preload = 'none';
   audio.playsInline = true;
   audio.volume = GAME_VOLUME;
 
   let enabled = true;
+  let trackIndex = 0;
+
+  function loadCurrentTrack() {
+    const src = TRACKS[trackIndex];
+    if (audio.src !== src) {
+      audio.src = src;
+      audio.load();
+    }
+    audio.volume = GAME_VOLUME;
+  }
 
   async function start() {
     if (!enabled) return false;
-    if (!audio.src) audio.src = AUDIO_URL;
+
+    loadCurrentTrack();
     if (!audio.paused) return true;
 
     try {
@@ -32,9 +48,22 @@
     }
   }
 
+  function playNextTrack() {
+    if (!enabled) return;
+
+    trackIndex = (trackIndex + 1) % TRACKS.length;
+    loadCurrentTrack();
+
+    void audio.play().then(() => {
+      audio.volume = GAME_VOLUME;
+    }).catch(() => {});
+  }
+
   function stop() {
     audio.pause();
     try { audio.currentTime = 0; } catch {}
+    trackIndex = 0;
+    audio.src = TRACKS[0];
     audio.volume = GAME_VOLUME;
   }
 
@@ -44,8 +73,8 @@
     else audio.volume = GAME_VOLUME;
   }
 
-  // Kept as no-op compatibility hooks because the Luna layer already calls
-  // these methods. The background stays at one fixed quiet level.
+  // Compatibility hooks for the Luna layer. The background stays at one
+  // constant quiet level while Luna speaks over it.
   function duckForLuna() {
     if (enabled && !audio.paused) audio.volume = GAME_VOLUME;
   }
@@ -54,6 +83,7 @@
     if (enabled) audio.volume = GAME_VOLUME;
   }
 
+  audio.addEventListener('ended', playNextTrack);
   window.addEventListener('pagehide', stop);
 
   window.jltWoodlandMusic = {
