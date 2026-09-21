@@ -1,6 +1,6 @@
 /*
  * Woodland Search — Luna voice layer.
- * Queue-aware so quick taps never cut Luna off mid-sentence.
+ * Queue-aware for intentional sequences, while important game discoveries interrupt stale dialogue.
  */
 (() => {
   const base = 'https://pub-9ea739df2a0c435bbc605d2f4bfc6fb5.r2.dev/Game%20Audio/Woodland%20Search/Luna/';
