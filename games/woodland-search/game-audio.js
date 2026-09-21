@@ -20,6 +20,9 @@
     secretFind2: 'Secret Find 2.mp3',
     secretFind3: 'Secret Find 3.mp3',
     nextLocation: 'Next Location.mp3',
+    nextWander1: 'Next Wander 1.mp3',
+    nextWander2: 'Next Wander 2.mp3',
+    nextWander3: 'Next Wander 3.mp3',
     allFound: 'Everything Found.mp3',
     goodbye: 'Goodbye.mp3'
   };
