@@ -18,6 +18,14 @@ This version fixes the two big gameplay/layout problems from the previous build:
 - `game-settings.js` — timing and edge-clamp settings.
 - `game.js` — selection, safe positioning, two-stage hints, resize handling and game flow.
 
+## Background asset naming
+
+Woodland Search now uses one fixed landscape naming convention:
+
+`whispering-woods-landscape-01.webp` through `whispering-woods-landscape-10.webp`
+
+The ten scene definitions in `game-data.js` reference these filenames directly in numerical order. The old `woods-*.webp`, `village.png`, `moonlit-grove.webp`, `heart-tree.webp` and `barnaby-burrow.webp` background names are no longer used by Woodland Search.
+
 ## Hint behaviour
 
 The first press gives a short clue that matches the actual hiding area (rocks, flowers, stream, roots, etc.). The second press briefly shows the golden glow. This keeps the game useful for children without immediately giving the answer away.
