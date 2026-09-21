@@ -14,7 +14,7 @@ window.WOODLAND_SEARCH_DATA={
 
   scenes:[
     {
-      image:'assets/woods-1.webp',
+      image:'assets/whispering-woods-landscape-01.webp',
       name:'Golden Apple Clearing',
       shortName:'Apple',
       intro:'The first path opens beneath the golden leaves.',
@@ -29,7 +29,7 @@ window.WOODLAND_SEARCH_DATA={
       secretItem:{id:'golden-apple-charm',name:'Golden Apple Charm',image:'secrets/golden-apple-charm.png',spots:[{x:55,y:55},{x:20,y:61},{x:89,y:49}]}
     },
     {
-      image:'assets/woods-2.webp',
+      image:'assets/whispering-woods-landscape-02.webp',
       name:'Glowing Woodland Pool',
       shortName:'Pool',
       intro:'The path bends toward a glowing pool crowded with roots and little lights.',
@@ -44,7 +44,7 @@ window.WOODLAND_SEARCH_DATA={
       secretItem:{id:'pool-stone',name:'Moonlit Pool Stone',image:'secrets/moonlit-pool-stone.png',spots:[{x:42,y:51},{x:68,y:62},{x:88,y:53}]}
     },
     {
-      image:'assets/woods-3.webp',
+      image:'assets/whispering-woods-landscape-03.webp',
       name:'Little Stream',
       shortName:'Stream',
       intro:'Water chatters over the stones on the third woodland path.',
@@ -59,7 +59,7 @@ window.WOODLAND_SEARCH_DATA={
       secretItem:{id:'tiny-bell',name:'Tiny Woodland Bell',image:'secrets/tiny-woodland-bell.png',spots:[{x:33,y:57},{x:59,y:50},{x:77,y:61}]}
     },
     {
-      image:'assets/woods-4.webp',
+      image:'assets/whispering-woods-landscape-04.webp',
       name:'Sunflower Valley',
       shortName:'Valley',
       intro:'The fourth path opens into a bright valley of flowers, fences and winding tracks.',
@@ -74,7 +74,7 @@ window.WOODLAND_SEARCH_DATA={
       secretItem:{id:'sunflower-pin',name:'Sunflower Pin',image:'secrets/sunflower-pin.png',spots:[{x:18,y:58},{x:49,y:72},{x:82,y:56}]}
     },
     {
-      image:'assets/village.png',
+      image:'assets/whispering-woods-landscape-05.webp',
       name:'Lantern Village',
       shortName:'Village',
       intro:'The fifth path reaches the lantern village for one last search among the busy little paths.',
@@ -89,8 +89,7 @@ window.WOODLAND_SEARCH_DATA={
       secretItem:{id:'lantern-key',name:'Little Lantern Key',image:'secrets/little-lantern-key.png',spots:[{x:39,y:49},{x:67,y:58},{x:84,y:78}]}
     },
     {
-      image:'assets/moonlit-grove.webp',
-      visualVariant:'sunlit',
+      image:'assets/whispering-woods-landscape-06.webp',
       name:'The Sunlit Path',
       shortName:'Sunlit',
       intro:'A bright woodland path winds onward through tall trees and sparkling water.',
@@ -105,8 +104,7 @@ window.WOODLAND_SEARCH_DATA={
       secretItem:{id:'map-feather',name:'Explorer Feather',image:'secrets/explorer-feather.png',spots:[{x:43,y:57},{x:73,y:47},{x:86,y:78}]}
     },
     {
-      image:'assets/heart-tree.webp',
-      visualVariant:'old-trail',
+      image:'assets/whispering-woods-landscape-07.webp',
       name:'The Old Woodland Trail',
       shortName:'Trail',
       intro:'Ancient trees lean over an older trail where the forest feels wonderfully deep.',
@@ -121,8 +119,7 @@ window.WOODLAND_SEARCH_DATA={
       secretItem:{id:'oak-leaf',name:'Old Oak Leaf',image:'secrets/old-oak-leaf.png',spots:[{x:24,y:54},{x:58,y:49},{x:78,y:79}]}
     },
     {
-      image:'assets/barnaby-burrow.webp',
-      visualVariant:'evening',
+      image:'assets/whispering-woods-landscape-08.webp',
       name:'The Quiet Evening Woods',
       shortName:'Evening',
       intro:'Golden evening light settles over a quieter corner of the Whispering Woods.',
@@ -137,8 +134,7 @@ window.WOODLAND_SEARCH_DATA={
       secretItem:{id:'old-map',name:'Folded Woodland Map',image:'secrets/folded-woodland-map.png',spots:[{x:41,y:61},{x:67,y:76},{x:88,y:53}]}
     },
     {
-      image:'assets/woods-9.webp',
-      visualVariant:'meadow',
+      image:'assets/whispering-woods-landscape-09.webp',
       name:'Where the Meadow Opens',
       shortName:'Meadow',
       intro:'The trees open into a broad meadow with room to wander and notice tiny things.',
@@ -153,7 +149,7 @@ window.WOODLAND_SEARCH_DATA={
       secretItem:{id:'blue-ribbon',name:'Woodland Ribbon',image:'secrets/woodland-ribbon.png',spots:[{x:24,y:60},{x:57,y:51},{x:81,y:61}]}
     },
     {
-      image:'assets/woods-10.webp',
+      image:'assets/whispering-woods-landscape-10.webp',
       name:'Winter Circus Clearing',
       shortName:'Circus',
       intro:'The final path opens into a magical snowy clearing where the travelling circus has left its lanterns glowing.',
