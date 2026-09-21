@@ -1,15 +1,15 @@
 (() => {
   // Woodland Search background music.
   // Desktop keeps the original tracks and working player level.
-  // Mobile uses the separately encoded -12 dB copies.
+  // Mobile uses the separately encoded -20 dB copies.
   const DESKTOP_TRACKS = [
     'https://pub-9ea739df2a0c435bbc605d2f4bfc6fb5.r2.dev/Game%20Audio/Woodland%20Search/Luna/WDew_on_the_Clover.mp3',
     'https://pub-9ea739df2a0c435bbc605d2f4bfc6fb5.r2.dev/Game%20Audio/Woodland%20Search/Luna/Where_Wildflowers_Bloom.mp3'
   ];
 
   const MOBILE_TRACKS = [
-    'https://pub-9ea739df2a0c435bbc605d2f4bfc6fb5.r2.dev/Game%20Audio/Woodland%20Search/Luna/WDew_on_the_Clover_-12dB.mp3',
-    'https://pub-9ea739df2a0c435bbc605d2f4bfc6fb5.r2.dev/Game%20Audio/Woodland%20Search/Luna/Where_Wildflowers_Bloom_-12dB.mp3'
+    'https://pub-9ea739df2a0c435bbc605d2f4bfc6fb5.r2.dev/Game%20Audio/Woodland%20Search/Luna/WDew_on_the_Clover_-20dB.mp3',
+    'https://pub-9ea739df2a0c435bbc605d2f4bfc6fb5.r2.dev/Game%20Audio/Woodland%20Search/Luna/Where_Wildflowers_Bloom_-20dB.mp3'
   ];
 
   const DESKTOP_VOLUME = 0.006;
