@@ -6,7 +6,7 @@
 
   audio.src = AUDIO_URL;
   audio.loop = true;
-  audio.preload = 'auto';
+  audio.preload = 'none';
   audio.volume = GAME_VOLUME;
 
   let enabled = true;
@@ -32,7 +32,7 @@
     if (!enabled) stop();
   }
 
-  window.jltWoodlandGameMusic = {
+  window.addEventListener('pagehide', stop);\n\n  window.jltWoodlandGameMusic = {
     start,
     stop,
     setEnabled,
