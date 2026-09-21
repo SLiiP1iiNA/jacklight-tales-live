@@ -31,6 +31,21 @@ let friendCuePlayed = false;
 let lastFriendFoundCue = null;
 
 const FRIEND_FOUND_CUES = ['friendFound', 'friendFound2', 'friendFound3', 'friendFound4', 'friendFound5'];
+const NEXT_WANDER_CUES = ['nextLocation', 'nextWander1', 'nextWander2', 'nextWander3'];
+let nextWanderBag = [];
+let lastNextWanderCue = null;
+
+function refillNextWanderBag() {
+  const pool = NEXT_WANDER_CUES.filter(cue => cue !== lastNextWanderCue);
+  nextWanderBag = shuffle(pool);
+}
+
+function chooseNextWanderCue() {
+  if (!nextWanderBag.length) refillNextWanderBag();
+  const cue = nextWanderBag.shift();
+  lastNextWanderCue = cue;
+  return cue;
+}
 
 function refillFriendFoundBag() {
   const pool = FRIEND_FOUND_CUES.filter(cue => cue !== lastFriendFoundCue);
@@ -686,10 +701,11 @@ function showCelebration({ seedJustFound = false } = {}) {
     $('continue-path').textContent = 'Where shall we wander? →';
     $('continue-path').dataset.action = 'continue';
 
+    const nextWanderCue = chooseNextWanderCue();
     if (seedJustFound) {
-      audioLayer?.playSequence(['heartSeed', 'nextLocation'], { volume: 0.9, interrupt: false });
+      audioLayer?.playSequence(['heartSeed', nextWanderCue], { volume: 0.9, interrupt: false });
     } else {
-      audioLayer?.play('nextLocation', { volume: 0.9, interrupt: false });
+      audioLayer?.play(nextWanderCue, { volume: 0.9, interrupt: false });
     }
   }
 
