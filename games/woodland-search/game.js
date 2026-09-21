@@ -639,7 +639,7 @@ function playFriendFoundCue() {
   if (friendCuePlayed) return;
   friendCuePlayed = true;
   const foundCue = currentCharacter.name === 'Barnaby' ? 'barnabyFound' : chooseFriendFoundCue();
-  playCue(foundCue, { interrupt: false, volume: 0.9 });
+  playCue(foundCue, { interrupt: true, volume: 0.9 });
 }
 
 async function unlockCelebrationControls() {
@@ -777,7 +777,7 @@ function collectHeartSeed(event) {
     return;
   }
 
-  playCue('heartSeed', { interrupt: false, volume: 0.82 });
+  playCue('heartSeed', { interrupt: true, volume: 0.82 });
   $('status').textContent = found
     ? 'Heart Seed found! Now look for the little secret hiding nearby.'
     : 'Heart Seed found! Keep searching for ' + currentCharacter.name + '.';
@@ -807,7 +807,7 @@ function collectSecretItem(event) {
   showStatusToast(2600);
 
   if (navigator.vibrate) navigator.vibrate(12);
-  playCue(chooseSecretFindCue(), { interrupt: false, volume: 0.72 });
+  playCue(chooseSecretFindCue(), { interrupt: true, volume: 0.72 });
 
   updateRoundObjective();
   resetHintState();
@@ -873,19 +873,17 @@ $('hint').addEventListener('click', () => {
 
   const point = target === 'character' ? currentSpot : target === 'seed' ? currentSeedSpot : currentSecretSpot;
 
-  const unlockHintAfterDialogue = (element, nextLabel, visualMs) => {
-    hintTimer = setTimeout(() => {
+  const unlockHintAfterDialogue = (element, nextLabel) => {
+    const unlock = () => {
+      if (isRoundComplete()) return;
       element.classList.remove('hinted');
+      $('hint').disabled = false;
+      $('hint').textContent = nextLabel;
+    };
 
-      const unlock = () => {
-        if (isRoundComplete()) return;
-        $('hint').disabled = false;
-        $('hint').textContent = nextLabel;
-      };
-
-      // Wait for Luna to finish before the next hint can be pressed.
-      void (audioLayer?.waitForIdle?.() || Promise.resolve()).then(unlock);
-    }, visualMs);
+    // A second hint is available as soon as Luna has finished speaking.
+    // The hints remain unlimited; this only prevents dialogue from stacking.
+    void (audioLayer?.waitForIdle?.() || Promise.resolve()).then(unlock);
   };
 
   if (hintLevel === 0) {
@@ -903,8 +901,8 @@ $('hint').addEventListener('click', () => {
     $('hint').disabled = true;
     $('hint').textContent = 'Hint playing…';
 
-    playCue('hintOne', { interrupt: false, volume: 0.88 });
-    unlockHintAfterDialogue(element, 'One more hint', Math.min(SETTINGS.hintMs, 3500));
+    playCue('hintOne', { interrupt: true, volume: 0.88 });
+    unlockHintAfterDialogue(element, 'One more hint');
     return;
   }
 
@@ -920,8 +918,8 @@ $('hint').addEventListener('click', () => {
   $('hint').disabled = true;
   $('hint').textContent = 'Hint playing…';
 
-  playCue('hintTwo', { interrupt: false, volume: 0.88 });
-  unlockHintAfterDialogue(element, 'Glow again', SETTINGS.hintMs);
+  playCue('hintTwo', { interrupt: true, volume: 0.88 });
+  unlockHintAfterDialogue(element, 'Glow again');
 });
 
 $('pip').addEventListener('click', event => {
