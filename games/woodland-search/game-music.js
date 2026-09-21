@@ -23,7 +23,7 @@
   audio.loop = false;
   audio.preload = 'none';
   audio.playsInline = true;
-  audio.volume = mobile ? 0.5 : DESKTOP_VOLUME;
+  audio.volume = mobile ? 1 : DESKTOP_VOLUME;
 
   let enabled = true;
   let trackIndex = 0;
