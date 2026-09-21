@@ -812,10 +812,18 @@ function collectSecretItem(event) {
 }
 
 $('play').addEventListener('click', () => {
+  // Start the game first. Background music and Luna are optional layers and
+  // must never be able to prevent the search itself from opening.
+  try {
+    startJourney();
+  } catch (error) {
+    console.error('Woodland Search could not start:', error);
+    return;
+  }
+
   setSound(true);
-  startJourney();
-  window.jltWoodlandGameMusic?.start?.();
-  audioLayer?.playSequence?.(['welcome', 'beginSearch'], { volume: 0.92 });
+  void window.jltWoodlandGameMusic?.start?.();
+  void audioLayer?.playSequence?.(['welcome', 'beginSearch'], { volume: 0.92 });
 });
 
 $('leave').addEventListener('click', leaveJourney);
