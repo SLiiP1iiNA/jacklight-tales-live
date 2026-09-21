@@ -612,7 +612,19 @@ function startMischiefRun() {
     return farFromSeed && farFromSecret;
   }));
   const nextSpot = candidates[0] || chooseSpot(currentScene);
-  const nextPixel = scenePixelPoint(nextSpot);
+
+  // Clamp the runaway destination against the actual rendered scene bounds.
+  // Percentage coordinates can land outside a mobile portrait crop, so the
+  // old animation could carry the character completely off-screen.
+  const pip = $('pip');
+  const startLeft = pip.style.left;
+  const startTop = pip.style.top;
+  mapPointToScene(nextSpot, pip);
+  clampToScene(pip, 8);
+  const nextLeft = pip.offsetLeft;
+  const nextTop = pip.offsetTop;
+  pip.style.left = startLeft;
+  pip.style.top = startTop;
 
   mischiefEscapedThisRound = true;
   $('pip').classList.add('mischief-running');
@@ -622,8 +634,8 @@ function startMischiefRun() {
 
   requestAnimationFrame(() => {
     $('pip').style.transition = 'left 720ms cubic-bezier(.2,.8,.25,1), top 720ms cubic-bezier(.2,.8,.25,1)';
-    $('pip').style.left = nextPixel.left + 'px';
-    $('pip').style.top = nextPixel.top + 'px';
+    $('pip').style.left = nextLeft + 'px';
+    $('pip').style.top = nextTop + 'px';
   });
 
   window.setTimeout(() => {
@@ -829,6 +841,10 @@ function collectSecretItem(event) {
 }
 
 $('play').addEventListener('click', () => {
+  // Mobile browsers can deliver an extra tap/click in quick succession.
+  // Once the game is active, never start a second journey/audio sequence.
+  if (document.body.classList.contains('game-active')) return;
+
   // Start the game first. Background music and Luna are optional layers and
   // must never be able to prevent the search itself from opening.
   try {
