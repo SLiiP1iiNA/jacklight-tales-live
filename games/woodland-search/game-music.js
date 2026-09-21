@@ -8,11 +8,10 @@
     'https://pub-9ea739df2a0c435bbc605d2f4bfc6fb5.r2.dev/Game%20Audio/Woodland%20Search/Luna/Where_Wildflowers_Bloom.mp3'
   ];
 
-  // Desktop stays at the existing quiet level.
-  // Mobile speakers make the same source sound much more prominent, so
-  // use a substantially lower level on phones/tablets.
+  // Desktop is already balanced correctly.
+  // Mobile uses a much lower level so Luna remains clearly in front.
   const DESKTOP_VOLUME = 0.006;
-  const MOBILE_VOLUME = 0.0015;
+  const MOBILE_VOLUME = 0.0003;
 
   const audio = document.getElementById('woodland-music');
   if (!audio) return;
@@ -84,7 +83,6 @@
     else applyVolume();
   }
 
-  // Compatibility hooks for the Luna layer.
   function duckForLuna() {
     if (enabled && !audio.paused) applyVolume();
   }
