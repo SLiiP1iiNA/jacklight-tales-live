@@ -414,7 +414,7 @@ async function applySceneVisual(scene) {
   root.dataset.sceneName = scene?.name || '';
 }
 
-function loadRound() {
+async function loadRound() {
   clearTimers();
   found = false;
   friendCuePlayed = false;
