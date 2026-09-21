@@ -474,15 +474,28 @@ async function loadRound() {
   maybePlaceSecretItem();
 
   $('stage').classList.add('scene-changing');
-  const sceneImage = currentScene.image;
-  $('woods').onerror = () => {
+  const rawSceneImage = currentScene.image || '';
+  const imageName = rawSceneImage.split('/').pop();
+  const sceneImageCandidates = [
+    new URL(rawSceneImage, document.baseURI).href,
+    new URL('./assets/' + imageName, document.baseURI).href,
+    new URL('/games/woodland-search/assets/' + imageName, window.location.origin).href
+  ].filter((value, index, values) => value && values.indexOf(value) === index);
+
+  let sceneImageIndex = 0;
+  const loadSceneImage = () => {
     const image = $('woods');
-    if (image.dataset.imageRetried === '1') return;
-    image.dataset.imageRetried = '1';
-    image.src = sceneImage + (sceneImage.includes('?') ? '&' : '?') + 'v=20260921-imgfallback1';
+    const next = sceneImageCandidates[sceneImageIndex];
+    if (!next) return;
+    image.dataset.imageRetried = '0';
+    image.onerror = () => {
+      if (sceneImageIndex >= sceneImageCandidates.length - 1) return;
+      sceneImageIndex += 1;
+      loadSceneImage();
+    };
+    image.src = next;
   };
-  $('woods').dataset.imageRetried = '0';
-  $('woods').src = sceneImage;
+  loadSceneImage();
 
   try {
     await Promise.all([
