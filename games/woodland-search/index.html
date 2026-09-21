@@ -136,10 +136,9 @@
 (() => {
   const img = document.querySelector('[data-woodland-preview]');
   if (!img) return;
-  const filename = 'whispering-woods-landscape-01.webp';
   const candidates = [
-    new URL('./assets/' + filename, document.baseURI).href,
-    new URL('/games/woodland-search/assets/' + filename, window.location.origin).href
+    new URL('./assets/whispering-woods-landscape-01.webp', document.baseURI).href,
+    new URL('/games/woodland-search/assets/whispering-woods-landscape-01.webp', window.location.origin).href
   ];
   let attempt = 0;
   img.addEventListener('error', () => {
@@ -148,7 +147,7 @@
   });
 })();
 </script>
-<script src="game-music.js?v=20260921-iosgain1"></script>
+<script src="game-music.js?v=20260921-mobilevolume3"></script>
 <script src="game-audio.js?v=20260921-mobilefix1"></script>
 <script src="game-settings.js?v=20260920-secrets2"></script>
 <script src="game-data.js?v=20260921-landscapes1"></script>
