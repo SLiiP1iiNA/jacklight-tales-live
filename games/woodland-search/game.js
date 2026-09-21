@@ -477,29 +477,50 @@ async function loadRound() {
   const rawSceneImage = currentScene.image || '';
   const imageName = rawSceneImage.split('/').pop();
   const sceneImageCandidates = [
-    new URL(rawSceneImage, document.baseURI).href,
     new URL('./assets/' + imageName, document.baseURI).href,
     new URL('/games/woodland-search/assets/' + imageName, window.location.origin).href
   ].filter((value, index, values) => value && values.indexOf(value) === index);
 
-  let sceneImageIndex = 0;
-  const loadSceneImage = () => {
+  const loadSceneImage = () => new Promise((resolve, reject) => {
     const image = $('woods');
-    const next = sceneImageCandidates[sceneImageIndex];
-    if (!next) return;
-    image.dataset.imageRetried = '0';
-    image.onerror = () => {
-      if (sceneImageIndex >= sceneImageCandidates.length - 1) return;
-      sceneImageIndex += 1;
-      loadSceneImage();
+    let candidateIndex = 0;
+
+    const tryCandidate = () => {
+      const src = sceneImageCandidates[candidateIndex];
+      if (!src) {
+        reject(new Error('No woodland scene image URL available.'));
+        return;
+      }
+
+      let settled = false;
+      image.onload = () => {
+        if (settled) return;
+        settled = true;
+        image.onload = null;
+        image.onerror = null;
+        resolve();
+      };
+      image.onerror = () => {
+        if (settled) return;
+        settled = true;
+        image.onload = null;
+        image.onerror = null;
+        candidateIndex += 1;
+        if (candidateIndex < sceneImageCandidates.length) {
+          tryCandidate();
+        } else {
+          reject(new Error('Woodland scene image could not be loaded.'));
+        }
+      };
+      image.src = src;
     };
-    image.src = next;
-  };
-  loadSceneImage();
+
+    tryCandidate();
+  });
 
   try {
     await Promise.all([
-      $('woods').decode(),
+      loadSceneImage(),
       $('pip').querySelector('img').decode().catch(() => {}),
       $('secret-item').querySelector('img').decode().catch(() => {})
     ]);
