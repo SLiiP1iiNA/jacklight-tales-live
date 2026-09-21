@@ -474,53 +474,35 @@ async function loadRound() {
   maybePlaceSecretItem();
 
   $('stage').classList.add('scene-changing');
+
   const rawSceneImage = currentScene.image || '';
-  const imageName = rawSceneImage.split('/').pop();
   const sceneImageCandidates = [
-    new URL('./assets/' + imageName, document.baseURI).href,
-    new URL('/games/woodland-search/assets/' + imageName, window.location.origin).href
+    new URL(rawSceneImage, document.baseURI).href,
+    new URL('/games/woodland-search/' + rawSceneImage.replace(/^\.\//, ''), window.location.origin).href
   ].filter((value, index, values) => value && values.indexOf(value) === index);
 
-  const loadSceneImage = () => new Promise((resolve, reject) => {
-    const image = $('woods');
-    let candidateIndex = 0;
+  const image = $('woods');
+  let sceneLoaded = false;
 
-    const tryCandidate = () => {
-      const src = sceneImageCandidates[candidateIndex];
-      if (!src) {
-        reject(new Error('No woodland scene image URL available.'));
-        return;
+  for (const src of sceneImageCandidates) {
+    image.src = src;
+
+    try {
+      await image.decode();
+      sceneLoaded = true;
+      break;
+    } catch {
+      if (image.complete && image.naturalWidth > 0) {
+        sceneLoaded = true;
+        break;
       }
-
-      let settled = false;
-      image.onload = () => {
-        if (settled) return;
-        settled = true;
-        image.onload = null;
-        image.onerror = null;
-        resolve();
-      };
-      image.onerror = () => {
-        if (settled) return;
-        settled = true;
-        image.onload = null;
-        image.onerror = null;
-        candidateIndex += 1;
-        if (candidateIndex < sceneImageCandidates.length) {
-          tryCandidate();
-        } else {
-          reject(new Error('Woodland scene image could not be loaded.'));
-        }
-      };
-      image.src = src;
-    };
-
-    tryCandidate();
-  });
+    }
+  }
 
   try {
+    if (!sceneLoaded) throw new Error('Woodland scene image could not be loaded.');
+
     await Promise.all([
-      loadSceneImage(),
       $('pip').querySelector('img').decode().catch(() => {}),
       $('secret-item').querySelector('img').decode().catch(() => {})
     ]);
