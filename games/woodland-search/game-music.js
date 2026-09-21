@@ -3,9 +3,15 @@
   // Two ambience tracks play in a fixed order, then repeat:
   // 1) Dew on the Clover
   // 2) Where Wildflowers Bloom
-  const TRACKS = [
+  const DESKTOP_TRACKS = [
     'https://pub-9ea739df2a0c435bbc605d2f4bfc6fb5.r2.dev/Game%20Audio/Woodland%20Search/Luna/WDew_on_the_Clover.mp3',
     'https://pub-9ea739df2a0c435bbc605d2f4bfc6fb5.r2.dev/Game%20Audio/Woodland%20Search/Luna/Where_Wildflowers_Bloom.mp3'
+  ];
+
+  // These are the separately encoded -12 dB copies, used only on mobile.
+  const MOBILE_TRACKS = [
+    'https://pub-9ea739df2a0c435bbc605d2f4bfc6fb5.r2.dev/Game%20Audio/Woodland%20Search/Luna/WDew_on_the_Clover_-12dB.mp3',
+    'https://pub-9ea739df2a0c435bbc605d2f4bfc6fb5.r2.dev/Game%20Audio/Woodland%20Search/Luna/Where_Wildflowers_Bloom_-12dB.mp3'
   ];
 
   // Desktop stays at the level that was already working correctly.
@@ -19,6 +25,10 @@
   if (!audio) return;
 
   const mobileQuery = window.matchMedia('(max-width: 900px), (pointer: coarse)');
+
+  function getTracks() {
+    return mobileQuery.matches ? MOBILE_TRACKS : DESKTOP_TRACKS;
+  }
 
   function getGameVolume() {
     return mobileQuery.matches ? MOBILE_VOLUME : DESKTOP_VOLUME;
@@ -37,7 +47,8 @@
   }
 
   function loadCurrentTrack() {
-    const src = TRACKS[trackIndex];
+    const tracks = getTracks();
+    const src = tracks[trackIndex];
     if (audio.src !== src) {
       audio.src = src;
       audio.load();
@@ -63,7 +74,7 @@
   function playNextTrack() {
     if (!enabled) return;
 
-    trackIndex = (trackIndex + 1) % TRACKS.length;
+    trackIndex = (trackIndex + 1) % getTracks().length;
     loadCurrentTrack();
 
     void audio.play().then(() => {
@@ -75,7 +86,7 @@
     audio.pause();
     try { audio.currentTime = 0; } catch {}
     trackIndex = 0;
-    audio.src = TRACKS[0];
+    audio.src = getTracks()[0];
     applyVolume();
   }
 
@@ -96,7 +107,12 @@
   audio.addEventListener('ended', playNextTrack);
   window.addEventListener('pagehide', stop);
 
-  const handleViewportChange = () => applyVolume();
+  const handleViewportChange = () => {
+    // Keep the currently selected track aligned with the correct desktop/mobile
+    // audio file set when the viewport changes.
+    loadCurrentTrack();
+    applyVolume();
+  };
   if (typeof mobileQuery.addEventListener === 'function') {
     mobileQuery.addEventListener('change', handleViewportChange);
   } else if (typeof mobileQuery.addListener === 'function') {
