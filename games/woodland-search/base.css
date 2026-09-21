@@ -156,38 +156,56 @@ footer{justify-content:center;color:var(--muted);font-size:.82rem}
 #scene[data-scene-variant="meadow"]::after{opacity:1;background:linear-gradient(180deg,rgba(255,247,198,.08),rgba(117,181,86,.08))}
 
 
-/* Golden Circus Ticket — visible enough to spot, without the giant
-   gold rectangle that previously dominated the scene. */
+/* Golden Circus Ticket — a small, unmistakable ticket marker.
+   The visible ticket is drawn in CSS so it remains clear even if the PNG has
+   pale/transparent artwork. */
 #secret-item[data-secret-id="circus-ticket"]{
   z-index:40;
-  width:66px;
-  height:44px;
+  width:84px;
+  height:48px;
   min-height:0;
-  padding:2px;
-  border:1px solid rgba(255,226,129,.78);
-  border-radius:9px;
-  background:rgba(255,224,117,.10);
-  box-shadow:0 0 0 3px rgba(255,220,106,.10),0 0 17px rgba(255,210,74,.72),0 .28rem .5rem rgba(0,0,0,.34);
+  padding:0;
+  border:2px solid #ffe48a;
+  border-radius:8px;
+  background:
+    radial-gradient(circle at 0 50%,#0a2118 0 5px,transparent 5.5px),
+    radial-gradient(circle at 100% 50%,#0a2118 0 5px,transparent 5.5px),
+    linear-gradient(135deg,#fff0aa 0%,#f1c34e 46%,#d69a28 100%);
+  box-shadow:
+    0 0 0 3px rgba(255,220,106,.14),
+    0 0 20px rgba(255,210,74,.82),
+    0 .3rem .5rem rgba(0,0,0,.38);
+  overflow:visible;
 }
 #secret-item[data-secret-id="circus-ticket"]::before{
   content:"";
   position:absolute;
-  inset:2px;
-  z-index:0;
-  border:1px dashed rgba(255,235,159,.78);
-  border-radius:7px;
-  background:linear-gradient(90deg,rgba(255,245,183,.12),rgba(255,255,255,.03),rgba(255,245,183,.12));
+  inset:5px 7px;
+  z-index:1;
+  border:1px dashed rgba(108,68,13,.82);
+  border-radius:5px;
+  background:linear-gradient(90deg,rgba(255,255,255,.24),rgba(255,245,190,.05),rgba(255,255,255,.24));
+  pointer-events:none;
+}
+#secret-item[data-secret-id="circus-ticket"]::after{
+  content:"✦  CIRCUS  ✦";
+  position:absolute;
+  inset:0;
+  z-index:3;
+  display:grid;
+  place-items:center;
+  color:#68430d;
+  font:900 9px/1 Georgia,"Times New Roman",serif;
+  letter-spacing:.09em;
+  text-shadow:0 1px 0 rgba(255,249,194,.76);
   pointer-events:none;
 }
 #secret-item[data-secret-id="circus-ticket"] img{
-  position:relative;
-  z-index:1;
-  display:block;
-  width:60px;
-  height:38px;
-  margin:auto;
-  transform:none;
-  object-fit:contain;
-  filter:drop-shadow(0 .18rem .24rem rgba(0,0,0,.42)) drop-shadow(0 0 8px rgba(255,245,176,.88));
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  margin:0;
+  opacity:0;
   pointer-events:none;
 }
