@@ -163,7 +163,30 @@
 
 @media (max-width: 26rem) {
   .storybook-body .woodland-map .map-stop--games {
-    top: 81%;
+    top: 84%;
+  }
+}
+
+/* Mobile phone spacing pass — keep all five destinations clearly separated. */
+@media (max-width: 44rem) {
+  .storybook-body .woodland-map .map-stop--watch {
+    top: 10%;
+  }
+
+  .storybook-body .woodland-map .map-stop--characters {
+    top: 29%;
+  }
+
+  .storybook-body .woodland-map .map-stop--listen {
+    top: 48%;
+  }
+
+  .storybook-body .woodland-map .map-stop--artwork {
+    top: 67%;
+  }
+
+  .storybook-body .woodland-map .map-stop--games {
+    top: 84%;
   }
 }
 
