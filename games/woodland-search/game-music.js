@@ -8,10 +8,9 @@
     'https://pub-9ea739df2a0c435bbc605d2f4bfc6fb5.r2.dev/Game%20Audio/Woodland%20Search/Luna/Where_Wildflowers_Bloom.mp3'
   ];
 
-  // Keep the background music consistently very quiet.
-  // Luna speaks over it at her normal voice volume; the music never ducks
-  // or rises during dialogue.
-  const GAME_VOLUME = 0.018;
+  // Keep the background music very quiet so Luna's voice and game sounds
+  // remain clearly in the foreground.
+  const GAME_VOLUME = 0.006;
 
   const audio = document.getElementById('woodland-music');
   if (!audio) return;
