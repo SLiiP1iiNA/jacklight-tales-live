@@ -857,6 +857,12 @@ $('sound').addEventListener('click', () => {
 
 $('hint').addEventListener('click', () => {
   if (isRoundComplete()) return;
+
+  // Luna's hint is deliberately single-press gated: once a hint starts,
+  // the button stays locked until her current dialogue has finished.
+  // Hints remain unlimited; this only prevents audio spam/queue buildup.
+  if (audioLayer?.isPlaying?.()) return;
+
   const target = getHintTarget();
   if (!target) return;
 
@@ -867,6 +873,21 @@ $('hint').addEventListener('click', () => {
 
   const point = target === 'character' ? currentSpot : target === 'seed' ? currentSeedSpot : currentSecretSpot;
 
+  const unlockHintAfterDialogue = (element, nextLabel, visualMs) => {
+    hintTimer = setTimeout(() => {
+      element.classList.remove('hinted');
+
+      const unlock = () => {
+        if (isRoundComplete()) return;
+        $('hint').disabled = false;
+        $('hint').textContent = nextLabel;
+      };
+
+      // Wait for Luna to finish before the next hint can be pressed.
+      void (audioLayer?.waitForIdle?.() || Promise.resolve()).then(unlock);
+    }, visualMs);
+  };
+
   if (hintLevel === 0) {
     hintLevel = 1;
     const firstHint = target === 'character'
@@ -874,19 +895,16 @@ $('hint').addEventListener('click', () => {
       : target === 'seed'
         ? 'The Heart Seed is still hiding nearby. ' + describePoint(currentSeedSpot)
         : 'A tiny ' + currentSecretItem.name.toLowerCase() + ' is still hiding nearby. ' + describePoint(currentSecretSpot);
+
     const element = target === 'character' ? $('pip') : target === 'seed' ? $('heart-seed') : $('secret-item');
     element.classList.add('hinted');
     $('status').textContent = firstHint;
     showStatusToast(4800);
-    $('hint').textContent = 'One more hint';
+    $('hint').disabled = true;
+    $('hint').textContent = 'Hint playing…';
+
     playCue('hintOne', { interrupt: false, volume: 0.88 });
-    hintTimer = setTimeout(() => {
-      element.classList.remove('hinted');
-      if (!isRoundComplete()) {
-        $('hint').disabled = false;
-        $('hint').textContent = 'Glow again';
-      }
-    }, Math.min(SETTINGS.hintMs, 3500));
+    unlockHintAfterDialogue(element, 'One more hint', Math.min(SETTINGS.hintMs, 3500));
     return;
   }
 
@@ -899,17 +917,11 @@ $('hint').addEventListener('click', () => {
       ? 'Watch for the golden Heart Seed glow.'
       : 'Watch for the little woodland secret glow.';
   showStatusToast(3500);
-  $('hint').textContent = 'Glow shown';
   $('hint').disabled = true;
-  playCue('hintTwo', { interrupt: false, volume: 0.88 });
+  $('hint').textContent = 'Hint playing…';
 
-  hintTimer = setTimeout(() => {
-    element.classList.remove('hinted');
-    if (!isRoundComplete()) {
-      $('hint').disabled = false;
-      $('hint').textContent = 'Glow again';
-    }
-  }, SETTINGS.hintMs);
+  playCue('hintTwo', { interrupt: false, volume: 0.88 });
+  unlockHintAfterDialogue(element, 'Glow again', SETTINGS.hintMs);
 });
 
 $('pip').addEventListener('click', event => {
