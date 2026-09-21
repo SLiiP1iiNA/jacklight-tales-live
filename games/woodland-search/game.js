@@ -474,7 +474,7 @@ async function loadRound() {
   maybePlaceSecretItem();
 
   $('stage').classList.add('scene-changing');
-  $('woods').src = currentScene.image;
+  $('woods').src = currentScene.image + (currentScene.image.includes('?') ? '&' : '?') + 'v=20260921-imgfix1';
 
   try {
     await Promise.all([
