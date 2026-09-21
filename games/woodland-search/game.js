@@ -477,11 +477,11 @@ async function loadRound() {
   const sceneImage = currentScene.image;
   $('woods').onerror = () => {
     const image = $('woods');
-    if (image.dataset.retryCacheBust === sceneImage) return;
-    image.dataset.retryCacheBust = sceneImage;
+    if (image.dataset.imageRetried === '1') return;
+    image.dataset.imageRetried = '1';
     image.src = sceneImage + (sceneImage.includes('?') ? '&' : '?') + 'v=20260921-imgfallback1';
   };
-  $('woods').removeAttribute('data-retry-cache-bust');
+  $('woods').dataset.imageRetried = '0';
   $('woods').src = sceneImage;
 
   try {
