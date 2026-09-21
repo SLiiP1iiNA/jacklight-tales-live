@@ -76,7 +76,8 @@
   .secret-icon{width:11px;height:11px;font-size:.5rem}
   .seed-meter strong{font-size:.55rem}
 
-  .route-strip{top:auto;bottom:7.45rem;gap:.24rem;padding:.24rem .32rem}
+  /* Journey progress sits at the very top of the portrait game screen. */
+  .route-strip{top:max(.35rem,env(safe-area-inset-top));bottom:auto;gap:.24rem;padding:.24rem .32rem}
   .route-node{gap:0}
   .route-node strong{display:none}
   .route-node span{width:1.28rem;height:1.28rem;font-size:.48rem}
