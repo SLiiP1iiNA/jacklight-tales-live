@@ -876,7 +876,9 @@ $('hint').addEventListener('click', () => {
   const unlockHintAfterDialogue = (element, nextLabel) => {
     const unlock = () => {
       if (isRoundComplete()) return;
-      element.classList.remove('hinted');
+      // Keep the visual hint glowing after Luna finishes speaking so
+      // the child has time to actually spot and click the target. A later
+      // gameplay action or new hint clears the glow.
       $('hint').disabled = false;
       $('hint').textContent = nextLabel;
     };
