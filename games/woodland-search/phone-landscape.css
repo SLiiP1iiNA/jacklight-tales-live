@@ -64,7 +64,8 @@ html.phone-landscape-mode #pip{width:clamp(38px,5.2vw,48px)!important}
 
 /* Tiny mission chip — title only. */
 html.phone-landscape-mode .mission-hud{
-  top:max(.16rem,env(safe-area-inset-top))!important;
+  top:max(.04rem,env(safe-area-inset-top))!important;
+  z-index:49!important;
   left:max(.22rem,env(safe-area-inset-left))!important;
   width:auto!important;
   max-width:180px!important;
@@ -93,11 +94,12 @@ html.phone-landscape-mode #target-title{
   text-overflow:ellipsis!important;
 }
 
-/* Five tiny route dots only. */
+/* Ten tiny route numbers — fixed at the very top of the game screen. */
 html.phone-landscape-mode .route-strip{
-  top:max(.16rem,env(safe-area-inset-top))!important;
+  top:max(.04rem,env(safe-area-inset-top))!important;
   left:50%!important;
   transform:translateX(-50%)!important;
+  z-index:50!important;
   gap:.1rem!important;
   padding:.09rem .14rem!important;
   border-radius:999px!important;
@@ -111,8 +113,9 @@ html.phone-landscape-mode .route-node span{width:.9rem!important;height:.9rem!im
 
 /* Seed counter stays visible but occupies almost no artwork. */
 html.phone-landscape-mode .seed-meter{
-  top:max(.16rem,env(safe-area-inset-top))!important;
-  right:max(.22rem,env(safe-area-inset-right))!important;
+  top:max(.04rem,env(safe-area-inset-top))!important;
+  right:max(.08rem,env(safe-area-inset-right))!important;
+  z-index:49!important;
   min-height:20px!important;
   gap:.16rem!important;
   padding:.12rem .26rem!important;
@@ -121,8 +124,8 @@ html.phone-landscape-mode .seed-meter{
   box-shadow:none!important;
 }
 html.phone-landscape-mode .secret-meter{
-  top:calc(max(.16rem,env(safe-area-inset-top)) + 22px)!important;
-  right:max(.22rem,env(safe-area-inset-right))!important;
+  top:calc(max(.04rem,env(safe-area-inset-top)) + 22px)!important;
+  right:max(.08rem,env(safe-area-inset-right))!important;
 }
 html.phone-landscape-mode .seed-icon{width:6px!important;height:9px!important}
 html.phone-landscape-mode .secret-icon{width:6px!important;height:6px!important;font-size:.34rem!important}
