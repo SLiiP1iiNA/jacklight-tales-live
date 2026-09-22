@@ -672,19 +672,28 @@ function startMischiefRun() {
   let nextSpot = candidates[0] || chooseSpot(currentScene);
 
   const landscapeBlockers = getPhoneLandscapeBlockers();
+  const pip = $('pip');
+  const originalLeft = pip.style.left;
+  const originalTop = pip.style.top;
+
   if (landscapeBlockers.length) {
     const safeCandidates = candidates.filter(spot => {
-      mapPointToScene(spot, $('pip'));
-      clampToScene($('pip'), 8);
-      return !landscapeBlockers.some(blocker => objectsOverlap($('pip'), blocker, 8));
+      mapPointToScene(spot, pip);
+      clampToScene(pip, 8);
+      const safe = !landscapeBlockers.some(blocker => objectsOverlap(pip, blocker, 8));
+      pip.style.left = originalLeft;
+      pip.style.top = originalTop;
+      return safe;
     });
     nextSpot = safeCandidates[0] || nextSpot;
   }
 
+  pip.style.left = originalLeft;
+  pip.style.top = originalTop;
+
   // Clamp the runaway destination against the actual rendered scene bounds.
   // Percentage coordinates can land outside a mobile portrait crop, so the
   // old animation could carry the character completely off-screen.
-  const pip = $('pip');
   const startLeft = pip.style.left;
   const startTop = pip.style.top;
   mapPointToScene(nextSpot, pip);
