@@ -30,11 +30,6 @@
     linear-gradient(90deg, rgba(4, 14, 11, 0.2), transparent 23% 77%, rgba(4, 14, 11, 0.2));
 }
 
-/* Old moon/disc is deliberately suppressed even if older markup is restored. */
-.storybook-body .entrance__moon {
-  display: none !important;
-}
-
 .storybook-body .entrance__story {
   width: min(55rem, calc(100% - 2rem));
   gap: clamp(0.56rem, 1.25vh, 0.92rem);
