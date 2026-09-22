@@ -205,3 +205,34 @@ html.phone-landscape-mode #heart-seed span{width:11px!important;height:16px!impo
   html:not(.phone-landscape-mode) .route-node strong{display:none}
   html:not(.phone-landscape-mode) .game-actions{width:min(246px,50vw)}
 }
+
+
+/* Mobile landscape feedback: found/hint messages must sit clearly above
+   the bottom controls instead of being swallowed by the control strip. */
+html.phone-landscape-mode #status.is-visible {
+  display: block !important;
+  bottom: calc(3.65rem + env(safe-area-inset-bottom)) !important;
+  z-index: 45 !important;
+  width: max-content !important;
+  max-width: 76vw !important;
+  white-space: normal !important;
+  overflow: visible !important;
+  text-overflow: clip !important;
+  padding: .24rem .55rem !important;
+  line-height: 1.15 !important;
+  border-color: rgba(255,222,143,.3) !important;
+  box-shadow: 0 .45rem 1rem rgba(0,0,0,.24) !important;
+}
+
+@media (orientation:landscape) and (max-height:560px) and (max-width:1100px) {
+  html:not(.phone-landscape-mode) #status.is-visible {
+    display: block !important;
+    bottom: calc(3.65rem + env(safe-area-inset-bottom)) !important;
+    z-index: 45 !important;
+    width: max-content !important;
+    max-width: 76vw !important;
+    white-space: normal !important;
+    overflow: visible !important;
+    text-overflow: clip !important;
+  }
+}
