@@ -279,3 +279,23 @@
   from { opacity: 0.38; }
   to { opacity: 0.62; }
 }
+
+/* Launch-state audiobook availability, consolidated from launch-polish.css. */
+.audiobook-series__button:disabled,
+.audiobook-series__button.is-coming {
+  cursor: default;
+  opacity: .45;
+  filter: saturate(.7);
+  transform: none !important;
+}
+
+.audiobook-series__button:disabled:hover,
+.audiobook-series__button:disabled:focus-visible {
+  border-color: var(--line-soft);
+  background: rgba(255, 249, 233, .045);
+  transform: none;
+}
+
+.audiobook-series__button.is-coming small {
+  color: rgba(255, 249, 233, .42);
+}
