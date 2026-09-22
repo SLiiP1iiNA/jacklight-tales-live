@@ -1,4 +1,4 @@
-export function initSoundControl(audioPath) {
+export function initSoundControl(audioPath, mobileAudioPath = "") {
   const button = document.querySelector("#sound-control");
   const audio = document.querySelector("#woodland-audio");
   if (!button || !audio) return;
@@ -10,6 +10,7 @@ export function initSoundControl(audioPath) {
   const FADE_IN_MS = 1800;
   const FADE_OUT_MS = 1200;
   const GAME_STATE_KEY = "jacklight:woodland-audio-state";
+  const isMobile = () => window.matchMedia("(max-width: 900px), (pointer: coarse)").matches;
 
   let listenOpen = false;
   let cinemaOpen = false;
@@ -27,7 +28,7 @@ export function initSoundControl(audioPath) {
 
   button.hidden = false;
   button.disabled = false;
-  source.src = audioPath;
+  source.src = isMobile() && mobileAudioPath ? mobileAudioPath : audioPath;
   audio.volume = 0;
   audio.loop = true;
   audio.load();
@@ -106,6 +107,29 @@ export function initSoundControl(audioPath) {
     setButtonState(false);
   }
 
+  function transitionOutForMobileNavigation(duration = 520) {
+    if (!isMobile()) {
+      return Promise.resolve();
+    }
+
+    clearResumeTimer();
+    cancelFade();
+
+    if (audio.paused) {
+      audio.volume = 0;
+      setButtonState(false);
+      return Promise.resolve();
+    }
+
+    return fadeTo(0, duration).then(() => {
+      audio.pause();
+      audio.volume = 0;
+      setButtonState(false);
+    });
+  }
+
+  window.jltMobileSiteAudioTransition = transitionOutForMobileNavigation;
+
   function restoreFromGame() {
     try {
       const raw = sessionStorage.getItem(GAME_STATE_KEY);
@@ -147,7 +171,11 @@ export function initSoundControl(audioPath) {
       listenOpen = false;
       audiobookPlaying = false;
       clearResumeTimer();
-      stopWoodlandSound();
+      if (isMobile()) {
+        void transitionOutForMobileNavigation();
+      } else {
+        stopWoodlandSound();
+      }
       return;
     }
 
@@ -157,7 +185,11 @@ export function initSoundControl(audioPath) {
     listenOpen = true;
     audiobookPlaying = false;
     clearResumeTimer();
-    startWoodlandSound(LISTEN_VOLUME, FADE_OUT_MS);
+    if (isMobile()) {
+      void transitionOutForMobileNavigation();
+    } else {
+      startWoodlandSound(LISTEN_VOLUME, FADE_OUT_MS);
+    }
   });
 
   document.addEventListener("jacklight:panel-opened", event => {
