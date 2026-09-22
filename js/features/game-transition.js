@@ -2,7 +2,7 @@ export function initGameTransition() {
   let travelling = false;
   const GAME_STATE_KEY = "jacklight:woodland-audio-state";
 
-  document.addEventListener("click", event => {
+  document.addEventListener("click", async event => {
     const link = event.target.closest("a[data-game-launch]");
     if (!link || travelling || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) {
       return;
@@ -23,6 +23,7 @@ export function initGameTransition() {
     travelling = true;
 
     const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const mobile = window.matchMedia("(max-width: 900px), (pointer: coarse)").matches;
     const overlay = document.createElement("div");
     overlay.className = "game-transition-screen";
     overlay.setAttribute("aria-live", "polite");
@@ -33,6 +34,10 @@ export function initGameTransition() {
       </div>`;
     document.body.append(overlay);
     requestAnimationFrame(() => overlay.classList.add("is-visible"));
+
+    if (mobile && window.jltMobileSiteAudioTransition) {
+      await window.jltMobileSiteAudioTransition(reduceMotion ? 40 : 520);
+    }
 
     window.setTimeout(() => {
       window.location.href = link.href;
