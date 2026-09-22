@@ -768,12 +768,6 @@
   background: #fff0a5;
 }
 
-.storybook-body .panel .button--gold {
-  border-color: rgba(123, 80, 31, 0.2);
-  background: var(--storybook-sun);
-  color: #4a3a17;
-}
-
 .storybook-body code {
   color: #934348;
 }
