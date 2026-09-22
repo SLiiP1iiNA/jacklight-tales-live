@@ -1,3 +1,7 @@
+/* JackLight Tales — shared entrance foundation.
+   The current visual treatment lives in storybook.css and aurora.css.
+   This file keeps only structural behaviour still used by the live markup. */
+
 .entrance {
   position: fixed;
   z-index: 200;
@@ -15,62 +19,11 @@ body.entrance-active {
   overflow: hidden;
 }
 
-.entrance__backdrop,
-.entrance__veil,
-.entrance__threshold,
+/* Shared firefly positioning/animation. Current theme files override the
+   colours, sizes and stacking to suit the live storybook presentation. */
 .entrance__fireflies {
   position: absolute;
   inset: 0;
-}
-
-.entrance__backdrop {
-  background-image: var(--entrance-background, url("../../assets/images/site/entrance-woods-desktop.webp"));
-  background-position: center;
-  background-size: cover;
-  filter: saturate(0.96) contrast(1.03);
-  transform: scale(1.025);
-  animation: entrance-drift 16s ease-in-out infinite alternate;
-  transition: filter 900ms ease, transform 1150ms cubic-bezier(0.22, 1, 0.36, 1);
-}
-
-.entrance__veil {
-  background:
-    linear-gradient(180deg, rgba(3, 12, 9, 0.08) 0%, rgba(3, 12, 9, 0.08) 36%, rgba(3, 12, 9, 0.82) 86%, rgba(3, 12, 9, 0.95) 100%),
-    radial-gradient(circle at 50% 31%, transparent 0 10rem, rgba(4, 16, 12, 0.18) 32rem, rgba(4, 16, 12, 0.42) 100%);
-  transition: opacity 850ms ease;
-}
-
-.entrance__threshold {
-  z-index: 2;
-  pointer-events: none;
-}
-
-.entrance__door {
-  position: absolute;
-  top: -8%;
-  bottom: -8%;
-  width: 29%;
-  opacity: 0.82;
-  background:
-    radial-gradient(circle at 50% 28%, rgba(95, 142, 75, 0.2), transparent 35%),
-    linear-gradient(90deg, rgba(2, 10, 7, 0.9), rgba(5, 22, 15, 0.2));
-  filter: blur(0.05rem);
-  transition: transform 1100ms cubic-bezier(0.22, 1, 0.36, 1), opacity 850ms ease;
-}
-
-.entrance__door--left {
-  left: -2%;
-  clip-path: polygon(0 0, 88% 0, 100% 13%, 76% 28%, 92% 47%, 70% 64%, 95% 83%, 80% 100%, 0 100%);
-}
-
-.entrance__door--right {
-  right: -2%;
-  clip-path: polygon(12% 0, 100% 0, 100% 100%, 20% 100%, 5% 83%, 30% 64%, 8% 47%, 24% 28%, 0 13%);
-  transform: scaleX(-1);
-}
-
-.entrance__fireflies {
-  z-index: 2;
   pointer-events: none;
 }
 
@@ -94,155 +47,23 @@ body.entrance-active {
 .entrance__fireflies span:nth-child(7) { top: 27%; right: 42%; animation-delay: -4.7s; }
 .entrance__fireflies span:nth-child(8) { bottom: 20%; right: 9%; animation-delay: -1.9s; }
 
-.entrance__content {
-  position: relative;
-  z-index: 3;
-  display: grid;
-  width: min(100%, 57rem);
-  gap: 0.72rem;
-  justify-items: center;
-  padding: clamp(1.1rem, 3vw, 2rem) clamp(1rem, 4vw, 3rem);
-  border: 1px solid rgba(248, 223, 160, 0.18);
-  border-radius: var(--radius-large);
-  background: linear-gradient(145deg, rgba(5, 19, 14, 0.66), rgba(5, 19, 14, 0.3));
-  box-shadow: 0 1.5rem 5rem rgba(0, 0, 0, 0.36);
-  backdrop-filter: blur(0.55rem);
-  transition: opacity 500ms ease, transform 900ms cubic-bezier(0.22, 1, 0.36, 1);
-}
-
-.entrance__brand-mark {
-  width: clamp(3.4rem, 7vw, 5.4rem);
-  height: clamp(3.4rem, 7vw, 5.4rem);
-  margin-bottom: -0.2rem;
-  object-fit: contain;
-  filter: drop-shadow(0 0 1.1rem rgba(229, 189, 100, 0.5));
-  animation: lantern-breathe 3.4s ease-in-out infinite alternate;
-}
-
-.entrance h1 {
-  max-width: 18ch;
-  font-size: clamp(2.35rem, 5.8vw, 5.3rem);
-  font-weight: 500;
-  letter-spacing: -0.065em;
-  line-height: 0.92;
-  text-wrap: balance;
-}
-
-.entrance h1 em {
-  color: var(--gold-300);
-  font-style: normal;
-}
-
-.entrance p:not(.eyebrow):not(.entrance__hint) {
-  max-width: 40rem;
-  color: var(--cream-200);
-  font-size: clamp(0.95rem, 1.7vw, 1.15rem);
-}
-
-.entrance .button {
-  margin-top: 0.25rem;
-}
-
-.entrance__hint {
-  color: rgba(255, 249, 233, 0.55);
-  font-family: Arial, Helvetica, sans-serif;
-  font-size: 0.7rem;
-  letter-spacing: 0.04em;
-}
-
-.entrance__hint span {
-  margin-right: 0.25rem;
-  color: var(--gold-300);
-}
-
-.entrance__skip {
-  position: absolute;
-  z-index: 4;
-  right: 1.25rem;
-  top: 1.25rem;
-  padding: 0.7rem;
-  border: 1px solid rgba(255, 249, 233, 0.16);
-  border-radius: 999px;
-  background: rgba(5, 18, 13, 0.48);
-  color: rgba(255, 249, 233, 0.76);
-  font-family: Arial, Helvetica, sans-serif;
-  font-size: 0.75rem;
-  backdrop-filter: blur(0.35rem);
-}
-
-.entrance.is-opening .entrance__door--left {
+.entrance.is-opening .entrance__veil {
   opacity: 0;
-  transform: translateX(-115%);
-}
-
-.entrance.is-opening .entrance__door--right {
-  opacity: 0;
-  transform: translateX(115%) scaleX(-1);
-}
-
-.entrance.is-opening .entrance__backdrop {
-  filter: saturate(1.08) brightness(1.1);
-  transform: scale(1.13);
-}
-
-.entrance.is-opening .entrance__veil,
-.entrance.is-opening .entrance__fireflies,
-.entrance.is-opening .entrance__content {
-  opacity: 0;
-}
-
-.entrance.is-opening .entrance__content {
-  transform: translateY(2rem) scale(0.96);
-}
-
-.entrance.is-leaving {
-  visibility: hidden;
-  opacity: 0;
-  pointer-events: none;
-}
-
-@keyframes entrance-drift {
-  from { transform: scale(1.025) translate3d(0, 0, 0); }
-  to { transform: scale(1.065) translate3d(0, -0.5rem, 0); }
 }
 
 @keyframes firefly-drift {
-  from { opacity: 0.28; transform: translate3d(-0.25rem, 0.35rem, 0) scale(0.72); }
-  to { opacity: 0.92; transform: translate3d(0.4rem, -0.65rem, 0) scale(1.08); }
-}
-
-@keyframes lantern-breathe {
-  from { filter: drop-shadow(0 0 0.7rem rgba(229, 189, 100, 0.35)); transform: translateY(0); }
-  to { filter: drop-shadow(0 0 1.35rem rgba(229, 189, 100, 0.66)); transform: translateY(-0.18rem); }
+  from {
+    opacity: 0.28;
+    transform: translate3d(-0.25rem, 0.35rem, 0) scale(0.72);
+  }
+  to {
+    opacity: 0.92;
+    transform: translate3d(0.4rem, -0.65rem, 0) scale(1.08);
+  }
 }
 
 @media (max-width: 44rem) {
   .entrance {
     padding: 0.75rem 0.75rem 1.1rem;
-  }
-
-  .entrance__backdrop {
-    background-image: var(--entrance-background-mobile, url("../../assets/images/site/entrance-woods-mobile.webp"));
-    background-position: center;
-  }
-
-  .entrance__content {
-    gap: 0.62rem;
-    padding: 1rem 0.9rem 1.15rem;
-    border-radius: 1.5rem;
-    background: linear-gradient(145deg, rgba(5, 19, 14, 0.75), rgba(5, 19, 14, 0.42));
-  }
-
-  .entrance h1 {
-    font-size: clamp(2.15rem, 10vw, 3.25rem);
-  }
-
-  .entrance__skip {
-    top: 0.7rem;
-    right: 0.7rem;
-  }
-
-  .entrance__door {
-    width: 34%;
   }
 }
