@@ -783,8 +783,6 @@
 .storybook-body .series-card,
 .storybook-body .content-card,
 .storybook-body .gallery-item,
-.storybook-body .audiobook-shelf,
-.storybook-body .audiobook-player,
 .storybook-body .audiobook-series__button,
 .storybook-body .audiobook-episode,
 .storybook-body .social-link {
@@ -800,10 +798,7 @@
 .storybook-body .content-card span:not(.content-card__label),
 .storybook-body .gallery-item figcaption span,
 .storybook-body .audiobook-series__button small,
-.storybook-body .audiobook-shelf__tools,
 .storybook-body .audiobook-episode__copy small,
-.storybook-body .audiobook-player__copy p,
-.storybook-body .audiobook-player__help,
 .storybook-body .panel-note {
   color: #6a7563;
   font-family: var(--storybook-display);
@@ -971,25 +966,13 @@
   color: var(--storybook-ink);
 }
 
-.storybook-body .audiobook-shelf__tools button,
-.storybook-body .audiobook-player__nav button {
-  border-color: rgba(55, 111, 70, 0.22);
-  background: #edf3c9;
-  color: #275b40;
-}
 
-.storybook-body .audiobook-player__nav button:disabled {
-  color: #869083;
-}
 
-.storybook-body .parent-note {
-  border-left-color: var(--storybook-berry);
-  background: #fff0b1;
-}
 
-.storybook-body .parent-note p {
-  color: #67705c;
-}
+
+
+
+
 
 /* Motion */
 
