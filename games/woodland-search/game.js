@@ -272,13 +272,28 @@ function findSafeObjectSpot(element, candidates, blockers, pad = 10) {
   return candidates[0] || { x: 50, y: 50 };
 }
 
+function getPhoneLandscapeBlockers() {
+  if (!document.documentElement.classList.contains('phone-landscape-mode')) return [];
+  return [$('game-actions'), $('path-continue')].filter(Boolean);
+}
+
 function resolveObjectOverlaps() {
   const pip = $('pip');
   const seed = $('heart-seed');
   const secret = $('secret-item');
+  const landscapeBlockers = getPhoneLandscapeBlockers();
 
   if (!pip.hidden && !mischiefEscapedThisRound) {
     placeObjectAtPoint(pip, currentSpot, 8);
+
+    if (landscapeBlockers.some(blocker => objectsOverlap(pip, blocker, 8))) {
+      currentSpot = findSafeObjectSpot(
+        pip,
+        shuffle(currentScene.spots || []),
+        landscapeBlockers,
+        8
+      );
+    }
   }
 
   if (!seed.hidden) {
@@ -286,7 +301,12 @@ function resolveObjectOverlaps() {
       currentSeedSpot,
       ...shuffle(currentScene.seedSpots || [])
     ];
-    currentSeedSpot = findSafeObjectSpot(seed, seedCandidates, [pip], 8);
+    currentSeedSpot = findSafeObjectSpot(
+      seed,
+      seedCandidates,
+      [pip, ...landscapeBlockers],
+      8
+    );
   }
 
   if (!secret.hidden) {
@@ -294,24 +314,35 @@ function resolveObjectOverlaps() {
       currentSecretSpot,
       ...shuffle(currentScene.secretItem?.spots || [])
     ];
-    currentSecretSpot = findSafeObjectSpot(secret, secretCandidates, [pip, seed], 8);
-  }
-
-  // One final pass catches any edge-clamping interaction between the three.
-  if (!seed.hidden && objectsOverlap(seed, pip, 8)) {
-    currentSeedSpot = findSafeObjectSpot(
-      seed,
-      shuffle(currentScene.seedSpots || []),
-      [pip, secret],
+    currentSecretSpot = findSafeObjectSpot(
+      secret,
+      secretCandidates,
+      [pip, seed, ...landscapeBlockers],
       8
     );
   }
 
-  if (!secret.hidden && (objectsOverlap(secret, pip, 8) || objectsOverlap(secret, seed, 8))) {
+  if (!seed.hidden && (
+    objectsOverlap(seed, pip, 8) ||
+    landscapeBlockers.some(blocker => objectsOverlap(seed, blocker, 8))
+  )) {
+    currentSeedSpot = findSafeObjectSpot(
+      seed,
+      shuffle(currentScene.seedSpots || []),
+      [pip, secret, ...landscapeBlockers],
+      8
+    );
+  }
+
+  if (!secret.hidden && (
+    objectsOverlap(secret, pip, 8) ||
+    objectsOverlap(secret, seed, 8) ||
+    landscapeBlockers.some(blocker => objectsOverlap(secret, blocker, 8))
+  )) {
     currentSecretSpot = findSafeObjectSpot(
       secret,
       shuffle(currentScene.secretItem?.spots || []),
-      [pip, seed],
+      [pip, seed, ...landscapeBlockers],
       8
     );
   }
@@ -635,7 +666,17 @@ function startMischiefRun() {
     const farFromSecret = !secretPixel || Math.hypot(pixel.left - secretPixel.left, pixel.top - secretPixel.top) > 70;
     return farFromSeed && farFromSecret;
   }));
-  const nextSpot = candidates[0] || chooseSpot(currentScene);
+  let nextSpot = candidates[0] || chooseSpot(currentScene);
+
+  const landscapeBlockers = getPhoneLandscapeBlockers();
+  if (landscapeBlockers.length) {
+    const safeCandidates = candidates.filter(spot => {
+      mapPointToScene(spot, $('pip'));
+      clampToScene($('pip'), 8);
+      return !landscapeBlockers.some(blocker => objectsOverlap($('pip'), blocker, 8));
+    });
+    nextSpot = safeCandidates[0] || nextSpot;
+  }
 
   // Clamp the runaway destination against the actual rendered scene bounds.
   // Percentage coordinates can land outside a mobile portrait crop, so the
