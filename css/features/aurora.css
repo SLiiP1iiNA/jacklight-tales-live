@@ -174,20 +174,6 @@
   pointer-events: none;
 }
 
-.entrance__moon {
-  position: absolute;
-  z-index: 2;
-  top: 12%;
-  left: 50%;
-  width: clamp(8rem, 16vw, 15rem);
-  aspect-ratio: 1;
-  border-radius: 50%;
-  background: radial-gradient(circle at 35% 32%, #fff4bd, #e9be63 45%, rgba(214, 158, 62, 0.05) 72%, transparent 73%);
-  box-shadow: 0 0 4rem rgba(246, 201, 95, 0.26), 0 0 10rem rgba(132, 186, 119, 0.11);
-  opacity: 0.46;
-  transform: translateX(-50%);
-}
-
 .entrance__story {
   position: absolute;
   z-index: 7;
@@ -274,7 +260,6 @@
 
 .entrance.is-opening .entrance__story,
 .entrance.is-opening .entrance__fireflies,
-.entrance.is-opening .entrance__moon,
 .entrance.is-opening .entrance__skip {
   opacity: 0;
   transform: scale(1.06);
@@ -432,25 +417,6 @@
   gap: 0.62rem;
   margin: clamp(3rem, 7vw, 6.3rem) auto clamp(1.4rem, 3vw, 2.4rem);
   text-align: center;
-}
-
-.map-heading__lantern {
-  display: grid;
-  width: 4.2rem;
-  height: 4.2rem;
-  place-items: center;
-  margin-bottom: 0.45rem;
-  border: 1px solid rgba(246, 201, 95, 0.33);
-  border-radius: 50%;
-  background: rgba(246, 201, 95, 0.08);
-  box-shadow: 0 0 2.5rem rgba(246, 201, 95, 0.14);
-}
-
-.map-heading__lantern img {
-  width: 84%;
-  height: 84%;
-  object-fit: contain;
-  filter: drop-shadow(0 0 0.75rem rgba(246, 201, 95, 0.5));
 }
 
 .map-heading h1 {
@@ -640,32 +606,6 @@
   transform: translateY(0);
 }
 
-.map-signature {
-  position: absolute;
-  z-index: 5;
-  bottom: 5%;
-  left: 50%;
-  display: flex;
-  align-items: center;
-  gap: 0.42rem;
-  padding: 0.35rem 0.7rem 0.35rem 0.4rem;
-  border: 1px solid rgba(255, 230, 162, 0.2);
-  border-radius: 999px;
-  background: rgba(3, 12, 10, 0.58);
-  color: rgba(255, 230, 162, 0.78);
-  font: 900 clamp(0.58rem, 1vw, 0.75rem)/1 var(--display);
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  transform: translateX(-50%);
-  backdrop-filter: blur(0.6rem);
-}
-
-.map-signature img {
-  width: 1.35rem;
-  height: 1.35rem;
-  object-fit: contain;
-}
-
 /* Home introduction and latest story */
 
 .home-ribbon {
@@ -742,17 +682,6 @@
   aspect-ratio: 16 / 9;
   object-fit: cover;
   filter: brightness(0.78) saturate(0.82);
-}
-
-.latest-tale__badge {
-  position: absolute;
-  z-index: 1;
-  bottom: 0.9rem;
-  left: 1rem;
-  color: var(--lantern-soft);
-  font: 900 0.68rem/1 var(--display);
-  letter-spacing: 0.13em;
-  text-transform: uppercase;
 }
 
 .latest-tale__copy {
@@ -1203,11 +1132,6 @@
     margin-top: 3rem;
   }
 
-  .map-heading__lantern {
-    width: 3.6rem;
-    height: 3.6rem;
-  }
-
   .map-heading h1 {
     font-size: clamp(2.25rem, 11vw, 3.6rem);
   }
@@ -1254,11 +1178,6 @@
 
   .map-stop__sign b {
     display: none;
-  }
-
-  .map-signature {
-    bottom: 3%;
-    font-size: 0.56rem;
   }
 
   .home-ribbon {
@@ -1345,7 +1264,6 @@
 
 @media (prefers-reduced-motion: reduce) {
   .entrance__scene img,
-  .entrance__lantern,
   .woodland-map__mist,
   .map-stop__marker {
     animation: none !important;
