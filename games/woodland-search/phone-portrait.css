@@ -109,3 +109,17 @@
   #mission-line{font-size:.51rem}
   .game-actions button{font-size:.57rem}
 }
+
+/* Mobile portrait feedback: keep found/hint messages above the bottom
+   controls so they remain readable and tappable content is never obscured. */
+@media (max-width:760px) and (orientation:portrait) {
+  #status.is-visible {
+    bottom: 6.15rem !important;
+    z-index: 45 !important;
+    max-width: 88vw !important;
+    white-space: normal !important;
+    overflow: visible !important;
+    text-overflow: clip !important;
+    box-shadow: 0 .45rem 1rem rgba(0,0,0,.24);
+  }
+}
