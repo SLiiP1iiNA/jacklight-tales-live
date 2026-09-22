@@ -7,11 +7,11 @@
 @import url("./features/audio-player.css");
 @import url("./features/sound-control.css");
 @import url("./features/responsive.css");
-@import url("./features/storybook.css");
-@import url("./features/aurora.css");
+@import url("./features/storybook.css?v=20260922-cleanup2");
+@import url("./features/aurora.css?v=20260922-cleanup2");
 @import url("./features/polish.css");
 
-@import url("./features/final-rebuild.css");
+@import url("./features/final-rebuild.css?v=20260922-cleanup2");
 
 @import url("./features/grownups.css");
 @import url("./features/listen.css?v=20260922-listen-cleanup1");
