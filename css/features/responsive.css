@@ -21,20 +21,6 @@
     padding-bottom: 0.25rem;
   }
 
-  .hero {
-    min-height: 0;
-    grid-template-columns: minmax(0, 1fr) minmax(13rem, 0.7fr);
-    padding-block: 3rem 3.5rem;
-  }
-
-  .world-cards {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
-  .world-card {
-    min-height: 16rem;
-  }
-
   .watch-layout {
     grid-template-columns: 1fr;
   }
@@ -53,81 +39,18 @@
     width: fit-content;
   }
 
-  .content-grid--three,
-  .grownups-layout {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
 
   .series-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
-  .audiobook-workspace {
-    grid-template-columns: 1fr;
-  }
-
-  .audiobook-player {
-    position: static;
-    grid-template-columns: minmax(10rem, 0.36fr) minmax(0, 0.64fr);
-    align-items: center;
-  }
-
-  .audiobook-player > img {
-    grid-row: span 4;
-  }
 }
 
 @media (max-width: 48rem) {
-  .hero {
-    grid-template-columns: 1fr;
-    padding-top: 2.4rem;
-  }
-
-  .hero__character {
-    position: absolute;
-    right: -1rem;
-    bottom: -1rem;
-    width: min(47vw, 18rem);
-    min-height: 0;
-    opacity: 0.56;
-    pointer-events: none;
-  }
-
-  .hero__content {
-    max-width: 36rem;
-  }
-
-  .hero h1 {
-    max-width: 8ch;
-  }
-
-  .welcome-strip,
-  .home-feature,
-  .listen-room {
-    grid-template-columns: 1fr;
-  }
-
-  .welcome-strip {
-    gap: 1px;
-  }
-
-  .home-feature__image {
-    min-height: 16rem;
-  }
-
-  .listen-room__cover img {
-    width: min(100%, 18rem);
-  }
-
   .character-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
-  .audio-roadmap,
-  .content-grid--three,
-  .grownups-layout {
-    grid-template-columns: 1fr;
-  }
 
   .audiobook-episodes {
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -165,28 +88,11 @@
     margin-left: auto;
   }
 
-  .world,
-  .home-feature {
-    width: min(calc(100% - 1.25rem), var(--page-width));
-  }
-
-  .world {
-    padding-bottom: 3.75rem;
-  }
-
   .section-heading,
   .panel-heading {
     align-items: start;
     flex-direction: column;
     gap: 0.8rem;
-  }
-
-  .world-cards {
-    grid-template-columns: 1fr;
-  }
-
-  .world-card {
-    min-height: 12.6rem;
   }
 
   .site-footer {
@@ -252,17 +158,6 @@
     bottom: 0.55rem;
   }
 
-  .audiobook-library__heading,
-  .audiobook-shelf__heading {
-    align-items: start;
-    flex-direction: column;
-  }
-
-  .audiobook-shelf__tools {
-    justify-content: flex-start;
-    text-align: left;
-  }
-
   .audiobook-series,
   .audiobook-episodes {
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -272,27 +167,6 @@
     min-height: 6.7rem;
   }
 
-  .audiobook-player {
-    grid-template-columns: 1fr;
-  }
-
-  .audiobook-player > img {
-    grid-row: auto;
-    width: min(100%, 16rem);
-    margin-inline: auto;
-  }
-
-  .game-teaser {
-    grid-template-columns: 1fr;
-  }
-
-  .game-teaser__map {
-    width: 4.8rem;
-  }
-
-  .game-teaser__badge {
-    grid-column: auto;
-  }
 }
 
 @media (max-width: 30rem) {
