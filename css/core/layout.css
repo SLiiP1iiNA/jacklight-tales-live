@@ -6,29 +6,6 @@
   isolation: isolate;
 }
 
-.site-shell::before,
-.site-shell::after {
-  position: fixed;
-  z-index: -2;
-  inset: 0;
-  pointer-events: none;
-  content: "";
-}
-
-.site-shell::before {
-  background-image: var(--home-background, url("../../assets/images/site/entrance-woods-desktop.webp"));
-  background-position: center;
-  background-size: cover;
-  opacity: 0.48;
-}
-
-.site-shell::after {
-  z-index: -1;
-  background:
-    linear-gradient(to bottom, rgba(6, 19, 15, 0.18), rgba(6, 19, 15, 0.96) 86%),
-    radial-gradient(circle at 50% 30%, transparent 10%, rgba(6, 19, 15, 0.62) 100%);
-}
-
 .site-header,
 .site-footer {
   width: min(calc(100% - 2rem), var(--page-width));
