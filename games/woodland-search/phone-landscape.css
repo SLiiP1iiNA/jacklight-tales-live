@@ -86,8 +86,8 @@ html.phone-landscape-mode #mission-line{display:none!important}
 html.phone-landscape-mode #target-title{
   margin:0!important;
   font-family:Georgia,"Times New Roman",serif!important;
-  font-size:.58rem!important;
-  line-height:1!important;
+  font-size:.68rem!important;
+  line-height:1.05!important;
   white-space:nowrap!important;
   overflow:hidden!important;
   text-overflow:ellipsis!important;
@@ -107,7 +107,7 @@ html.phone-landscape-mode .route-strip{
 }
 html.phone-landscape-mode .route-node{gap:0!important}
 html.phone-landscape-mode .route-node strong{display:none!important}
-html.phone-landscape-mode .route-node span{width:.78rem!important;height:.78rem!important;font-size:.3rem!important}
+html.phone-landscape-mode .route-node span{width:.9rem!important;height:.9rem!important;font-size:.36rem!important}
 
 /* Seed counter stays visible but occupies almost no artwork. */
 html.phone-landscape-mode .seed-meter{
@@ -126,10 +126,10 @@ html.phone-landscape-mode .secret-meter{
 }
 html.phone-landscape-mode .seed-icon{width:6px!important;height:9px!important}
 html.phone-landscape-mode .secret-icon{width:6px!important;height:6px!important;font-size:.34rem!important}
-html.phone-landscape-mode .seed-meter strong{font-size:.39rem!important}
+html.phone-landscape-mode .seed-meter strong{font-size:.44rem!important}
 
 /* Normal status text is removed. Hints / found messages appear briefly. */
-html.phone-landscape-mode .path-continue{bottom:3.55rem!important;min-height:27px!important;padding:.12rem .42rem!important;font-size:.45rem!important}
+html.phone-landscape-mode .path-continue{bottom:3.55rem!important;min-height:34px!important;padding:.16rem .48rem!important;font-size:.5rem!important}
 html.phone-landscape-mode #status{
   display:none!important;
   left:50%!important;
@@ -139,8 +139,8 @@ html.phone-landscape-mode #status{
   width:max-content!important;
   max-width:56vw!important;
   margin:0!important;
-  padding:.16rem .38rem!important;
-  font-size:.44rem!important;
+  padding:.18rem .42rem!important;
+  font-size:.5rem!important;
   line-height:1.05!important;
   white-space:nowrap!important;
   overflow:hidden!important;
@@ -155,7 +155,7 @@ html.phone-landscape-mode .game-actions{
   left:50%!important;
   bottom:max(.14rem,env(safe-area-inset-bottom))!important;
   transform:translateX(-50%)!important;
-  width:min(246px,50vw)!important;
+  width:min(270px,55vw)!important;
   display:grid!important;
   grid-template-columns:repeat(3,minmax(0,1fr))!important;
   gap:.1rem!important;
@@ -167,13 +167,13 @@ html.phone-landscape-mode .game-actions{
 }
 html.phone-landscape-mode .game-actions button{
   min-width:0!important;
-  min-height:27px!important;
-  height:27px!important;
-  padding:.12rem .18rem!important;
+  min-height:34px!important;
+  height:34px!important;
+  padding:.14rem .2rem!important;
   font-size:0!important;
   line-height:1!important;
 }
-html.phone-landscape-mode #hint::after{content:"Hint";font-size:.45rem}
+html.phone-landscape-mode #hint::after{content:"Hint";font-size:.5rem}
 html.phone-landscape-mode #hint.is-offering::after{content:"Hint?";font-size:.45rem}
 html.phone-landscape-mode #sound::after{content:"♫ On";font-size:.45rem}
 html.phone-landscape-mode #sound[aria-pressed="false"]::after{content:"♫ Off"}
