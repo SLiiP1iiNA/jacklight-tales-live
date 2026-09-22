@@ -986,31 +986,15 @@
   to { opacity: 1; transform: translate(-50%, 0) scale(1); }
 }
 
-@keyframes lantern-swing {
-  0%, 100% { transform: rotate(-2.5deg) translateY(0); }
-  50% { transform: rotate(2.5deg) translateY(-0.15rem); }
-}
 
-@keyframes barnaby-peek {
-  from { opacity: 0; transform: translate(36%, 42%) rotate(8deg); }
-  to { opacity: 1; transform: translate(0, 0) rotate(0); }
-}
 
-@keyframes pip-peek {
-  from { opacity: 0; transform: translate(-38%, 42%) rotate(-8deg); }
-  to { opacity: 1; transform: translate(0, 0) rotate(0); }
-}
 
-@keyframes frog-hop {
-  from { opacity: 0; transform: translateY(5rem) scale(0.65) rotate(-8deg); }
-  72% { opacity: 1; transform: translateY(-0.5rem) scale(1.05) rotate(3deg); }
-  to { opacity: 1; transform: translateY(0) scale(1) rotate(0); }
-}
 
-@keyframes friend-bob {
-  0%, 100% { translate: 0 0; }
-  50% { translate: 0 -0.35rem; }
-}
+
+
+
+
+
 
 @keyframes marker-pulse {
   0%, 100% { scale: 1; }
