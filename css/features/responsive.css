@@ -71,10 +71,6 @@
     background-image: var(--home-background-mobile, url("../../assets/images/site/entrance-woods-mobile.webp"));
   }
 
-  .entrance__backdrop {
-    background-image: var(--entrance-background-mobile, url("../../assets/images/site/entrance-woods-mobile.webp"));
-  }
-
   .site-header {
     align-items: flex-start;
   }
