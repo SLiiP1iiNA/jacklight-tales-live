@@ -9,13 +9,17 @@ export function initGameTransition() {
     }
 
     const siteAudio = document.querySelector("#woodland-audio");
+    const mobile = window.matchMedia("(max-width: 900px), (pointer: coarse)").matches;
+
     if (siteAudio && !siteAudio.paused) {
       try {
         sessionStorage.setItem(GAME_STATE_KEY, JSON.stringify({
           enabled: true,
           currentTime: siteAudio.currentTime
         }));
-        siteAudio.pause();
+        if (!mobile) {
+          siteAudio.pause();
+        }
       } catch {}
     }
 
@@ -23,7 +27,6 @@ export function initGameTransition() {
     travelling = true;
 
     const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const mobile = window.matchMedia("(max-width: 900px), (pointer: coarse)").matches;
     const overlay = document.createElement("div");
     overlay.className = "game-transition-screen";
     overlay.setAttribute("aria-live", "polite");
