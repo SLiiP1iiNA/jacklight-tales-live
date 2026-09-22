@@ -729,9 +729,6 @@
 
 .storybook-body .panel-heading h2,
 .storybook-body .section-heading--compact h3,
-.storybook-body .listen-room__copy h3,
-.storybook-body .audiobook-library__heading h3,
-.storybook-body .audiobook-shelf__heading h3,
 .storybook-body .game-teaser h3 {
   color: var(--storybook-deep);
   font-family: var(--storybook-display);
@@ -743,9 +740,7 @@
 }
 
 .storybook-body .panel-heading > p,
-.storybook-body .panel-heading > div > p:last-child,
-.storybook-body .listen-room__copy > p,
-.storybook-body .audiobook-library__heading > p {
+.storybook-body .panel-heading > div > p:last-child {
   color: #64715e;
   font-family: var(--storybook-display);
   font-weight: 700;
@@ -827,27 +822,13 @@
   color: var(--storybook-berry);
 }
 
-.storybook-body .listen-room {
-  border: 0.28rem solid #fff7dc;
-  background:
-    linear-gradient(90deg, rgba(255, 250, 225, 0.95), rgba(255, 250, 225, 0.8)),
-    url("../../assets/images/site/listen-page-background.png") center / cover;
-  color: var(--storybook-ink);
-  box-shadow: var(--storybook-shadow);
-}
 
-.storybook-body .listen-room__promise {
-  border-color: rgba(56, 117, 74, 0.18);
-  background: rgba(238, 246, 205, 0.88);
-}
 
-.storybook-body .listen-room__promise > span {
-  color: var(--storybook-berry);
-}
 
-.storybook-body .listen-room__promise p span {
-  color: #63715e;
-}
+
+
+
+
 
 .storybook-body .explore-banner {
   border: 0.35rem solid #fff;
