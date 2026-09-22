@@ -76,11 +76,17 @@
   .secret-icon{width:11px;height:11px;font-size:.5rem}
   .seed-meter strong{font-size:.55rem}
 
-  /* Journey progress sits at the very top of the portrait game screen. */
+  /* Journey progress sits at the very top of the portrait game screen.
+     Keep the mission card below it so the route numbers never sit over the
+     card text. */
   .route-strip{top:max(.35rem,env(safe-area-inset-top));bottom:auto;gap:.24rem;padding:.24rem .32rem}
   .route-node{gap:0}
   .route-node strong{display:none}
   .route-node span{width:1.28rem;height:1.28rem;font-size:.48rem}
+
+  .mission-hud{top:calc(max(.45rem,env(safe-area-inset-top)) + 2.85rem)}
+  .seed-meter{top:calc(max(.45rem,env(safe-area-inset-top)) + 2.85rem)}
+  .secret-meter{top:calc(max(.45rem,env(safe-area-inset-top)) + 5.45rem)}
 
   #status{bottom:5.1rem;max-width:86vw;padding:.3rem .58rem;font-size:.62rem;background:rgba(5,27,19,.94)}
   .path-continue{bottom:8.05rem;max-width:88vw;min-height:38px;padding:.4rem .7rem;font-size:.6rem}
