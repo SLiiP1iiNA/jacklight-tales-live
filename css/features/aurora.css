@@ -84,14 +84,7 @@
   font: 900 0.7rem/1.3 var(--display);
   letter-spacing: 0.16em;
   text-transform: uppercase;
-}
-
-.storybook-body button,
-.storybook-body a {
-  color: inherit;
-}
-
-.storybook-body button:focus-visible,
+}.storybook-body button:focus-visible,
 .storybook-body a:focus-visible {
   outline: 0.18rem solid var(--lantern-soft);
   outline-offset: 0.22rem;
@@ -139,25 +132,7 @@
   background: var(--night-950);
   color: var(--ink-light);
   text-align: center;
-}
-
-.entrance__scene,
-.entrance__scene img,
-.entrance__portal,
-.entrance__portal picture,
-.entrance__portal img {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-}
-
-.entrance__scene img,
-.entrance__portal img {
-  object-fit: cover;
-}
-
-.entrance__scene img {
+}.entrance__scene img {
   filter: brightness(0.75) saturate(0.76) contrast(1.12);
   transform: scale(1.035);
   animation: lanternland-drift 18s ease-in-out infinite alternate;
@@ -256,17 +231,7 @@
 
 .entrance.is-opening .entrance__portal {
   clip-path: circle(155% at 50% 52%);
-}
-
-.entrance.is-opening .entrance__story,
-.entrance.is-opening .entrance__fireflies,
-.entrance.is-opening .entrance__skip {
-  opacity: 0;
-  transform: scale(1.06);
-  transition: opacity 340ms ease, transform 650ms ease;
-}
-
-.storybook-body .entrance__skip {
+}.storybook-body .entrance__skip {
   position: absolute;
   z-index: 12;
   top: 1.25rem;
@@ -284,13 +249,7 @@
 .storybook-body .entrance__skip:hover {
   border-color: var(--lantern);
   color: var(--lantern-soft);
-}
-
-.storybook-body .entrance__fireflies {
-  z-index: 4;
-}
-
-.storybook-body .entrance__fireflies span {
+}.storybook-body .entrance__fireflies span {
   width: 0.25rem;
   height: 0.25rem;
   background: var(--lantern-soft);
@@ -378,16 +337,7 @@
   border-color: var(--line-night);
   background: rgba(246, 201, 95, 0.1);
   color: var(--ink-light);
-}
-
-.header-actions {
-  display: flex;
-  flex: 0 0 auto;
-  align-items: center;
-  gap: 0.45rem;
-}
-
-.storybook-body .sound-control,
+}.storybook-body .sound-control,
 .storybook-body .welcome-replay {
   display: inline-flex;
   min-height: 2.7rem;
@@ -511,18 +461,7 @@
   opacity: 0;
   transform: translateY(0.8rem) scale(0.95);
   transition: opacity 500ms ease, transform 500ms cubic-bezier(0.2, 1.2, 0.3, 1);
-}
-
-.woodland-map.is-ready .map-stop {
-  opacity: 1;
-  transform: translateY(0) scale(1);
-}
-
-.woodland-map.is-ready .map-stop--characters { transition-delay: 90ms; }
-.woodland-map.is-ready .map-stop--listen { transition-delay: 180ms; }
-.woodland-map.is-ready .map-stop--artwork { transition-delay: 270ms; }
-
-.map-stop--watch { --stop-color: #da6d67; top: 24%; left: 7%; }
+}.map-stop--watch { --stop-color: #da6d67; top: 24%; left: 7%; }
 .map-stop--characters { --stop-color: #78b77c; top: 24%; right: 6%; flex-direction: row-reverse; text-align: right; }
 .map-stop--listen { --stop-color: #e3b35d; top: 66%; left: 6.5%; }
 .map-stop--artwork { --stop-color: #6aa9c5; top: 67%; right: 5.5%; flex-direction: row-reverse; text-align: right; }
@@ -580,14 +519,7 @@
   opacity: 0;
   transform: translateY(0.2rem);
   transition: opacity 180ms ease, transform 180ms ease;
-}
-
-.map-stop:hover,
-.map-stop:focus-visible {
-  z-index: 12;
-}
-
-.map-stop:hover .map-stop__marker,
+}.map-stop:hover .map-stop__marker,
 .map-stop:focus-visible .map-stop__marker {
   animation-play-state: paused;
   transform: scale(1.08);
@@ -698,16 +630,7 @@
 .latest-tale__copy > p:not(.eyebrow) {
   color: var(--ink-muted);
   font: 700 0.95rem/1.5 var(--display);
-}
-
-.latest-tale__actions {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 0.8rem;
-}
-
-.text-path {
+}.text-path {
   padding: 0.65rem;
   background: transparent;
   color: var(--lantern-soft);
@@ -1100,13 +1023,7 @@
   .storybook-body .brand__words small,
   .storybook-body .sound-control [data-sound-label] {
     display: none;
-  }
-
-  .header-actions {
-    margin-left: auto;
-  }
-
-  .welcome-replay span:last-child {
+  }  .welcome-replay span:last-child {
     display: none;
   }
 
@@ -1115,19 +1032,7 @@
     width: 2.55rem;
     min-height: 2.55rem;
     padding: 0;
-  }
-
-  .storybook-body .site-nav {
-    margin-inline: -0.2rem;
-  }
-
-  .storybook-body .site-nav button {
-    flex: 0 0 auto;
-    padding: 0.58rem 0.62rem;
-    font-size: 0.66rem;
-  }
-
-  .map-heading {
+  }  .map-heading {
     width: min(calc(100% - 1.4rem), 34rem);
     margin-top: 3rem;
   }
@@ -1148,18 +1053,7 @@
 
   .woodland-map__art img {
     object-position: center;
-  }
-
-  .map-stop {
-    gap: 0.32rem;
-  }
-
-  .map-stop--watch { top: 14%; left: 4%; }
-  .map-stop--characters { top: 34%; right: 3%; }
-  .map-stop--listen { top: 59%; left: 3%; }
-  .map-stop--artwork { top: 79%; right: 2%; }
-
-  .map-stop__marker {
+  }  .map-stop--watch { top: 14%; left: 4%; }  .map-stop--listen { top: 59%; left: 3%; }  .map-stop__marker {
     width: clamp(2.45rem, 11vw, 3.55rem);
   }
 
