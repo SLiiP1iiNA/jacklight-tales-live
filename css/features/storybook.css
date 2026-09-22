@@ -393,7 +393,12 @@
 }
 
 .woodland-map__art,
-.woodland-map__art img,
+.woodland-map__art img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
 
 .woodland-map__art {
   transform: translate(var(--map-pointer-x), var(--map-pointer-y)) scale(1.015);
@@ -1290,6 +1295,7 @@
 @media (prefers-reduced-motion: reduce) {
   .entrance__scene img,
   .map-stop__marker,
-  .map-stop__marker::after,
-
+  .map-stop__marker::after {
+    animation: none !important;
+  }
 }
