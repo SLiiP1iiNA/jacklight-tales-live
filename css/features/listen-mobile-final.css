@@ -479,3 +479,12 @@
     grid-column: 1 / -1;
   }
 }
+
+/* Mobile-only final positioning pass: the Listen room sits too low beneath
+   the Safari chrome/close control. Lift the content block without altering
+   desktop/tablet layouts or the close button itself. */
+@media (max-width: 44rem) {
+  .storybook-body .panel:has(.listen-experience) .listen-experience {
+    margin-top: -2.6rem !important;
+  }
+}
