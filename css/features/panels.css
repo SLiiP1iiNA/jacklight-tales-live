@@ -689,9 +689,7 @@
 
 
 
-.link-list a {
-  color: inherit;
-}
+
 
 .social-link {
   display: grid;
@@ -749,16 +747,9 @@
 
 
 
-.parent-note strong {
-  font-size: 1.05rem;
-  font-weight: 500;
-}
 
-.parent-note p {
-  color: rgba(255, 249, 233, 0.68);
-  font-family: Arial, Helvetica, sans-serif;
-  font-size: 0.8rem;
-}
+
+
 
 .panel-note {
   color: rgba(255, 249, 233, 0.55);
