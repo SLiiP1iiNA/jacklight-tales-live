@@ -50,8 +50,6 @@
 }
 
 @media (max-width: 75rem) {
-  .storybook-body .site-header { flex-wrap: wrap; }
-
   .storybook-body .site-nav {
     order: 3;
     display: grid;
