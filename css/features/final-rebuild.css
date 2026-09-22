@@ -36,9 +36,10 @@
   color: #315841;
   font: 900 .73rem/1 var(--storybook-display);
   white-space: nowrap;
+  transition: color 180ms ease, border-color 180ms ease, background 180ms ease;
 }
 
-.storybook-body .site-nav__play span { color: var(--storybook-berry); }  transition: color 180ms ease, border-color 180ms ease, background 180ms ease;
+.storybook-body .site-nav__play span { color: var(--storybook-berry); }
 
 
 .storybook-body .site-nav__play:hover,
