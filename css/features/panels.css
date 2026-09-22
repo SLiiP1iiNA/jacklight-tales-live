@@ -870,3 +870,18 @@
     transform: translateY(0) scale(1);
   }
 }
+
+/* Launch-state watch collection emphasis, consolidated from launch-polish.css. */
+.series-card--current {
+  border-color: rgba(248, 223, 160, .52) !important;
+  background: rgba(248, 223, 160, .11) !important;
+  box-shadow: inset 0 1px rgba(255, 255, 255, .06), 0 .8rem 1.8rem rgba(0, 0, 0, .12);
+}
+
+.series-card--current > span {
+  color: var(--gold-300) !important;
+}
+
+.series-card--coming {
+  opacity: .58;
+}
