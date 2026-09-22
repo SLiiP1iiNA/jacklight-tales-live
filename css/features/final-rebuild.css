@@ -38,7 +38,8 @@
   white-space: nowrap;
 }
 
-.storybook-body .site-nav__play span { color: var(--storybook-berry); }
+.storybook-body .site-nav__play span { color: var(--storybook-berry); }  transition: color 180ms ease, border-color 180ms ease, background 180ms ease;
+
 
 .storybook-body .site-nav__play:hover,
 .storybook-body .site-nav__play:focus-visible {
