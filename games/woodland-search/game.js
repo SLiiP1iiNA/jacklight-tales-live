@@ -274,7 +274,10 @@ function findSafeObjectSpot(element, candidates, blockers, pad = 10) {
 
 function getPhoneLandscapeBlockers() {
   if (!document.documentElement.classList.contains('phone-landscape-mode')) return [];
-  return [$('game-actions'), $('path-continue')].filter(Boolean);
+  return [
+    document.querySelector('.game-actions'),
+    $('continue-path')
+  ].filter(Boolean);
 }
 
 function resolveObjectOverlaps() {
