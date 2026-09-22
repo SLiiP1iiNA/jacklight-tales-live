@@ -754,24 +754,6 @@
   color: #b94a4f;
 }
 
-.storybook-body .panel .button {
-  border-color: rgba(50, 103, 66, 0.22);
-  background: #edf3c9;
-  color: #275b40;
-  font-family: var(--storybook-display);
-  font-weight: 900;
-}
-
-.storybook-body .panel .button:hover,
-.storybook-body .panel .button:focus-visible {
-  border-color: rgba(50, 103, 66, 0.4);
-  background: #fff0a5;
-}
-
-.storybook-body code {
-  color: #934348;
-}
-
 .storybook-body .watch-feature,
 .storybook-body .watch-aside,
 .storybook-body .series-card,
