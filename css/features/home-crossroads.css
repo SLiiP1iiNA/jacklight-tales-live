@@ -190,6 +190,11 @@
   }
 }
 
+/* Homepage ribbon finish — consolidated from major-update.css. */
+.storybook-body .home-ribbon {
+  background: linear-gradient(110deg, rgba(246, 201, 95, 0.14), rgba(14, 46, 35, 0.82) 34%, rgba(9, 31, 24, 0.9));
+}
+
 /* Homepage artwork showcase. */
 .storybook-glimpses {
   display: grid;
