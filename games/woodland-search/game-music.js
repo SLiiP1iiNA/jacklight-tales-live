@@ -1,7 +1,7 @@
 (() => {
   // Woodland Search background music.
   // Desktop keeps the original tracks and working player level.
-  // Mobile uses the separately encoded -20 dB copies.
+  // Mobile uses the separately encoded -26 dB copies.
   const DESKTOP_TRACKS = [
     'https://pub-9ea739df2a0c435bbc605d2f4bfc6fb5.r2.dev/Game%20Audio/Woodland%20Search/Luna/WDew_on_the_Clover.mp3',
     'https://pub-9ea739df2a0c435bbc605d2f4bfc6fb5.r2.dev/Game%20Audio/Woodland%20Search/Luna/Where_Wildflowers_Bloom.mp3'
