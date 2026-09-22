@@ -16,7 +16,7 @@ function startJackLightTales() {
   initAudioPlayer(siteConfig.content.audioLibrary);
   initContentPanels(siteConfig.content);
   initSocialLinks(siteConfig.content.socialLinks, siteConfig.contactEmail);
-  initSoundControl(siteConfig.assets.woodlandAudio);
+  initSoundControl(siteConfig.assets.woodlandAudio, siteConfig.assets.woodlandAudioMobile);
   initYouTube(siteConfig.youtube);
   initEntrance(siteConfig.entrance);
   initWoodlandMap();
