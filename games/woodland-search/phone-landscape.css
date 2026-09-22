@@ -174,10 +174,10 @@ html.phone-landscape-mode .game-actions button{
   line-height:1!important;
 }
 html.phone-landscape-mode #hint::after{content:"Hint";font-size:.5rem}
-html.phone-landscape-mode #hint.is-offering::after{content:"Hint?";font-size:.45rem}
-html.phone-landscape-mode #sound::after{content:"♫ On";font-size:.45rem}
+html.phone-landscape-mode #hint.is-offering::after{content:"Hint?";font-size:.5rem}
+html.phone-landscape-mode #sound::after{content:"♫ On";font-size:.5rem}
 html.phone-landscape-mode #sound[aria-pressed="false"]::after{content:"♫ Off"}
-html.phone-landscape-mode #leave::after{content:"Leave";font-size:.45rem}
+html.phone-landscape-mode #leave::after{content:"Leave";font-size:.5rem}
 
 /* The visible seed stays small, but the tappable area is a full 44px. */
 html.phone-landscape-mode #heart-seed{
