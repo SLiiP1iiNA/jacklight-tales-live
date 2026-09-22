@@ -575,8 +575,7 @@
     line-height: 1.35;
   }
 
-  .storybook-body .watch-layout,
-  .storybook-body .listen-room {
+  .storybook-body .watch-layout {
     gap: .75rem;
   }
 
