@@ -239,3 +239,19 @@ html.phone-landscape-mode #status.is-visible {
     text-overflow: clip !important;
   }
 }
+/* Landscape mobile final HUD positioning:
+   - keep the found/secret notification just above the control buttons
+   - tuck both progress counters into the extreme top-right corner */
+html.phone-landscape-mode .seed-meter{
+  top:max(.02rem,env(safe-area-inset-top))!important;
+  right:max(.02rem,env(safe-area-inset-right))!important;
+  padding:.10rem .22rem!important;
+  min-height:19px!important;
+}
+html.phone-landscape-mode .secret-meter{
+  top:calc(max(.02rem,env(safe-area-inset-top)) + 20px)!important;
+  right:max(.02rem,env(safe-area-inset-right))!important;
+}
+html.phone-landscape-mode #status.is-visible{
+  bottom:calc(2.45rem + env(safe-area-inset-bottom))!important;
+}
