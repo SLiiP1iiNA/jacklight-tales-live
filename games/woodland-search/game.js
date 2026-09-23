@@ -777,7 +777,7 @@ function showCelebration({ seedJustFound = false } = {}) {
     $('continue-path').dataset.action = 'restart';
 
     if (seedJustFound) {
-      audioLayer?.playSequence(['heartSeed', 'allFound'], { volume: 0.92, interrupt: false });
+      audioLayer?.playSequence(['heartSeed', 'allFound'], { volume: 0.92, interrupt: true });
     } else {
       audioLayer?.play('allFound', { volume: 0.92, interrupt: false });
     }
@@ -792,7 +792,7 @@ function showCelebration({ seedJustFound = false } = {}) {
 
     const nextWanderCue = chooseNextWanderCue();
     if (seedJustFound) {
-      audioLayer?.playSequence(['heartSeed', nextWanderCue], { volume: 0.9, interrupt: false });
+      audioLayer?.playSequence(['heartSeed', nextWanderCue], { volume: 0.9, interrupt: true });
     } else {
       audioLayer?.play(nextWanderCue, { volume: 0.9, interrupt: false });
     }
