@@ -1,0 +1,8 @@
+/* Keep image artwork from being casually dragged or long-pressed as a save target. */
+main img,
+.panel-layer img,
+.storybook-body img {
+  -webkit-user-drag: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+}
