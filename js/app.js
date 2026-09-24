@@ -9,6 +9,7 @@ import { initSoundControl } from "./features/sound-control.js";
 import { initYouTube } from "./features/youtube.js";
 import { initWoodlandMap } from "./features/woodland-map.js";
 import { initGameTransition } from "./features/game-transition.js";
+import { initImageProtection } from "./features/image-protection.js";
 
 function startJackLightTales() {
   applySiteConfig(siteConfig);
@@ -21,6 +22,7 @@ function startJackLightTales() {
   initEntrance(siteConfig.entrance);
   initWoodlandMap();
   initGameTransition();
+  initImageProtection();
 }
 
 if (document.readyState === "loading") {
