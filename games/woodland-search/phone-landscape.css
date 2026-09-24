@@ -295,3 +295,81 @@ html.phone-landscape-mode .secret-meter{
 html.phone-landscape-mode #status.is-visible{
   bottom:calc(2.45rem + env(safe-area-inset-bottom))!important;
 }
+
+
+/* Final mobile-landscape welcome fix.
+   Safari can restore stale grid geometry when the game is left. The welcome
+   screen is intentionally reduced to one centred column here so no desktop
+   width can push the copy off either edge of the viewport. */
+html.phone-landscape-mode #welcome{
+  display:flex!important;
+  flex-direction:column!important;
+  align-items:center!important;
+  justify-content:center!important;
+  width:100%!important;
+  max-width:none!important;
+  margin:0!important;
+  box-sizing:border-box!important;
+  overflow:hidden!important;
+}
+html.phone-landscape-mode .welcome-copy{
+  width:100%!important;
+  max-width:640px!important;
+  margin:0 auto!important;
+  box-sizing:border-box!important;
+  text-align:center!important;
+}
+html.phone-landscape-mode #welcome h1{
+  width:100%!important;
+  max-width:100%!important;
+  margin-left:0!important;
+  margin-right:0!important;
+  font-size:clamp(1.45rem,4vw,1.72rem)!important;
+  line-height:.95!important;
+  text-wrap:balance!important;
+}
+html.phone-landscape-mode .welcome-copy>p:not(.eyebrow){
+  width:100%!important;
+  max-width:39rem!important;
+  margin-left:auto!important;
+  margin-right:auto!important;
+  box-sizing:border-box!important;
+}
+
+/* Same welcome geometry without relying on the JS class. */
+@media (orientation:landscape) and (max-height:560px) and (max-width:1100px){
+  html:not(.phone-landscape-mode) #welcome{
+    display:flex!important;
+    flex-direction:column!important;
+    align-items:center!important;
+    justify-content:center!important;
+    width:100%!important;
+    max-width:none!important;
+    margin:0!important;
+    box-sizing:border-box!important;
+    overflow:hidden!important;
+  }
+  html:not(.phone-landscape-mode) .welcome-copy{
+    width:100%!important;
+    max-width:640px!important;
+    margin:0 auto!important;
+    box-sizing:border-box!important;
+    text-align:center!important;
+  }
+  html:not(.phone-landscape-mode) #welcome h1{
+    width:100%!important;
+    max-width:100%!important;
+    margin-left:0!important;
+    margin-right:0!important;
+    font-size:clamp(1.45rem,4vw,1.72rem)!important;
+    line-height:.95!important;
+    text-wrap:balance!important;
+  }
+  html:not(.phone-landscape-mode) .welcome-copy>p:not(.eyebrow){
+    width:100%!important;
+    max-width:39rem!important;
+    margin-left:auto!important;
+    margin-right:auto!important;
+    box-sizing:border-box!important;
+  }
+}
