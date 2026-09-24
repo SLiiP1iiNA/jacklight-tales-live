@@ -33,6 +33,7 @@ html.phone-landscape-mode body:not(.game-active) .game-home-link{font-size:.52re
 html.phone-landscape-mode body:not(.game-active) footer{display:none!important}
 html.phone-landscape-mode #welcome{
   width:100%;
+  grid-template-columns:1fr;
   height:calc(100svh - 40px);
   min-height:0;
   padding:.18rem 1rem max(.28rem,env(safe-area-inset-bottom));
