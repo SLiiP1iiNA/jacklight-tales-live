@@ -600,6 +600,17 @@ function leaveJourney() {
   $('heart-seed').hidden = true;
   $('secret-item').hidden = true;
   $('finish').hidden = true;
+
+  // Safari can retain the landscape viewport metrics for a moment while the
+  // game screen is being hidden. Re-sync after returning to the welcome screen
+  // so the phone-landscape layout is applied to the newly visible content.
+  syncPhoneViewportMode();
+  requestAnimationFrame(() => {
+    syncPhoneViewportMode();
+    window.dispatchEvent(new Event('resize'));
+  });
+  window.setTimeout(syncPhoneViewportMode, 120);
+
   $('play').focus({ preventScroll: true });
 }
 
