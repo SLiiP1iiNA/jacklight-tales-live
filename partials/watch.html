@@ -1,27 +1,45 @@
-<div class="panel-heading panel-heading--watch">
-  <div>
-    <p class="eyebrow">The woodland cinema</p>
-    <h2 id="panel-title">Pull up a cushion. The next tale is starting.</h2>
-    <p>Choose portrait episodes or the full landscape adventure. The same cinema screen changes to whichever you pick.</p>
-  </div>
-  <a class="panel-heading__link" data-youtube-channel href="#" target="_blank" rel="noopener noreferrer" hidden>Visit YouTube <span aria-hidden="true">↗</span></a>
-</div>
+<div class="cinema-room" data-cinema-room>
+  <header class="cinema-room__top">
+    <div class="cinema-room__title">
+      <p class="eyebrow">The woodland cinema</p>
+      <h2 id="panel-title">Settle in for the full adventure.</h2>
+      <p>The cinema plays the landscape collection here. For the short portrait episodes, jump straight to YouTube.</p>
+    </div>
 
-<div class="watch-mode-switch" role="tablist" aria-label="Choose a video format">
-  <button type="button" role="tab" aria-selected="true" class="is-active" data-watch-mode="shorts">Episodes · portrait</button>
-  <button type="button" role="tab" aria-selected="false" data-watch-mode="landscape">Full series · landscape</button>
-</div>
+    <nav class="cinema-room__links" aria-label="Watch JackLight Tales on YouTube">
+      <a data-cinema-vertical-link href="#" target="_blank" rel="noopener noreferrer">
+        <span>Portrait episodes</span><strong>Watch on YouTube ↗</strong>
+      </a>
+      <a data-youtube-channel href="#" target="_blank" rel="noopener noreferrer">
+        <span>JackLight Tales</span><strong>Open YouTube channel ↗</strong>
+      </a>
+    </nav>
+  </header>
 
-<div class="watch-layout" data-watch-room>
-  <section class="watch-feature" aria-label="JackLight Tales YouTube player">
-    <div class="watch-stage watch-stage--vertical" data-watch-stage>
-      <div class="youtube-frame" data-youtube-embed>
-        <div class="youtube-placeholder"><span aria-hidden="true">▶</span><p>Loading the latest Barnaby episode…</p></div>
+  <main class="cinema-room__screen" aria-label="JackLight Tales landscape cinema">
+    <div class="cinema-room__screen-head">
+      <div>
+        <span class="cinema-room__screen-kicker">Now showing</span>
+        <strong>Landscape adventures</strong>
       </div>
+      <a data-cinema-landscape-link href="#" target="_blank" rel="noopener noreferrer">Open on YouTube ↗</a>
     </div>
-    <div class="watch-feature__meta">
-      <span data-youtube-status>Loading the latest episode</span>
-      <a data-youtube-playlist href="#" target="_blank" rel="noopener noreferrer" hidden>Open on YouTube <span aria-hidden="true">↗</span></a>
+
+    <div class="cinema-room__player youtube-frame" data-cinema-landscape-player>
+      <div class="youtube-placeholder"><span aria-hidden="true">▶</span><p>Opening the landscape cinema…</p></div>
     </div>
-  </section>
+  </main>
+
+  <footer class="cinema-room__footer">
+    <div class="cinema-room__socials" aria-label="Follow JackLight Tales">
+      <a href="https://www.youtube.com/@JackLightTalesTV" target="_blank" rel="noopener noreferrer">YouTube</a>
+      <a href="https://www.tiktok.com/@jacklighttales" target="_blank" rel="noopener noreferrer">TikTok</a>
+      <a href="https://www.facebook.com/61593336013564/" target="_blank" rel="noopener noreferrer">Facebook</a>
+      <a href="https://www.instagram.com/jacklighttales/" target="_blank" rel="noopener noreferrer">Instagram</a>
+    </div>
+
+    <a class="cinema-room__support" href="https://buymeacoffee.com/jacklighttales" target="_blank" rel="noopener noreferrer">☕ Support JackLight Tales</a>
+
+    <p>© 2026 JackLight Tales. All rights reserved.</p>
+  </footer>
 </div>
