@@ -1,46 +1,136 @@
-/* Woodland Cinema repair — restore the original one-screen switcher. */
+/* JackLight Tales — desktop Woodland Cinema
+   One widescreen landscape cinema. No desktop scrolling. */
 
-.storybook-body .panel-heading--watch,
-.storybook-body .watch-mode-switch,
-.storybook-body .watch-layout {
-  width: min(100%, 74rem);
-  margin-inline: auto;
+.storybook-body .panel:has(.cinema-room) {
+  width: min(calc(100vw - 2rem), 90rem);
 }
 
-.storybook-body .watch-mode-switch {
+.cinema-room {
+  width: 100%;
+  min-width: 0;
+}
+
+.cinema-room__top,
+.cinema-room__screen-head,
+.cinema-room__footer,
+.cinema-room__socials,
+.cinema-room__links {
   display: flex;
-  width: min(100%, 40rem);
-  margin: 0 auto .85rem;
 }
 
-.storybook-body .watch-mode-switch button {
-  flex: 1 1 0;
+.cinema-room__top {
+  align-items: end;
+  justify-content: space-between;
+  gap: clamp(1rem, 2.2vw, 2.2rem);
 }
 
-.storybook-body .watch-feature {
+.cinema-room__title {
+  display: grid;
+  gap: .34rem;
+  min-width: 0;
+}
+
+.cinema-room__title h2 {
+  margin: 0;
+  color: var(--ink-light);
+  font: 900 clamp(1.75rem, 3vw, 3rem)/.98 var(--display);
+  letter-spacing: -.05em;
+}
+
+.cinema-room__title > p:last-child {
+  max-width: 46rem;
+  margin: 0;
+  color: var(--ink-muted);
+  font: 700 .82rem/1.42 var(--display);
+}
+
+.cinema-room__links {
+  flex: 0 0 auto;
+  gap: .55rem;
+}
+
+.cinema-room__links a {
+  display: grid;
+  min-width: 10.5rem;
+  gap: .18rem;
+  padding: .68rem .82rem;
+  border: 1px solid var(--line-night-soft);
+  border-radius: .85rem;
+  background: rgba(2, 13, 10, .58);
+  text-decoration: none;
+}
+
+.cinema-room__links a:hover,
+.cinema-room__links a:focus-visible {
+  border-color: rgba(246, 201, 95, .48);
+  background: rgba(246, 201, 95, .08);
+}
+
+.cinema-room__links span {
+  color: var(--ink-muted);
+  font: 700 .63rem/1.2 var(--display);
+}
+
+.cinema-room__links strong {
+  color: var(--lantern-soft);
+  font: 900 .73rem/1.2 var(--display);
+}
+
+.cinema-room__screen {
+  display: grid;
+  gap: .55rem;
+  min-width: 0;
+}
+
+.cinema-room__screen-head {
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-inline: .15rem;
+}
+
+.cinema-room__screen-head > div {
+  display: grid;
+  gap: .06rem;
+}
+
+.cinema-room__screen-kicker {
+  color: var(--lantern);
+  font: 900 .62rem/1.2 var(--display);
+  letter-spacing: .13em;
+  text-transform: uppercase;
+}
+
+.cinema-room__screen-head strong {
+  color: var(--ink-light);
+  font: 900 .96rem/1.2 var(--display);
+}
+
+.cinema-room__screen-head a {
+  color: var(--lantern-soft);
+  font: 900 .7rem/1.2 var(--display);
+  text-decoration: none;
+}
+
+.cinema-room__screen-head a:hover,
+.cinema-room__screen-head a:focus-visible {
+  text-decoration: underline;
+  text-underline-offset: .2rem;
+}
+
+.cinema-room__player {
+  position: relative;
   width: 100%;
-  max-width: 74rem;
-  margin-inline: auto;
-}
-
-.storybook-body .watch-stage {
   min-height: 0;
-}
-
-.storybook-body .watch-stage--vertical .youtube-frame {
-  width: min(100%, 25rem, 40.5svh);
-  aspect-ratio: 9 / 16;
-  min-height: 0;
-  max-height: none;
-}
-
-.storybook-body .watch-stage--landscape .youtube-frame {
-  width: 100%;
   aspect-ratio: 16 / 9;
-  min-height: 0;
+  overflow: hidden;
+  border: 1px solid rgba(246, 201, 95, .28);
+  border-radius: 1rem;
+  background: #020706;
+  box-shadow: 0 1rem 2.8rem rgba(0,0,0,.3);
 }
 
-.storybook-body .youtube-frame iframe {
+.cinema-room__player iframe {
   position: absolute;
   inset: 0;
   display: block;
@@ -49,17 +139,123 @@
   border: 0;
 }
 
-@media (max-width: 44rem) {
-  .storybook-body .watch-mode-switch {
+.cinema-room__player .youtube-placeholder {
+  min-height: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.cinema-room__footer {
+  align-items: center;
+  justify-content: space-between;
+  gap: .8rem 1rem;
+  min-width: 0;
+  padding-top: .1rem;
+  border-top: 1px solid var(--line-night-soft);
+}
+
+.cinema-room__socials {
+  flex-wrap: wrap;
+  gap: .35rem;
+}
+
+.cinema-room__socials a,
+.cinema-room__support {
+  padding: .44rem .62rem;
+  border: 1px solid var(--line-night-soft);
+  border-radius: 999px;
+  background: rgba(246, 201, 95, .045);
+  color: rgba(248, 241, 217, .72);
+  font: 800 .63rem/1 var(--display);
+  text-decoration: none;
+}
+
+.cinema-room__socials a:hover,
+.cinema-room__socials a:focus-visible,
+.cinema-room__support:hover,
+.cinema-room__support:focus-visible {
+  border-color: rgba(246, 201, 95, .42);
+  color: var(--lantern-soft);
+}
+
+.cinema-room__support {
+  flex: 0 0 auto;
+}
+
+.cinema-room__footer p {
+  flex: 0 0 auto;
+  margin: 0;
+  color: rgba(248, 241, 217, .43);
+  font: 700 .61rem/1.2 var(--display);
+  white-space: nowrap;
+}
+
+@media (min-width: 45rem) {
+  .storybook-body .panel:has(.cinema-room) {
+    height: calc(100dvh - 2rem);
+    max-height: calc(100dvh - 2rem);
+    overflow: hidden;
+    padding: 1rem 1.3rem 1.05rem;
+  }
+
+  .storybook-body .panel:has(.cinema-room) .panel__close {
+    position: absolute;
+    top: .75rem;
+    right: .85rem;
+    margin: 0;
+  }
+
+  .storybook-body .panel__content:has(.cinema-room) {
+    height: 100%;
+  }
+
+  .cinema-room {
+    display: grid;
+    height: 100%;
+    grid-template-rows: auto minmax(0, 1fr) auto;
+    gap: .65rem;
+    padding-top: .05rem;
+  }
+
+  .cinema-room__top {
+    padding-right: 3.25rem;
+  }
+
+  .cinema-room__screen {
+    min-height: 0;
+  }
+
+  .cinema-room__player {
+    width: min(100%, calc((100dvh - 14.6rem) * 16 / 9));
+    max-height: calc(100dvh - 14.6rem);
+    justify-self: center;
+    align-self: center;
+  }
+}
+
+/* Mobile stays functional for now; portrait and landscape get their own pass next. */
+@media (max-width: 44.99rem) {
+  .cinema-room {
+    display: grid;
+    gap: 1rem;
+  }
+
+  .cinema-room__top,
+  .cinema-room__footer {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .cinema-room__links {
     width: 100%;
   }
 
-  .storybook-body .watch-mode-switch button {
-    min-height: 2.55rem;
-    font-size: .68rem;
+  .cinema-room__links a {
+    min-width: 0;
+    flex: 1 1 0;
   }
 
-  .storybook-body .watch-stage--vertical .youtube-frame {
-    width: min(100%, 20rem);
+  .cinema-room__footer p {
+    white-space: normal;
   }
 }
