@@ -9,181 +9,110 @@ function makeVideoUrl(source = {}) {
     query.set("list", source.playlistId);
   }
 
-  // A known released video is deliberately preferred when supplied.
-  // This prevents a scheduled/private playlist item from turning the cinema
-  // into a "video unavailable" screen while still keeping the playlist attached.
+  // If a current released video is supplied, start on it while keeping
+  // the playlist attached. Otherwise YouTube controls the first playlist item.
   if (source.videoId) {
-    return "https://www.youtube-nocookie.com/embed/" + encodeURIComponent(source.videoId) + "?" + query;
+    return `https://www.youtube-nocookie.com/embed/${encodeURIComponent(source.videoId)}?${query}`;
   }
 
   if (source.playlistId) {
-    return "https://www.youtube-nocookie.com/embed/videoseries?" + query;
+    return `https://www.youtube-nocookie.com/embed/videoseries?${query}`;
   }
 
   return "";
 }
 
-function watchUrl(source = {}, channelUrl = "") {
-  if (source.videoId) {
-    const query = new URLSearchParams({ v: source.videoId });
-    if (source.playlistId) query.set("list", source.playlistId);
-    return "https://www.youtube.com/watch?" + query;
-  }
-
-  if (source.playlistId) {
-    return "https://www.youtube.com/playlist?list=" + encodeURIComponent(source.playlistId);
-  }
-
-  return channelUrl;
-}
-
-function hasStarted(startDate) {
-  if (!startDate) return true;
-  const value = startDate.includes("T") ? startDate : startDate + "T00:00:00";
-  const start = new Date(value);
-  return !Number.isNaN(start.valueOf()) && new Date() >= start;
-}
-
-function hasSource(source = {}) {
-  return Boolean(source.videoId || source.playlistId);
-}
-
-function setLink(link, href) {
-  if (!link) return;
-
-  if (!href) {
-    link.hidden = true;
-    link.removeAttribute("href");
-    return;
-  }
-
+function setExternalLink(link, href) {
+  if (!link || !href) return;
   link.href = href;
   link.target = "_blank";
   link.rel = "noopener noreferrer";
   link.hidden = false;
 }
 
-function showPlaceholder(frame, message) {
-  if (!frame) return;
-  frame.replaceChildren();
-
-  const box = document.createElement("div");
-  box.className = "youtube-placeholder";
-
-  const icon = document.createElement("span");
-  icon.setAttribute("aria-hidden", "true");
-  icon.textContent = "✦";
-
-  const copy = document.createElement("p");
-  copy.textContent = message;
-
-  box.append(icon, copy);
-  frame.append(box);
-}
-
-function makeIframe(title, source) {
-  const iframe = document.createElement("iframe");
-  iframe.title = title;
-  iframe.src = makeVideoUrl(source);
-  iframe.loading = "eager";
-  iframe.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share";
-  iframe.allowFullscreen = true;
-  iframe.referrerPolicy = "strict-origin-when-cross-origin";
-  return iframe;
-}
-
-function pickEpisode(config = {}) {
-  const entries = Object.entries(config.series || {});
-  const preferred = entries.find(([name]) => name === config.defaultSeries);
-
-  if (preferred) {
-    const source = preferred[1]?.modes?.episodes;
-    if (source && source.available !== false && hasSource(source)) {
-      return { series: preferred[1], source };
-    }
+function watchUrlForMode(mode = {}, channelUrl = "") {
+  if (mode.videoId) {
+    const query = new URLSearchParams({ v: mode.videoId });
+    if (mode.playlistId) query.set("list", mode.playlistId);
+    return `https://www.youtube.com/watch?${query}`;
   }
-
-  for (const [, series] of [...entries].reverse()) {
-    const source = series?.modes?.episodes;
-    if (source && source.available !== false && hasSource(source)) {
-      return { series, source };
-    }
+  if (mode.playlistId) {
+    return `https://www.youtube.com/playlist?list=${encodeURIComponent(mode.playlistId)}`;
   }
-
-  return null;
-}
-
-function pickLandscape(config = {}) {
-  const entries = Object.entries(config.series || {});
-
-  for (const [, series] of [...entries].reverse()) {
-    const source = series?.modes?.landscape;
-    if (source && source.available !== false && hasSource(source) && hasStarted(source.startDate)) {
-      return { series, source };
-    }
-  }
-
-  return null;
-}
-
-function render(frame, selection, fallback, kind) {
-  if (!frame || !selection) {
-    showPlaceholder(frame, fallback);
-    return;
-  }
-
-  const src = makeVideoUrl(selection.source);
-  if (!src) {
-    showPlaceholder(frame, fallback);
-    return;
-  }
-
-  const title = kind === "landscape"
-    ? "Barnaby and the Whispering Woods — latest landscape adventure"
-    : "Barnaby and the Whispering Woods — latest episode";
-
-  frame.replaceChildren(makeIframe(title, selection.source));
+  return channelUrl;
 }
 
 export function initYouTube(config = {}) {
+  const modes = config.watchModes || {};
   const channelUrl = config.channelUrl || (config.channelId
-    ? "https://www.youtube.com/channel/" + encodeURIComponent(config.channelId)
+    ? `https://www.youtube.com/channel/${encodeURIComponent(config.channelId)}`
     : "");
 
-  function wire(root) {
-    const episode = pickEpisode(config);
-    const landscape = pickLandscape(config);
+  function renderMode(root, modeName) {
+    const mode = modes[modeName] || modes.shorts || {};
+    const frame = root.querySelector("[data-youtube-embed]");
+    const stage = root.querySelector("[data-watch-stage]");
+    const status = root.querySelector("[data-youtube-status]");
+    const playlistLink = root.querySelector("[data-youtube-playlist]");
+    if (!frame) return;
 
-    setLink(root.querySelector("[data-youtube-channel]"), channelUrl);
+    const landscape = mode.aspect === "landscape";
+    stage?.classList.toggle("watch-stage--vertical", !landscape);
+    stage?.classList.toggle("watch-stage--landscape", landscape);
 
-    render(
-      root.querySelector("[data-cinema-episode-player]"),
-      episode,
-      "The latest episode is not available yet.",
-      "episode",
-    );
+    root.querySelectorAll("[data-watch-mode]").forEach((button) => {
+      const active = button.dataset.watchMode === modeName;
+      button.classList.toggle("is-active", active);
+      button.setAttribute("aria-selected", String(active));
+    });
 
-    render(
-      root.querySelector("[data-cinema-landscape-player]"),
-      landscape,
-      "The latest landscape adventure is not available yet.",
-      "landscape",
-    );
+    setExternalLink(playlistLink, watchUrlForMode(mode, channelUrl));
 
-    setLink(
-      root.querySelector("[data-cinema-episode-link]"),
-      episode ? watchUrl(episode.source, channelUrl) : channelUrl,
-    );
+    const src = makeVideoUrl(mode);
+    if (!src) {
+      frame.innerHTML = '<div class="youtube-placeholder"><span aria-hidden="true">✦</span><p>This cinema path is not connected yet.</p></div>';
+      if (status) status.textContent = "This cinema path is not connected yet.";
+      return;
+    }
 
-    setLink(
-      root.querySelector("[data-cinema-landscape-link]"),
-      landscape ? watchUrl(landscape.source, channelUrl) : channelUrl,
-    );
+    const iframe = document.createElement("iframe");
+    iframe.title = landscape
+      ? "JackLight Tales full landscape adventure on YouTube"
+      : "JackLight Tales latest portrait episode on YouTube";
+    iframe.src = src;
+    iframe.loading = "eager";
+    iframe.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share";
+    iframe.allowFullscreen = true;
+    iframe.referrerPolicy = "strict-origin-when-cross-origin";
+    frame.replaceChildren(iframe);
+
+    if (status) {
+      status.textContent = landscape
+        ? "Now showing the full Series 1 landscape adventure"
+        : "Now showing the latest portrait episode";
+    }
+  }
+
+  function wirePanel(root) {
+    setExternalLink(root.querySelector("[data-youtube-channel]"), channelUrl);
+    renderMode(root, config.defaultWatchMode || "shorts");
+
+    if (root.dataset.watchModeWired !== "true") {
+      root.dataset.watchModeWired = "true";
+      root.addEventListener("click", (event) => {
+        const button = event.target.closest("[data-watch-mode]");
+        if (!button) return;
+        renderMode(root, button.dataset.watchMode || "shorts");
+      });
+    }
+
+    // Put the controls and screen straight in view when Cinema opens.
+    requestAnimationFrame(() => {
+      root.querySelector(".watch-mode-switch")?.scrollIntoView({ block: "start", behavior: "auto" });
+    });
   }
 
   document.addEventListener("jacklight:panel-opened", (event) => {
-    if (event.detail.panelName === "watch") {
-      wire(event.detail.content);
-    }
+    if (event.detail.panelName === "watch") wirePanel(event.detail.content);
   });
 }
