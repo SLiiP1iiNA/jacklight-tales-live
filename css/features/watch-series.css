@@ -1,0 +1,168 @@
+/* JackLight Tales — Watch room series selector — 26 Sep 2026 */
+.storybook-body .panel-heading--watch,
+.watch-controls,
+.watch-current,
+.storybook-body .watch-layout,
+.storybook-body .series-grid,
+.storybook-body .panel-note {
+  width: min(100%, 74rem);
+  margin-inline: auto;
+}
+.storybook-body .panel-heading--watch { max-width: 74rem; }
+
+.watch-controls {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: .75rem;
+}
+.watch-control-group {
+  display: grid;
+  min-width: 0;
+  gap: .45rem;
+  padding: .7rem;
+  border: 1px solid var(--line-night-soft);
+  border-radius: 1rem;
+  background: rgba(2, 11, 9, .58);
+}
+.watch-controls__label {
+  color: rgba(248, 241, 217, .56);
+  font: 800 .66rem/1.2 var(--display);
+  letter-spacing: .09em;
+  text-transform: uppercase;
+}
+.watch-series-switch,
+.storybook-body .watch-mode-switch {
+  display: grid;
+  width: 100%;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: .4rem;
+  margin: 0;
+  padding: .28rem;
+  border: 1px solid var(--line-night-soft);
+  border-radius: .8rem;
+  background: rgba(4, 20, 15, .82);
+}
+.watch-series-switch button,
+.storybook-body .watch-mode-switch button {
+  display: flex;
+  min-width: 0;
+  min-height: 3rem;
+  align-items: center;
+  justify-content: center;
+  gap: .35rem;
+  padding: .58rem .7rem;
+  border: 1px solid transparent;
+  border-radius: .62rem;
+  background: transparent;
+  color: rgba(248, 241, 217, .68);
+  font: 800 .74rem/1.15 var(--display);
+  text-align: center;
+  transition: background 160ms ease, border-color 160ms ease, color 160ms ease, transform 160ms ease;
+}
+.watch-series-switch button { flex-direction: column; }
+.watch-series-switch button strong { color: inherit; font-size: .8rem; }
+.watch-series-switch button small { color: rgba(248, 241, 217, .48); font-size: .61rem; font-weight: 700; }
+.watch-series-switch button.is-active,
+.storybook-body .watch-mode-switch button.is-active {
+  border-color: rgba(246, 201, 95, .44);
+  background: linear-gradient(145deg, rgba(246, 201, 95, .17), rgba(83, 136, 91, .11));
+  color: var(--lantern-soft);
+  box-shadow: inset 0 1px rgba(255, 255, 255, .06);
+}
+.watch-series-switch button:hover,
+.watch-series-switch button:focus-visible,
+.storybook-body .watch-mode-switch button:hover:not(:disabled),
+.storybook-body .watch-mode-switch button:focus-visible:not(:disabled) {
+  border-color: rgba(246, 201, 95, .34);
+  background: rgba(246, 201, 95, .1);
+  color: var(--lantern-soft);
+  transform: translateY(-1px);
+}
+.storybook-body .watch-mode-switch button:disabled { cursor: default; opacity: .42; }
+
+.watch-current {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: .8rem 1rem;
+  border: 1px solid rgba(246, 201, 95, .18);
+  border-radius: .9rem;
+  background: linear-gradient(110deg, rgba(246, 201, 95, .09), rgba(5, 22, 17, .58));
+}
+.watch-current > div { display: grid; flex: 0 0 auto; gap: .14rem; }
+.watch-current span {
+  color: var(--lantern);
+  font: 900 .62rem/1.2 var(--display);
+  letter-spacing: .09em;
+  text-transform: uppercase;
+}
+.watch-current strong { color: var(--ink-light); font: 900 1.05rem/1.15 var(--display); }
+.watch-current p { max-width: 46rem; color: var(--ink-muted); font: 700 .76rem/1.4 var(--display); text-align: right; }
+
+.storybook-body .series-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.storybook-body .series-card {
+  min-height: 6.4rem;
+  padding: .8rem .9rem;
+  transition: border-color 160ms ease, background 160ms ease, opacity 160ms ease;
+}
+.storybook-body .series-card.is-selected {
+  border-color: rgba(246, 201, 95, .64) !important;
+  background: rgba(246, 201, 95, .14) !important;
+}
+.storybook-body .series-card--available { opacity: .88; }
+
+@media (max-width: 44rem) {
+  .watch-controls { grid-template-columns: 1fr; gap: .55rem; }
+  .watch-control-group { gap: .38rem; padding: .55rem; border-radius: .85rem; }
+  .watch-series-switch button,
+  .storybook-body .watch-mode-switch button { min-height: 2.7rem; padding: .48rem .42rem; font-size: .67rem; }
+  .watch-series-switch button strong { font-size: .72rem; }
+  .watch-series-switch button small { font-size: .56rem; }
+  .watch-current { display: grid; gap: .42rem; padding: .7rem .78rem; }
+  .watch-current p { max-width: none; font-size: .71rem; text-align: left; }
+  .storybook-body .series-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .55rem; }
+  .storybook-body .series-card { min-height: 5.6rem; padding: .7rem; }
+  .storybook-body .series-card > span { font-size: .6rem; letter-spacing: .06em; }
+  .storybook-body .series-card h3 { font-size: .95rem; }
+  .storybook-body .series-card p { font-size: .68rem; }
+}
+@media (max-width: 23rem) {
+  .storybook-body .series-grid { grid-template-columns: 1fr; }
+}
+
+/* Mobile landscape gets a deliberately compact cinema shell. */
+@media (orientation: landscape) and (max-width: 64rem) and (max-height: 34rem) {
+  .storybook-body .panel { padding: .4rem .65rem calc(.5rem + env(safe-area-inset-bottom)); }
+  .storybook-body .panel__close { width: 2.35rem; height: 2.35rem; margin-top: .1rem; }
+  .storybook-body .panel__content { gap: .5rem; }
+  .storybook-body .panel-heading--watch { align-items: center; gap: .5rem; }
+  .storybook-body .panel-heading--watch .eyebrow,
+  .storybook-body .panel-heading--watch > div > p:last-child { display: none; }
+  .storybook-body .panel-heading--watch h2 { max-width: none; font-size: clamp(1.2rem, 4vw, 1.65rem); line-height: 1; }
+  .storybook-body .panel-heading__link { font-size: .62rem; }
+  .watch-controls { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .4rem; }
+  .watch-control-group { padding: .32rem; }
+  .watch-controls__label,
+  .watch-current,
+  .storybook-body .series-grid,
+  .storybook-body .panel-note { display: none; }
+  .watch-series-switch,
+  .storybook-body .watch-mode-switch { gap: .22rem; padding: .18rem; }
+  .watch-series-switch button,
+  .storybook-body .watch-mode-switch button { min-height: 2rem; padding: .28rem .34rem; font-size: .59rem; }
+  .watch-series-switch button { flex-direction: row; }
+  .watch-series-switch button strong { font-size: .62rem; }
+  .watch-series-switch button small { display: none; }
+  .storybook-body .watch-stage { min-height: 0; padding: .22rem; }
+  .storybook-body .watch-stage--vertical .youtube-frame,
+  .storybook-body .watch-stage--landscape .youtube-frame {
+    width: auto;
+    height: clamp(10rem, calc(100svh - 10.5rem), 18rem);
+    max-width: 100%;
+    max-height: none;
+  }
+  .storybook-body .watch-stage--vertical .youtube-frame { aspect-ratio: 9 / 16; }
+  .storybook-body .watch-stage--landscape .youtube-frame { aspect-ratio: 16 / 9; }
+  .storybook-body .watch-feature__meta { gap: .3rem .65rem; padding: .4rem .5rem; font-size: .63rem; }
+}
