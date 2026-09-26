@@ -156,9 +156,8 @@ footer{justify-content:center;color:var(--muted);font-size:.82rem}
 #scene[data-scene-variant="meadow"]::after{opacity:1;background:linear-gradient(180deg,rgba(255,247,198,.08),rgba(117,181,86,.08))}
 
 
-/* Golden Circus Ticket — display the actual artwork from assets/secrets.
-   The source PNG has transparent canvas space above the ticket, so the image
-   is deliberately oversized and nudged upward inside its compact hit target. */
+/* Golden Circus Ticket — keep the generous invisible hit target, but render
+   only the ticket artwork. No visible button box, border or rectangular glow. */
 #secret-item[data-secret-id="circus-ticket"]{
   z-index:40;
   width:72px;
@@ -166,26 +165,15 @@ footer{justify-content:center;color:var(--muted);font-size:.82rem}
   min-height:0;
   padding:0;
   border:0;
-  border-radius:10px;
-  background:rgba(255,224,117,.05);
-  box-shadow:0 0 0 3px rgba(255,220,106,.08),0 0 18px rgba(255,210,74,.68);
+  border-radius:0;
+  background:transparent;
+  box-shadow:none;
   overflow:visible;
 }
-#secret-item[data-secret-id="circus-ticket"]::before{
-  content:"";
-  position:absolute;
-  inset:5px;
-  border:1px solid rgba(255,231,147,.35);
-  border-radius:9px;
-  background:radial-gradient(circle,rgba(255,231,147,.10),transparent 72%);
-  pointer-events:none;
-  z-index:-1;
-}
+#secret-item[data-secret-id="circus-ticket"]::before,
 #secret-item[data-secret-id="circus-ticket"]::after{
-  content:"";
-  position:absolute;
-  inset:0;
-  pointer-events:none;
+  content:none;
+  display:none;
 }
 #secret-item[data-secret-id="circus-ticket"] img{
   position:absolute;
@@ -200,4 +188,14 @@ footer{justify-content:center;color:var(--muted);font-size:.82rem}
   object-position:center bottom;
   filter:drop-shadow(0 .22rem .28rem rgba(0,0,0,.42)) drop-shadow(0 0 9px rgba(255,232,151,.78));
   pointer-events:none;
+}
+/* Hints glow around the artwork itself instead of revealing the hitbox. */
+#secret-item[data-secret-id="circus-ticket"].hinted{
+  outline:0!important;
+  box-shadow:none!important;
+}
+#secret-item[data-secret-id="circus-ticket"].hinted img{
+  filter:drop-shadow(0 0 12px #ffe17c)
+         drop-shadow(0 0 20px rgba(255,225,124,.72))
+         drop-shadow(0 .22rem .28rem rgba(0,0,0,.42));
 }
