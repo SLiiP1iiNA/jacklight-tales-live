@@ -1,64 +1,34 @@
-<div class="panel-heading panel-heading--watch cinema-heading">
+<div class="panel-heading panel-heading--watch cinema-simple-heading">
   <div>
     <p class="eyebrow">The woodland cinema</p>
-    <h2 id="panel-title">Now showing in the Whispering Woods.</h2>
-    <p>The newest episode is ready first, with the latest full landscape adventure just underneath.</p>
+    <h2 id="panel-title">Now showing.</h2>
+    <p>The latest episode is ready first. The latest landscape adventure is directly underneath.</p>
   </div>
   <a class="panel-heading__link" data-youtube-channel href="#" target="_blank" rel="noopener noreferrer" hidden>Visit YouTube <span aria-hidden="true">↗</span></a>
 </div>
 
-<div class="cinema-now" data-cinema-now>
-  <section class="cinema-feature cinema-feature--episode" data-cinema-primary aria-labelledby="cinema-latest-episode-title">
-    <div class="cinema-feature__copy">
-      <p class="cinema-feature__kicker">Latest episode</p>
-      <h3 id="cinema-latest-episode-title" data-cinema-episode-title>Barnaby and the Whispering Woods</h3>
-      <p data-cinema-episode-copy>The newest released episode appears here first.</p>
-      <a class="cinema-feature__link" data-cinema-episode-link href="#" target="_blank" rel="noopener noreferrer" hidden>Open on YouTube <span aria-hidden="true">↗</span></a>
-    </div>
-
-    <div class="cinema-player-shell cinema-player-shell--vertical">
-      <div class="youtube-frame cinema-player" data-cinema-episode-player>
-        <div class="youtube-placeholder"><span aria-hidden="true">▶</span><p>Preparing the latest episode…</p></div>
+<div class="cinema-simple">
+  <section class="watch-feature cinema-simple__episode" aria-label="Latest Barnaby episode">
+    <div class="watch-stage watch-stage--vertical">
+      <div class="youtube-frame" data-cinema-episode-player>
+        <div class="youtube-placeholder"><span aria-hidden="true">▶</span><p>Loading the latest episode…</p></div>
       </div>
+    </div>
+    <div class="watch-feature__meta">
+      <span>Latest episode</span>
+      <a data-cinema-episode-link href="#" target="_blank" rel="noopener noreferrer" hidden>Open on YouTube <span aria-hidden="true">↗</span></a>
     </div>
   </section>
 
-  <section class="cinema-feature cinema-feature--landscape" aria-labelledby="cinema-latest-landscape-title">
-    <div class="cinema-feature__copy cinema-feature__copy--landscape">
-      <div>
-        <p class="cinema-feature__kicker">Full adventure</p>
-        <h3 id="cinema-latest-landscape-title" data-cinema-landscape-title>Complete landscape story</h3>
+  <section class="watch-feature cinema-simple__landscape" aria-label="Latest Barnaby landscape adventure">
+    <div class="watch-stage watch-stage--landscape">
+      <div class="youtube-frame" data-cinema-landscape-player>
+        <div class="youtube-placeholder"><span aria-hidden="true">▶</span><p>Loading the latest landscape adventure…</p></div>
       </div>
-      <p data-cinema-landscape-copy>Settle in for the newest complete widescreen collection.</p>
-      <a class="cinema-feature__link" data-cinema-landscape-link href="#" target="_blank" rel="noopener noreferrer" hidden>Open on YouTube <span aria-hidden="true">↗</span></a>
     </div>
-
-    <div class="cinema-player-shell cinema-player-shell--landscape">
-      <div class="youtube-frame cinema-player" data-cinema-landscape-player>
-        <div class="youtube-placeholder"><span aria-hidden="true">▶</span><p>Preparing the landscape adventure…</p></div>
-      </div>
+    <div class="watch-feature__meta">
+      <span>Latest landscape adventure</span>
+      <a data-cinema-landscape-link href="#" target="_blank" rel="noopener noreferrer" hidden>Open on YouTube <span aria-hidden="true">↗</span></a>
     </div>
   </section>
 </div>
-
-<section class="cinema-library" aria-labelledby="cinema-library-title">
-  <div class="cinema-library__heading">
-    <div>
-      <p class="cinema-feature__kicker">More stories</p>
-      <h3 id="cinema-library-title">Choose a collection</h3>
-    </div>
-    <p>For anyone who wants to browse an older path.</p>
-  </div>
-
-  <div class="cinema-library__grid">
-    <a class="cinema-collection" data-cinema-collection="series1:episodes" href="#" target="_blank" rel="noopener noreferrer" hidden>
-      <span>Series 1</span><strong>Episodes 01–30</strong><small>Vertical collection ↗</small>
-    </a>
-    <a class="cinema-collection" data-cinema-collection="series2:episodes" href="#" target="_blank" rel="noopener noreferrer" hidden>
-      <span>Series 2</span><strong>Episodes 31–60</strong><small>Vertical collection ↗</small>
-    </a>
-    <a class="cinema-collection" data-cinema-collection="series1:landscape" href="#" target="_blank" rel="noopener noreferrer" hidden>
-      <span>Series 1</span><strong>Complete adventure</strong><small>Landscape collection ↗</small>
-    </a>
-  </div>
-</section>
