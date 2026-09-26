@@ -77,7 +77,7 @@ export const siteConfig = {
         modes: {
           episodes: {
             label: "Episodes · vertical",
-            playlistId: "",
+            playlistId: "PLJMUYWzbzILg",
             aspect: "vertical",
             nowShowing: "Now showing Series 2 · Episodes 31–60",
             unavailableMessage: "Series 2 is now showing. Its website playlist is ready to connect.",
