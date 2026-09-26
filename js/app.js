@@ -1,4 +1,4 @@
-import { siteConfig } from "./config/site.config.js?v=20260926-cinema-switcher1";
+import { siteConfig } from "./config/site.config.js?v=20260926-cinema-landscape1";
 import { applySiteConfig } from "./core/apply-config.js";
 import { initPanelRouter } from "./core/panel-router.js";
 import { initAudioPlayer } from "./features/audio-player.js";
@@ -6,7 +6,7 @@ import { initContentPanels } from "./features/content-panels.js";
 import { initEntrance } from "./features/entrance.js";
 import { initSocialLinks } from "./features/social-links.js";
 import { initSoundControl } from "./features/sound-control.js";
-import { initYouTube } from "./features/youtube.js?v=20260926-cinema-switcher1";
+import { initYouTube } from "./features/youtube.js?v=20260926-cinema-landscape1";
 import { initWoodlandMap } from "./features/woodland-map.js";
 import { initGameTransition } from "./features/game-transition.js";
 import { initImageProtection } from "./features/image-protection.js";
