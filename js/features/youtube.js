@@ -1,29 +1,39 @@
 function makeVideoUrl(source = {}) {
+  const query = new URLSearchParams({
+    rel: "0",
+    modestbranding: "1",
+    playsinline: "1",
+  });
+
   if (source.playlistId) {
-    const query = new URLSearchParams({
-      list: source.playlistId,
-      rel: "0",
-      modestbranding: "1",
-      playsinline: "1",
-    });
-    return "https://www.youtube-nocookie.com/embed/videoseries?" + query;
+    query.set("list", source.playlistId);
   }
 
+  // A known released video is deliberately preferred when supplied.
+  // This prevents a scheduled/private playlist item from turning the cinema
+  // into a "video unavailable" screen while still keeping the playlist attached.
   if (source.videoId) {
-    const query = new URLSearchParams({
-      rel: "0",
-      modestbranding: "1",
-      playsinline: "1",
-    });
     return "https://www.youtube-nocookie.com/embed/" + encodeURIComponent(source.videoId) + "?" + query;
+  }
+
+  if (source.playlistId) {
+    return "https://www.youtube-nocookie.com/embed/videoseries?" + query;
   }
 
   return "";
 }
 
 function watchUrl(source = {}, channelUrl = "") {
-  if (source.playlistId) return "https://www.youtube.com/playlist?list=" + encodeURIComponent(source.playlistId);
-  if (source.videoId) return "https://www.youtube.com/watch?v=" + encodeURIComponent(source.videoId);
+  if (source.videoId) {
+    const query = new URLSearchParams({ v: source.videoId });
+    if (source.playlistId) query.set("list", source.playlistId);
+    return "https://www.youtube.com/watch?" + query;
+  }
+
+  if (source.playlistId) {
+    return "https://www.youtube.com/playlist?list=" + encodeURIComponent(source.playlistId);
+  }
+
   return channelUrl;
 }
 
@@ -35,10 +45,10 @@ function hasStarted(startDate) {
 }
 
 function hasSource(source = {}) {
-  return Boolean(source.playlistId || source.videoId);
+  return Boolean(source.videoId || source.playlistId);
 }
 
-function setLink(link, href, label) {
+function setLink(link, href) {
   if (!link) return;
 
   if (!href) {
@@ -47,30 +57,14 @@ function setLink(link, href, label) {
     return;
   }
 
-  const arrow = link.querySelector("span") ? link.querySelector("span").cloneNode(true) : null;
   link.href = href;
   link.target = "_blank";
   link.rel = "noopener noreferrer";
   link.hidden = false;
-
-  if (label) {
-    link.textContent = label + " ";
-    if (arrow) link.append(arrow);
-  }
-}
-
-function makeIframe(title, source) {
-  const iframe = document.createElement("iframe");
-  iframe.title = title;
-  iframe.src = makeVideoUrl(source);
-  iframe.loading = "lazy";
-  iframe.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share";
-  iframe.allowFullscreen = true;
-  iframe.referrerPolicy = "strict-origin-when-cross-origin";
-  return iframe;
 }
 
 function showPlaceholder(frame, message) {
+  if (!frame) return;
   frame.replaceChildren();
 
   const box = document.createElement("div");
@@ -87,26 +81,32 @@ function showPlaceholder(frame, message) {
   frame.append(box);
 }
 
-function seriesEntries(config = {}) {
-  return Object.entries(config.series || {});
+function makeIframe(title, source) {
+  const iframe = document.createElement("iframe");
+  iframe.title = title;
+  iframe.src = makeVideoUrl(source);
+  iframe.loading = "eager";
+  iframe.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share";
+  iframe.allowFullscreen = true;
+  iframe.referrerPolicy = "strict-origin-when-cross-origin";
+  return iframe;
 }
 
 function pickEpisode(config = {}) {
-  const entries = seriesEntries(config);
-  const preferredName = config.defaultSeries;
-  const preferred = entries.find(([name]) => name === preferredName);
+  const entries = Object.entries(config.series || {});
+  const preferred = entries.find(([name]) => name === config.defaultSeries);
 
   if (preferred) {
     const source = preferred[1]?.modes?.episodes;
     if (source && source.available !== false && hasSource(source)) {
-      return { seriesName: preferred[0], series: preferred[1], source };
+      return { series: preferred[1], source };
     }
   }
 
-  for (const [seriesName, series] of [...entries].reverse()) {
+  for (const [, series] of [...entries].reverse()) {
     const source = series?.modes?.episodes;
     if (source && source.available !== false && hasSource(source)) {
-      return { seriesName, series, source };
+      return { series, source };
     }
   }
 
@@ -114,85 +114,35 @@ function pickEpisode(config = {}) {
 }
 
 function pickLandscape(config = {}) {
-  for (const [seriesName, series] of [...seriesEntries(config)].reverse()) {
+  const entries = Object.entries(config.series || {});
+
+  for (const [, series] of [...entries].reverse()) {
     const source = series?.modes?.landscape;
-    if (source && source.available !== false && hasSource(source)) {
-      return { seriesName, series, source };
+    if (source && source.available !== false && hasSource(source) && hasStarted(source.startDate)) {
+      return { series, source };
     }
   }
 
   return null;
 }
 
-function renderSource(frame, selection, fallbackMessage, kind) {
+function render(frame, selection, fallback, kind) {
   if (!frame || !selection) {
-    if (frame) showPlaceholder(frame, fallbackMessage);
+    showPlaceholder(frame, fallback);
     return;
   }
 
-  const { series, source } = selection;
-
-  if (source.startDate && !hasStarted(source.startDate)) {
-    showPlaceholder(frame, source.releaseMessage || fallbackMessage);
-    return;
-  }
-
-  const src = makeVideoUrl(source);
+  const src = makeVideoUrl(selection.source);
   if (!src) {
-    showPlaceholder(frame, source.unavailableMessage || fallbackMessage);
+    showPlaceholder(frame, fallback);
     return;
   }
 
   const title = kind === "landscape"
-    ? (series.label || "JackLight Tales") + " landscape collection on YouTube"
-    : (series.label || "JackLight Tales") + " episode collection on YouTube";
+    ? "Barnaby and the Whispering Woods — latest landscape adventure"
+    : "Barnaby and the Whispering Woods — latest episode";
 
-  frame.replaceChildren(makeIframe(title, source));
-}
-
-function syncCinemaCopy(root, episodeSelection, landscapeSelection, channelUrl) {
-  const episodeTitle = root.querySelector("[data-cinema-episode-title]");
-  const episodeCopy = root.querySelector("[data-cinema-episode-copy]");
-  const episodeLink = root.querySelector("[data-cinema-episode-link]");
-
-  if (episodeSelection) {
-    const { series, source } = episodeSelection;
-    if (episodeTitle) episodeTitle.textContent = series.title || series.label || "Barnaby and the Whispering Woods";
-    if (episodeCopy) {
-      episodeCopy.textContent = source.nowShowing || ((series.label || "Latest series") + " · newest episode first");
-    }
-    setLink(episodeLink, watchUrl(source, channelUrl), "Open episode collection");
-  }
-
-  const landscapeTitle = root.querySelector("[data-cinema-landscape-title]");
-  const landscapeCopy = root.querySelector("[data-cinema-landscape-copy]");
-  const landscapeLink = root.querySelector("[data-cinema-landscape-link]");
-
-  if (landscapeSelection) {
-    const { series, source } = landscapeSelection;
-    if (landscapeTitle) landscapeTitle.textContent = (series.label || "Latest") + " · complete adventure";
-    if (landscapeCopy) {
-      landscapeCopy.textContent = source.nowShowing || "The newest complete landscape collection.";
-    }
-    setLink(landscapeLink, watchUrl(source, channelUrl), "Open landscape adventure");
-  }
-}
-
-function wireCollectionLinks(root, config, channelUrl) {
-  root.querySelectorAll("[data-cinema-collection]").forEach((link) => {
-    const [seriesName, modeName] = (link.dataset.cinemaCollection || "").split(":");
-    const source = config.series?.[seriesName]?.modes?.[modeName];
-
-    if (!source || source.available === false || !hasSource(source)) {
-      link.hidden = true;
-      return;
-    }
-
-    link.href = watchUrl(source, channelUrl);
-    link.target = "_blank";
-    link.rel = "noopener noreferrer";
-    link.hidden = false;
-  });
+  frame.replaceChildren(makeIframe(title, selection.source));
 }
 
 export function initYouTube(config = {}) {
@@ -201,30 +151,39 @@ export function initYouTube(config = {}) {
     : "");
 
   function wire(root) {
-    setLink(root.querySelector("[data-youtube-channel]"), channelUrl, "Visit YouTube");
+    const episode = pickEpisode(config);
+    const landscape = pickLandscape(config);
 
-    const episodeSelection = pickEpisode(config);
-    const landscapeSelection = pickLandscape(config);
+    setLink(root.querySelector("[data-youtube-channel]"), channelUrl);
 
-    renderSource(
+    render(
       root.querySelector("[data-cinema-episode-player]"),
-      episodeSelection,
-      "The latest episode is being connected to the cinema.",
+      episode,
+      "The latest episode is not available yet.",
       "episode",
     );
 
-    renderSource(
+    render(
       root.querySelector("[data-cinema-landscape-player]"),
-      landscapeSelection,
-      "The next complete landscape adventure will appear here.",
+      landscape,
+      "The latest landscape adventure is not available yet.",
       "landscape",
     );
 
-    syncCinemaCopy(root, episodeSelection, landscapeSelection, channelUrl);
-    wireCollectionLinks(root, config, channelUrl);
+    setLink(
+      root.querySelector("[data-cinema-episode-link]"),
+      episode ? watchUrl(episode.source, channelUrl) : channelUrl,
+    );
+
+    setLink(
+      root.querySelector("[data-cinema-landscape-link]"),
+      landscape ? watchUrl(landscape.source, channelUrl) : channelUrl,
+    );
   }
 
   document.addEventListener("jacklight:panel-opened", (event) => {
-    if (event.detail.panelName === "watch") wire(event.detail.content);
+    if (event.detail.panelName === "watch") {
+      wire(event.detail.content);
+    }
   });
 }
