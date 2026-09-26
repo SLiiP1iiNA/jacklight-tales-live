@@ -1,34 +1,27 @@
-<div class="panel-heading panel-heading--watch cinema-simple-heading">
+<div class="panel-heading panel-heading--watch">
   <div>
     <p class="eyebrow">The woodland cinema</p>
-    <h2 id="panel-title">Now showing.</h2>
-    <p>The latest episode is ready first. The latest landscape adventure is directly underneath.</p>
+    <h2 id="panel-title">Pull up a cushion. The next tale is starting.</h2>
+    <p>Choose portrait episodes or the full landscape adventure. The same cinema screen changes to whichever you pick.</p>
   </div>
   <a class="panel-heading__link" data-youtube-channel href="#" target="_blank" rel="noopener noreferrer" hidden>Visit YouTube <span aria-hidden="true">↗</span></a>
 </div>
 
-<div class="cinema-simple">
-  <section class="watch-feature cinema-simple__episode" aria-label="Latest Barnaby episode">
-    <div class="watch-stage watch-stage--vertical">
-      <div class="youtube-frame" data-cinema-episode-player>
-        <div class="youtube-placeholder"><span aria-hidden="true">▶</span><p>Loading the latest episode…</p></div>
-      </div>
-    </div>
-    <div class="watch-feature__meta">
-      <span>Latest episode</span>
-      <a data-cinema-episode-link href="#" target="_blank" rel="noopener noreferrer" hidden>Open on YouTube <span aria-hidden="true">↗</span></a>
-    </div>
-  </section>
+<div class="watch-mode-switch" role="tablist" aria-label="Choose a video format">
+  <button type="button" role="tab" aria-selected="true" class="is-active" data-watch-mode="shorts">Episodes · portrait</button>
+  <button type="button" role="tab" aria-selected="false" data-watch-mode="landscape">Full series · landscape</button>
+</div>
 
-  <section class="watch-feature cinema-simple__landscape" aria-label="Latest Barnaby landscape adventure">
-    <div class="watch-stage watch-stage--landscape">
-      <div class="youtube-frame" data-cinema-landscape-player>
-        <div class="youtube-placeholder"><span aria-hidden="true">▶</span><p>Loading the latest landscape adventure…</p></div>
+<div class="watch-layout" data-watch-room>
+  <section class="watch-feature" aria-label="JackLight Tales YouTube player">
+    <div class="watch-stage watch-stage--vertical" data-watch-stage>
+      <div class="youtube-frame" data-youtube-embed>
+        <div class="youtube-placeholder"><span aria-hidden="true">▶</span><p>Loading the latest Barnaby episode…</p></div>
       </div>
     </div>
     <div class="watch-feature__meta">
-      <span>Latest landscape adventure</span>
-      <a data-cinema-landscape-link href="#" target="_blank" rel="noopener noreferrer" hidden>Open on YouTube <span aria-hidden="true">↗</span></a>
+      <span data-youtube-status>Loading the latest episode</span>
+      <a data-youtube-playlist href="#" target="_blank" rel="noopener noreferrer" hidden>Open on YouTube <span aria-hidden="true">↗</span></a>
     </div>
   </section>
 </div>
