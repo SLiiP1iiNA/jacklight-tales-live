@@ -40,20 +40,12 @@ export const siteConfig = {
 
   youtube: {
     channelUrl: "https://www.youtube.com/@JackLightTalesTV",
-    channelId: "UCkVmyA-xY2LVIy46WfHV-DQ",
-    defaultWatchMode: "shorts",
-    watchModes: {
-      shorts: {
-        label: "Episodes · portrait",
-        videoId: "er4Nyk6PBPg",
-        playlistId: "PLJMUYWzbzILg",
-        aspect: "vertical",
-      },
-      landscape: {
-        label: "Full series · landscape",
-        videoId: "QVXn6WzFrL4",
-        aspect: "landscape",
-      },
+    verticalPlaylistUrl: "https://www.youtube.com/playlist?list=PLJMUYWzbzILg",
+    landscape: {
+      // Replace this fallback video with the permanent landscape playlistId
+      // once its YouTube playlist URL is supplied.
+      playlistId: "",
+      videoId: "QVXn6WzFrL4",
     },
   },
 
