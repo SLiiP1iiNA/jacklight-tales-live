@@ -258,175 +258,230 @@
   }
 }
 
-/* Mobile portrait: balanced full-screen composition.
-   The whole cinema stack is centred in the usable viewport so there is no
-   dead void below the player, while the movie remains full-width and uncropped. */
+/* Mobile portrait: a deliberate full-page cinema composition.
+   The 16:9 film stays uncropped and edge-to-edge; the surrounding typography
+   and controls are sized for a portrait phone instead of inheriting desktop scale. */
 @media (max-width: 44.99rem) and (orientation: portrait) {
   .storybook-body .panel--watch {
     padding:
-      max(.5rem, env(safe-area-inset-top))
-      max(.4rem, env(safe-area-inset-right))
-      max(.5rem, env(safe-area-inset-bottom))
-      max(.4rem, env(safe-area-inset-left)) !important;
+      max(.62rem, env(safe-area-inset-top))
+      max(.55rem, env(safe-area-inset-right))
+      max(.62rem, env(safe-area-inset-bottom))
+      max(.55rem, env(safe-area-inset-left)) !important;
   }
 
   .storybook-body .panel--watch .panel__close {
-    top: max(.48rem, env(safe-area-inset-top));
-    right: max(.42rem, env(safe-area-inset-right));
-    width: 2.45rem;
-    height: 2.45rem;
+    top: max(.58rem, env(safe-area-inset-top));
+    right: max(.55rem, env(safe-area-inset-right));
+    width: 3rem;
+    height: 3rem;
+    font-size: 1.6rem;
   }
 
   .storybook-body .panel--watch .panel__content {
-    display: grid;
-    align-items: center;
+    display: block !important;
+    width: 100%;
+    height: 100%;
+    min-height: 0;
   }
 
   .cinema-room {
-    display: grid;
+    display: grid !important;
     width: 100%;
-    height: auto;
+    height: 100%;
     min-height: 0;
-    grid-template-rows: auto auto auto;
-    align-content: center;
-    gap: .55rem;
+    grid-template-rows: auto minmax(0, 1fr) auto;
+    align-content: stretch;
+    gap: clamp(.7rem, 1.7dvh, 1.05rem);
     margin: 0;
   }
 
   .cinema-room__top {
     display: grid;
-    gap: .42rem;
-    padding-right: 2.8rem;
+    align-items: start;
+    gap: clamp(.62rem, 1.35dvh, .9rem);
+    padding-right: 0;
   }
 
   .cinema-room__title {
-    gap: .1rem;
+    gap: .22rem;
+    padding-right: 3.45rem;
   }
 
   .cinema-room__title .eyebrow {
-    font-size: .68rem;
-    letter-spacing: .13em;
+    font-size: clamp(.72rem, 3.2vw, .88rem);
+    line-height: 1.1;
+    letter-spacing: .15em;
   }
 
   .cinema-room__title h2 {
-    font-size: clamp(1.4rem, 6.4vw, 1.86rem);
+    max-width: 29rem;
+    font-size: clamp(1.85rem, 8.1vw, 2.45rem);
     line-height: .98;
+    letter-spacing: -.045em;
   }
 
   .cinema-room__title > p:last-child {
     max-width: 31rem;
-    font-size: .68rem;
-    line-height: 1.28;
+    font-size: clamp(.78rem, 3.4vw, .94rem);
+    line-height: 1.35;
   }
 
   .cinema-room__links {
-    grid-column: 1;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     width: 100%;
-    gap: .38rem;
+    gap: .55rem;
   }
 
   .cinema-room__links a {
     min-width: 0;
-    flex: 1 1 0;
-    padding: .52rem .56rem;
-    border-radius: .72rem;
+    min-height: 4.25rem;
+    align-content: center;
+    gap: .24rem;
+    padding: .72rem .78rem;
+    border-radius: .95rem;
+    border-color: rgba(246, 201, 95, .2);
+    background: rgba(2, 13, 10, .72);
   }
 
   .cinema-room__links span {
-    font-size: .56rem;
+    font-size: clamp(.65rem, 2.75vw, .76rem);
   }
 
   .cinema-room__links strong {
-    font-size: .64rem;
+    font-size: clamp(.78rem, 3.2vw, .9rem);
+    line-height: 1.15;
   }
 
   .cinema-room__screen {
-    display: grid;
+    display: grid !important;
+    min-width: 0;
     min-height: 0;
     grid-template-rows: auto auto;
-    gap: .28rem;
+    align-content: center;
+    gap: clamp(.55rem, 1.4dvh, .9rem);
+    overflow: hidden;
+    padding-block: clamp(.35rem, 1.5dvh, 1rem);
   }
 
   .cinema-room__screen-head {
+    align-items: end;
+    gap: .75rem;
     padding-inline: .18rem;
   }
 
+  .cinema-room__screen-head > div {
+    gap: .08rem;
+  }
+
   .cinema-room__screen-kicker {
-    font-size: .57rem;
+    font-size: clamp(.64rem, 2.8vw, .74rem);
+    letter-spacing: .15em;
   }
 
   .cinema-room__screen-head strong {
-    font-size: .84rem;
+    font-size: clamp(1rem, 4.5vw, 1.2rem);
   }
 
   .cinema-room__screen-head a {
-    font-size: .61rem;
+    flex: 0 0 auto;
+    padding: .62rem .72rem;
+    border: 1px solid rgba(246, 201, 95, .2);
+    border-radius: 999px;
+    background: rgba(2, 13, 10, .62);
+    font-size: clamp(.68rem, 2.9vw, .8rem);
+    line-height: 1;
   }
 
   .cinema-room__player {
-    width: 100%;
-    max-width: none;
-    max-height: none;
-    aspect-ratio: 16 / 9;
-    border-radius: .82rem;
+    width: 100% !important;
+    height: auto !important;
+    min-width: 0 !important;
+    min-height: 0 !important;
+    max-width: none !important;
+    max-height: none !important;
+    aspect-ratio: 16 / 9 !important;
+    align-self: center;
+    justify-self: stretch;
+    border-radius: 1rem;
+    box-shadow: 0 1.1rem 3rem rgba(0,0,0,.34);
   }
 
   .cinema-room__footer {
     display: grid;
-    grid-template-columns: 1fr auto;
-    align-items: center;
-    gap: .38rem .5rem;
-    margin-top: .06rem;
-    padding-top: .42rem;
+    grid-template-columns: 1fr;
+    align-items: stretch;
+    gap: .5rem;
+    padding-top: .62rem;
   }
 
   .cinema-room__socials {
-    gap: .25rem;
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: .38rem;
   }
 
   .cinema-room__socials a,
   .cinema-room__support {
-    padding: .4rem .5rem;
-    font-size: .55rem;
+    display: grid;
+    place-items: center;
+    min-height: 2.7rem;
+    padding: .6rem .45rem;
+    font-size: clamp(.62rem, 2.8vw, .74rem);
+    text-align: center;
+  }
+
+  .cinema-room__support {
+    width: 100%;
+    min-height: 2.85rem;
+    font-size: clamp(.68rem, 3vw, .8rem);
   }
 
   .cinema-room__footer p {
-    grid-column: 1 / -1;
-    font-size: .53rem;
+    margin-top: .02rem;
+    font-size: clamp(.58rem, 2.5vw, .68rem);
+    line-height: 1.2;
+    text-align: center;
     white-space: normal;
   }
 }
 
-/* Mobile landscape: reserve real rows for header and footer.
-   The movie uses only the remaining middle space, so it can never cover links. */
+/* Mobile landscape: the film gets almost all of the usable height.
+   Header, Now Showing row and footer have their own fixed grid rows so the
+   YouTube player cannot cover any links or controls. */
 @media (max-height: 32rem) and (orientation: landscape) {
   .storybook-body .panel--watch {
     padding:
-      max(.26rem, env(safe-area-inset-top))
-      max(.45rem, env(safe-area-inset-right))
-      max(.26rem, env(safe-area-inset-bottom))
-      max(.45rem, env(safe-area-inset-left)) !important;
+      max(.22rem, env(safe-area-inset-top))
+      max(.48rem, env(safe-area-inset-right))
+      max(.2rem, env(safe-area-inset-bottom))
+      max(.48rem, env(safe-area-inset-left)) !important;
   }
 
   .storybook-body .panel--watch .panel__close {
-    top: max(.25rem, env(safe-area-inset-top));
-    right: max(.34rem, env(safe-area-inset-right));
-    width: 2rem;
-    height: 2rem;
-    font-size: 1.12rem;
+    top: max(.2rem, env(safe-area-inset-top));
+    right: max(.36rem, env(safe-area-inset-right));
+    width: 2.05rem;
+    height: 2.05rem;
+    font-size: 1.15rem;
   }
 
   .storybook-body .panel--watch .panel__content {
+    display: block !important;
+    width: 100%;
     height: 100%;
     min-height: 0;
   }
 
   .cinema-room {
-    display: grid;
+    display: grid !important;
+    width: 100%;
     height: 100%;
     min-height: 0;
     grid-template-rows: auto minmax(0, 1fr) auto;
-    gap: .18rem;
+    gap: .12rem;
+    margin: 0;
   }
 
   .cinema-room__top {
@@ -438,16 +493,17 @@
   }
 
   .cinema-room__title {
-    gap: .04rem;
+    gap: .02rem;
   }
 
   .cinema-room__title .eyebrow {
-    font-size: .47rem;
+    font-size: .46rem;
+    line-height: 1;
   }
 
   .cinema-room__title h2 {
-    font-size: clamp(1rem, 2.8vw, 1.36rem);
-    line-height: .95;
+    font-size: clamp(1rem, 2.65vw, 1.34rem);
+    line-height: .94;
   }
 
   .cinema-room__title > p:last-child {
@@ -455,33 +511,39 @@
   }
 
   .cinema-room__links {
-    gap: .28rem;
+    display: flex;
+    gap: .25rem;
   }
 
   .cinema-room__links a {
     min-width: 7rem;
-    padding: .3rem .4rem;
+    min-height: 2.05rem;
+    align-content: center;
+    padding: .28rem .4rem;
     border-radius: .58rem;
   }
 
   .cinema-room__links span {
-    font-size: .45rem;
+    font-size: .44rem;
   }
 
   .cinema-room__links strong {
-    font-size: .51rem;
+    font-size: .5rem;
   }
 
   .cinema-room__screen {
-    display: grid;
+    display: grid !important;
+    min-width: 0;
     min-height: 0;
-    grid-template-rows: auto minmax(0, 1fr);
+    grid-template-rows: 1.08rem minmax(0, 1fr);
     gap: .08rem;
+    overflow: hidden;
   }
 
   .cinema-room__screen-head {
-    min-height: .8rem;
-    padding-inline: .2rem;
+    min-width: 0;
+    min-height: 0;
+    padding-inline: .18rem;
   }
 
   .cinema-room__screen-kicker {
@@ -490,43 +552,58 @@
 
   .cinema-room__screen-head strong {
     font-size: .62rem;
+    line-height: 1;
   }
 
   .cinema-room__screen-head a {
     font-size: .5rem;
+    line-height: 1;
   }
 
   .cinema-room__player {
-    width: auto;
-    height: 100%;
-    max-width: 100%;
-    max-height: 100%;
-    aspect-ratio: 16 / 9;
+    width: auto !important;
+    height: 100% !important;
+    min-width: 0 !important;
+    min-height: 0 !important;
+    max-width: 100% !important;
+    max-height: 100% !important;
+    aspect-ratio: 16 / 9 !important;
     align-self: center;
     justify-self: center;
-    border-radius: .65rem;
+    overflow: hidden;
+    border-radius: .7rem;
   }
 
   .cinema-room__footer {
-    display: flex;
+    display: grid;
+    grid-template-columns: auto 1fr auto;
     align-items: center;
-    justify-content: space-between;
-    gap: .22rem .45rem;
-    min-height: 1.55rem;
-    padding-top: .18rem;
+    gap: .42rem;
+    min-height: 1.65rem;
+    padding-top: .16rem;
   }
 
   .cinema-room__socials {
-    gap: .18rem;
+    display: flex;
+    flex-wrap: nowrap;
+    gap: .16rem;
   }
 
   .cinema-room__socials a,
   .cinema-room__support {
+    min-height: 1.35rem;
     padding: .27rem .4rem;
-    font-size: .48rem;
+    font-size: .47rem;
+    white-space: nowrap;
+  }
+
+  .cinema-room__support {
+    justify-self: center;
   }
 
   .cinema-room__footer p {
-    font-size: .46rem;
+    justify-self: end;
+    font-size: .45rem;
+    white-space: nowrap;
   }
 }
