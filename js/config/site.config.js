@@ -77,6 +77,7 @@ export const siteConfig = {
         modes: {
           episodes: {
             label: "Episodes · vertical",
+            videoId: "er4Nyk6PBPg",
             playlistId: "PLJMUYWzbzILg",
             aspect: "vertical",
             nowShowing: "Now showing Series 2 · Episodes 31–60",
