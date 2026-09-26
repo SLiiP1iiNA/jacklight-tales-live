@@ -6,7 +6,7 @@ import { initContentPanels } from "./features/content-panels.js";
 import { initEntrance } from "./features/entrance.js";
 import { initSocialLinks } from "./features/social-links.js";
 import { initSoundControl } from "./features/sound-control.js";
-import { initYouTube } from "./features/youtube.js?v=20260926-watch-series1";
+import { initYouTube } from "./features/youtube.js?v=20260926-cinema-desktop1";
 import { initWoodlandMap } from "./features/woodland-map.js";
 import { initGameTransition } from "./features/game-transition.js";
 import { initImageProtection } from "./features/image-protection.js";
