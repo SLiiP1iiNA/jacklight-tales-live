@@ -1,13 +1,63 @@
-/* JackLight Tales — desktop Woodland Cinema
-   One widescreen landscape cinema. No desktop scrolling. */
+/* JackLight Tales — Woodland Cinema
+   Full-viewport cinema on desktop and mobile.
+   One landscape player, no page scrolling. */
 
-.storybook-body .panel:has(.cinema-room) {
-  width: min(calc(100vw - 2rem), 90rem);
+.storybook-body .panel-layer--watch {
+  padding: 0 !important;
+  place-items: stretch !important;
+  background: #020907;
+}
+
+.storybook-body .panel--watch {
+  width: 100vw !important;
+  height: 100dvh !important;
+  max-width: none !important;
+  max-height: none !important;
+  margin: 0 !important;
+  overflow: hidden !important;
+  padding:
+    max(.7rem, env(safe-area-inset-top))
+    max(.9rem, env(safe-area-inset-right))
+    max(.65rem, env(safe-area-inset-bottom))
+    max(.9rem, env(safe-area-inset-left)) !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background:
+    radial-gradient(circle at 80% 5%, rgba(246, 201, 95, .08), transparent 30rem),
+    linear-gradient(145deg, #0b241c, #03100d 72%) !important;
+  box-shadow: none !important;
+}
+
+.storybook-body .panel--watch .panel__close {
+  position: absolute !important;
+  z-index: 30;
+  top: max(.7rem, env(safe-area-inset-top));
+  right: max(.8rem, env(safe-area-inset-right));
+  width: 2.7rem;
+  height: 2.7rem;
+  margin: 0 !important;
+  border: 1px solid rgba(246, 201, 95, .32);
+  background: rgba(2, 13, 10, .9);
+  color: var(--lantern-soft);
+  box-shadow: 0 .45rem 1.25rem rgba(0,0,0,.28);
+}
+
+.storybook-body .panel--watch .panel__content {
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  gap: 0;
 }
 
 .cinema-room {
-  width: 100%;
+  display: grid;
+  width: min(100%, 112rem);
+  height: 100%;
   min-width: 0;
+  min-height: 0;
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  gap: .55rem;
+  margin-inline: auto;
 }
 
 .cinema-room__top,
@@ -21,42 +71,47 @@
 .cinema-room__top {
   align-items: end;
   justify-content: space-between;
-  gap: clamp(1rem, 2.2vw, 2.2rem);
+  gap: clamp(1rem, 2vw, 2rem);
+  padding-right: 3.4rem;
 }
 
 .cinema-room__title {
   display: grid;
-  gap: .34rem;
+  gap: .24rem;
   min-width: 0;
+}
+
+.cinema-room__title .eyebrow {
+  margin: 0;
 }
 
 .cinema-room__title h2 {
   margin: 0;
   color: var(--ink-light);
-  font: 900 clamp(1.75rem, 3vw, 3rem)/.98 var(--display);
+  font: 900 clamp(1.65rem, 2.65vw, 2.9rem)/.96 var(--display);
   letter-spacing: -.05em;
 }
 
 .cinema-room__title > p:last-child {
-  max-width: 46rem;
+  max-width: 48rem;
   margin: 0;
   color: var(--ink-muted);
-  font: 700 .82rem/1.42 var(--display);
+  font: 700 .78rem/1.35 var(--display);
 }
 
 .cinema-room__links {
   flex: 0 0 auto;
-  gap: .55rem;
+  gap: .48rem;
 }
 
 .cinema-room__links a {
   display: grid;
-  min-width: 10.5rem;
-  gap: .18rem;
-  padding: .68rem .82rem;
+  min-width: 10rem;
+  gap: .14rem;
+  padding: .58rem .72rem;
   border: 1px solid var(--line-night-soft);
-  border-radius: .85rem;
-  background: rgba(2, 13, 10, .58);
+  border-radius: .8rem;
+  background: rgba(2, 13, 10, .64);
   text-decoration: none;
 }
 
@@ -68,47 +123,49 @@
 
 .cinema-room__links span {
   color: var(--ink-muted);
-  font: 700 .63rem/1.2 var(--display);
+  font: 700 .59rem/1.2 var(--display);
 }
 
 .cinema-room__links strong {
   color: var(--lantern-soft);
-  font: 900 .73rem/1.2 var(--display);
+  font: 900 .69rem/1.2 var(--display);
 }
 
 .cinema-room__screen {
   display: grid;
-  gap: .55rem;
   min-width: 0;
+  min-height: 0;
+  grid-template-rows: auto minmax(0, 1fr);
+  gap: .38rem;
 }
 
 .cinema-room__screen-head {
   align-items: center;
   justify-content: space-between;
   gap: 1rem;
-  padding-inline: .15rem;
+  padding-inline: .2rem;
 }
 
 .cinema-room__screen-head > div {
   display: grid;
-  gap: .06rem;
+  gap: .04rem;
 }
 
 .cinema-room__screen-kicker {
   color: var(--lantern);
-  font: 900 .62rem/1.2 var(--display);
+  font: 900 .59rem/1.2 var(--display);
   letter-spacing: .13em;
   text-transform: uppercase;
 }
 
 .cinema-room__screen-head strong {
   color: var(--ink-light);
-  font: 900 .96rem/1.2 var(--display);
+  font: 900 .9rem/1.15 var(--display);
 }
 
 .cinema-room__screen-head a {
   color: var(--lantern-soft);
-  font: 900 .7rem/1.2 var(--display);
+  font: 900 .66rem/1.2 var(--display);
   text-decoration: none;
 }
 
@@ -120,14 +177,18 @@
 
 .cinema-room__player {
   position: relative;
-  width: 100%;
+  width: min(100%, calc((100dvh - 11.8rem) * 16 / 9));
+  min-width: 0;
   min-height: 0;
+  max-height: calc(100dvh - 11.8rem);
   aspect-ratio: 16 / 9;
+  align-self: center;
+  justify-self: center;
   overflow: hidden;
   border: 1px solid rgba(246, 201, 95, .28);
   border-radius: 1rem;
   background: #020706;
-  box-shadow: 0 1rem 2.8rem rgba(0,0,0,.3);
+  box-shadow: 0 1rem 2.8rem rgba(0,0,0,.32);
 }
 
 .cinema-room__player iframe {
@@ -140,33 +201,33 @@
 }
 
 .cinema-room__player .youtube-placeholder {
-  min-height: 0;
   width: 100%;
   height: 100%;
+  min-height: 0;
 }
 
 .cinema-room__footer {
   align-items: center;
   justify-content: space-between;
-  gap: .8rem 1rem;
+  gap: .5rem 1rem;
   min-width: 0;
-  padding-top: .1rem;
+  padding-top: .4rem;
   border-top: 1px solid var(--line-night-soft);
 }
 
 .cinema-room__socials {
   flex-wrap: wrap;
-  gap: .35rem;
+  gap: .3rem;
 }
 
 .cinema-room__socials a,
 .cinema-room__support {
-  padding: .44rem .62rem;
+  padding: .4rem .58rem;
   border: 1px solid var(--line-night-soft);
   border-radius: 999px;
   background: rgba(246, 201, 95, .045);
   color: rgba(248, 241, 217, .72);
-  font: 800 .63rem/1 var(--display);
+  font: 800 .59rem/1 var(--display);
   text-decoration: none;
 }
 
@@ -186,76 +247,229 @@
   flex: 0 0 auto;
   margin: 0;
   color: rgba(248, 241, 217, .43);
-  font: 700 .61rem/1.2 var(--display);
+  font: 700 .57rem/1.2 var(--display);
   white-space: nowrap;
 }
 
+/* Desktop / tablet landscape: cinema fills the entire viewport. */
 @media (min-width: 45rem) {
-  .storybook-body .panel:has(.cinema-room) {
-    height: calc(100dvh - 2rem);
-    max-height: calc(100dvh - 2rem);
-    overflow: hidden;
-    padding: 1rem 1.3rem 1.05rem;
-  }
-
-  .storybook-body .panel:has(.cinema-room) .panel__close {
-    position: absolute;
-    top: .75rem;
-    right: .85rem;
-    margin: 0;
-  }
-
-  .storybook-body .panel__content:has(.cinema-room) {
-    height: 100%;
-  }
-
   .cinema-room {
-    display: grid;
-    height: 100%;
-    grid-template-rows: auto minmax(0, 1fr) auto;
-    gap: .65rem;
-    padding-top: .05rem;
-  }
-
-  .cinema-room__top {
-    padding-right: 3.25rem;
-  }
-
-  .cinema-room__screen {
-    min-height: 0;
-  }
-
-  .cinema-room__player {
-    width: min(100%, calc((100dvh - 14.6rem) * 16 / 9));
-    max-height: calc(100dvh - 14.6rem);
-    justify-self: center;
-    align-self: center;
+    padding: .05rem .2rem;
   }
 }
 
-/* Mobile stays functional for now; portrait and landscape get their own pass next. */
-@media (max-width: 44.99rem) {
-  .cinema-room {
-    display: grid;
-    gap: 1rem;
+/* Mobile portrait: everything remains on one screen, with the film centred. */
+@media (max-width: 44.99rem) and (orientation: portrait) {
+  .storybook-body .panel--watch {
+    padding:
+      max(.55rem, env(safe-area-inset-top))
+      max(.65rem, env(safe-area-inset-right))
+      max(.6rem, env(safe-area-inset-bottom))
+      max(.65rem, env(safe-area-inset-left)) !important;
   }
 
-  .cinema-room__top,
-  .cinema-room__footer {
-    align-items: stretch;
-    flex-direction: column;
+  .storybook-body .panel--watch .panel__close {
+    top: max(.5rem, env(safe-area-inset-top));
+    right: max(.55rem, env(safe-area-inset-right));
+    width: 2.55rem;
+    height: 2.55rem;
+  }
+
+  .cinema-room {
+    gap: .48rem;
+  }
+
+  .cinema-room__top {
+    display: grid;
+    gap: .48rem;
+    padding-right: 2.9rem;
+  }
+
+  .cinema-room__title {
+    gap: .15rem;
+  }
+
+  .cinema-room__title h2 {
+    font-size: clamp(1.35rem, 6.2vw, 1.85rem);
+  }
+
+  .cinema-room__title > p:last-child {
+    max-width: 31rem;
+    font-size: .67rem;
+    line-height: 1.28;
   }
 
   .cinema-room__links {
+    grid-column: 1;
     width: 100%;
+    gap: .35rem;
   }
 
   .cinema-room__links a {
     min-width: 0;
     flex: 1 1 0;
+    padding: .48rem .55rem;
+    border-radius: .7rem;
+  }
+
+  .cinema-room__links span {
+    font-size: .54rem;
+  }
+
+  .cinema-room__links strong {
+    font-size: .61rem;
+  }
+
+  .cinema-room__screen {
+    align-content: center;
+    gap: .3rem;
+  }
+
+  .cinema-room__screen-head strong {
+    font-size: .8rem;
+  }
+
+  .cinema-room__screen-head a {
+    font-size: .58rem;
+  }
+
+  .cinema-room__player {
+    width: 100%;
+    max-height: none;
+    aspect-ratio: 16 / 9;
+  }
+
+  .cinema-room__footer {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: .38rem .5rem;
+    padding-top: .38rem;
+  }
+
+  .cinema-room__socials {
+    gap: .24rem;
+  }
+
+  .cinema-room__socials a,
+  .cinema-room__support {
+    padding: .36rem .48rem;
+    font-size: .54rem;
   }
 
   .cinema-room__footer p {
+    grid-column: 1 / -1;
+    font-size: .52rem;
     white-space: normal;
+  }
+}
+
+/* Mobile landscape: prioritise the movie and keep every control visible. */
+@media (max-height: 32rem) and (orientation: landscape) {
+  .storybook-body .panel--watch {
+    padding:
+      max(.3rem, env(safe-area-inset-top))
+      max(.6rem, env(safe-area-inset-right))
+      max(.3rem, env(safe-area-inset-bottom))
+      max(.6rem, env(safe-area-inset-left)) !important;
+  }
+
+  .storybook-body .panel--watch .panel__close {
+    top: max(.3rem, env(safe-area-inset-top));
+    right: max(.45rem, env(safe-area-inset-right));
+    width: 2.15rem;
+    height: 2.15rem;
+    font-size: 1.25rem;
+  }
+
+  .cinema-room {
+    gap: .24rem;
+  }
+
+  .cinema-room__top {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    gap: .5rem;
+    padding-right: 2.55rem;
+  }
+
+  .cinema-room__title {
+    gap: .05rem;
+  }
+
+  .cinema-room__title .eyebrow {
+    font-size: .48rem;
+  }
+
+  .cinema-room__title h2 {
+    font-size: clamp(.95rem, 2.8vw, 1.35rem);
+    line-height: .95;
+  }
+
+  .cinema-room__title > p:last-child {
+    display: none;
+  }
+
+  .cinema-room__links {
+    gap: .28rem;
+  }
+
+  .cinema-room__links a {
+    min-width: 7.3rem;
+    padding: .34rem .42rem;
+    border-radius: .62rem;
+  }
+
+  .cinema-room__links span {
+    font-size: .46rem;
+  }
+
+  .cinema-room__links strong {
+    font-size: .52rem;
+  }
+
+  .cinema-room__screen {
+    gap: .15rem;
+  }
+
+  .cinema-room__screen-head {
+    min-height: 1rem;
+  }
+
+  .cinema-room__screen-kicker {
+    display: none;
+  }
+
+  .cinema-room__screen-head strong {
+    font-size: .62rem;
+  }
+
+  .cinema-room__screen-head a {
+    font-size: .5rem;
+  }
+
+  .cinema-room__player {
+    width: min(100%, calc((100dvh - 5.8rem) * 16 / 9));
+    max-height: calc(100dvh - 5.8rem);
+    border-radius: .7rem;
+  }
+
+  .cinema-room__footer {
+    gap: .25rem .45rem;
+    padding-top: .2rem;
+  }
+
+  .cinema-room__socials {
+    gap: .18rem;
+  }
+
+  .cinema-room__socials a,
+  .cinema-room__support {
+    padding: .27rem .4rem;
+    font-size: .48rem;
+  }
+
+  .cinema-room__footer p {
+    font-size: .46rem;
   }
 }
