@@ -276,6 +276,8 @@
   }
 
   .cinema-room {
+    display: flex;
+    flex-direction: column;
     gap: .48rem;
   }
 
@@ -321,7 +323,8 @@
   }
 
   .cinema-room__screen {
-    align-content: center;
+    flex: 0 0 auto;
+    align-content: start;
     gap: .3rem;
   }
 
@@ -343,6 +346,7 @@
     display: grid;
     grid-template-columns: 1fr auto;
     gap: .38rem .5rem;
+    margin-top: auto;
     padding-top: .38rem;
   }
 
