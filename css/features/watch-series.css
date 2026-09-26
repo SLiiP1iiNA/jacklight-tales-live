@@ -1,242 +1,45 @@
-/* JackLight Tales — Woodland Cinema rebuild — desktop first — 26 Sep 2026 */
+/* Woodland Cinema — intentionally simple.
+   Two players only: latest episode first, latest landscape underneath. */
 
-.storybook-body .cinema-heading,
-.storybook-body .cinema-now,
-.storybook-body .cinema-library {
+.storybook-body .cinema-simple-heading,
+.storybook-body .cinema-simple {
   width: min(100%, 74rem);
   margin-inline: auto;
 }
 
-.cinema-now {
+.storybook-body .cinema-simple-heading {
+  margin-bottom: 0;
+}
+
+.storybook-body .cinema-simple-heading h2 {
+  font-size: clamp(1.9rem, 3.4vw, 3.2rem);
+}
+
+.cinema-simple {
   display: grid;
-  gap: 1.4rem;
+  gap: 1.35rem;
 }
 
-.cinema-feature {
-  min-width: 0;
-  border: 1px solid rgba(246, 201, 95, .2);
-  border-radius: 1.2rem;
-  background:
-    radial-gradient(circle at 80% 0%, rgba(246, 201, 95, .08), transparent 34rem),
-    linear-gradient(145deg, rgba(8, 31, 23, .92), rgba(2, 13, 10, .9));
-  box-shadow: 0 1.15rem 3rem rgba(0, 0, 0, .16), inset 0 1px rgba(255, 255, 255, .035);
-  overflow: hidden;
-}
-
-.cinema-feature__copy {
-  display: grid;
-  gap: .55rem;
-  min-width: 0;
-}
-
-.cinema-feature__kicker {
-  margin: 0;
-  color: var(--lantern);
-  font: 900 .7rem/1.2 var(--display);
-  letter-spacing: .14em;
-  text-transform: uppercase;
-}
-
-.cinema-feature__copy h3,
-.cinema-library__heading h3 {
-  margin: 0;
-  color: var(--ink-light);
-  font: 900 clamp(1.3rem, 2.3vw, 2rem)/1.08 var(--display);
-}
-
-.cinema-feature__copy > p:not(.cinema-feature__kicker),
-.cinema-library__heading > p {
-  margin: 0;
-  color: var(--ink-muted);
-  font: 700 .88rem/1.55 var(--display);
-}
-
-.cinema-feature__link {
-  width: max-content;
-  max-width: 100%;
-  color: var(--lantern-soft);
-  font: 900 .75rem/1.2 var(--display);
-  text-decoration: none;
-}
-
-.cinema-feature__link:hover,
-.cinema-feature__link:focus-visible {
-  text-decoration: underline;
-  text-underline-offset: .22rem;
-}
-
-.cinema-player-shell {
-  display: grid;
-  place-items: center;
-  min-width: 0;
-}
-
-.cinema-player {
-  position: relative;
-  overflow: hidden;
-  border: 1px solid rgba(246, 201, 95, .25);
-  border-radius: 1rem;
-  background: #020806;
-  box-shadow: 0 .9rem 2.3rem rgba(0, 0, 0, .28);
-}
-
-.cinema-player iframe {
-  display: block;
+.cinema-simple .watch-feature {
   width: 100%;
-  height: 100%;
-  border: 0;
+  max-width: 74rem;
+  margin-inline: auto;
 }
 
-.cinema-player .youtube-placeholder {
-  width: 100%;
-  height: 100%;
-  min-height: inherit;
+.cinema-simple__episode .watch-stage {
+  min-height: 0;
 }
 
-.cinema-library {
-  display: grid;
-  gap: .9rem;
-  padding-top: .15rem;
+.cinema-simple__landscape .watch-stage {
+  min-height: 0;
 }
 
-.cinema-library__heading {
-  display: flex;
-  align-items: end;
-  justify-content: space-between;
-  gap: 1rem;
-}
-
-.cinema-library__heading > div {
-  display: grid;
-  gap: .28rem;
-}
-
-.cinema-library__heading h3 {
-  font-size: 1.25rem;
-}
-
-.cinema-library__grid {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: .7rem;
-}
-
-.cinema-collection {
-  display: grid;
-  gap: .26rem;
-  min-width: 0;
-  padding: .9rem 1rem;
-  border: 1px solid var(--line-night-soft);
-  border-radius: .9rem;
-  background: rgba(2, 13, 10, .68);
-  color: inherit;
-  text-decoration: none;
-  transition: transform 160ms ease, border-color 160ms ease, background 160ms ease;
-}
-
-.cinema-collection:hover,
-.cinema-collection:focus-visible {
-  transform: translateY(-2px);
-  border-color: rgba(246, 201, 95, .42);
-  background: rgba(246, 201, 95, .08);
-}
-
-.cinema-collection span {
-  color: var(--lantern);
-  font: 900 .64rem/1.2 var(--display);
-  letter-spacing: .09em;
-  text-transform: uppercase;
-}
-
-.cinema-collection strong {
-  color: var(--ink-light);
-  font: 900 .9rem/1.25 var(--display);
-}
-
-.cinema-collection small {
-  color: var(--ink-muted);
-  font: 700 .7rem/1.3 var(--display);
-}
-
-/* Desktop is the first locked layout. Mobile portrait + landscape are tuned next. */
-@media (min-width: 45rem) {
-  .storybook-body .cinema-heading {
-    margin-bottom: .2rem;
+@media (max-width: 44rem) {
+  .storybook-body .cinema-simple-heading h2 {
+    font-size: clamp(1.65rem, 7vw, 2.35rem);
   }
 
-  .cinema-feature--episode {
-    display: grid;
-    grid-template-columns: minmax(16rem, .8fr) minmax(19rem, 23rem);
-    align-items: center;
-    justify-content: center;
-    gap: clamp(2rem, 5vw, 5rem);
-    min-height: 38rem;
-    padding: clamp(1.5rem, 3vw, 2.6rem);
-  }
-
-  .cinema-feature--episode .cinema-feature__copy {
-    max-width: 30rem;
-  }
-
-  .cinema-player-shell--vertical .cinema-player {
-    width: min(100%, 22rem);
-    aspect-ratio: 9 / 16;
-  }
-
-  .cinema-feature--landscape {
-    display: grid;
-    gap: 1.1rem;
-    padding: 1.35rem;
-  }
-
-  .cinema-feature__copy--landscape {
-    grid-template-columns: minmax(0, 1fr) minmax(18rem, .8fr) auto;
-    align-items: end;
-    gap: 1.2rem;
-  }
-
-  .cinema-feature__copy--landscape > div {
-    display: grid;
-    gap: .3rem;
-  }
-
-  .cinema-feature__copy--landscape h3 {
-    font-size: 1.35rem;
-  }
-
-  .cinema-player-shell--landscape .cinema-player {
-    width: min(100%, 64rem);
-    aspect-ratio: 16 / 9;
-  }
-}
-
-/* Functional stacking only for now; the dedicated mobile pass comes next. */
-@media (max-width: 44.99rem) {
-  .cinema-feature {
-    padding: .9rem;
-  }
-
-  .cinema-feature--episode,
-  .cinema-feature--landscape {
-    display: grid;
-    gap: .9rem;
-  }
-
-  .cinema-player-shell--vertical .cinema-player {
-    width: min(100%, 20rem);
-    aspect-ratio: 9 / 16;
-  }
-
-  .cinema-player-shell--landscape .cinema-player {
-    width: 100%;
-    aspect-ratio: 16 / 9;
-  }
-
-  .cinema-library__heading {
-    display: grid;
-  }
-
-  .cinema-library__grid {
-    grid-template-columns: 1fr;
+  .cinema-simple {
+    gap: 1rem;
   }
 }
