@@ -1,45 +1,65 @@
-/* Woodland Cinema — intentionally simple.
-   Two players only: latest episode first, latest landscape underneath. */
+/* Woodland Cinema repair — restore the original one-screen switcher. */
 
-.storybook-body .cinema-simple-heading,
-.storybook-body .cinema-simple {
+.storybook-body .panel-heading--watch,
+.storybook-body .watch-mode-switch,
+.storybook-body .watch-layout {
   width: min(100%, 74rem);
   margin-inline: auto;
 }
 
-.storybook-body .cinema-simple-heading {
-  margin-bottom: 0;
+.storybook-body .watch-mode-switch {
+  display: flex;
+  width: min(100%, 40rem);
+  margin: 0 auto .85rem;
 }
 
-.storybook-body .cinema-simple-heading h2 {
-  font-size: clamp(1.9rem, 3.4vw, 3.2rem);
+.storybook-body .watch-mode-switch button {
+  flex: 1 1 0;
 }
 
-.cinema-simple {
-  display: grid;
-  gap: 1.35rem;
-}
-
-.cinema-simple .watch-feature {
+.storybook-body .watch-feature {
   width: 100%;
   max-width: 74rem;
   margin-inline: auto;
 }
 
-.cinema-simple__episode .watch-stage {
+.storybook-body .watch-stage {
   min-height: 0;
 }
 
-.cinema-simple__landscape .watch-stage {
+.storybook-body .watch-stage--vertical .youtube-frame {
+  width: min(100%, 25rem, 40.5svh);
+  aspect-ratio: 9 / 16;
   min-height: 0;
+  max-height: none;
+}
+
+.storybook-body .watch-stage--landscape .youtube-frame {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  min-height: 0;
+}
+
+.storybook-body .youtube-frame iframe {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: 0;
 }
 
 @media (max-width: 44rem) {
-  .storybook-body .cinema-simple-heading h2 {
-    font-size: clamp(1.65rem, 7vw, 2.35rem);
+  .storybook-body .watch-mode-switch {
+    width: 100%;
   }
 
-  .cinema-simple {
-    gap: 1rem;
+  .storybook-body .watch-mode-switch button {
+    min-height: 2.55rem;
+    font-size: .68rem;
+  }
+
+  .storybook-body .watch-stage--vertical .youtube-frame {
+    width: min(100%, 20rem);
   }
 }
