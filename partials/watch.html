@@ -1,15 +1,36 @@
 <div class="panel-heading panel-heading--watch">
   <div>
     <p class="eyebrow">The woodland cinema</p>
-    <h2 id="panel-title">Pull up a cushion. The next tale is starting.</h2>
-    <p>Choose how you would like to watch. The short tales stay tall and clear, while the landscape collection has its own wide stage.</p>
+    <h2 id="panel-title">Pull up a cushion. Choose your story path.</h2>
+    <p>Pick a series, then choose the tall episode collection or a complete landscape adventure when one is available.</p>
   </div>
   <a class="panel-heading__link" data-youtube-channel href="#" target="_blank" rel="noopener noreferrer" hidden>Visit YouTube <span aria-hidden="true">↗</span></a>
 </div>
 
-<div class="watch-mode-switch" role="tablist" aria-label="Choose a video format">
-  <button type="button" role="tab" aria-selected="true" class="is-active" data-watch-mode="shorts">Shorts · vertical</button>
-  <button type="button" role="tab" aria-selected="false" data-watch-mode="landscape">Landscape · wide</button>
+<div class="watch-controls" aria-label="Choose a series and viewing format">
+  <section class="watch-control-group" aria-labelledby="watch-series-label">
+    <p class="watch-controls__label" id="watch-series-label">Choose a series</p>
+    <div class="watch-series-switch" role="tablist" aria-label="Choose a Barnaby series">
+      <button type="button" role="tab" aria-selected="false" data-watch-series="series1"><strong>Series 1</strong><small>Complete</small></button>
+      <button type="button" role="tab" aria-selected="false" data-watch-series="series2"><strong>Series 2</strong><small>Now showing</small></button>
+    </div>
+  </section>
+
+  <section class="watch-control-group" aria-labelledby="watch-format-label">
+    <p class="watch-controls__label" id="watch-format-label">Choose how to watch</p>
+    <div class="watch-mode-switch" role="tablist" aria-label="Choose a video format">
+      <button type="button" role="tab" aria-selected="false" data-watch-mode="episodes">Episodes · vertical</button>
+      <button type="button" role="tab" aria-selected="false" data-watch-mode="landscape">Full series · landscape</button>
+    </div>
+  </section>
+</div>
+
+<div class="watch-current" aria-live="polite">
+  <div>
+    <span data-watch-current-kicker>Preparing the cinema</span>
+    <strong data-watch-current-title>Barnaby and the Whispering Woods</strong>
+  </div>
+  <p data-watch-current-copy>Choosing the best available collection…</p>
 </div>
 
 <div class="watch-layout" data-watch-room>
@@ -17,30 +38,23 @@
     <audio data-coming-soon-music preload="auto" loop aria-label="Coming soon woodland music"><source src="" type="audio/mpeg"></audio>
     <div class="watch-stage watch-stage--vertical" data-watch-stage>
       <div class="youtube-frame" data-youtube-embed>
-        <div class="youtube-placeholder"><span aria-hidden="true">▶</span><p>Loading the Barnaby playlist…</p></div>
+        <div class="youtube-placeholder"><span aria-hidden="true">▶</span><p>Preparing the woodland cinema…</p></div>
       </div>
     </div>
     <div class="watch-feature__meta">
       <span data-youtube-status>Preparing the Watch room</span>
-      <a data-youtube-playlist href="#" target="_blank" rel="noopener noreferrer" hidden>Open the full playlist <span aria-hidden="true">↗</span></a>
+      <a data-youtube-playlist href="#" target="_blank" rel="noopener noreferrer" hidden>Open on YouTube <span aria-hidden="true">↗</span></a>
     </div>
   </section>
-
-  <aside class="watch-aside">
-    <img src="assets/images/audiobooks/barnaby-series-01-cover.webp" alt="Barnaby and friends in the Whispering Woods" loading="lazy" decoding="async">
-    <p class="content-card__label">The story shelf</p>
-    <h3>Series 1 is where the adventure begins.</h3>
-    <p>The short tales are ready to watch now. The wide Series 1 collection joins the cinema on 26 September.</p>
-  </aside>
 </div>
 
-<div class="series-grid" aria-label="Barnaby collections">
-  <article class="series-card series-card--current"><span>Series 1 · Available now</span><h3>First adventures</h3><p>Episodes 01–30</p></article>
-  <article class="series-card series-card--coming"><span>Series 2 · Coming later</span><h3>Woodland lessons</h3><p>Episodes 31–60</p></article>
+<div class="series-grid" aria-label="Barnaby series shelf">
+  <article class="series-card series-card--available" data-series-card="series1"><span>Series 1 · Complete</span><h3>First adventures</h3><p>Episodes 01–30</p></article>
+  <article class="series-card series-card--current" data-series-card="series2"><span>Series 2 · Now showing</span><h3>Woodland lessons</h3><p>Episodes 31–60</p></article>
   <article class="series-card series-card--coming"><span>Series 3 · Coming later</span><h3>Autumn mysteries</h3><p>Episodes 61–90</p></article>
   <article class="series-card series-card--coming"><span>Series 4 · Coming later</span><h3>Village stories</h3><p>Episodes 91–120</p></article>
   <article class="series-card series-card--coming"><span>Series 5 · Coming later</span><h3>The travelling circus</h3><p>Episodes 121–150</p></article>
   <article class="series-card series-card--coming"><span>Series 6 · Coming later</span><h3>The final paths</h3><p>Episodes 151–180</p></article>
 </div>
 
-<p class="panel-note">Watch here or open the collection on YouTube. More woodland adventures will light up as they are released.</p>
+<p class="panel-note">Series 2 is the current path. Series 1 remains available whenever you want to begin again.</p>
