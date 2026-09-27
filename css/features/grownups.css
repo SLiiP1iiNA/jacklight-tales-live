@@ -51,10 +51,9 @@
   background-color: #10271d;
   background-image:
     linear-gradient(90deg, rgba(5, 17, 13, .06), rgba(5, 17, 13, 0)),
-    url("../../assets/images/site/grownups-hero-desktop.webp"),
     url("../../assets/images/site/entrance-woods-desktop.webp");
-  background-size: cover, cover, cover;
-  background-position: center, center, center;
+  background-size: cover, cover;
+  background-position: center, center;
   background-repeat: no-repeat;
 }
 
@@ -443,9 +442,8 @@
     overflow: visible;
     background-image:
       linear-gradient(180deg, rgba(5, 17, 13, .01), rgba(5, 17, 13, .28)),
-      url("../../assets/images/site/grownups-hero-mobile.webp"),
       url("../../assets/images/site/entrance-woods-mobile.webp");
-    background-position: center top, center top, center top;
+    background-position: center top, center top;
   }
 
   .grownups-experience__body {
