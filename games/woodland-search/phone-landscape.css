@@ -374,3 +374,95 @@ html.phone-landscape-mode .welcome-copy>p:not(.eyebrow){
     box-sizing:border-box!important;
   }
 }
+
+/* Compact landscape compatibility for older/smaller iPhones.
+   Intentionally narrow: classic 568x320 / 667x375 style Safari viewports only.
+   Larger modern phones keep the normal phone-landscape layout above. */
+@media (orientation:landscape) and (max-width:700px) and (max-height:390px){
+  /* Old Safari may not understand dvh/svh. Inset + percentage sizing keeps the
+     game locked to the actually visible page area without changing modern phones. */
+  body.game-active,
+  body.game-active main,
+  #game:not([hidden]),
+  #stage,
+  #viewport,
+  #scene{
+    width:100%!important;
+    height:100%!important;
+    max-width:none!important;
+    max-height:none!important;
+    overflow:hidden!important;
+  }
+
+  /* Free up the top row so mission, route and counters cannot collide. */
+  .mission-hud{
+    top:max(.03rem,env(safe-area-inset-top))!important;
+    left:max(.12rem,env(safe-area-inset-left))!important;
+    width:auto!important;
+    max-width:116px!important;
+    min-height:0!important;
+    grid-template-columns:1fr!important;
+    gap:0!important;
+    padding:.10rem .18rem!important;
+    border-radius:8px!important;
+  }
+  .mission-hud .reference{display:none!important}
+  #target-title{
+    font-size:.57rem!important;
+    line-height:1!important;
+    max-width:108px!important;
+  }
+
+  .route-strip{
+    top:max(.03rem,env(safe-area-inset-top))!important;
+    gap:.055rem!important;
+    padding:.055rem .09rem!important;
+  }
+  .route-node span{
+    width:.76rem!important;
+    height:.76rem!important;
+    font-size:.30rem!important;
+  }
+
+  .seed-meter{
+    top:max(.03rem,env(safe-area-inset-top))!important;
+    right:max(.03rem,env(safe-area-inset-right))!important;
+    min-height:17px!important;
+    gap:.10rem!important;
+    padding:.07rem .16rem!important;
+  }
+  .secret-meter{
+    top:calc(max(.03rem,env(safe-area-inset-top)) + 18px)!important;
+    right:max(.03rem,env(safe-area-inset-right))!important;
+  }
+  .seed-meter strong{font-size:.38rem!important}
+  .seed-icon{width:5px!important;height:8px!important}
+  .secret-icon{width:5px!important;height:5px!important;font-size:.30rem!important}
+
+  /* Keep controls centred but a little narrower on the short old viewport. */
+  .game-actions{
+    bottom:max(.10rem,env(safe-area-inset-bottom))!important;
+    width:min(228px,52vw)!important;
+    gap:.07rem!important;
+    padding:.07rem!important;
+  }
+  .game-actions button{
+    min-height:32px!important;
+    height:32px!important;
+    padding:.10rem .14rem!important;
+  }
+  #hint::after,
+  #hint.is-offering::after,
+  #sound::after,
+  #sound[aria-pressed="false"]::after,
+  #leave::after{font-size:.46rem!important}
+
+  /* Found/hint feedback stays above the smaller control strip. */
+  #status.is-visible{
+    bottom:calc(2.20rem + env(safe-area-inset-bottom))!important;
+    max-width:68vw!important;
+    padding:.18rem .42rem!important;
+    font-size:.46rem!important;
+    line-height:1.1!important;
+  }
+}
