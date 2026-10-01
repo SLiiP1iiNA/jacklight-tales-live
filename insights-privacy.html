@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#071a16">
+  <meta name="description" content="How the private JackLight Tales Insights desktop app accesses, uses, stores and deletes account analytics and credentials.">
+  <link rel="canonical" href="https://jacklighttales.com/insights-privacy.html">
+  <link rel="icon" type="image/png" href="assets/branding/jlt-favicon.png">
+  <title>Insights privacy · JackLight Tales Insights</title>
+  <style>
+    :root{color-scheme:dark}*{box-sizing:border-box}body{margin:0;min-height:100vh;background:#071a16 url('assets/images/site/entrance-woods-desktop.webp') center/cover fixed no-repeat;color:#fff8e8;font-family:Arial,Helvetica,sans-serif}body:before{content:'';position:fixed;inset:0;background:linear-gradient(90deg,rgba(4,17,12,.96),rgba(4,17,12,.83) 58%,rgba(4,17,12,.55));z-index:-1}.shell{width:min(92%,58rem);margin:auto;padding:clamp(2rem,6vw,5rem) 0}.brand{display:inline-flex;align-items:center;gap:.7rem;color:#fff8e8;text-decoration:none;font-weight:800}.brand img{width:2.8rem}.eyebrow{margin:3rem 0 .5rem;color:#f4cc70;font-size:.76rem;font-weight:800;letter-spacing:.13em;text-transform:uppercase}h1{margin:.2rem 0 1rem;font-family:Georgia,'Times New Roman',serif;font-size:clamp(2.8rem,8vw,5.8rem);font-weight:500;letter-spacing:-.05em;line-height:.95}h2{margin:2rem 0 .55rem;font-family:Georgia,'Times New Roman',serif;font-size:1.55rem;font-weight:500}p,li{color:rgba(255,249,233,.82);line-height:1.65}.card{margin-top:2rem;padding:clamp(1.2rem,4vw,2rem);border:1px solid rgba(255,229,164,.23);border-radius:1.2rem;background:rgba(5,25,18,.78);backdrop-filter:blur(.65rem);box-shadow:0 1rem 3rem rgba(0,0,0,.25)}a{color:#f4cc70}.back{display:inline-flex;margin-top:2rem;padding:.85rem 1.15rem;border:1px solid rgba(255,229,164,.42);border-radius:999px;background:rgba(255,249,233,.06);text-decoration:none;font-weight:800}small{color:rgba(255,249,233,.55)}@media(max-width:44rem){body{background-image:url('assets/images/site/entrance-woods-mobile.webp')}}
+  
+    .intro{max-width:47rem;font-size:1.1rem}.nav{display:flex;flex-wrap:wrap;gap:.65rem;margin-top:1.5rem}.nav a{display:inline-flex;border:1px solid rgba(255,229,164,.32);border-radius:999px;padding:.65rem .95rem;text-decoration:none;font-weight:700}.nav a[aria-current=page]{background:rgba(244,204,112,.13)}.note{border-left:3px solid #f4cc70;padding-left:1rem}code{overflow-wrap:anywhere;color:#fff8e8;font-size:.9em}h2:first-child{margin-top:0}a:focus-visible{outline:3px solid #fff8e8;outline-offset:5px}.footer{margin-top:2rem}li+li{margin-top:.45rem}strong{color:#fff8e8}@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto}}
+  </style>
+</head>
+<body>
+  <main class="shell">
+    <a class="brand" href="https://jacklighttales.com/"><img src="assets/branding/jlt-lantern.webp" alt="" width="45" height="45"><span>JackLight Tales</span></a>
+    <p class="eyebrow">Your accounts. Your local dashboard.</p>
+    <h1>Insights privacy</h1>
+    <p class="intro">This policy explains the current Windows desktop version of JackLight Tales Insights, a private analytics tool operated for JackLight Tales. It covers the app’s account connections and local data.</p>
+    <nav class="nav" aria-label="Insights information">
+      <a href="insights.html">About Insights</a>
+      <a href="insights-privacy.html" aria-current="page">Privacy</a>
+      <a href="insights-terms.html">Terms</a>
+    </nav>
+    <section class="card" aria-label="Insights privacy details">
+      <h2>Information the app accesses</h2>
+      <p>Insights reads information from accounts you authorise. The information available depends on the provider, the permissions you grant and the connector’s setup.</p>
+      <ul>
+        <li><strong>YouTube API Services:</strong> basic channel information and channel statistics returned by YouTube, including channel ID and name, subscribers, total views and video count; and an authorised daily analytics report for the requested period, including views, estimated minutes watched, likes, comments, shares and subscribers gained or lost. Saved snapshots contain channel identity, summary totals, a daily views series and the dates of the report and check.</li>
+        <li><strong>TikTok:</strong> the app-specific account identifier (<code>open_id</code>), display name, follower count, likes count and video count, obtained using <code>user.info.basic</code> and <code>user.info.stats</code>.</li>
+        <li><strong>Meta:</strong> the Pages you can manage for account selection, the selected Page’s ID and name, its linked Instagram account ID and username, and available aggregate follower, engagement, reach and view statistics.</li>
+        <li><strong>Cloudflare:</strong> information needed to identify the configured website and aggregate visits, pageviews and hourly totals for the reporting period.</li>
+        <li><strong>Connection information:</strong> API application identifiers and secrets you enter, authorisation and refresh tokens, token expiry times, selected account details, preferences, last-sync times and error messages. Local error logs may contain diagnostic details.</li>
+      </ul>
+      <p>The app works with account-level and aggregate statistics. It does not request individual viewer or follower lists, audience members’ contact details, private messages or comment text. Aggregate totals may reflect a mixed-age audience, but the app does not identify individual children or collect information directly from children using the app. Insights is intended for authorised adults managing the accounts.</p>
+
+      <h2>How the information is used</h2>
+      <p>Information is used to connect the accounts you choose, retrieve and display their statistics, build a local history, show connection errors and create CSV exports when you request them. Automatic checks can run hourly while the app is open; you can turn them off in Settings.</p>
+      <p>The desktop app has no advertising, behavioural tracking or remote analytics-upload feature. It does not sell account data, publish it, send it to other social platforms or use it to train models. Exporting creates a file in a location you choose; you control what happens to that file afterwards.</p>
+
+      <h2>Sign-in and external services</h2>
+      <p>Google, TikTok and Meta sign-in takes place on the provider’s website in your browser. The app receives authorisation results through a temporary callback on your own computer. Your provider password is not requested or stored by Insights. Read-only access tokens let the app request the information you approve. Cloudflare access uses the API token you supply.</p>
+      <p>The app contacts the relevant provider directly to sign in, refresh access and request statistics. Those providers receive the request and ordinary network information such as your IP address and apply their own terms and privacy policies. Insights uses YouTube API Services; see the <a href="https://policies.google.com/privacy">Google Privacy Policy</a>. You can also read the <a href="https://www.tiktok.com/legal/page/eea/privacy-policy/en">TikTok Privacy Policy</a>, <a href="https://www.facebook.com/privacy/policy/">Meta Privacy Policy</a> and <a href="https://www.cloudflare.com/privacypolicy/">Cloudflare Privacy Policy</a>.</p>
+
+      <h2>Where information is stored</h2>
+      <p>On Windows, the app stores its data in <code>%LOCALAPPDATA%\JackLight Tales Insights\Data</code> for the current Windows user.</p>
+      <ul>
+        <li><code>credentials.dat</code> contains saved credentials and tokens protected by Windows DPAPI for that Windows user.</li>
+        <li><code>insights.db</code> is an unencrypted SQLite database containing saved analytics snapshots, including account identifiers and names.</li>
+        <li><code>settings.json</code> contains unencrypted preferences, selected account details and connection status.</li>
+        <li>The <code>logs</code> folder holds local diagnostic logs. CSV exports are also unencrypted files.</li>
+      </ul>
+      <p>Insights does not upload these files to a JackLight Tales server or provide its own cloud backup or synchronisation. Other software on your computer, backup services or people with access to your Windows account may be able to access local data. Keep exported files and backups under your control.</p>
+
+      <h2>Retention, disconnecting and revoking access</h2>
+      <p>The current version keeps saved snapshots until they are deleted locally; it has no automatic history expiry. A new snapshot is normally saved when the returned values change.</p>
+      <p>Where a connection shows <strong>Disconnect</strong> in Settings, that action clears its saved access tokens and selected account information. Website disconnect clears its saved API connection details. Disconnecting does not delete historical snapshots, exports or backups. The social connectors retain their application configuration, such as client IDs and application secrets, until you remove the app’s local data.</p>
+      <p>To revoke a provider’s permission, also remove Insights in that provider’s account settings. For Google, use <a href="https://security.google.com/settings/security/permissions">Google’s third-party access settings</a>. TikTok and Meta provide controls for connected apps in their account settings. A Cloudflare API token can be revoked from the Cloudflare dashboard. Revocation stops future authorised access once the provider applies it; it does not itself erase previously saved local files.</p>
+
+      <h2>Deleting the app’s local data</h2>
+      <p>To remove <strong>all</strong> locally stored Insights history, credentials, settings and logs:</p>
+      <ol>
+        <li>Close JackLight Tales Insights completely.</li>
+        <li>Open File Explorer and enter <code>%LOCALAPPDATA%\JackLight Tales Insights\Data</code> in its address bar. You can also open this location through <strong>Settings → Open Data Folder</strong> before closing the app.</li>
+        <li>Delete the contents of that <strong>Data</strong> folder. This removes the local data for every connector, so only do this when you intend to clear the whole app.</li>
+        <li>Delete any CSV exports or separate backups you want removed, including copies in the Recycle Bin or backup storage under your control.</li>
+      </ol>
+      <p>The app creates a fresh data folder when next opened. This process does not delete content or statistics held by Google, TikTok, Meta or Cloudflare, and it does not replace revoking access in their account settings. If you need help with local deletion or a privacy question, contact <a href="mailto:contact@jacklighttales.com">contact@jacklighttales.com</a>.</p>
+
+      <h2>Website visits and email</h2>
+      <p>These public information pages are separate from the desktop app. Visiting them creates ordinary website hosting requests; the <a href="https://jacklighttales.com/privacy.html">JackLight Tales website privacy page</a> covers the website. If you email us, the message and the contact details you include are received so we can respond. Do not include passwords, access tokens or application secrets in an email.</p>
+
+      <h2>Questions and changes</h2>
+      <p>For questions or complaints about Insights privacy practices, contact <a href="mailto:contact@jacklighttales.com">contact@jacklighttales.com</a>. This page’s update date identifies the version of this explanation. Its description will need to be updated if the app’s data handling changes.</p>
+      <p class="footer"><small>Last updated: 1 October 2026.</small></p>
+    </section>
+    <a class="back" href="https://jacklighttales.com/">← Back to JackLight Tales</a>
+  </main>
+</body>
+</html>
+
