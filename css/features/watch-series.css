@@ -1,6 +1,6 @@
 /* JackLight Tales — Woodland Cinema
    Full-viewport cinema on desktop and mobile.
-   One landscape player, no page scrolling. */
+   One landscape player; short portrait phones can scroll to keep it uncropped. */
 
 .storybook-body .panel-layer--watch {
   padding: 0 !important;
@@ -474,6 +474,23 @@ a.cinema-room__support {
     line-height: 1.2;
     text-align: center;
     white-space: normal;
+  }
+}
+
+/* Some portrait viewports cannot fit the header, full-width 16:9 film and
+   footer at once. Keep the film row's natural minimum and allow scrolling
+   only when needed, instead of clipping it over the Now Showing links. */
+@media (max-width: 44.99rem) and (orientation: portrait) {
+  .storybook-body .panel--watch {
+    overflow-y: auto !important;
+  }
+
+  .cinema-room {
+    grid-template-rows: auto minmax(min-content, 1fr) auto;
+  }
+
+  .cinema-room__screen {
+    min-height: min-content;
   }
 }
 

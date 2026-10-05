@@ -38,6 +38,9 @@ export function initSocialLinks(contentPath, contactEmail = "") {
           throw new Error(`Could not load ${contentPath}`);
         }
         return response.json();
+      }).catch((error) => {
+        linksPromise = null;
+        throw error;
       });
     }
     return linksPromise;
@@ -93,7 +96,7 @@ export function initSocialLinks(contentPath, contactEmail = "") {
 
     try {
       const links = (await loadLinks()).filter((item) => item.url);
-      renderTargets(targets, links);
+      renderTargets(document.querySelectorAll("[data-social-links]"), links);
     } catch (error) {
       console.error("Social links could not be loaded", error);
       targets.forEach((target) => {

@@ -40,7 +40,7 @@ export const siteConfig = {
 
   youtube: {
     channelUrl: "https://www.youtube.com/@JackLightTalesTV",
-    verticalPlaylistUrl: "https://www.youtube.com/playlist?list=PLJMUYWzbzILg",
+    verticalPlaylistUrl: "https://www.youtube.com/playlist?list=PLLLqtNZiTQjo",
     landscape: {
       playlistId: "PLJQCais5TxzQ",
       videoId: "QVXn6WzFrL4",

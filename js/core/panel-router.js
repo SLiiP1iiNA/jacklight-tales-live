@@ -12,11 +12,13 @@ export function initPanelRouter(partialPaths) {
   const layer = document.querySelector("#panel-layer");
   const panel = document.querySelector("#active-panel");
   const content = document.querySelector("#panel-content");
+  const main = document.querySelector("#main-site");
   if (!layer || !panel || !content) {
     return;
   }
   const cache = new Map();
   let lastTrigger = null;
+  let requestVersion = 0;
 
   async function getPanelMarkup(panelName) {
     if (cache.has(panelName)) {
@@ -39,23 +41,29 @@ export function initPanelRouter(partialPaths) {
   }
 
   async function openPanel(panelName, trigger) {
+    const request = ++requestVersion;
     lastTrigger = trigger;
     document.dispatchEvent(new CustomEvent("jacklight:panel-opening", { detail: { panelName, trigger } }));
     panel.scrollTop = 0;
     layer.classList.toggle("panel-layer--watch", panelName === "watch");
     panel.classList.toggle("panel--watch", panelName === "watch");
-    content.innerHTML = "<p>Opening this woodland path…</p>";
+    content.innerHTML = '<p id="panel-title">Opening this woodland path…</p>';
     layer.hidden = false;
     document.body.classList.add("panel-open");
+    if (main) main.inert = true;
+    panel.querySelector("[data-close-panel]")?.focus();
 
     try {
-      content.innerHTML = await getPanelMarkup(panelName);
+      const markup = await getPanelMarkup(panelName);
+      if (request !== requestVersion || layer.hidden) return;
+      content.innerHTML = markup;
       document.dispatchEvent(
         new CustomEvent("jacklight:panel-opened", {
           detail: { panelName, content, trigger },
         }),
       );
     } catch (error) {
+      if (request !== requestVersion || layer.hidden) return;
       console.error(error);
       content.innerHTML = `
         <div class="panel-error">
@@ -64,19 +72,20 @@ export function initPanelRouter(partialPaths) {
         </div>
       `;
     }
-
-    panel.querySelector("[data-close-panel]")?.focus();
   }
 
   function closePanel() {
+    requestVersion += 1;
     layer.hidden = true;
     document.body.classList.remove("panel-open");
+    if (main) main.inert = false;
     content.replaceChildren();
     panel.scrollTop = 0;
     layer.classList.remove("panel-layer--watch");
     panel.classList.remove("panel--watch");
     document.dispatchEvent(new CustomEvent("jacklight:panel-closed"));
-    lastTrigger?.focus();
+    const returnFocus = lastTrigger?.isConnected ? lastTrigger : main;
+    returnFocus?.focus();
   }
 
   document.addEventListener("click", (event) => {
@@ -107,7 +116,7 @@ export function initPanelRouter(partialPaths) {
       return;
     }
 
-    const focusable = [...panel.querySelectorAll(FOCUSABLE)];
+    const focusable = [...panel.querySelectorAll(FOCUSABLE)].filter((element) => element.getClientRects().length);
     const first = focusable[0];
     const last = focusable.at(-1);
 
