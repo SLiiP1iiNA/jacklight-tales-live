@@ -10,6 +10,9 @@ async function loadJson(path) {
         throw new Error(`Could not load ${path}`);
       }
       return response.json();
+    }).catch((error) => {
+      cache.delete(path);
+      throw error;
     }));
   }
   return cache.get(path);

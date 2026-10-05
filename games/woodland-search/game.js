@@ -286,7 +286,7 @@ function resolveObjectOverlaps() {
   const secret = $('secret-item');
   const landscapeBlockers = getPhoneLandscapeBlockers();
 
-  if (!pip.hidden && !mischiefEscapedThisRound) {
+  if (!pip.hidden) {
     placeObjectAtPoint(pip, currentSpot, 8);
 
     if (landscapeBlockers.some(blocker => objectsOverlap(pip, blocker, 8))) {
@@ -352,7 +352,7 @@ function resolveObjectOverlaps() {
 }
 
 function positionObjects() {
-  if (currentSpot && !$('pip').hidden && !mischiefEscapedThisRound) {
+  if (currentSpot && !$('pip').hidden) {
     mapPointToScene(currentSpot, $('pip'));
   }
   if (currentSeedSpot && !$('heart-seed').hidden) {
@@ -483,6 +483,7 @@ async function loadRound() {
   currentSeedSpot = chooseSeedSpot(currentScene, currentSpot);
 
   $('success').hidden = true;
+  $('pip').style.transition = '';
   $('pip').hidden = true;
   $('heart-seed').hidden = true;
   $('secret-item').hidden = true;
@@ -583,6 +584,7 @@ function startJourney() {
   $('welcome').hidden = true;
   $('game').hidden = false;
   document.body.classList.add('game-active');
+  lockGame(false);
   updateSeedMeter();
   loadRound();
 }
@@ -670,6 +672,7 @@ function lockGame(locked) {
 
 function startMischiefRun() {
   if (!currentCharacter?.mischief || mischiefEscapedThisRound || found) return false;
+  const token = loadToken;
 
   const candidates = shuffle(currentScene.spots.filter(spot => {
     if (Math.hypot(spot.x - currentSpot.x, spot.y - currentSpot.y) <= 28) return false;
@@ -680,39 +683,23 @@ function startMischiefRun() {
     const farFromSecret = !secretPixel || Math.hypot(pixel.left - secretPixel.left, pixel.top - secretPixel.top) > 70;
     return farFromSeed && farFromSecret;
   }));
-  let nextSpot = candidates[0] || chooseSpot(currentScene);
-
   const landscapeBlockers = getPhoneLandscapeBlockers();
   const pip = $('pip');
   const originalLeft = pip.style.left;
   const originalTop = pip.style.top;
-
-  if (landscapeBlockers.length) {
-    const safeCandidates = candidates.filter(spot => {
-      mapPointToScene(spot, pip);
-      clampToScene(pip, 8);
-      const safe = !landscapeBlockers.some(blocker => objectsOverlap(pip, blocker, 8));
-      pip.style.left = originalLeft;
-      pip.style.top = originalTop;
-      return safe;
-    });
-    nextSpot = safeCandidates[0] || nextSpot;
-  }
-
-  pip.style.left = originalLeft;
-  pip.style.top = originalTop;
-
-  // Clamp the runaway destination against the actual rendered scene bounds.
-  // Percentage coordinates can land outside a mobile portrait crop, so the
-  // old animation could carry the character completely off-screen.
-  const startLeft = pip.style.left;
-  const startTop = pip.style.top;
-  mapPointToScene(nextSpot, pip);
-  clampToScene(pip, 8);
+  // Check the rendered bounds after cropping and clamping: distant image
+  // coordinates can still collapse onto the same edge on a portrait phone.
+  const nextSpot = findSafeObjectSpot(
+    pip,
+    [...candidates, ...shuffle(currentScene.spots || [])],
+    [$('heart-seed'), $('secret-item'), ...landscapeBlockers],
+    8
+  );
+  currentSpot = nextSpot;
   const nextLeft = pip.offsetLeft;
   const nextTop = pip.offsetTop;
-  pip.style.left = startLeft;
-  pip.style.top = startTop;
+  pip.style.left = originalLeft;
+  pip.style.top = originalTop;
 
   mischiefEscapedThisRound = true;
   $('pip').classList.add('mischief-running');
@@ -721,12 +708,14 @@ function startMischiefRun() {
   showStatusToast(2200);
 
   requestAnimationFrame(() => {
+    if (token !== loadToken) return;
     $('pip').style.transition = 'left 720ms cubic-bezier(.2,.8,.25,1), top 720ms cubic-bezier(.2,.8,.25,1)';
     $('pip').style.left = nextLeft + 'px';
     $('pip').style.top = nextTop + 'px';
   });
 
   window.setTimeout(() => {
+    if (token !== loadToken) return;
     $('pip').style.transition = '';
     $('pip').classList.remove('mischief-running');
     if (!found) $('hint').disabled = false;
@@ -743,18 +732,19 @@ function playFriendFoundCue() {
 }
 
 async function unlockCelebrationControls() {
+  const token = loadToken;
   const minimum = new Promise(resolve => setTimeout(resolve, SETTINGS.celebrationMinMs));
   await Promise.all([
     audioLayer?.waitForIdle?.() || Promise.resolve(),
     minimum
   ]);
-  if ($('success').hidden) return;
+  if (token !== loadToken || $('success').hidden) return;
   $('continue-path').disabled = false;
   $('continue-path').focus({ preventScroll: true });
 }
 
 function showCelebration({ seedJustFound = false } = {}) {
-  if (!isRoundComplete()) return;
+  if (!isRoundComplete() || !$('success').hidden || !document.body.classList.contains('game-active')) return;
   clearTimeout(hintOfferTimer);
   clearTimeout(hintTimer);
 
@@ -776,6 +766,7 @@ function showCelebration({ seedJustFound = false } = {}) {
   renderRoute();
   renderResultRoute();
   lockGame(true);
+  document.querySelector('.celebration').focus({ preventScroll: true });
 
   const finalRound = roundIndex === SETTINGS.roundsPerJourney - 1;
   $('finish').hidden = !finalRound;
@@ -811,8 +802,7 @@ function showCelebration({ seedJustFound = false } = {}) {
 
   $('continue-path').disabled = true;
   clearTimeout(celebrationTimer);
-  celebrationTimer = setTimeout(unlockCelebrationControls, SETTINGS.celebrationMinMs + 20);
-  unlockCelebrationControls();
+  void unlockCelebrationControls();
 }
 
 function handleCharacterFound() {
@@ -858,6 +848,7 @@ function collectHeartSeed(event) {
 
   const seed = $('heart-seed');
   if (seedFoundThisRound || seed.disabled || seed.hidden) return;
+  const token = loadToken;
 
   seedFoundThisRound = true;
   heartSeeds.add(roundIndex);
@@ -873,7 +864,9 @@ function collectHeartSeed(event) {
   resetHintState();
 
   if (isRoundComplete()) {
-    setTimeout(() => showCelebration({ seedJustFound: true }), 460);
+    celebrationTimer = setTimeout(() => {
+      if (token === loadToken) showCelebration({ seedJustFound: true });
+    }, 460);
     return;
   }
 
@@ -883,7 +876,9 @@ function collectHeartSeed(event) {
     : 'Heart Seed found! Keep searching for ' + currentCharacter.name + '.';
   showStatusToast(3200);
   offerHintLater();
-  setTimeout(() => { seed.hidden = true; }, 420);
+  setTimeout(() => {
+    if (token === loadToken) seed.hidden = true;
+  }, 420);
 }
 
 function collectSecretItem(event) {
@@ -891,6 +886,7 @@ function collectSecretItem(event) {
   event?.stopPropagation();
 
   if (!currentSecretItem || secretItemFoundThisRound || $('secret-item').hidden) return;
+  const token = loadToken;
 
   secretItemFoundThisRound = true;
   secretItems.add(currentSecretItem.id);
@@ -913,7 +909,9 @@ function collectSecretItem(event) {
   resetHintState();
 
   if (isRoundComplete()) {
-    setTimeout(() => showCelebration(), 460);
+    celebrationTimer = setTimeout(() => {
+      if (token === loadToken) showCelebration();
+    }, 460);
   } else {
     $('status').textContent = found
       ? (seedFoundThisRound ? 'Secret found! This path is complete. ✦' : 'Secret found! The Heart Seed is still hiding nearby.')
@@ -923,6 +921,7 @@ function collectSecretItem(event) {
   }
 
   setTimeout(() => {
+    if (token !== loadToken) return;
     $('secret-item').hidden = true;
     $('secret-item').classList.remove('collected');
   }, 420);
@@ -969,6 +968,7 @@ $('hint').addEventListener('click', () => {
 
   const target = getHintTarget();
   if (!target) return;
+  const token = loadToken;
 
   clearTimeout(hintTimer);
   clearTimeout(hintOfferTimer);
@@ -979,7 +979,7 @@ $('hint').addEventListener('click', () => {
 
   const unlockHintAfterDialogue = (element, nextLabel) => {
     const unlock = () => {
-      if (isRoundComplete()) return;
+      if (token !== loadToken || target !== getHintTarget() || isRoundComplete()) return;
       // Keep the visual hint glowing after Luna finishes speaking so
       // the child has time to actually spot and click the target. A later
       // gameplay action or new hint clears the glow.
@@ -1070,6 +1070,25 @@ $('success').addEventListener('keydown', event => {
   if (event.key === 'Escape') {
     event.preventDefault();
     leaveJourney();
+    return;
+  }
+
+  if (event.key === 'Tab') {
+    const controls = [...$('success').querySelectorAll('button:not(:disabled), a[href]')]
+      .filter(element => element.getClientRects().length);
+    const first = controls[0];
+    const last = controls[controls.length - 1];
+
+    if (!first) {
+      event.preventDefault();
+      document.querySelector('.celebration').focus({ preventScroll: true });
+    } else if (event.shiftKey && (event.target === first || !controls.includes(event.target))) {
+      event.preventDefault();
+      last.focus({ preventScroll: true });
+    } else if (!event.shiftKey && (event.target === last || !controls.includes(event.target))) {
+      event.preventDefault();
+      first.focus({ preventScroll: true });
+    }
   }
 });
 

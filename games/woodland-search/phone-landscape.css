@@ -138,6 +138,7 @@ html.phone-landscape-mode #target-title{
 /* Ten tiny route numbers — fixed at the very top of the game screen. */
 html.phone-landscape-mode .route-strip{
   top:max(.04rem,env(safe-area-inset-top))!important;
+  width:min(500px,42vw)!important;
   left:50%!important;
   transform:translateX(-50%)!important;
   z-index:50!important;
@@ -395,7 +396,7 @@ html.phone-landscape-mode .welcome-copy>p:not(.eyebrow){
   }
 
   /* Free up the top row so mission, route and counters cannot collide. */
-  .mission-hud{
+  html.phone-landscape-mode .mission-hud{
     top:max(.03rem,env(safe-area-inset-top))!important;
     left:max(.12rem,env(safe-area-inset-left))!important;
     width:auto!important;
@@ -407,7 +408,7 @@ html.phone-landscape-mode .welcome-copy>p:not(.eyebrow){
     border-radius:8px!important;
   }
   .mission-hud .reference{display:none!important}
-  #target-title{
+  html.phone-landscape-mode #target-title{
     font-size:.57rem!important;
     line-height:1!important;
     max-width:108px!important;

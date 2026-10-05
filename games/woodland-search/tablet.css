@@ -23,3 +23,13 @@
   #status{bottom:7.5rem;max-width:76vw}
   .game-actions{bottom:1rem;width:min(600px,82vw)}
 }
+
+/* Keep the route between the mission card and counters on landscape tablets. */
+@media (min-width:701px) and (max-width:1100px) and (min-height:561px) and (orientation:landscape){
+  .route-strip{
+    left:auto;
+    right:6.4rem;
+    transform:none;
+    width:min(500px,calc(100% - min(310px,40vw) - 9.4rem));
+  }
+}

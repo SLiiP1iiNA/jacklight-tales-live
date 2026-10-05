@@ -93,6 +93,20 @@
 }
 
 /* --------------------------------------------------------------------------
+   Short landscape entrance: keep Skip clear of the woodland gate.
+   The existing short-screen composition can scroll; a bottom-centred Skip
+   otherwise sits directly over the gate on smaller landscape phones.
+   -------------------------------------------------------------------------- */
+@media (max-width: 44rem) and (orientation: landscape) {
+  .storybook-body .entrance__skip {
+    top: max(.75rem, env(safe-area-inset-top));
+    right: max(.75rem, env(safe-area-inset-right));
+    bottom: auto;
+    transform: none;
+  }
+}
+
+/* --------------------------------------------------------------------------
    Panel shell: safe-area aware close button, especially iPhone Safari
    -------------------------------------------------------------------------- */
 .storybook-body .panel-layer {

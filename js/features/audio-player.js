@@ -13,6 +13,9 @@ function loadCatalog(path) {
     catalogCache.set(path, fetch(path, { cache: "no-store" }).then((response) => {
       if (!response.ok) throw new Error(`Could not load ${path}`);
       return response.json();
+    }).catch((error) => {
+      catalogCache.delete(path);
+      throw error;
     }));
   }
   return catalogCache.get(path);
@@ -155,6 +158,7 @@ function setActiveCopy(state, track) {
 async function playTrack(state, trackIndex) {
   const track = state.tracks[trackIndex];
   if (!track?.available) return;
+  const request = ++state.playToken;
 
   state.activeIndex = trackIndex;
   state.episodeList.querySelectorAll(".audiobook-episode.is-active").forEach((button) => button.classList.remove("is-active"));
@@ -170,6 +174,7 @@ async function playTrack(state, trackIndex) {
   try {
     await state.audio.play();
   } catch {
+    if (request !== state.playToken || !state.audio.isConnected) return;
     state.status.textContent = "Press play when you are ready";
     updateToggleButtons(state);
   }
@@ -184,6 +189,7 @@ function moveTrack(state, direction) {
 
 async function loadSeries(catalog, series, state, { force = false } = {}) {
   state.checkToken += 1;
+  state.playToken += 1;
   const token = state.checkToken;
   state.series = series;
   state.activeIndex = -1;
@@ -247,14 +253,22 @@ function wireMediaSession(state) {
   const safeHandler = (action, handler) => {
     try { navigator.mediaSession.setActionHandler(action, handler); } catch { /* unsupported action */ }
   };
-  safeHandler("play", () => state.audio.play());
+  safeHandler("play", () => state.audio.play().catch(() => {
+    state.status.textContent = "Press play when you are ready";
+    updateToggleButtons(state);
+  }));
   safeHandler("pause", () => state.audio.pause());
   safeHandler("previoustrack", () => moveTrack(state, -1));
   safeHandler("nexttrack", () => moveTrack(state, 1));
+  state.clearMediaSession = () => {
+    ["play", "pause", "previoustrack", "nexttrack"].forEach((action) => safeHandler(action, null));
+    navigator.mediaSession.metadata = null;
+  };
 }
 
-async function buildLibrary(root, contentPath) {
+async function buildLibrary(root, contentPath, registerPlayer) {
   const catalog = await loadCatalog(contentPath);
+  if (!root.isConnected) return;
   const experience = root.closest(".listen-experience");
   const seriesList = root.querySelector("[data-audio-series-list]");
   const episodeList = root.querySelector("[data-audio-episode-list]");
@@ -288,7 +302,16 @@ async function buildLibrary(root, contentPath) {
     tracks: [],
     activeIndex: -1,
     checkToken: 0,
+    playToken: 0,
   };
+  registerPlayer(() => {
+    state.checkToken += 1;
+    state.playToken += 1;
+    state.audio.pause();
+    state.audio.removeAttribute("src");
+    state.audio.load();
+    state.clearMediaSession?.();
+  });
 
   experience.addEventListener("click", (event) => {
     const seriesButton = event.target.closest("[data-audio-series]");
@@ -306,7 +329,12 @@ async function buildLibrary(root, contentPath) {
       return;
     }
     if (toggleButton && !toggleButton.disabled) {
-      if (state.audio.paused || state.audio.ended) state.audio.play();
+      if (state.audio.paused || state.audio.ended) {
+        state.audio.play().catch(() => {
+          state.status.textContent = "Press play when you are ready";
+          updateToggleButtons(state);
+        });
+      }
       else state.audio.pause();
       return;
     }
@@ -343,6 +371,13 @@ async function buildLibrary(root, contentPath) {
 }
 
 export function initAudioPlayer(contentPath) {
+  let disposePlayer = null;
+  function stopPlayer() {
+    disposePlayer?.();
+    disposePlayer = null;
+  }
+  document.addEventListener("jacklight:panel-opening", stopPlayer);
+  document.addEventListener("jacklight:panel-closed", stopPlayer);
   document.addEventListener("jacklight:panel-opened", async (event) => {
     if (event.detail.panelName !== "listen") return;
     const root = event.detail.content;
@@ -350,7 +385,7 @@ export function initAudioPlayer(contentPath) {
     if (!library || library.dataset.initialised === "true") return;
     library.dataset.initialised = "true";
     try {
-      await buildLibrary(library, contentPath);
+      await buildLibrary(library, contentPath, (dispose) => { disposePlayer = dispose; });
     } catch (error) {
       console.error("Audiobook library could not be loaded", error);
       library.innerHTML = '<div class="panel-error"><h3>The listening room needs a moment.</h3><p>Something did not load properly. Please close this window and try again.</p></div>';

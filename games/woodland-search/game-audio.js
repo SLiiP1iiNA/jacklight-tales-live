@@ -72,6 +72,7 @@
   const FADE_IN_MS = 70;
   const fadeFrames = new WeakMap();
   const fadeCancels = new WeakMap();
+  const playbackTokens = new WeakMap();
 
   function emitError(name, error) {
     console.warn('Woodland Search Luna audio failed:', name, error);
@@ -203,6 +204,7 @@
 
   async function startOnPlayer(player, name, volume, token) {
     if (token !== transitionToken || !enabled || !prepare(player, name)) return false;
+    playbackTokens.set(player, token);
 
     try {
       await player.play();
@@ -210,19 +212,19 @@
       if (token === transitionToken) {
         emitError(name, error);
       }
-      stopPlayer(player);
+      if (playbackTokens.get(player) === token) stopPlayer(player);
       return false;
     }
 
     if (token !== transitionToken || !enabled) {
-      stopPlayer(player);
+      if (playbackTokens.get(player) === token) stopPlayer(player);
       return false;
     }
 
     await fadePlayer(player, volume, FADE_IN_MS);
 
     if (token !== transitionToken || !enabled) {
-      stopPlayer(player);
+      if (playbackTokens.get(player) === token) stopPlayer(player);
       return false;
     }
 
@@ -268,7 +270,10 @@
 
     if (token === transitionToken) {
       transitioning = false;
-      if (!started) currentName = null;
+      if (!started) {
+        currentName = null;
+        queue = [];
+      }
       resolveIdle();
     }
 
@@ -287,7 +292,10 @@
 
     if (token === transitionToken) {
       transitioning = false;
-      if (!started) currentName = null;
+      if (!started) {
+        currentName = null;
+        queue = [];
+      }
       resolveIdle();
     }
 
@@ -306,7 +314,10 @@
 
     if (token === transitionToken) {
       transitioning = false;
-      if (!started) currentName = null;
+      if (!started) {
+        currentName = null;
+        queue = [];
+      }
       resolveIdle();
     }
 
@@ -325,7 +336,8 @@
     lastRequestName = name;
     lastRequestAt = now;
 
-    const mobilePhone = window.matchMedia?.('(max-width: 760px)').matches;
+    const mobilePhone = document.documentElement.classList.contains('phone-landscape-mode') ||
+      window.matchMedia?.('(max-width: 760px)').matches;
     const effectiveVolume = mobilePhone ? volume * MOBILE_VOICE_GAIN : volume;
 
     if (!interrupt && (transitioning || currentName || anyPlayerPlaying())) {
@@ -346,7 +358,8 @@
     const valid = names.filter(name => slots[name]);
     if (!enabled || !valid.length) return Promise.resolve(false);
 
-    const mobilePhone = window.matchMedia?.('(max-width: 760px)').matches;
+    const mobilePhone = document.documentElement.classList.contains('phone-landscape-mode') ||
+      window.matchMedia?.('(max-width: 760px)').matches;
     const effectiveVolume = mobilePhone ? volume * MOBILE_VOICE_GAIN : volume;
 
     if (!interrupt && (transitioning || currentName || anyPlayerPlaying())) {
@@ -401,6 +414,8 @@
     transitioning = false;
     queue = [];
     currentName = null;
+    lastRequestName = null;
+    lastRequestAt = 0;
     players.forEach(stopPlayer);
     resolveIdle();
   }
@@ -415,10 +430,13 @@
     else resolveIdle();
   }
 
+  window.addEventListener('pagehide', stop);
+
   window.jltGameAudio = {
     play,
     playSequence,
     stop,
+    setEnabled,
     waitForIdle,
     isEnabled: () => enabled,
     isPlaying: () => enabled && (transitioning || anyPlayerPlaying()),

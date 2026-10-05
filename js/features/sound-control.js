@@ -18,7 +18,10 @@ export function initSoundControl(audioPath, mobileAudioPath = "") {
   let resumeTimer = null;
   let siteAudioStarted = false;
   let fadeFrame = null;
+  let finishFade = null;
   let restoredFromGame = false;
+  let soundEnabled = true;
+  let audioRequestVersion = 0;
 
   if (!audioPath) {
     button.hidden = true;
@@ -51,6 +54,8 @@ export function initSoundControl(audioPath, mobileAudioPath = "") {
       window.cancelAnimationFrame(fadeFrame);
       fadeFrame = null;
     }
+    finishFade?.(false);
+    finishFade = null;
   }
 
   function fadeTo(target, duration = FADE_IN_MS) {
@@ -59,21 +64,23 @@ export function initSoundControl(audioPath, mobileAudioPath = "") {
     const to = Math.max(0, Math.min(1, target));
     if (Math.abs(from - to) < 0.001 || duration <= 0) {
       audio.volume = to;
-      return Promise.resolve();
+      return Promise.resolve(true);
     }
 
     return new Promise(resolve => {
+      finishFade = resolve;
       const start = performance.now();
       const step = now => {
-        const progress = Math.min(1, (now - start) / duration);
+        const progress = Math.max(0, Math.min(1, (now - start) / duration));
         const eased = progress * (2 - progress);
         audio.volume = from + ((to - from) * eased);
         if (progress < 1) {
           fadeFrame = window.requestAnimationFrame(step);
         } else {
           fadeFrame = null;
+          finishFade = null;
           audio.volume = to;
-          resolve();
+          resolve(true);
         }
       };
       fadeFrame = window.requestAnimationFrame(step);
@@ -81,8 +88,12 @@ export function initSoundControl(audioPath, mobileAudioPath = "") {
   }
 
   async function startWoodlandSound(target = NORMAL_VOLUME, duration = FADE_IN_MS) {
-    if (audiobookPlaying || !audio.paused) {
-      if (!audio.paused && audio.volume < target) await fadeTo(target, duration);
+    if (!soundEnabled || cinemaOpen || audiobookPlaying) return;
+    const request = ++audioRequestVersion;
+    if (!audio.paused) {
+      siteAudioStarted = true;
+      setButtonState(true);
+      await fadeTo(target, duration);
       return;
     }
 
@@ -90,15 +101,17 @@ export function initSoundControl(audioPath, mobileAudioPath = "") {
 
     try {
       await audio.play();
+      if (request !== audioRequestVersion || !soundEnabled || cinemaOpen || audiobookPlaying) return;
       siteAudioStarted = true;
       setButtonState(true);
       await fadeTo(target, duration);
     } catch {
-      setButtonState(false);
+      if (request === audioRequestVersion) setButtonState(false);
     }
   }
 
   function stopWoodlandSound({ reset = false } = {}) {
+    audioRequestVersion += 1;
     clearResumeTimer();
     cancelFade();
     audio.pause();
@@ -114,6 +127,7 @@ export function initSoundControl(audioPath, mobileAudioPath = "") {
 
     clearResumeTimer();
     cancelFade();
+    const request = ++audioRequestVersion;
 
     if (audio.paused) {
       audio.volume = 0;
@@ -121,7 +135,8 @@ export function initSoundControl(audioPath, mobileAudioPath = "") {
       return Promise.resolve();
     }
 
-    return fadeTo(0, duration).then(() => {
+    return fadeTo(0, duration).then((completed) => {
+      if (!completed || request !== audioRequestVersion) return;
       audio.pause();
       audio.volume = 0;
       setButtonState(false);
@@ -166,11 +181,11 @@ export function initSoundControl(audioPath, mobileAudioPath = "") {
   }, { once: true, capture: true });
 
   document.addEventListener("jacklight:panel-opening", event => {
-    if (event.detail.panelName === "watch") {
-      cinemaOpen = true;
-      listenOpen = false;
-      audiobookPlaying = false;
-      clearResumeTimer();
+    cinemaOpen = event.detail.panelName === "watch";
+    listenOpen = event.detail.panelName === "listen";
+    audiobookPlaying = false;
+    clearResumeTimer();
+    if (cinemaOpen) {
       if (isMobile()) {
         void transitionOutForMobileNavigation();
       } else {
@@ -179,13 +194,9 @@ export function initSoundControl(audioPath, mobileAudioPath = "") {
       return;
     }
 
-    cinemaOpen = false;
-
-    if (event.detail.panelName !== "listen") return;
-    listenOpen = true;
-    audiobookPlaying = false;
-    clearResumeTimer();
-    if (isMobile()) {
+    if (!listenOpen) {
+      startWoodlandSound(NORMAL_VOLUME, FADE_IN_MS);
+    } else if (isMobile()) {
       void transitionOutForMobileNavigation();
     } else {
       startWoodlandSound(LISTEN_VOLUME, FADE_OUT_MS);
@@ -202,7 +213,9 @@ export function initSoundControl(audioPath, mobileAudioPath = "") {
       if (!listenOpen || !storyAudio.isConnected) return;
       audiobookPlaying = true;
       clearResumeTimer();
-      fadeTo(0, FADE_OUT_MS).then(() => {
+      const request = ++audioRequestVersion;
+      fadeTo(0, FADE_OUT_MS).then((completed) => {
+        if (!completed || request !== audioRequestVersion) return;
         audio.pause();
         setButtonState(false);
       });
@@ -212,7 +225,9 @@ export function initSoundControl(audioPath, mobileAudioPath = "") {
       if (!listenOpen || !storyAudio.isConnected) return;
       audiobookPlaying = true;
       clearResumeTimer();
-      fadeTo(0, FADE_OUT_MS).then(() => {
+      const request = ++audioRequestVersion;
+      fadeTo(0, FADE_OUT_MS).then((completed) => {
+        if (!completed || request !== audioRequestVersion) return;
         audio.pause();
         setButtonState(false);
       });
@@ -228,16 +243,8 @@ export function initSoundControl(audioPath, mobileAudioPath = "") {
     });
   });
 
-  document.addEventListener("jacklight:panel-closed", event => {
-    if (cinemaOpen) {
-      cinemaOpen = false;
-      clearResumeTimer();
-      startWoodlandSound(NORMAL_VOLUME, FADE_IN_MS);
-      return;
-    }
-
-    if (event.detail?.panelName && event.detail.panelName !== "listen") return;
-    if (!listenOpen) return;
+  document.addEventListener("jacklight:panel-closed", () => {
+    cinemaOpen = false;
     listenOpen = false;
     audiobookPlaying = false;
     clearResumeTimer();
@@ -248,9 +255,13 @@ export function initSoundControl(audioPath, mobileAudioPath = "") {
     if (audiobookPlaying) return;
 
     if (audio.paused) {
+      soundEnabled = true;
       await startWoodlandSound(listenOpen ? LISTEN_VOLUME : NORMAL_VOLUME, FADE_IN_MS);
     } else {
-      await fadeTo(0, FADE_OUT_MS);
+      soundEnabled = false;
+      const request = ++audioRequestVersion;
+      const completed = await fadeTo(0, FADE_OUT_MS);
+      if (!completed || request !== audioRequestVersion) return;
       audio.pause();
       setButtonState(false);
     }
