@@ -5,7 +5,7 @@ import { initAudioPlayer } from "./features/audio-player.js?v=20261005-regressio
 import { initContentPanels } from "./features/content-panels.js?v=20261005-regression1";
 import { initEntrance } from "./features/entrance.js?v=20261005-regression1";
 import { initSocialLinks } from "./features/social-links.js?v=20261005-regression1";
-import { initSoundControl } from "./features/sound-control.js?v=20261005-regression1";
+import { initSoundControl } from "./features/sound-control.js?v=20261006-audit1";
 import { initYouTube } from "./features/youtube.js?v=20260927-cinema-playlist1";
 import { initWoodlandMap } from "./features/woodland-map.js";
 import { initGameTransition } from "./features/game-transition.js";

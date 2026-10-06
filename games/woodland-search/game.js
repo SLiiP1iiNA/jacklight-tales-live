@@ -941,7 +941,7 @@ $('play').addEventListener('click', () => {
     return;
   }
 
-  setSound(true);
+  setSound(loadSoundPreference());
   void window.jltWoodlandGameMusic?.start?.();
   void audioLayer?.playSequence?.(['welcome', 'beginSearch'], { volume: 0.92 });
 });
