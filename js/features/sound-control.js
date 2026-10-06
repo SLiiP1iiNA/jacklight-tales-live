@@ -173,7 +173,8 @@ export function initSoundControl(audioPath, mobileAudioPath = "") {
     restoredFromGame = false;
   });
 
-  document.addEventListener("pointerdown", () => {
+  document.addEventListener("pointerdown", (event) => {
+    if (event.target.closest("#sound-control")) return;
     if (!siteAudioStarted && !audiobookPlaying) {
       startWoodlandSound(NORMAL_VOLUME, restoredFromGame ? 2200 : FADE_IN_MS);
       restoredFromGame = false;

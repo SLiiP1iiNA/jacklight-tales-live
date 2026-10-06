@@ -44,7 +44,7 @@ window.WOODLAND_SEARCH_DATA={
       secretItem:{id:'pool-stone',name:'Moonlit Pool Stone',image:'secrets/moonlit-pool-stone.png',spots:[{x:42,y:51},{x:68,y:62},{x:88,y:53}]}
     },
     {
-      image:'assets/whispering-woods-landscape-03.webp',
+      image:'assets/whispering-woods-landscape-10.webp',
       name:'Little Stream',
       shortName:'Stream',
       intro:'Water chatters over the stones on the third woodland path.',
@@ -149,7 +149,7 @@ window.WOODLAND_SEARCH_DATA={
       secretItem:{id:'blue-ribbon',name:'Woodland Ribbon',image:'secrets/woodland-ribbon.png',spots:[{x:24,y:60},{x:57,y:51},{x:81,y:61}]}
     },
     {
-      image:'assets/whispering-woods-landscape-10.webp',
+      image:'assets/whispering-woods-landscape-03.webp',
       name:'Winter Circus Clearing',
       shortName:'Circus',
       intro:'The final path opens into a magical snowy clearing where the travelling circus has left its lanterns glowing.',
