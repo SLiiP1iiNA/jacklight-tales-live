@@ -15,6 +15,7 @@
   <link rel="stylesheet" href="phone-portrait.css?v=20260922-mobilefinal1">
   <link rel="stylesheet" href="phone-landscape.css?v=20261005-regression1">
   <link rel="stylesheet" href="celebration.css?v=20261007-halloween1">
+  <link rel="stylesheet" href="music-controls.css?v=20261007-halloween3">
 </head>
 <body>
 <header class="site-bar">
@@ -86,6 +87,14 @@
       <div class="game-actions" aria-label="Game controls">
         <button id="hint" type="button">A little hint</button>
         <button id="sound" type="button" aria-pressed="true">♫ Sound on</button>
+        <details id="music-controls" class="music-controls">
+          <summary>♫ Music</summary>
+          <div class="music-panel">
+            <label for="music-volume">Music volume</label>
+            <output id="music-level" for="music-volume">60%</output>
+            <input id="music-volume" type="range" min="0" max="100" step="1" value="60">
+          </div>
+        </details>
         <button id="leave" type="button">Leave the search</button>
       </div>
 
@@ -143,11 +152,11 @@
   });
 })();
 </script>
-<script src="game-music.js?v=20261007-halloween2"></script>
+<script src="game-music.js?v=20261007-halloween3"></script>
 <script src="game-audio.js?v=20261007-halloween2"></script>
 <script src="game-settings.js?v=20261007-halloween1"></script>
 <script src="game-data.js?v=20261007-halloween1"></script>
-<script src="game.js?v=20261007-halloween1"></script>
+<script src="game.js?v=20261007-halloween3"></script>
 <script type="module">
   import { initImageProtection } from '../../js/features/image-protection.js';
   initImageProtection();
