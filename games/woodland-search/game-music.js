@@ -1,29 +1,29 @@
 (() => {
-  // Woodland Search background music.
-  // Desktop keeps the original tracks and working player level.
-  // Mobile uses the separately encoded -26 dB copies.
+  // Halloween Woodland Search background music.
+  // Desktop files are already reduced by 44.44 dB; mobile files by 26 dB.
+  // Use an additional quiet playback level; the original files stay intact.
   const DESKTOP_TRACKS = [
-    'https://pub-9ea739df2a0c435bbc605d2f4bfc6fb5.r2.dev/Game%20Audio/Woodland%20Search/Luna/WDew_on_the_Clover.mp3',
-    'https://pub-9ea739df2a0c435bbc605d2f4bfc6fb5.r2.dev/Game%20Audio/Woodland%20Search/Luna/Where_Wildflowers_Bloom.mp3'
+    'https://pub-9ea739df2a0c435bbc605d2f4bfc6fb5.r2.dev/Game%20Audio/Woodland%20Search/Halloween/music/Pumpkin_Patch_Promenade_Desktop_-44.44dB.mp3',
+    'https://pub-9ea739df2a0c435bbc605d2f4bfc6fb5.r2.dev/Game%20Audio/Woodland%20Search/Halloween/music/Lanterns_on_the_Cobblestone_Desktop_-44.44dB.mp3'
   ];
 
   const MOBILE_TRACKS = [
-    'https://pub-9ea739df2a0c435bbc605d2f4bfc6fb5.r2.dev/Game%20Audio/Woodland%20Search/Luna/WDew_on_the_Clover_-26dB.mp3',
-    'https://pub-9ea739df2a0c435bbc605d2f4bfc6fb5.r2.dev/Game%20Audio/Woodland%20Search/Luna/Where_Wildflowers_Bloom_-26dB.mp3'
+    'https://pub-9ea739df2a0c435bbc605d2f4bfc6fb5.r2.dev/Game%20Audio/Woodland%20Search/Halloween/music/Pumpkin_Patch_Promenade_Mobile_-26dB.mp3',
+    'https://pub-9ea739df2a0c435bbc605d2f4bfc6fb5.r2.dev/Game%20Audio/Woodland%20Search/Halloween/music/Lanterns_on_the_Cobblestone_Mobile_-26dB.mp3'
   ];
-
-  const DESKTOP_VOLUME = 0.006;
 
   const audio = document.getElementById('woodland-music');
   if (!audio) return;
 
-  const mobile = window.matchMedia('(max-width: 900px), (pointer: coarse)').matches;
+  // A narrow desktop window still needs the quieter desktop recordings.
+  // Choose once by input device so rotation cannot change the music level.
+  const mobile = window.matchMedia('(pointer: coarse)').matches;
   const tracks = mobile ? MOBILE_TRACKS : DESKTOP_TRACKS;
 
   audio.loop = false;
   audio.preload = 'none';
   audio.playsInline = true;
-  audio.volume = mobile ? 1 : DESKTOP_VOLUME;
+  audio.volume = mobile ? 0.25 : 0.65;
 
   let enabled = true;
   let trackIndex = 0;

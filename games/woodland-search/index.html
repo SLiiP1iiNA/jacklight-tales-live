@@ -3,18 +3,18 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-  <meta name="description" content="Explore ten gentle woodland paths and find Barnaby and his friends in Woodland Search by JackLight Tales.">
+  <meta name="description" content="Explore six cosy Halloween places and find Barnaby and his friends in Woodland Search by JackLight Tales.">
   <script>
     (()=>{const sync=()=>{const v=window.visualViewport,w=v?.width||innerWidth,h=v?.height||innerHeight;document.documentElement.classList.toggle('phone-landscape-mode',w>h&&h<=560&&w<=1100);document.documentElement.classList.toggle('phone-portrait-mode',h>=w&&w<=760)};sync();addEventListener('orientationchange',()=>setTimeout(sync,80));window.visualViewport?.addEventListener('resize',sync)})();
   </script>
-  <title>Woodland Search · JackLight Tales</title>
+  <title>Woodland Search · Halloween · JackLight Tales</title>
   <link rel="stylesheet" href="tokens.css?v=20260920-ws2">
-  <link rel="stylesheet" href="base.css?v=20260926-circusticket4">
+  <link rel="stylesheet" href="base.css?v=20261007-halloween1">
   <link rel="stylesheet" href="desktop.css?v=20260920-secrets2">
   <link rel="stylesheet" href="tablet.css?v=20261005-regression1">
   <link rel="stylesheet" href="phone-portrait.css?v=20260922-mobilefinal1">
   <link rel="stylesheet" href="phone-landscape.css?v=20261005-regression1">
-  <link rel="stylesheet" href="celebration.css?v=20260921-celebration3">
+  <link rel="stylesheet" href="celebration.css?v=20261007-halloween1">
 </head>
 <body>
 <header class="site-bar">
@@ -26,40 +26,36 @@
   <section id="welcome" aria-labelledby="welcome-title">
     <div class="welcome-copy">
       <img class="welcome-mark" src="assets/jlt.png" alt="JackLight Tales lantern">
-      <p class="eyebrow">Woodland Search</p>
-      <h1 id="welcome-title">A bigger little adventure is waiting.</h1>
-      <p>Travel through ten places in the Whispering Woods. Find all ten friends, discover hidden Heart Seeds and keep an eye out for little woodland secrets. Take all the time you need.</p>
+      <p class="eyebrow">Woodland Search · Halloween</p>
+      <h1 id="welcome-title">A little Halloween adventure is waiting.</h1>
+      <p>Explore six cosy Halloween places. Find Barnaby and his friends, discover glowing Heart Seeds and uncover six little autumn secrets. Take all the time you need.</p>
       <div class="welcome-promises" aria-label="Game features">
-        <span>✦ 10 paths</span><span>✦ 10 Heart Seeds</span><span>✦ Secret finds</span><span>✦ Gentle hints</span>
+        <span>✦ 6 places</span><span>✦ 6 Heart Seeds</span><span>✦ Secret finds</span><span>✦ Gentle hints</span>
       </div>
       <button id="play" class="primary-action" type="button">Begin the search <span aria-hidden="true">→</span></button>
     </div>
 
-    <div class="journey-preview" aria-label="Ten woodland places">
-      <div class="journey-preview__scene"><img src="assets/whispering-woods-landscape-01.webp" alt="" data-woodland-preview></div>
+    <div class="journey-preview" aria-label="Six Halloween places">
+      <div class="journey-preview__scene"><img src="assets/halloween-bg-01-costume-room.webp" alt="" data-woodland-preview></div>
       <ol>
-        <li><span>1</span><strong>Golden Apple</strong></li>
-        <li><span>2</span><strong>Glowing Pool</strong></li>
-        <li><span>3</span><strong>Little Stream</strong></li>
-        <li><span>4</span><strong>Sunflower Valley</strong></li>
-        <li><span>5</span><strong>Lantern Village</strong></li>
-        <li><span>6</span><strong>Sunlit Path</strong></li>
-        <li><span>7</span><strong>Old Woodland Trail</strong></li>
-        <li><span>8</span><strong>Quiet Evening</strong></li>
-        <li><span>9</span><strong>Meadow Opening</strong></li>
-        <li><span>10</span><strong>Winter Circus</strong></li>
+        <li><span>1</span><strong>Costume Room</strong></li>
+        <li><span>2</span><strong>Pumpkin Patch</strong></li>
+        <li><span>3</span><strong>Bakery Bridge</strong></li>
+        <li><span>4</span><strong>Harvest Games</strong></li>
+        <li><span>5</span><strong>Lantern Lane</strong></li>
+        <li><span>6</span><strong>Clock Tower</strong></li>
       </ol>
     </div>
   </section>
 
-  <section id="game" hidden aria-label="Woodland Search game">
+  <section id="game" hidden aria-label="Halloween Woodland Search game">
     <div id="stage" aria-label="Woodland search picture">
       <div id="viewport" tabindex="0" role="region" aria-describedby="status">
         <div id="scene">
-          <img id="woods" src="assets/whispering-woods-landscape-01.webp" alt="The golden apple clearing" draggable="false">
+          <img id="woods" src="assets/halloween-bg-01-costume-room.webp" alt="Barnaby’s Costume Room" draggable="false">
           <div class="fireflies" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span><span></span></div>
           <button id="heart-seed" type="button" aria-label="A hidden Heart Seed" hidden><span aria-hidden="true"></span></button>
-          <button id="secret-item" type="button" aria-label="A hidden woodland secret" hidden><img src="assets/secrets/golden-apple-charm.png" alt="" draggable="false"></button>
+          <button id="secret-item" type="button" aria-label="A hidden Halloween secret" hidden><img src="assets/secrets/halloween-item-01-cardboard-mask.webp" alt="" draggable="false"></button>
           <button id="pip" type="button" aria-label="Found Barnaby" hidden><img src="assets/barnaby.png" alt="" draggable="false"></button>
         </div>
       </div>
@@ -67,9 +63,9 @@
       <div class="mission-hud" aria-live="polite">
         <img id="reference" class="reference" src="assets/barnaby.png" alt="Barnaby">
         <div>
-          <p class="mission-kicker"><span id="path-number">Path 1 of 10</span> · <span id="place-name">Golden Apple Clearing</span></p>
+          <p class="mission-kicker"><span id="path-number">Path 1 of 6</span> · <span id="place-name">Barnaby’s Costume Room</span></p>
           <h1 id="target-title">Find Barnaby</h1>
-          <p id="mission-line">Barnaby has wandered somewhere into the clearing.</p>
+          <p id="mission-line">Barnaby is hiding among the costume-making things.</p>
         </div>
       </div>
 
@@ -77,20 +73,20 @@
 
       <div class="seed-meter" aria-live="polite" title="Hidden Heart Seeds found">
         <span class="seed-icon" aria-hidden="true"></span>
-        <strong id="seed-count">0 / 10</strong>
+        <strong id="seed-count">0 / 6</strong>
       </div>
 
       <div id="secret-meter" class="seed-meter secret-meter" aria-live="polite" title="Hidden woodland secrets found">
         <span class="secret-icon" aria-hidden="true">✦</span>
-        <strong id="secret-count">0 / 10</strong>
+        <strong id="secret-count">0 / 6</strong>
       </div>
 
-      <p id="status" role="status" aria-live="polite">Look carefully through the clearing.</p>
+      <p id="status" role="status" aria-live="polite">Look carefully among the costume-making things.</p>
 
       <div class="game-actions" aria-label="Game controls">
         <button id="hint" type="button">A little hint</button>
         <button id="sound" type="button" aria-pressed="true">♫ Sound on</button>
-        <button id="leave" type="button">Leave the woods</button>
+        <button id="leave" type="button">Leave the search</button>
       </div>
 
       <div id="success" hidden role="dialog" aria-modal="true" aria-labelledby="win-title">
@@ -108,7 +104,7 @@
           </div>
           <div class="journey-result">
             <div id="result-route" class="result-route" aria-hidden="true"></div>
-            <p id="next-label">Another woodland path is waiting.</p>
+            <p id="next-label">Another Halloween place is waiting.</p>
           </div>
           <div class="celebration-actions">
             <button id="continue-path" class="primary-action" type="button">Where shall we wander? →</button>
@@ -128,17 +124,17 @@
   playsinline
   webkit-playsinline
   aria-hidden="true"
-  src="https://pub-9ea739df2a0c435bbc605d2f4bfc6fb5.r2.dev/Game%20Audio/Woodland%20Search/Luna/WDew_on_the_Clover.mp3"></audio>
+  src="https://pub-9ea739df2a0c435bbc605d2f4bfc6fb5.r2.dev/Game%20Audio/Woodland%20Search/Halloween/music/Pumpkin_Patch_Promenade_Desktop_-44.44dB.mp3"></audio>
 <audio id="luna-audio" preload="auto" playsinline webkit-playsinline
-  src="https://pub-9ea739df2a0c435bbc605d2f4bfc6fb5.r2.dev/Game%20Audio/Woodland%20Search/Luna/Welcome.mp3"></audio>
+  src="https://pub-9ea739df2a0c435bbc605d2f4bfc6fb5.r2.dev/Game%20Audio/Woodland%20Search/Halloween/luna/welcome.mp3"></audio>
 
 <script>
 (() => {
   const img = document.querySelector('[data-woodland-preview]');
   if (!img) return;
   const candidates = [
-    new URL('./assets/whispering-woods-landscape-01.webp', document.baseURI).href,
-    new URL('/games/woodland-search/assets/whispering-woods-landscape-01.webp', window.location.origin).href
+    new URL('./assets/halloween-bg-01-costume-room.webp', document.baseURI).href,
+    new URL('/games/woodland-search/assets/halloween-bg-01-costume-room.webp', window.location.origin).href
   ];
   let attempt = 0;
   img.addEventListener('error', () => {
@@ -147,11 +143,11 @@
   });
 })();
 </script>
-<script src="game-music.js?v=20260922-mobilefinal3"></script>
-<script src="game-audio.js?v=20261005-regression1"></script>
-<script src="game-settings.js?v=20260920-secrets2"></script>
-<script src="game-data.js?v=20261006-audit1"></script>
-<script src="game.js?v=20261006-audit1"></script>
+<script src="game-music.js?v=20261007-halloween2"></script>
+<script src="game-audio.js?v=20261007-halloween2"></script>
+<script src="game-settings.js?v=20261007-halloween1"></script>
+<script src="game-data.js?v=20261007-halloween1"></script>
+<script src="game.js?v=20261007-halloween1"></script>
 <script type="module">
   import { initImageProtection } from '../../js/features/image-protection.js';
   initImageProtection();
