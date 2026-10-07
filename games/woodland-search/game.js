@@ -335,30 +335,6 @@ function getStatusBlocker() {
   return { getBoundingClientRect: () => bounds };
 }
 
-function getMusicPanelBlocker() {
-  const controls = $('music-controls');
-  if (!controls || controls.closest('[hidden]') || !controls.getClientRects().length) return null;
-  const panel = controls.querySelector('.music-panel');
-  if (!panel) return null;
-  // The popup is anchored to .game-actions, so keep that same containing
-  // block while measuring it without opening or moving the actual menu.
-  const measurement = panel.cloneNode(true);
-  measurement.removeAttribute('id');
-  measurement.querySelectorAll('[id]').forEach(element => element.removeAttribute('id'));
-  measurement.querySelectorAll('[for]').forEach(element => element.removeAttribute('for'));
-  measurement.setAttribute('aria-hidden', 'true');
-  measurement.inert = true;
-  measurement.style.visibility = 'hidden';
-  measurement.style.pointerEvents = 'none';
-  controls.parentElement.append(measurement);
-  try {
-    const bounds = measurement.getBoundingClientRect();
-    return bounds?.width > 0 && bounds?.height > 0 ? { getBoundingClientRect: () => bounds } : null;
-  } finally {
-    measurement.remove();
-  }
-}
-
 function getSceneBlockers() {
   const blockers = [...document.querySelectorAll('.mission-hud, #route-strip, .seed-meter, .game-actions, #continue-path')]
     .filter(element => {
@@ -369,8 +345,6 @@ function getSceneBlockers() {
     });
   const statusBlocker = getStatusBlocker();
   if (statusBlocker) blockers.push(statusBlocker);
-  const musicPanelBlocker = getMusicPanelBlocker();
-  if (musicPanelBlocker) blockers.push(musicPanelBlocker);
   return blockers;
 }
 
@@ -558,16 +532,7 @@ async function applySceneVisual(scene) {
   root.dataset.sceneName = scene?.name || '';
 }
 
-function closeMusicControls({ returnFocus = false } = {}) {
-  const controls = $('music-controls');
-  if (!controls?.open) return false;
-  controls.open = false;
-  if (returnFocus) controls.querySelector('summary')?.focus({ preventScroll: true });
-  return true;
-}
-
 async function loadRound() {
-  closeMusicControls();
   clearTimers();
   found = false;
   friendCuePlayed = false;
@@ -711,7 +676,6 @@ function startJourney() {
 }
 
 function leaveJourney() {
-  closeMusicControls();
   clearTimers();
   window.jltWoodlandGameMusic?.stop?.();
   ++loadToken;
@@ -1069,19 +1033,6 @@ $('play').addEventListener('click', () => {
 });
 
 $('leave').addEventListener('click', leaveJourney);
-
-document.addEventListener('click', event => {
-  const controls = $('music-controls');
-  if (controls?.open && !controls.contains(event.target)) closeMusicControls();
-}, true);
-
-document.addEventListener('keydown', event => {
-  // Native summary and slider keys stay native; only Escape closes the menu.
-  if (event.key === 'Escape' && closeMusicControls({ returnFocus: true })) {
-    event.preventDefault();
-    event.stopPropagation();
-  }
-});
 
 $('sound').addEventListener('click', () => {
   const currentlyEnabled = $('sound').getAttribute('aria-pressed') === 'true';

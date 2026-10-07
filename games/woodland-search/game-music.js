@@ -1,4 +1,4 @@
-/* Halloween background music, with a bounded independent music level. */
+/* Halloween background music, with a fixed mix beneath Luna. */
 (() => {
   const DESKTOP_TRACKS = [
     'https://pub-9ea739df2a0c435bbc605d2f4bfc6fb5.r2.dev/Game%20Audio/Woodland%20Search/Halloween/music/Pumpkin_Patch_Promenade_Desktop_-44.44dB.mp3',
@@ -11,13 +11,10 @@
   const audio = document.getElementById('woodland-music');
   if (!audio) return;
 
-  const input = document.getElementById('music-volume');
-  const output = document.getElementById('music-level');
   const mobile = window.matchMedia('(pointer: coarse)').matches;
   const tracks = mobile ? MOBILE_TRACKS : DESKTOP_TRACKS;
-  const maximumGain = mobile ? 0.25 : 0.65;
-  const preferenceKey = 'jlt-woodland-search-music-v1';
-  const defaultLevel = 60;
+  // About 1 dB above the former slider's 100% setting, chosen by listening.
+  const playbackGain = mobile ? 0.28 : 0.73;
   const fadeSeconds = 0.08;
   let enabled = true;
   let trackIndex = 0;
@@ -26,20 +23,8 @@
   let source = null;
   let gain = null;
 
-  function clampLevel(value) {
-    if ((typeof value !== 'number' && typeof value !== 'string') || String(value).trim() === '') return defaultLevel;
-    const number = Number(value);
-    return Number.isFinite(number) ? Math.round(Math.max(0, Math.min(100, number))) : defaultLevel;
-  }
-
-  function readLevel() {
-    try { return clampLevel(localStorage.getItem(preferenceKey)); } catch { return defaultLevel; }
-  }
-
-  let level = readLevel();
-
   // Set CORS mode before any source assignment. The already reduced files are
-  // capped by the GainNode; the media element itself stays at unity gain.
+  // mixed by the GainNode; the media element itself stays at unity gain.
   audio.crossOrigin = 'anonymous';
   audio.loop = false;
   audio.preload = 'none';
@@ -47,15 +32,7 @@
   audio.volume = 1;
 
   function getGain() {
-    return enabled ? maximumGain * level / 100 : 0;
-  }
-
-  function renderLevel() {
-    if (input) {
-      input.value = String(level);
-      input.setAttribute('aria-valuetext', level === 0 ? 'Background music off' : level + '% background music');
-    }
-    if (output) output.textContent = level === 0 ? 'Off' : level + '%';
+    return enabled ? playbackGain : 0;
   }
 
   function applyGain() {
@@ -65,14 +42,6 @@
     gain.gain.cancelScheduledValues(now);
     gain.gain.setValueAtTime(current, now);
     gain.gain.linearRampToValueAtTime(getGain(), now + fadeSeconds);
-  }
-
-  function setLevel(value) {
-    level = clampLevel(value);
-    try { localStorage.setItem(preferenceKey, String(level)); } catch {}
-    renderLevel();
-    applyGain();
-    return level;
   }
 
   function ensureMixer() {
@@ -136,17 +105,13 @@
     if (!enabled) stop();
   }
 
-  input?.addEventListener('input', () => setLevel(input.value));
   audio.addEventListener('ended', playNextTrack);
   window.addEventListener('pagehide', stop);
-  renderLevel();
 
   window.jltWoodlandGameMusic = {
     start,
     stop,
     setEnabled,
-    setLevel,
-    getLevel: () => level,
     getGain,
     isPlaying: () => enabled && !audio.paused,
     audio
