@@ -1,20 +1,20 @@
 /* Halloween background music, with a fixed mix beneath Luna. */
 (() => {
   const DESKTOP_TRACKS = [
-    'https://pub-9ea739df2a0c435bbc605d2f4bfc6fb5.r2.dev/Game%20Audio/Woodland%20Search/Halloween/music/Pumpkin_Patch_Promenade_Desktop_-44.44dB.mp3',
-    'https://pub-9ea739df2a0c435bbc605d2f4bfc6fb5.r2.dev/Game%20Audio/Woodland%20Search/Halloween/music/Lanterns_on_the_Cobblestone_Desktop_-44.44dB.mp3'
+    'https://pub-9ea739df2a0c435bbc605d2f4bfc6fb5.r2.dev/Game%20Audio/Woodland%20Search/Halloween/music/Pumpkin_Patch_Promenade_Desktop_-44.44dB.mp3?v=20261007-cors1',
+    'https://pub-9ea739df2a0c435bbc605d2f4bfc6fb5.r2.dev/Game%20Audio/Woodland%20Search/Halloween/music/Lanterns_on_the_Cobblestone_Desktop_-44.44dB.mp3?v=20261007-cors1'
   ];
   const MOBILE_TRACKS = [
-    'https://pub-9ea739df2a0c435bbc605d2f4bfc6fb5.r2.dev/Game%20Audio/Woodland%20Search/Halloween/music/Pumpkin_Patch_Promenade_Mobile_-26dB.mp3',
-    'https://pub-9ea739df2a0c435bbc605d2f4bfc6fb5.r2.dev/Game%20Audio/Woodland%20Search/Halloween/music/Lanterns_on_the_Cobblestone_Mobile_-26dB.mp3'
+    'https://pub-9ea739df2a0c435bbc605d2f4bfc6fb5.r2.dev/Game%20Audio/Woodland%20Search/Halloween/music/Pumpkin_Patch_Promenade_Mobile_-26dB.mp3?v=20261007-cors1',
+    'https://pub-9ea739df2a0c435bbc605d2f4bfc6fb5.r2.dev/Game%20Audio/Woodland%20Search/Halloween/music/Lanterns_on_the_Cobblestone_Mobile_-26dB.mp3?v=20261007-cors1'
   ];
   const audio = document.getElementById('woodland-music');
   if (!audio) return;
 
   const mobile = window.matchMedia('(pointer: coarse)').matches;
   const tracks = mobile ? MOBILE_TRACKS : DESKTOP_TRACKS;
-  // About 1 dB above the former slider's 100% setting, chosen by listening.
-  const playbackGain = mobile ? 0.28 : 0.73;
+  // Fixed listening mix; mobile is about 3 dB above its previous setting.
+  const playbackGain = mobile ? 0.40 : 0.73;
   const fadeSeconds = 0.08;
   let enabled = true;
   let trackIndex = 0;
