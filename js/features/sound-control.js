@@ -159,6 +159,14 @@ export function initSoundControl(audioPath, mobileAudioPath = "") {
 
   restoreFromGame();
 
+  window.addEventListener("pageshow", event => {
+    if (!event.persisted) return;
+    restoreFromGame();
+    if (!restoredFromGame) return;
+    startWoodlandSound(NORMAL_VOLUME, 2200);
+    restoredFromGame = false;
+  });
+
   if (restoredFromGame) {
     window.setTimeout(async () => {
       await startWoodlandSound(NORMAL_VOLUME, 2200);
@@ -224,6 +232,7 @@ export function initSoundControl(audioPath, mobileAudioPath = "") {
 
     storyAudio.addEventListener("pause", () => {
       if (!listenOpen || !storyAudio.isConnected) return;
+      if (storyAudio.error) return;
       audiobookPlaying = true;
       clearResumeTimer();
       const request = ++audioRequestVersion;
@@ -234,14 +243,16 @@ export function initSoundControl(audioPath, mobileAudioPath = "") {
       });
     });
 
-    storyAudio.addEventListener("ended", () => {
+    function resumeAfterStory() {
       if (!listenOpen || !storyAudio.isConnected) return;
       audiobookPlaying = false;
       clearResumeTimer();
       resumeTimer = window.setTimeout(() => {
         if (listenOpen) startWoodlandSound(LISTEN_VOLUME, FADE_IN_MS);
       }, 5000);
-    });
+    }
+    storyAudio.addEventListener("ended", resumeAfterStory);
+    storyAudio.addEventListener("error", resumeAfterStory);
   });
 
   document.addEventListener("jacklight:panel-closed", () => {

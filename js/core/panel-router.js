@@ -116,6 +116,12 @@ export function initPanelRouter(partialPaths) {
       return;
     }
 
+    // Explicitly include links in Safari's native Tab order. Keep native
+    // traversal so the cinema's embedded player remains keyboard accessible.
+    panel.querySelectorAll("a[href]:not([tabindex])").forEach((link) => {
+      link.tabIndex = 0;
+    });
+
     const focusable = [...panel.querySelectorAll(FOCUSABLE)].filter((element) => element.getClientRects().length);
     const first = focusable[0];
     const last = focusable.at(-1);

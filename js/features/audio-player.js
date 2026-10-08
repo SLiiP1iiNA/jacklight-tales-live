@@ -116,6 +116,19 @@ function updateToggleButtons(state) {
   });
 }
 
+function playbackFailure(state) {
+  state.status.textContent = state.audio.error
+    ? "This story could not load. Press play to try again, or choose another story."
+    : "Press play when you are ready";
+  updateToggleButtons(state);
+}
+
+function resumeStory(state) {
+  // A failed media request needs a fresh load before the browser can retry it.
+  if (state.audio.error) state.audio.load();
+  return state.audio.play();
+}
+
 function updateNavigation(state) {
   const readyIndexes = state.tracks.map((track, index) => (track.available ? index : -1)).filter((index) => index >= 0);
   const position = readyIndexes.indexOf(state.activeIndex);
@@ -175,8 +188,7 @@ async function playTrack(state, trackIndex) {
     await state.audio.play();
   } catch {
     if (request !== state.playToken || !state.audio.isConnected) return;
-    state.status.textContent = "Press play when you are ready";
-    updateToggleButtons(state);
+    playbackFailure(state);
   }
 }
 
@@ -253,10 +265,7 @@ function wireMediaSession(state) {
   const safeHandler = (action, handler) => {
     try { navigator.mediaSession.setActionHandler(action, handler); } catch { /* unsupported action */ }
   };
-  safeHandler("play", () => state.audio.play().catch(() => {
-    state.status.textContent = "Press play when you are ready";
-    updateToggleButtons(state);
-  }));
+  safeHandler("play", () => resumeStory(state).catch(() => playbackFailure(state)));
   safeHandler("pause", () => state.audio.pause());
   safeHandler("previoustrack", () => moveTrack(state, -1));
   safeHandler("nexttrack", () => moveTrack(state, 1));
@@ -330,10 +339,7 @@ async function buildLibrary(root, contentPath, registerPlayer) {
     }
     if (toggleButton && !toggleButton.disabled) {
       if (state.audio.paused || state.audio.ended) {
-        state.audio.play().catch(() => {
-          state.status.textContent = "Press play when you are ready";
-          updateToggleButtons(state);
-        });
+        resumeStory(state).catch(() => playbackFailure(state));
       }
       else state.audio.pause();
       return;
@@ -364,6 +370,11 @@ async function buildLibrary(root, contentPath, registerPlayer) {
     state.status.textContent = "Story finished — the next path is waiting";
     updateToggleButtons(state);
     updateNavigation(state);
+  });
+  state.audio.addEventListener("error", () => {
+    if (state.activeIndex < 0 || !state.audio.isConnected) return;
+    playbackFailure(state);
+    updateProgress(state);
   });
 
   wireMediaSession(state);

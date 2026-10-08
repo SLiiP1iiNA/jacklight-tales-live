@@ -1162,18 +1162,18 @@ $('success').addEventListener('keydown', event => {
   if (event.key === 'Tab') {
     const controls = [...$('success').querySelectorAll('button:not(:disabled), a[href]')]
       .filter(element => element.getClientRects().length);
-    const first = controls[0];
-    const last = controls[controls.length - 1];
+    event.preventDefault();
 
-    if (!first) {
-      event.preventDefault();
+    if (!controls.length) {
       document.querySelector('.celebration').focus({ preventScroll: true });
-    } else if (event.shiftKey && (event.target === first || !controls.includes(event.target))) {
-      event.preventDefault();
-      last.focus({ preventScroll: true });
-    } else if (!event.shiftKey && (event.target === last || !controls.includes(event.target))) {
-      event.preventDefault();
-      first.focus({ preventScroll: true });
+    } else {
+      // Safari can skip links in its default Tab order. Cycle every dialog
+      // control explicitly so focus never escapes to the game behind it.
+      const current = controls.indexOf(document.activeElement);
+      const next = current < 0
+        ? (event.shiftKey ? controls.length - 1 : 0)
+        : (current + (event.shiftKey ? -1 : 1) + controls.length) % controls.length;
+      controls[next].focus({ preventScroll: true });
     }
   }
 });

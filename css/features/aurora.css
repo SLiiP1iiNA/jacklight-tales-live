@@ -896,7 +896,8 @@
   background: linear-gradient(180deg, transparent 12%, rgba(3, 11, 9, 0.96));
 }
 
-.storybook-body .character-card__identity h4 {
+.storybook-body .character-card__identity h4,
+.storybook-body .gallery-item figcaption strong {
   color: var(--ink-light);
 }
 
