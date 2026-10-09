@@ -15,6 +15,8 @@ export function initSoundControl(audioPath, mobileAudioPath = "") {
   let listenOpen = false;
   let cinemaOpen = false;
   let audiobookPlaying = false;
+  let ambienceWhenPaused = false;
+  let activeStoryAudio = null;
   let resumeTimer = null;
   let siteAudioStarted = false;
   let fadeFrame = null;
@@ -193,6 +195,7 @@ export function initSoundControl(audioPath, mobileAudioPath = "") {
     cinemaOpen = event.detail.panelName === "watch";
     listenOpen = event.detail.panelName === "listen";
     audiobookPlaying = false;
+    activeStoryAudio = null;
     clearResumeTimer();
     if (cinemaOpen) {
       if (isMobile()) {
@@ -217,6 +220,8 @@ export function initSoundControl(audioPath, mobileAudioPath = "") {
 
     const storyAudio = event.detail.content.querySelector("[data-audio-element]");
     if (!storyAudio) return;
+    activeStoryAudio = storyAudio;
+    ambienceWhenPaused = Boolean(event.detail.content.querySelector("[data-audio-ambience]")?.checked);
 
     storyAudio.addEventListener("play", () => {
       if (!listenOpen || !storyAudio.isConnected) return;
@@ -233,8 +238,12 @@ export function initSoundControl(audioPath, mobileAudioPath = "") {
     storyAudio.addEventListener("pause", () => {
       if (!listenOpen || !storyAudio.isConnected) return;
       if (storyAudio.error) return;
-      audiobookPlaying = true;
+      audiobookPlaying = !ambienceWhenPaused;
       clearResumeTimer();
+      if (ambienceWhenPaused) {
+        void startWoodlandSound(LISTEN_VOLUME, FADE_IN_MS);
+        return;
+      }
       const request = ++audioRequestVersion;
       fadeTo(0, FADE_OUT_MS).then((completed) => {
         if (!completed || request !== audioRequestVersion) return;
@@ -255,10 +264,25 @@ export function initSoundControl(audioPath, mobileAudioPath = "") {
     storyAudio.addEventListener("error", resumeAfterStory);
   });
 
+  document.addEventListener("jacklight:audiobook-ambience", event => {
+    ambienceWhenPaused = Boolean(event.detail?.enabled);
+    if (!listenOpen || !activeStoryAudio?.isConnected) return;
+    // The preference applies to paused stories, never underneath narration.
+    if (!activeStoryAudio.paused && !activeStoryAudio.ended) return;
+    clearResumeTimer();
+    audiobookPlaying = Boolean(activeStoryAudio.getAttribute("src")) && !ambienceWhenPaused;
+    if (ambienceWhenPaused) {
+      void startWoodlandSound(LISTEN_VOLUME, FADE_IN_MS);
+    } else {
+      stopWoodlandSound();
+    }
+  });
+
   document.addEventListener("jacklight:panel-closed", () => {
     cinemaOpen = false;
     listenOpen = false;
     audiobookPlaying = false;
+    activeStoryAudio = null;
     clearResumeTimer();
     startWoodlandSound(NORMAL_VOLUME, FADE_IN_MS);
   });

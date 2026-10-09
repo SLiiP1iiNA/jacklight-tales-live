@@ -242,6 +242,11 @@
     transitioning = true;
     currentName = null;
 
+    // The incoming transition owns both players while it fades them out.
+    // Canceling an older fade-in wakes its pending start promise; that stale
+    // promise must not pause/reset a player underneath this fade-out.
+    players.forEach(player => playbackTokens.set(player, token));
+
     // Kill any old queue immediately. Both players are faded to silence before
     // either one is allowed to load or speak a different clip.
     await fadeAllToSilence();

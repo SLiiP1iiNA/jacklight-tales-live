@@ -101,6 +101,17 @@ function buildJourneyCast() {
   const barnaby = characters.find(item => item.name === 'Barnaby');
   const others = shuffle(characters.filter(item => item !== barnaby));
   journeyCast = [barnaby, ...others].slice(0, SETTINGS.roundsPerJourney);
+
+  while (journeyCast.length < SETTINGS.roundsPerJourney) {
+    const batch = shuffle(characters);
+    if (!batch.length) break;
+    const previous = journeyCast[journeyCast.length - 1];
+    if (batch.length > 1 && batch[0] === previous) {
+      const differentIndex = batch.findIndex(item => item !== previous);
+      [batch[0], batch[differentIndex]] = [batch[differentIndex], batch[0]];
+    }
+    journeyCast.push(...batch.slice(0, SETTINGS.roundsPerJourney - journeyCast.length));
+  }
 }
 
 function buildJourneyScenes() {
@@ -905,9 +916,11 @@ function handleCharacterFound() {
 
   updateRoundObjective();
   resetHintState();
-  $('status').textContent = seedFoundThisRound
-    ? 'You found ' + currentCharacter.name + '! One little secret is still hiding nearby.'
-    : 'You found ' + currentCharacter.name + '! Now look for the Heart Seed.';
+  $('status').textContent = isRoundComplete()
+    ? 'You found ' + currentCharacter.name + '! All three discoveries are safe. ✦'
+    : seedFoundThisRound
+      ? 'You found ' + currentCharacter.name + '! One little secret is still hiding nearby.'
+      : 'You found ' + currentCharacter.name + '! Now look for the Heart Seed.';
   showStatusToast(4200);
   offerHintLater();
 

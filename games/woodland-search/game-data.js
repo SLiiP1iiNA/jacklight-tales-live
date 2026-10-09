@@ -34,10 +34,10 @@ window.WOODLAND_SEARCH_DATA = {
       "foundLine": "Mum smiles warmly from her hiding place."
     },
     {
-      "name": "Dad",
-      "image": "../../../assets/images/characters/dad.png",
-      "clue": "Dad is hiding somewhere among the pumpkins and lanterns.",
-      "foundLine": "Dad gives a cheerful wave. What wonderful searching!"
+      "name": "Twinkle",
+      "image": "twinkle.png",
+      "clue": "Look for a tiny golden friend glowing among the pumpkins and lanterns.",
+      "foundLine": "Twinkle gives a sparkling little wave. What wonderful searching!"
     }
   ],
   "scenes": [

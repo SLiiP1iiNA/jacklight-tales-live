@@ -4,7 +4,7 @@
 @import url("./core/layout.css");
 @import url("./features/entrance.css");
 @import url("./features/panels.css");
-@import url("./features/audio-player.css");
+@import url("./features/audio-player.css?v=20261009-lantern-update1");
 @import url("./features/sound-control.css");
 @import url("./features/responsive.css");
 @import url("./features/storybook.css?v=20260922-cleanup2");
@@ -14,7 +14,7 @@
 @import url("./features/final-rebuild.css?v=20261005-regression1");
 
 @import url("./features/grownups.css");
-@import url("./features/listen.css?v=20260922-listen-cleanup1");
+@import url("./features/listen.css?v=20261009-lantern-update1");
 @import url("./features/home-crossroads.css?v=20260922-cleanup1");
  
 @import url("./features/image-protection.css?v=20260924");
