@@ -25,14 +25,18 @@
     nextWander1: 'next-wander-01.mp3',
     nextWander2: 'next-wander-02.mp3',
     nextWander3: 'next-wander-03.mp3',
-    allFound: 'everything-found.mp3',
+    allFound: 'everything-found-v2.mp3',
     goodbye: 'goodbye.mp3',
     costumeRoom: 'scene-01-costume-room.mp3',
     pumpkinPatch: 'scene-02-pumpkin-patch.mp3',
     bakeryBridge: 'scene-03-bakery-bridge.mp3',
     harvestGames: 'scene-04-harvest-games-green.mp3',
     lanternLane: 'scene-05-lantern-lane.mp3',
-    clockTowerSquare: 'scene-06-clock-tower-square.mp3'
+    clockTowerSquare: 'scene-06-clock-tower-square.mp3',
+    lanternPond: 'scene-07-lantern-pond.mp3',
+    appleOrchard: 'scene-08-apple-orchard.mp3',
+    hayMaze: 'scene-09-hay-maze.mp3',
+    fireflyGlade: 'scene-10-firefly-glade.mp3'
   };
 
   const slots = Object.fromEntries(

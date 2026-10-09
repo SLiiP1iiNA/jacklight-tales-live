@@ -40,7 +40,7 @@ export const siteConfig = {
     watch: "partials/watch.html",
     listen: "partials/listen.html",
     explore: "partials/explore.html",
-    games: "partials/games.html",
+    games: "partials/games.html?v=20261009-ten-scenes1",
     grownups: "partials/grownups.html",
   },
 

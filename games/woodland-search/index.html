@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-  <meta name="description" content="Explore six cosy Halloween places and find Barnaby and his friends in Woodland Search by JackLight Tales.">
+  <meta name="description" content="Explore ten cosy Halloween places and find Barnaby and his friends in Woodland Search by JackLight Tales.">
   <meta name="theme-color" content="#071a16">
   <link rel="canonical" href="https://jacklighttales.com/games/woodland-search/">
   <link rel="icon" type="image/png" href="../../assets/branding/jlt-favicon.png">
@@ -32,14 +32,14 @@
       <img class="welcome-mark" src="assets/jlt.webp" alt="JackLight Tales lantern">
       <p class="eyebrow">Woodland Search · Halloween</p>
       <h1 id="welcome-title">A little Halloween adventure is waiting.</h1>
-      <p>Explore six cosy Halloween places. Find Barnaby and his friends, discover glowing Heart Seeds and uncover six little autumn secrets. Take all the time you need.</p>
+      <p>Explore ten cosy Halloween places. Find Barnaby and his friends, discover glowing Heart Seeds and uncover ten little autumn secrets. Take all the time you need.</p>
       <div class="welcome-promises" aria-label="Game features">
-        <span>✦ 6 places</span><span>✦ 6 Heart Seeds</span><span>✦ Secret finds</span><span>✦ Gentle hints</span>
+        <span>✦ 10 places</span><span>✦ 10 Heart Seeds</span><span>✦ Secret finds</span><span>✦ Gentle hints</span>
       </div>
       <button id="play" class="primary-action" type="button">Begin the search <span aria-hidden="true">→</span></button>
     </div>
 
-    <div class="journey-preview" aria-label="Six Halloween places">
+    <div class="journey-preview" aria-label="Ten Halloween places">
       <div class="journey-preview__scene"><img src="assets/halloween-bg-01-costume-room.webp" alt="" data-woodland-preview></div>
       <ol>
         <li><span>1</span><strong>Costume Room</strong></li>
@@ -48,6 +48,10 @@
         <li><span>4</span><strong>Harvest Games</strong></li>
         <li><span>5</span><strong>Lantern Lane</strong></li>
         <li><span>6</span><strong>Clock Tower</strong></li>
+        <li><span>7</span><strong>Lantern Pond</strong></li>
+        <li><span>8</span><strong>Apple Orchard</strong></li>
+        <li><span>9</span><strong>Hay Maze</strong></li>
+        <li><span>10</span><strong>Firefly Glade</strong></li>
       </ol>
     </div>
   </section>
@@ -67,7 +71,7 @@
       <div class="mission-hud" aria-live="polite">
         <img id="reference" class="reference" src="assets/barnaby.webp" alt="Barnaby">
         <div>
-          <p class="mission-kicker"><span id="path-number">Path 1 of 6</span> · <span id="place-name">Barnaby’s Costume Room</span></p>
+          <p class="mission-kicker"><span id="path-number">Path 1 of 10</span> · <span id="place-name">Barnaby’s Costume Room</span></p>
           <h1 id="target-title">Find Barnaby</h1>
           <p id="mission-line">Barnaby is hiding among the costume-making things.</p>
         </div>
@@ -77,12 +81,12 @@
 
       <div class="seed-meter" aria-live="polite" title="Hidden Heart Seeds found">
         <span class="seed-icon" aria-hidden="true"></span>
-        <strong id="seed-count">0 / 6</strong>
+        <strong id="seed-count">0 / 10</strong>
       </div>
 
       <div id="secret-meter" class="seed-meter secret-meter" aria-live="polite" title="Hidden woodland secrets found">
         <span class="secret-icon" aria-hidden="true">✦</span>
-        <strong id="secret-count">0 / 6</strong>
+        <strong id="secret-count">0 / 10</strong>
       </div>
 
       <p id="status" role="status" aria-live="polite">Look carefully among the costume-making things.</p>
@@ -148,10 +152,10 @@
 })();
 </script>
 <script src="game-music.js?v=20261007-halloween5"></script>
-<script src="game-audio.js?v=20261009-prerelease1"></script>
-<script src="game-settings.js?v=20261007-halloween1"></script>
-<script src="game-data.js?v=20261009-prerelease1"></script>
-<script src="game.js?v=20261009-prerelease1"></script>
+<script src="game-audio.js?v=20261009-ten-scenes1"></script>
+<script src="game-settings.js?v=20261009-ten-scenes1"></script>
+<script src="game-data.js?v=20261009-ten-scenes1"></script>
+<script src="game.js?v=20261009-ten-scenes2"></script>
 <script type="module">
   import { initImageProtection } from '../../js/features/image-protection.js';
   initImageProtection();

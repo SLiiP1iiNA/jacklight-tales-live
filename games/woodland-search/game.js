@@ -547,7 +547,10 @@ function focusSceneIfNeeded() {
   // Begin and Continue disappear as the scene opens. Keep keyboard focus in
   // the picture, including while loading or showing the image retry message.
   // Preserve any control the player has already used during loading.
-  if (document.activeElement === document.body || document.activeElement === $('play') || document.activeElement === $('continue-path')) {
+  // Safari may retain focus on the now-hidden celebration wrapper until
+  // its next rendering update, so include any hidden ancestor in the check.
+  const active = document.activeElement;
+  if (active === document.body || active === $('play') || active === $('continue-path') || active?.closest('[hidden]')) {
     $('viewport').focus({ preventScroll: true });
   }
 }
@@ -1165,9 +1168,9 @@ $('continue-path').addEventListener('click', () => {
     heartSeeds = new Set();
     secretItems = new Set();
     updateSeedMeter();
+    lockGame(false);
     loadRound();
     playCue('beginSearch', { volume: 0.9 });
-    lockGame(false);
     return;
   }
 

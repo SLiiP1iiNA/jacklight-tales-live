@@ -442,6 +442,274 @@ window.WOODLAND_SEARCH_DATA = {
           }
         ]
       }
+    },
+    {
+      "image": "assets/halloween-bg-07-lantern-pond.webp",
+      "name": "Moonlit Lantern Pond",
+      "shortName": "Lantern Pond",
+      "voiceCue": "lanternPond",
+      "intro": "Little lantern boats float across the moonlit pond.",
+      "spots": [
+        {
+          "x": 16,
+          "y": 72,
+          "hint": "Watch for the gentle glow around your hidden friend."
+        },
+        {
+          "x": 34,
+          "y": 61,
+          "hint": "Watch for the gentle glow around your hidden friend."
+        },
+        {
+          "x": 47,
+          "y": 87,
+          "hint": "Watch for the gentle glow around your hidden friend."
+        },
+        {
+          "x": 69,
+          "y": 82,
+          "hint": "Watch for the gentle glow around your hidden friend."
+        },
+        {
+          "x": 86,
+          "y": 70,
+          "hint": "Watch for the gentle glow around your hidden friend."
+        }
+      ],
+      "seedSpots": [
+        {
+          "x": 26,
+          "y": 56
+        },
+        {
+          "x": 60,
+          "y": 80
+        },
+        {
+          "x": 84,
+          "y": 87
+        }
+      ],
+      "secretItem": {
+        "id": "little-lantern-boat",
+        "name": "Little Lantern Boat",
+        "image": "secrets/halloween-item-07-lantern-boat.webp",
+        "spots": [
+          {
+            "x": 58,
+            "y": 58
+          },
+          {
+            "x": 73,
+            "y": 49
+          },
+          {
+            "x": 63,
+            "y": 71
+          }
+        ]
+      }
+    },
+    {
+      "image": "assets/halloween-bg-08-apple-orchard.webp",
+      "name": "Apple Lantern Orchard",
+      "shortName": "Orchard",
+      "voiceCue": "appleOrchard",
+      "intro": "Orchard lanterns glow between the autumn apple trees.",
+      "spots": [
+        {
+          "x": 18,
+          "y": 72,
+          "hint": "Watch for the gentle glow around your hidden friend."
+        },
+        {
+          "x": 32,
+          "y": 81,
+          "hint": "Watch for the gentle glow around your hidden friend."
+        },
+        {
+          "x": 50,
+          "y": 74,
+          "hint": "Watch for the gentle glow around your hidden friend."
+        },
+        {
+          "x": 67,
+          "y": 77,
+          "hint": "Watch for the gentle glow around your hidden friend."
+        },
+        {
+          "x": 83,
+          "y": 67,
+          "hint": "Watch for the gentle glow around your hidden friend."
+        }
+      ],
+      "seedSpots": [
+        {
+          "x": 24,
+          "y": 53
+        },
+        {
+          "x": 62,
+          "y": 58
+        },
+        {
+          "x": 88,
+          "y": 83
+        }
+      ],
+      "secretItem": {
+        "id": "golden-apple-charm-halloween",
+        "name": "Golden Apple Charm",
+        "image": "secrets/halloween-item-08-apple-charm.webp",
+        "spots": [
+          {
+            "x": 34,
+            "y": 70
+          },
+          {
+            "x": 73,
+            "y": 65
+          },
+          {
+            "x": 56,
+            "y": 86
+          }
+        ]
+      }
+    },
+    {
+      "image": "assets/halloween-bg-09-hay-maze.webp",
+      "name": "Friendly Hay Maze",
+      "shortName": "Hay Maze",
+      "voiceCue": "hayMaze",
+      "intro": "Gentle twists and turns lead between the welcoming hay bales.",
+      "spots": [
+        {
+          "x": 18,
+          "y": 73,
+          "hint": "Watch for the gentle glow around your hidden friend."
+        },
+        {
+          "x": 38,
+          "y": 65,
+          "hint": "Watch for the gentle glow around your hidden friend."
+        },
+        {
+          "x": 51,
+          "y": 78,
+          "hint": "Watch for the gentle glow around your hidden friend."
+        },
+        {
+          "x": 68,
+          "y": 70,
+          "hint": "Watch for the gentle glow around your hidden friend."
+        },
+        {
+          "x": 83,
+          "y": 79,
+          "hint": "Watch for the gentle glow around your hidden friend."
+        }
+      ],
+      "seedSpots": [
+        {
+          "x": 28,
+          "y": 50
+        },
+        {
+          "x": 59,
+          "y": 56
+        },
+        {
+          "x": 78,
+          "y": 86
+        }
+      ],
+      "secretItem": {
+        "id": "little-lantern-key-halloween",
+        "name": "Little Lantern Key",
+        "image": "secrets/halloween-item-09-lantern-key.webp",
+        "spots": [
+          {
+            "x": 36,
+            "y": 81
+          },
+          {
+            "x": 66,
+            "y": 53
+          },
+          {
+            "x": 87,
+            "y": 64
+          }
+        ]
+      }
+    },
+    {
+      "image": "assets/halloween-bg-10-firefly-glade.webp",
+      "name": "Twinkle’s Firefly Glade",
+      "shortName": "Firefly Glade",
+      "voiceCue": "fireflyGlade",
+      "intro": "Soft firefly lights dance above the autumn glade.",
+      "spots": [
+        {
+          "x": 17,
+          "y": 67,
+          "hint": "Watch for the gentle glow around your hidden friend."
+        },
+        {
+          "x": 34,
+          "y": 78,
+          "hint": "Watch for the gentle glow around your hidden friend."
+        },
+        {
+          "x": 53,
+          "y": 74,
+          "hint": "Watch for the gentle glow around your hidden friend."
+        },
+        {
+          "x": 70,
+          "y": 71,
+          "hint": "Watch for the gentle glow around your hidden friend."
+        },
+        {
+          "x": 86,
+          "y": 63,
+          "hint": "Watch for the gentle glow around your hidden friend."
+        }
+      ],
+      "seedSpots": [
+        {
+          "x": 26,
+          "y": 48
+        },
+        {
+          "x": 62,
+          "y": 84
+        },
+        {
+          "x": 85,
+          "y": 79
+        }
+      ],
+      "secretItem": {
+        "id": "leaf-star-lantern",
+        "name": "Leaf Star Lantern",
+        "image": "secrets/halloween-item-10-leaf-star.webp",
+        "spots": [
+          {
+            "x": 37,
+            "y": 59
+          },
+          {
+            "x": 74,
+            "y": 54
+          },
+          {
+            "x": 49,
+            "y": 88
+          }
+        ]
+      }
     }
   ]
 };

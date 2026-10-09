@@ -1,4 +1,4 @@
-import { siteConfig } from "./config/site.config.js?v=20261009-prerelease1";
+import { siteConfig } from "./config/site.config.js?v=20261009-ten-scenes1";
 import { applySiteConfig } from "./core/apply-config.js";
 import { initPanelRouter } from "./core/panel-router.js?v=20261008-prelaunch1";
 import { initAudioPlayer } from "./features/audio-player.js?v=20261009-prerelease1";
