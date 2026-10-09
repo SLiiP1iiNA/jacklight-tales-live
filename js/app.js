@@ -1,14 +1,14 @@
-import { siteConfig } from "./config/site.config.js?v=20261005-regression1";
+import { siteConfig } from "./config/site.config.js?v=20261009-prerelease1";
 import { applySiteConfig } from "./core/apply-config.js";
 import { initPanelRouter } from "./core/panel-router.js?v=20261008-prelaunch1";
-import { initAudioPlayer } from "./features/audio-player.js?v=20261009-lantern-update1";
+import { initAudioPlayer } from "./features/audio-player.js?v=20261009-prerelease1";
 import { initContentPanels } from "./features/content-panels.js?v=20261008-prelaunch1";
 import { initEntrance } from "./features/entrance.js?v=20261008-prelaunch1";
 import { initSocialLinks } from "./features/social-links.js?v=20261005-regression1";
-import { initSoundControl } from "./features/sound-control.js?v=20261009-lantern-update1";
+import { initSoundControl } from "./features/sound-control.js?v=20261009-prerelease1";
 import { initYouTube } from "./features/youtube.js?v=20260927-cinema-playlist1";
 import { initWoodlandMap } from "./features/woodland-map.js";
-import { initGameTransition } from "./features/game-transition.js?v=20261008-prelaunch1";
+import { initGameTransition } from "./features/game-transition.js?v=20261009-prerelease1";
 import { initImageProtection } from "./features/image-protection.js";
 
 function startJackLightTales() {
@@ -17,7 +17,7 @@ function startJackLightTales() {
   initAudioPlayer(siteConfig.content.audioLibrary);
   initContentPanels(siteConfig.content);
   initSocialLinks(siteConfig.content.socialLinks, siteConfig.contactEmail);
-  initSoundControl(siteConfig.assets.woodlandAudio, siteConfig.assets.woodlandAudioMobile);
+  initSoundControl(siteConfig.assets.woodlandAudio, siteConfig.assets.woodlandAudioMobile, siteConfig.assets.woodlandTracks);
   initYouTube(siteConfig.youtube);
   initEntrance(siteConfig.entrance);
   initWoodlandMap();

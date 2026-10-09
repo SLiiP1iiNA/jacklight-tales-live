@@ -184,6 +184,30 @@ function moveTrack(state, direction) {
   const ready = readyIndexes(state), position = ready.indexOf(state.activeIndex), target = ready[position + direction];
   if (target !== undefined) selectTrack(state, target, { queueMode: state.queueMode });
 }
+function keepFocusedControlVisible(state, target) {
+  const panel = state.experience.closest(".panel");
+  const player = state.experience.querySelector(".listen-player");
+  const close = panel?.querySelector("[data-close-panel]");
+  if (!panel || !player || !close) return;
+  const keyboard = target.matches(":focus-visible");
+  const usableHeight = Math.min(window.innerHeight, panel.clientHeight) - close.offsetHeight;
+  // Large text can leave too little space below a sticky player for a story row.
+  player.classList.toggle("is-focus-unpinned", keyboard && !player.contains(target) && player.offsetHeight > usableHeight / 2);
+  if (!keyboard) return;
+  requestAnimationFrame(() => {
+    if (!isActive(state) || document.activeElement !== target) return;
+    const panelBounds = panel.getBoundingClientRect();
+    let top = Math.max(panelBounds.top + 8, close.getBoundingClientRect().bottom + 8);
+    const bottom = Math.min(window.innerHeight, panelBounds.bottom) - 8;
+    if (!player.contains(target) && getComputedStyle(player).position === "sticky" && (state.episodeList.contains(target) || target === state.ambience)) {
+      const playerBounds = player.getBoundingClientRect();
+      if (playerBounds.top < bottom && playerBounds.bottom <= bottom) top = Math.max(top, playerBounds.bottom + 8);
+    }
+    const bounds = target.getBoundingClientRect();
+    if (bounds.height > bottom - top || bounds.top < top) panel.scrollTop += bounds.top - top;
+    else if (bounds.bottom > bottom) panel.scrollTop += bounds.bottom - bottom;
+  });
+}
 async function loadSeries(catalog, series, state, { restore = null, force = false } = {}) {
   state.availabilityController?.abort();
   const checks = new AbortController();
@@ -286,6 +310,8 @@ async function buildLibrary(experience, contentPath, signal, registerPlayer) {
   const announceAmbience = () => document.dispatchEvent(new CustomEvent("jacklight:audiobook-ambience", { detail: { enabled: state.ambience.checked } }));
   listen(state.ambience, "change", () => { writeStorage(AMBIENCE_KEY, state.ambience.checked); announceAmbience(); });
   announceAmbience();
+  listen(experience, "focusin", event => keepFocusedControlVisible(state, event.target));
+  listen(experience, "pointerdown", () => experience.querySelector(".listen-player").classList.remove("is-focus-unpinned"));
   listen(experience, "click", event => {
     if (!isActive(state)) return;
     const seriesButton = event.target.closest("[data-audio-series]");
@@ -377,6 +403,9 @@ export function initAudioPlayer(contentPath) {
       console.error("Audiobook library could not be loaded", error);
       const target = library.querySelector("[data-audio-episode-list]") || library;
       target.innerHTML = '<div class="panel-error"><h3>The listening room needs a moment.</h3><p>Something did not load properly. Please close this window and try again.</p></div>';
+      target.setAttribute("aria-busy", "false");
+      library.querySelector("[data-audio-count]").textContent = "Stories could not load";
+      library.querySelector("[data-audio-status]").textContent = "Please close the listening room and try again.";
     }
   });
 }

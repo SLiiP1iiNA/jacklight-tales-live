@@ -74,11 +74,30 @@
   const FADE_OUT_MS = 180;
   const MOBILE_VOICE_GAIN = 0.64;
   const DUPLICATE_REQUEST_GUARD_MS = 260;
+  const PLAYBACK_STALL_MS = 12000;
   const GAP_MS = 20;
   const FADE_IN_MS = 120;
   const fadeFrames = new WeakMap();
   const fadeCancels = new WeakMap();
   const playbackTokens = new WeakMap();
+  const playbackWatchdogs = new WeakMap();
+  const playbackPositions = new WeakMap();
+
+  function clearPlaybackWatchdog(player) {
+    clearTimeout(playbackWatchdogs.get(player));
+    playbackWatchdogs.delete(player);
+  }
+
+  function watchPlaybackProgress(player, name, token) {
+    clearPlaybackWatchdog(player);
+    playbackWatchdogs.set(player, setTimeout(() => {
+      if (token !== transitionToken || !enabled || player !== activePlayer || !currentName) return;
+      // Voice is optional: a pending request or a stalled stream must never
+      // leave hints and the next-path button waiting indefinitely for idle.
+      stop();
+      emitError(name, new Error('Luna audio made no playback progress for 12 seconds.'));
+    }, PLAYBACK_STALL_MS));
+  }
 
   function emitError(name, error) {
     console.warn('Woodland Search Luna audio failed:', name, error);
@@ -110,6 +129,7 @@
   }
 
   function stopPlayer(player) {
+    clearPlaybackWatchdog(player);
     const cancel = fadeCancels.get(player);
     cancel?.();
     try { player.pause(); } catch {}
@@ -211,6 +231,8 @@
   async function startOnPlayer(player, name, volume, token) {
     if (token !== transitionToken || !enabled || !prepare(player, name)) return false;
     playbackTokens.set(player, token);
+    playbackPositions.set(player, player.currentTime);
+    watchPlaybackProgress(player, name, token);
 
     try {
       await player.play();
@@ -239,6 +261,7 @@
 
   async function interruptAndStart(name, volume) {
     const token = ++transitionToken;
+    players.forEach(clearPlaybackWatchdog);
     transitioning = true;
     currentName = null;
 
@@ -390,6 +413,7 @@
   function handleEnded(player) {
     // Ignore stale players that were silenced during a rapid transition.
     if (player !== activePlayer || !currentName) return;
+    clearPlaybackWatchdog(player);
 
     currentName = null;
     const next = queue.shift();
@@ -404,8 +428,15 @@
 
   players.forEach(player => {
     player.addEventListener('ended', () => handleEnded(player));
+    player.addEventListener('timeupdate', () => {
+      if (player === activePlayer && currentName && !player.paused && enabled && player.currentTime > (playbackPositions.get(player) || 0) + 0.01) {
+        playbackPositions.set(player, player.currentTime);
+        watchPlaybackProgress(player, currentName, transitionToken);
+      }
+    });
     player.addEventListener('error', () => {
       if (player !== activePlayer && player.paused) return;
+      clearPlaybackWatchdog(player);
 
       const failedName = currentName;
       player.volume = 0;

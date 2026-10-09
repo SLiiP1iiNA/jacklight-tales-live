@@ -543,6 +543,15 @@ async function applySceneVisual(scene) {
   root.dataset.sceneName = scene?.name || '';
 }
 
+function focusSceneIfNeeded() {
+  // Begin and Continue disappear as the scene opens. Keep keyboard focus in
+  // the picture, including while loading or showing the image retry message.
+  // Preserve any control the player has already used during loading.
+  if (document.activeElement === document.body || document.activeElement === $('play') || document.activeElement === $('continue-path')) {
+    $('viewport').focus({ preventScroll: true });
+  }
+}
+
 async function loadRound() {
   clearTimers();
   found = false;
@@ -590,6 +599,7 @@ async function loadRound() {
   $('secret-item').disabled = true;
 
   $('stage').classList.add('scene-changing');
+  focusSceneIfNeeded();
 
   const rawSceneImage = currentScene.image || '';
   const sceneImageCandidates = [
@@ -655,6 +665,7 @@ async function loadRound() {
   updateRoundObjective();
   resetHintState();
   $('status').textContent = 'Can you spot ' + currentCharacter.name + '? Take your time.';
+  focusSceneIfNeeded();
 
   requestAnimationFrame(() => {
     if (token === loadToken && document.body.classList.contains('game-active')) {

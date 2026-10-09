@@ -27,11 +27,11 @@
         "inLanguage": "en-GB"
       }
     </script>
-    <link rel="preload" as="image" href="assets/images/prototype/gateway-desktop.webp" fetchpriority="high">
-    <link rel="preload" as="image" href="assets/images/prototype/gateway-mobile.webp" media="(max-width: 44rem)">
+    <link rel="preload" as="image" href="assets/images/prototype/gateway-desktop.webp" media="not all and (max-width: 44rem)" fetchpriority="high">
+    <link rel="preload" as="image" href="assets/images/prototype/gateway-mobile.webp" media="(max-width: 44rem)" fetchpriority="high">
     <link rel="icon" type="image/png" href="assets/branding/jlt-favicon.png">
     <link rel="apple-touch-icon" href="assets/branding/jlt-favicon.png">
-    <link rel="stylesheet" href="css/main.css?v=20261009-lantern-update1">
+    <link rel="stylesheet" href="css/main.css?v=20261009-prerelease1">
     <title>JackLight Tales — The Whispering Woods</title>
   </head>
 
@@ -166,8 +166,8 @@
 
       <section class="games-path" aria-labelledby="games-path-title">
         <div class="games-path__media" aria-hidden="true">
-          <img class="games-path__scene" src="games/woodland-search/assets/halloween-bg-02-pumpkin-patch.webp" alt="">
-          <img class="games-path__friend" src="assets/images/characters/barnaby.png" alt="">
+          <img class="games-path__scene" src="games/woodland-search/assets/halloween-bg-02-pumpkin-patch.webp" alt="" loading="lazy" decoding="async">
+          <img class="games-path__friend" src="assets/images/characters/barnaby.webp" alt="" loading="lazy" decoding="async">
           <div class="games-path__glow"></div>
         </div>
         <div class="games-path__copy">
@@ -204,7 +204,7 @@
 
       <section class="latest-tale" aria-labelledby="latest-title">
         <div class="latest-tale__art latest-tale__art--portrait">
-          <img src="assets/images/characters/barnaby.png" alt="Barnaby in his yellow sweater, ready for an adventure" loading="lazy" decoding="async">
+          <img src="assets/images/characters/barnaby.webp" alt="Barnaby in his yellow sweater, ready for an adventure" loading="lazy" decoding="async">
           <div class="latest-tale__wordmark"><img src="assets/branding/jlt-lantern.webp" alt="" loading="lazy"><strong>JackLight Tales</strong><span>Fresh from the woods</span></div>
         </div>
         <div class="latest-tale__copy">
@@ -245,10 +245,10 @@
       </section>
     </div>
 
-    <audio id="woodland-audio" preload="none" loop><source src="" type="audio/mpeg"></audio>
+    <audio id="woodland-audio" preload="none"><source src="" type="audio/mpeg"></audio>
 
     <noscript><div class="noscript-message">JackLight Tales needs JavaScript enabled to open the woodland paths. Please enable it and reload the page.</div></noscript>
-    <script type="module" src="js/app.js?v=20261009-lantern-update1"></script>
+    <script type="module" src="js/app.js?v=20261009-prerelease1"></script>
     <!-- Cloudflare Web Analytics: manual installation for this GitHub Pages site. -->
     <script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token":"b491039d1f03468b849f7aa762dd905a"}'></script>
 </body>

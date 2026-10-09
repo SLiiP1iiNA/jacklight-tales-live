@@ -2,40 +2,40 @@ window.WOODLAND_SEARCH_DATA = {
   "characters": [
     {
       "name": "Barnaby",
-      "image": "barnaby.png",
+      "image": "barnaby.webp",
       "special": true,
       "clue": "Look for a little fox in a yellow sweater.",
       "foundLine": "Barnaby gives a happy little wave. What a lovely Halloween discovery!"
     },
     {
       "name": "Pip",
-      "image": "pip.png",
+      "image": "pip.webp",
       "mischief": true,
       "clue": "Pip has found a clever little hiding place.",
       "foundLine": "Pip peeks out with a grin. That was a careful bit of spotting."
     },
     {
       "name": "Willow",
-      "image": "willow.png",
+      "image": "willow.webp",
       "mischief": true,
       "clue": "Willow is hiding among the autumn colours.",
       "foundLine": "Willow smiles from her cosy hiding place. Lovely finding!"
     },
     {
       "name": "the tiny frog",
-      "image": "tiny-green-frog.png",
+      "image": "tiny-green-frog.webp",
       "clue": "Look carefully for a very small green friend.",
       "foundLine": "The tiny frog gives a proud little croak. Another Halloween friend found!"
     },
     {
       "name": "Mum",
-      "image": "mum.png",
+      "image": "mum.webp",
       "clue": "A warm russet fox is waiting quietly somewhere nearby.",
       "foundLine": "Mum smiles warmly from her hiding place."
     },
     {
       "name": "Twinkle",
-      "image": "twinkle.png",
+      "image": "twinkle.webp",
       "clue": "Look for a tiny golden friend glowing among the pumpkins and lanterns.",
       "foundLine": "Twinkle gives a sparkling little wave. What wonderful searching!"
     }

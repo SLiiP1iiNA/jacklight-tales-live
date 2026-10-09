@@ -21,13 +21,14 @@ export function initGameTransition() {
     const siteAudio = document.querySelector("#woodland-audio");
     const mobile = window.matchMedia("(max-width: 900px), (pointer: coarse)").matches;
 
-    if (siteAudio && !siteAudio.paused) {
+    if (siteAudio) {
       try {
         sessionStorage.setItem(GAME_STATE_KEY, JSON.stringify({
-          enabled: true,
-          currentTime: siteAudio.currentTime
+          enabled: siteAudio.getAttribute("data-sound-enabled") !== "false",
+          currentTime: siteAudio.currentTime,
+          trackIndex: Number(siteAudio.getAttribute("data-sound-track") || 0)
         }));
-        if (!mobile) {
+        if (!mobile && !siteAudio.paused) {
           siteAudio.pause();
         }
       } catch {}

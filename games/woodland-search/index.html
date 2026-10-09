@@ -22,14 +22,14 @@
 </head>
 <body>
 <header class="site-bar">
-  <a class="brand" href="../../index.html"><img src="assets/jlt.png" alt=""><span>JackLight Tales</span></a>
+  <a class="brand" href="../../index.html"><img src="assets/jlt.webp" alt=""><span>JackLight Tales</span></a>
   <a class="game-home-link" href="../../index.html"><span aria-hidden="true">←</span><span>Back to JackLight Tales</span></a>
 </header>
 
 <main>
   <section id="welcome" aria-labelledby="welcome-title">
     <div class="welcome-copy">
-      <img class="welcome-mark" src="assets/jlt.png" alt="JackLight Tales lantern">
+      <img class="welcome-mark" src="assets/jlt.webp" alt="JackLight Tales lantern">
       <p class="eyebrow">Woodland Search · Halloween</p>
       <h1 id="welcome-title">A little Halloween adventure is waiting.</h1>
       <p>Explore six cosy Halloween places. Find Barnaby and his friends, discover glowing Heart Seeds and uncover six little autumn secrets. Take all the time you need.</p>
@@ -54,18 +54,18 @@
 
   <section id="game" hidden aria-label="Halloween Woodland Search game">
     <div id="stage" aria-label="Woodland search picture">
-      <div id="viewport" tabindex="0" role="region" aria-describedby="status">
+      <div id="viewport" tabindex="0" role="region" aria-label="Woodland search picture" aria-describedby="status">
         <div id="scene">
           <img id="woods" src="assets/halloween-bg-01-costume-room.webp" alt="Barnaby’s Costume Room" draggable="false">
           <div class="fireflies" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span><span></span></div>
           <button id="heart-seed" type="button" aria-label="A hidden Heart Seed" hidden><span aria-hidden="true"></span></button>
           <button id="secret-item" type="button" aria-label="A hidden Halloween secret" hidden><img src="assets/secrets/halloween-item-01-cardboard-mask.webp" alt="" draggable="false"></button>
-          <button id="pip" type="button" aria-label="Found Barnaby" hidden><img src="assets/barnaby.png" alt="" draggable="false"></button>
+          <button id="pip" type="button" aria-label="Found Barnaby" hidden><img src="assets/barnaby.webp" alt="" draggable="false"></button>
         </div>
       </div>
 
       <div class="mission-hud" aria-live="polite">
-        <img id="reference" class="reference" src="assets/barnaby.png" alt="Barnaby">
+        <img id="reference" class="reference" src="assets/barnaby.webp" alt="Barnaby">
         <div>
           <p class="mission-kicker"><span id="path-number">Path 1 of 6</span> · <span id="place-name">Barnaby’s Costume Room</span></p>
           <h1 id="target-title">Find Barnaby</h1>
@@ -96,7 +96,7 @@
       <div id="success" hidden role="dialog" aria-modal="true" aria-labelledby="win-title">
         <div class="celebration" tabindex="-1">
           <div class="celebration-burst" aria-hidden="true"><span>✦</span><span>🍂</span><span>✧</span><span>🍃</span><span>✦</span><span>🍁</span><span>✧</span><span>🍃</span></div>
-          <img id="found-portrait" class="found-portrait" src="assets/barnaby.png" alt="">
+          <img id="found-portrait" class="found-portrait" src="assets/barnaby.webp" alt="">
           <div class="celebration-copy-wrap">
             <p id="found-kicker" class="found-kicker">Wonderful spotting!</p>
             <h2 id="win-title">You found Barnaby!</h2>
@@ -148,10 +148,10 @@
 })();
 </script>
 <script src="game-music.js?v=20261007-halloween5"></script>
-<script src="game-audio.js?v=20261009-halloween-update1"></script>
+<script src="game-audio.js?v=20261009-prerelease1"></script>
 <script src="game-settings.js?v=20261007-halloween1"></script>
-<script src="game-data.js?v=20261009-halloween-update1"></script>
-<script src="game.js?v=20261009-halloween-update1"></script>
+<script src="game-data.js?v=20261009-prerelease1"></script>
+<script src="game.js?v=20261009-prerelease1"></script>
 <script type="module">
   import { initImageProtection } from '../../js/features/image-protection.js';
   initImageProtection();

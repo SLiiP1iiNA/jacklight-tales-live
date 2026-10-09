@@ -347,6 +347,7 @@
   place-items: center;
   border: 1px solid rgba(255, 224, 146, .3);
   border-radius: 50%;
+  background: #08281d;
   color: #f4cc70;
   font: 900 .6rem/1 Arial, Helvetica, sans-serif;
 }

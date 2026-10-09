@@ -13,8 +13,8 @@
 
 @import url("./features/final-rebuild.css?v=20261005-regression1");
 
-@import url("./features/grownups.css");
-@import url("./features/listen.css?v=20261009-lantern-update1");
+@import url("./features/grownups.css?v=20261009-prerelease1");
+@import url("./features/listen.css?v=20261009-prerelease1");
 @import url("./features/home-crossroads.css?v=20260922-cleanup1");
  
 @import url("./features/image-protection.css?v=20260924");

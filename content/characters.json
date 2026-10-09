@@ -4,7 +4,7 @@
     "name": "Barnaby",
     "role": "The curious explorer",
     "description": "A five-year-old fox with big questions, a warm yellow sweater and a habit of choosing the most interesting path.",
-    "image": "assets/images/characters/barnaby.png",
+    "image": "assets/images/characters/barnaby.webp",
     "alt": "Barnaby, a young red fox in a yellow knitted sweater"
   },
   {
@@ -12,7 +12,7 @@
     "name": "Mum",
     "role": "Barnaby's loving mum",
     "description": "Kind, patient and always ready with a calm answer, a warm hug or a clever woodland idea.",
-    "image": "assets/images/characters/mum.png",
+    "image": "assets/images/characters/mum.webp",
     "alt": "Barnaby's mother, an adult red fox in a cream cardigan and green skirt"
   },
   {
@@ -20,7 +20,7 @@
     "name": "Pip",
     "role": "A little woodland friend",
     "description": "A small, big-eared companion who notices details that everyone else misses.",
-    "image": "assets/images/characters/pip.png",
+    "image": "assets/images/characters/pip.webp",
     "alt": "Pip, a small golden-brown mouse with large ears and green eyes"
   },
   {
@@ -28,7 +28,7 @@
     "name": "The Little Guardian",
     "role": "Keeper of the old paths",
     "description": "A magical leaf-covered guardian who watches over the deeper secrets of the Whispering Woods.",
-    "image": "assets/images/characters/little-guardian.png",
+    "image": "assets/images/characters/little-guardian.webp",
     "alt": "The Little Guardian, a golden woodland creature covered in leaves and quills"
   },
   {
@@ -36,7 +36,7 @@
     "name": "The Tiny Green Frog",
     "role": "Barnaby's quiet companion",
     "description": "A cheerful little adventurer who often rides in Barnaby's bicycle basket and says plenty without words.",
-    "image": "assets/images/characters/tiny-green-frog.png",
+    "image": "assets/images/characters/tiny-green-frog.webp",
     "alt": "A friendly tiny green frog with big golden eyes"
   },
   {
@@ -44,7 +44,7 @@
     "name": "Willow",
     "role": "A thoughtful friend",
     "description": "A gentle young fox who brings patience, imagination and a teal scarf to every woodland problem.",
-    "image": "assets/images/characters/willow.png",
+    "image": "assets/images/characters/willow.webp",
     "alt": "Willow, a young red fox wearing a teal scarf"
   },
   {
@@ -52,7 +52,7 @@
     "name": "Twinkle",
     "role": "A glow of hope",
     "description": "A tiny golden Glowkin whose light makes dark paths feel a little less mysterious.",
-    "image": "assets/images/characters/twinkle.png",
+    "image": "assets/images/characters/twinkle.webp",
     "alt": "Twinkle, a tiny glowing golden woodland creature"
   },
   {
@@ -60,7 +60,7 @@
     "name": "The Human Girl",
     "role": "A visitor from beyond the woods",
     "description": "A curious child who reminds Barnaby that wonder can connect very different worlds.",
-    "image": "assets/images/characters/human-girl.png",
+    "image": "assets/images/characters/human-girl.webp",
     "alt": "A young human girl wearing a flower-patterned blue jacket and pink boots"
   },
   {
@@ -68,7 +68,7 @@
     "name": "Mr Alder",
     "role": "The lantern maker",
     "description": "A friendly badger who makes warm lights for the village and knows when a path needs guiding.",
-    "image": "assets/images/characters/mr-alder.png",
+    "image": "assets/images/characters/mr-alder.webp",
     "alt": "Mr Alder, a friendly badger holding a glowing lantern"
   },
   {
@@ -76,7 +76,7 @@
     "name": "Mr Bramble",
     "role": "The retired toymaker",
     "description": "A wise hedgehog with a love of maps, handmade toys and unfinished routes worth following.",
-    "image": "assets/images/characters/mr-bramble.png",
+    "image": "assets/images/characters/mr-bramble.webp",
     "alt": "Mr Bramble, a friendly hedgehog wearing spectacles and a rust-coloured scarf"
   }
 ]
