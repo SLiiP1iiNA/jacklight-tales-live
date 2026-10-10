@@ -192,6 +192,31 @@
 }
 
 @media (max-width: 44rem) {
+  .storybook-body .brand,
+  .storybook-body .brand__words,
+  .storybook-body .site-footer__brand,
+  .storybook-body .site-footer__brand p,
+  .storybook-body .site-footer__legal,
+  .storybook-body .site-footer__copyright {
+    min-width: 0;
+    max-width: 100%;
+    overflow-wrap: anywhere;
+  }
+
+  .storybook-body .site-footer__legal a,
+  .storybook-body .site-footer__legal button {
+    max-width: 100%;
+    overflow-wrap: anywhere;
+  }
+
+  .storybook-body .latest-tale__art--portrait {
+    aspect-ratio: auto;
+  }
+
+  .storybook-body .latest-tale__art--portrait > img {
+    height: auto;
+  }
+
   .storybook-body .storybook-glimpse,
   .storybook-body .storybook-glimpse img {
     min-height: 0;
@@ -307,11 +332,9 @@
 
 .games-path__actions .text-path { color: #ffe19a; }
 
-@media (min-width: 44.01rem) {
-  .games-path__actions .story-button--sun {
-    color: #214b38;
-    text-shadow: none;
-  }
+.games-path__actions .story-button--sun {
+  color: #214b38;
+  text-shadow: none;
 }
 
 @media (max-width: 58rem) {

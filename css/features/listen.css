@@ -3,6 +3,8 @@
   scroll-padding-top: 14rem;
   background: radial-gradient(circle at 18% 0%, rgba(245,202,103,.09), transparent 24rem), linear-gradient(145deg, #0b2b20, #051710);
 }
+/* Keyboard visibility is adjusted for the player; a large native inset clips focus in Safari. */
+.storybook-body .panel:has(.listen-experience :focus-visible) { scroll-padding-top: 4rem; }
 .storybook-body .panel:has(.listen-experience) .panel__content { gap: 0; }
 .listen-experience { display: grid; grid-template-columns: minmax(0, 1fr); gap: 1.25rem; min-width: 0; color: #fff8e8; overflow-wrap: anywhere; container: listen-room / inline-size; }
 .listen-heading { display: grid; gap: .55rem; padding-right: .5rem; }

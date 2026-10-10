@@ -313,7 +313,7 @@ function getStatusBlocker() {
     for (const y of [20, 50, 80]) {
       const direction = describePoint({ x, y });
       messages.add('The Heart Seed is still hiding nearby. ' + direction);
-      messages.add('A tiny ' + item.toLowerCase() + ' is still hiding nearby. ' + direction);
+      messages.add(item + ' is still hiding nearby. ' + direction);
     }
   }
 
@@ -482,7 +482,7 @@ function updateRoundObjective() {
 
   if (!secretItemFoundThisRound && currentSecretItem) {
     $('target-title').textContent = 'Find the secret';
-    $('mission-line').textContent = 'One little ' + currentSecretItem.name.toLowerCase() + ' is still hiding somewhere nearby.';
+    $('mission-line').textContent = currentSecretItem.name + ' is still hiding somewhere nearby.';
     return;
   }
 
@@ -1111,7 +1111,7 @@ $('hint').addEventListener('click', () => {
       ? (currentSpot.hint || 'Look closely around the woodland details.')
       : target === 'seed'
         ? 'The Heart Seed is still hiding nearby. ' + describePoint(currentSeedSpot)
-        : 'A tiny ' + currentSecretItem.name.toLowerCase() + ' is still hiding nearby. ' + describePoint(currentSecretSpot);
+        : currentSecretItem.name + ' is still hiding nearby. ' + describePoint(currentSecretSpot);
 
     const element = target === 'character' ? $('pip') : target === 'seed' ? $('heart-seed') : $('secret-item');
     element.classList.add('hinted');

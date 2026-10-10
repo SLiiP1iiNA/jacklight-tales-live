@@ -165,7 +165,7 @@ function selectTrack(state, index, { autoplay = true, seconds = 0, queueMode = f
   state.activeIndex = index;
   state.queueMode = queueMode;
   state.completed = false;
-  state.pendingSeek = seconds > 0 ? { seconds, url: track.url } : null;
+  state.pendingSeek = seconds > 0 ? { seconds, url: new URL(track.url, document.baseURI).href } : null;
   state.title.textContent = track.title;
   state.subtitle.textContent = `Series ${state.series.number} · Story ${index + 1} of ${state.series.episodeCount}${queueMode ? " · Collection order" : ""}`;
   state.status.textContent = autoplay ? "Opening your story…" : "Your place is saved. Continue when you are ready.";
