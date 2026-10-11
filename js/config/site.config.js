@@ -47,7 +47,7 @@ export const siteConfig = {
   content: {
     stories: "content/stories.json",
     characters: "content/characters.json",
-    gallery: "content/gallery.json",
+    gallery: "content/gallery.json?v=20261011-full-scour1",
     socialLinks: "content/social-links.json",
     audioLibrary: "content/audio-library.json",
   },

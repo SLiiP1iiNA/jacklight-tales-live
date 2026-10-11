@@ -215,14 +215,19 @@ export function initSoundControl(audioPath, mobileAudioPath = "", tracks = []) {
       const state = JSON.parse(raw);
       soundEnabled = Boolean(state.enabled);
       audio.setAttribute("data-sound-enabled", String(soundEnabled));
+      if (Number.isInteger(state.trackIndex) && state.trackIndex >= 0 && state.trackIndex < playlist.length && state.trackIndex !== trackIndex) selectTrack(state.trackIndex, soundEnabled);
+      if (Number.isFinite(state.currentTime) && state.currentTime >= 0) {
+        pendingResumeTime = state.currentTime;
+        if (soundEnabled) applyResumePosition();
+        else {
+          // Keep the saved place visible while muted, and retain it for the
+          // eventual load when the visitor turns sound back on.
+          try { audio.currentTime = pendingResumeTime; } catch {}
+        }
+      }
       if (!soundEnabled) {
         stopWoodlandSound();
         return;
-      }
-      if (Number.isInteger(state.trackIndex) && state.trackIndex >= 0 && state.trackIndex < playlist.length && state.trackIndex !== trackIndex) selectTrack(state.trackIndex);
-      if (Number.isFinite(state.currentTime) && state.currentTime >= 0) {
-        pendingResumeTime = state.currentTime;
-        applyResumePosition();
       }
       restoredFromGame = true;
     } catch {}
