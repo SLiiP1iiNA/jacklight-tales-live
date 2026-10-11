@@ -57,7 +57,7 @@ export function initSoundControl(audioPath, mobileAudioPath = "", tracks = []) {
   }
 
   function applyResumePosition() {
-    if (pendingResumeTime === null) return;
+    if (pendingResumeTime === null || !soundEnabled || audio.readyState < 1) return;
     try {
       audio.currentTime = pendingResumeTime;
       pendingResumeTime = null;

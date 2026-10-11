@@ -3,25 +3,26 @@
 @media (max-width:760px) and (orientation:portrait){
   html,body{width:100%;min-height:100%;overflow-x:hidden}
 
-  /* One-screen mobile welcome */
-  body:not(.game-active){height:100svh;min-height:100svh;overflow:hidden}
+  /* The welcome fills the screen and can scroll when text is enlarged. */
+  body:not(.game-active){height:auto;min-height:100svh;overflow-y:auto}
   body:not(.game-active) .site-bar{
-    height:56px;
+    min-height:56px;
+    flex-wrap:wrap;
     padding:max(.28rem,env(safe-area-inset-top)) .68rem .28rem;
   }
   body:not(.game-active) .brand{gap:.35rem;font-size:.88rem}
   body:not(.game-active) .brand img{width:2.15rem;height:2.15rem}
   body:not(.game-active) .game-home-link{font-size:.61rem}
+  body:not(.game-active) .brand,body:not(.game-active) .game-home-link{min-width:0;max-width:100%}
   body:not(.game-active) footer{display:none}
 
   #welcome{
     width:100%;
-    height:calc(100svh - 56px);
-    min-height:0;
+    min-height:calc(100svh - 56px);
     padding:.4rem .9rem max(.7rem,env(safe-area-inset-bottom));
     display:grid;
     place-items:center;
-    overflow:hidden;
+    overflow:visible;
   }
   .welcome-copy{width:min(100%,430px);text-align:center}
   .welcome-mark{width:3.35rem;margin:0 auto .12rem}
