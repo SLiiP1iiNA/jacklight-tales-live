@@ -63,6 +63,7 @@
   players.forEach(player => {
     player.preload = 'auto';
     player.playsInline = true;
+    player.crossOrigin = 'anonymous';
   });
 
   let enabled = true;
@@ -81,11 +82,81 @@
   const PLAYBACK_STALL_MS = 12000;
   const GAP_MS = 20;
   const FADE_IN_MS = 120;
+  const STOP_FADE_MS = 20;
   const fadeFrames = new WeakMap();
   const fadeCancels = new WeakMap();
+  const fadeTimers = new WeakMap();
   const playbackTokens = new WeakMap();
   const playbackWatchdogs = new WeakMap();
   const playbackPositions = new WeakMap();
+  const mixers = new WeakMap();
+  let mixerContext = null;
+  let mixerUnavailable = false;
+
+  function ensureMixer() {
+    if (mixerUnavailable) return;
+    const AudioContext = window.AudioContext || window.webkitAudioContext;
+    if (!AudioContext) {
+      mixerUnavailable = true;
+      return;
+    }
+
+    try {
+      if (!mixerContext) mixerContext = new AudioContext();
+      players.forEach(player => {
+        if (mixers.has(player)) return;
+        const level = player.volume;
+        const gain = mixerContext.createGain();
+        gain.gain.value = level;
+        const source = mixerContext.createMediaElementSource(player);
+        source.connect(gain);
+        gain.connect(mixerContext.destination);
+        mixers.set(player, { source, gain, level, ramp: null });
+        // AudioParam automation shapes the waveform between audio samples.
+        // Keep the media-element volume stable instead of stepping it per frame.
+        player.volume = 1;
+      });
+      if (mixerContext.state === 'suspended') void mixerContext.resume().catch(() => {});
+    } catch {
+      // A platform without a usable mixer retains the media-element fallback.
+      // Any graph already created remains connected and is still reused.
+      mixerUnavailable = true;
+    }
+  }
+
+  function getPlayerLevel(player) {
+    const mixer = mixers.get(player);
+    if (!mixer) return player.volume;
+    if (!mixer.ramp) return mixer.level;
+    const { from, to, start, duration } = mixer.ramp;
+    const progress = Math.max(0, Math.min(1, (mixerContext.currentTime - start) / duration));
+    return from + (to - from) * progress;
+  }
+
+  function holdPlayerLevel(player) {
+    const mixer = mixers.get(player);
+    if (!mixer) return player.volume;
+    const level = getPlayerLevel(player);
+    const now = mixerContext.currentTime;
+    mixer.gain.gain.cancelScheduledValues(now);
+    mixer.gain.gain.setValueAtTime(level, now);
+    mixer.ramp = null;
+    mixer.level = level;
+    return level;
+  }
+
+  function setPlayerLevel(player, level) {
+    const mixer = mixers.get(player);
+    if (!mixer) {
+      player.volume = level;
+      return;
+    }
+    const now = mixerContext.currentTime;
+    mixer.gain.gain.cancelScheduledValues(now);
+    mixer.gain.gain.setValueAtTime(level, now);
+    mixer.ramp = null;
+    mixer.level = level;
+  }
 
   function clearPlaybackWatchdog(player) {
     clearTimeout(playbackWatchdogs.get(player));
@@ -138,7 +209,7 @@
     cancel?.();
     try { player.pause(); } catch {}
     try { player.currentTime = 0; } catch {}
-    player.volume = 0;
+    setPlayerLevel(player, 0);
   }
 
   function prepare(player, name) {
@@ -148,7 +219,7 @@
     const cancel = fadeCancels.get(player);
     cancel?.();
 
-    player.volume = 0;
+    setPlayerLevel(player, 0);
     player.src = src;
     player.load();
     return true;
@@ -158,12 +229,51 @@
     const previousCancel = fadeCancels.get(player);
     previousCancel?.();
 
-    const startVolume = player.volume;
+    const startVolume = getPlayerLevel(player);
     const endVolume = Math.max(0, Math.min(1, target));
 
     if (!duration || Math.abs(startVolume - endVolume) < 0.001) {
-      player.volume = endVolume;
+      setPlayerLevel(player, endVolume);
       return Promise.resolve();
+    }
+
+    const mixer = mixers.get(player);
+    if (mixer) {
+      const now = mixerContext.currentTime;
+      const seconds = duration / 1000;
+      holdPlayerLevel(player);
+      mixer.gain.gain.linearRampToValueAtTime(endVolume, now + seconds);
+      mixer.ramp = { from: startVolume, to: endVolume, start: now, duration: seconds };
+
+      return new Promise(resolve => {
+        let settled = false;
+        const finish = () => {
+          if (settled) return;
+          // The render clock owns the envelope. A busy UI timer must not pause
+          // the player before its scheduled fade has actually reached silence.
+          const remaining = (now + seconds - mixerContext.currentTime) * 1000;
+          if (remaining > 1 && mixerContext.state === 'running') {
+            fadeTimers.set(player, setTimeout(finish, Math.max(4, remaining)));
+            return;
+          }
+          settled = true;
+          fadeTimers.delete(player);
+          fadeCancels.delete(player);
+          setPlayerLevel(player, endVolume);
+          resolve();
+        };
+        const cancel = () => {
+          if (settled) return;
+          settled = true;
+          clearTimeout(fadeTimers.get(player));
+          fadeTimers.delete(player);
+          fadeCancels.delete(player);
+          holdPlayerLevel(player);
+          resolve();
+        };
+        fadeCancels.set(player, cancel);
+        fadeTimers.set(player, setTimeout(finish, duration));
+      });
     }
 
     return new Promise(resolve => {
@@ -224,8 +334,8 @@
 
   async function fadeAllToSilence() {
     await Promise.all(players.map(player => {
-      if (player.paused || player.volume <= 0.001) {
-        player.volume = 0;
+      if (player.paused || getPlayerLevel(player) <= 0.001) {
+        setPlayerLevel(player, 0);
         return Promise.resolve();
       }
       return fadePlayer(player, 0, FADE_OUT_MS);
@@ -364,6 +474,7 @@
 
   function play(name, { interrupt = true, volume = 0.92 } = {}) {
     if (!enabled || !slots[name]) return Promise.resolve(false);
+    ensureMixer();
 
     // Ignore an accidental duplicate request arriving from a mobile tap/click
     // pair. Legitimate repeats still work once this tiny window has passed.
@@ -395,6 +506,7 @@
   function playSequence(names, { volume = 0.92, interrupt = true } = {}) {
     const valid = names.filter(name => slots[name]);
     if (!enabled || !valid.length) return Promise.resolve(false);
+    ensureMixer();
 
     const mobilePhone = document.documentElement.classList.contains('phone-landscape-mode') ||
       window.matchMedia?.('(max-width: 760px)').matches;
@@ -425,7 +537,7 @@
     if (enabled && next) {
       void startQueued(next.name, next.volume);
     } else {
-      player.volume = 0;
+      setPlayerLevel(player, 0);
       resolveIdle();
     }
   }
@@ -443,7 +555,7 @@
       clearPlaybackWatchdog(player);
 
       const failedName = currentName;
-      player.volume = 0;
+      setPlayerLevel(player, 0);
 
       if (player === activePlayer) {
         currentName = null;
@@ -455,28 +567,38 @@
     });
   });
 
-  function stop() {
-    ++transitionToken;
+  function stop({ immediate = false } = {}) {
+    const token = ++transitionToken;
     transitioning = false;
     queue = [];
     currentName = null;
     lastRequestName = null;
     lastRequestAt = 0;
-    players.forEach(stopPlayer);
+    players.forEach(player => {
+      clearPlaybackWatchdog(player);
+      playbackTokens.set(player, token);
+      const finish = () => {
+        if (token !== transitionToken || playbackTokens.get(player) !== token) return;
+        stopPlayer(player);
+        if (!enabled) player.muted = true;
+        resolveIdle();
+      };
+      if (immediate || player.paused || getPlayerLevel(player) <= 0.001) finish();
+      else void fadePlayer(player, 0, STOP_FADE_MS).then(finish);
+    });
     resolveIdle();
   }
 
   function setEnabled(value) {
     enabled = Boolean(value);
-    players.forEach(player => {
-      player.muted = !enabled;
-    });
-
     if (!enabled) stop();
-    else resolveIdle();
+    else {
+      players.forEach(player => { player.muted = false; });
+      resolveIdle();
+    }
   }
 
-  window.addEventListener('pagehide', stop);
+  window.addEventListener('pagehide', () => stop({ immediate: true }));
 
   window.jltGameAudio = {
     play,
@@ -489,6 +611,9 @@
     current: () => currentName,
     player: firstPlayer,
     players: [...players],
+    getLevel: getPlayerLevel,
+    getAudioContext: () => mixerContext,
+    getGainNode: player => mixers.get(player)?.gain || null,
     slots: { ...slots }
   };
 })();
