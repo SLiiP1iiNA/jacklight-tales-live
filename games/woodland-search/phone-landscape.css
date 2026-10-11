@@ -303,7 +303,7 @@ html.phone-landscape-mode #status.is-visible{
    Safari can restore stale grid geometry when the game is left. The welcome
    screen is intentionally reduced to one centred column here so no desktop
    width can push the copy off either edge of the viewport. */
-html.phone-landscape-mode #welcome{
+html.phone-landscape-mode #welcome:not([hidden]){
   display:flex!important;
   flex-direction:column!important;
   align-items:center!important;
@@ -340,7 +340,7 @@ html.phone-landscape-mode .welcome-copy>p:not(.eyebrow){
 
 /* Same welcome geometry without relying on the JS class. */
 @media (orientation:landscape) and (max-height:560px) and (max-width:1100px){
-  html:not(.phone-landscape-mode) #welcome{
+  html:not(.phone-landscape-mode) #welcome:not([hidden]){
     display:flex!important;
     flex-direction:column!important;
     align-items:center!important;

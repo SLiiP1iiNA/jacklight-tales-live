@@ -38,6 +38,30 @@ window.WOODLAND_SEARCH_DATA = {
       "image": "twinkle.webp",
       "clue": "Look for a tiny golden friend glowing among the pumpkins and lanterns.",
       "foundLine": "Twinkle gives a sparkling little wave. What wonderful searching!"
+    },
+    {
+      "name": "Mr Alder",
+      "image": "mr-alder.webp",
+      "clue": "Look for a friendly badger carrying a warm, glowing lantern.",
+      "foundLine": "Mr Alder lifts his lantern with a smile. You have found the village lantern maker!"
+    },
+    {
+      "name": "Mr Bramble",
+      "image": "mr-bramble.webp",
+      "clue": "A kind hedgehog in spectacles and a russet scarf is tucked away nearby.",
+      "foundLine": "Mr Bramble gives a cheerful little nod. What a lovely surprise for the toymaker!"
+    },
+    {
+      "name": "the Little Guardian",
+      "image": "little-guardian.webp",
+      "clue": "Look for golden leaves and a gentle glow on a small woodland guardian.",
+      "foundLine": "The Little Guardian glows a little brighter. The old woodland paths have a careful new explorer!"
+    },
+    {
+      "name": "Dad",
+      "image": "dad.webp",
+      "clue": "A familiar fox in a green coat has brought his compass on a quiet autumn wander.",
+      "foundLine": "Dad smiles and tucks away his compass. You found a special family surprise!"
     }
   ],
   "scenes": [
