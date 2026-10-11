@@ -71,6 +71,7 @@
   let currentName = null;
   let activePlayer = firstPlayer;
   let transitioning = false;
+  let stopping = false;
   let idleWaiters = [];
   let transitionToken = 0;
   let lastRequestName = null;
@@ -124,21 +125,29 @@
     }
   }
 
-  function getPlayerLevel(player) {
+  function getPlayerLevel(player, at = mixerContext?.currentTime) {
     const mixer = mixers.get(player);
     if (!mixer) return player.volume;
     if (!mixer.ramp) return mixer.level;
     const { from, to, start, duration } = mixer.ramp;
-    const progress = Math.max(0, Math.min(1, (mixerContext.currentTime - start) / duration));
+    const progress = Math.max(0, Math.min(1, (at - start) / duration));
     return from + (to - from) * progress;
   }
 
-  function holdPlayerLevel(player) {
+  function holdPlayerLevel(player, at = mixerContext?.currentTime) {
     const mixer = mixers.get(player);
     if (!mixer) return player.volume;
-    const level = getPlayerLevel(player);
-    const now = mixerContext.currentTime;
-    mixer.gain.gain.cancelScheduledValues(now);
+    const now = at;
+    const level = getPlayerLevel(player, now);
+    if (typeof mixer.gain.gain.cancelAndHoldAtTime === 'function') {
+      // Hold the render-thread ramp atomically. Removing its future endpoint
+      // before setting a manual hold can briefly restore the old start gain.
+      mixer.gain.gain.cancelAndHoldAtTime(now);
+    } else {
+      mixer.gain.gain.cancelScheduledValues(now);
+    }
+    // Anchor the next ramp at the held level and this same audio timestamp.
+    // Otherwise a new linear ramp can interpolate from an older endpoint.
     mixer.gain.gain.setValueAtTime(level, now);
     mixer.ramp = null;
     mixer.level = level;
@@ -241,9 +250,9 @@
     if (mixer) {
       const now = mixerContext.currentTime;
       const seconds = duration / 1000;
-      holdPlayerLevel(player);
+      const from = holdPlayerLevel(player, now);
       mixer.gain.gain.linearRampToValueAtTime(endVolume, now + seconds);
-      mixer.ramp = { from: startVolume, to: endVolume, start: now, duration: seconds };
+      mixer.ramp = { from, to: endVolume, start: now, duration: seconds };
 
       return new Promise(resolve => {
         let settled = false;
@@ -252,7 +261,7 @@
           // The render clock owns the envelope. A busy UI timer must not pause
           // the player before its scheduled fade has actually reached silence.
           const remaining = (now + seconds - mixerContext.currentTime) * 1000;
-          if (remaining > 1 && mixerContext.state === 'running') {
+          if (remaining > 0 && mixerContext.state === 'running') {
             fadeTimers.set(player, setTimeout(finish, Math.max(4, remaining)));
             return;
           }
@@ -375,6 +384,7 @@
 
   async function interruptAndStart(name, volume) {
     const token = ++transitionToken;
+    stopping = false;
     players.forEach(clearPlaybackWatchdog);
     transitioning = true;
     currentName = null;
@@ -430,6 +440,7 @@
 
   async function startNatural(name, volume = 0.92) {
     const token = ++transitionToken;
+    stopping = false;
     transitioning = true;
     currentName = name;
 
@@ -452,6 +463,7 @@
 
   async function startQueued(name, volume) {
     const token = ++transitionToken;
+    stopping = false;
     transitioning = true;
     currentName = name;
 
@@ -475,6 +487,9 @@
   function play(name, { interrupt = true, volume = 0.92 } = {}) {
     if (!enabled || !slots[name]) return Promise.resolve(false);
     ensureMixer();
+    // A new request during the short stop ramp must own a fresh transition,
+    // rather than queue behind an outgoing player that will never finish a cue.
+    interrupt = interrupt || stopping;
 
     // Ignore an accidental duplicate request arriving from a mobile tap/click
     // pair. Legitimate repeats still work once this tiny window has passed.
@@ -507,6 +522,7 @@
     const valid = names.filter(name => slots[name]);
     if (!enabled || !valid.length) return Promise.resolve(false);
     ensureMixer();
+    interrupt = interrupt || stopping;
 
     const mobilePhone = document.documentElement.classList.contains('phone-landscape-mode') ||
       window.matchMedia?.('(max-width: 760px)').matches;
@@ -569,6 +585,7 @@
 
   function stop({ immediate = false } = {}) {
     const token = ++transitionToken;
+    stopping = true;
     transitioning = false;
     queue = [];
     currentName = null;
@@ -581,6 +598,7 @@
         if (token !== transitionToken || playbackTokens.get(player) !== token) return;
         stopPlayer(player);
         if (!enabled) player.muted = true;
+        if (!anyPlayerPlaying()) stopping = false;
         resolveIdle();
       };
       if (immediate || player.paused || getPlayerLevel(player) <= 0.001) finish();
