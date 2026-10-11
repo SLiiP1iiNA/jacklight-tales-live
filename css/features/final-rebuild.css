@@ -682,3 +682,45 @@
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 }
+
+.storybook-body .site-nav button {
+  min-width: 0;
+  flex-wrap: wrap;
+  justify-content: center;
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+
+.storybook-body .games-path {
+  min-width: 0;
+}
+
+.storybook-body .games-path__copy {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+/* Keep lazy portrait loading and card focus from moving the scroll position. */
+.storybook-body .panel:has(.character-grid) {
+  overflow-anchor: none;
+}
+
+@media (max-width: 58rem) {
+  .storybook-body .games-path { grid-template-columns: minmax(0, 1fr); }
+}
+
+@container site-home (max-width: 20rem) {
+  .storybook-body .home-ribbon,
+  .storybook-body .latest-tale__art--portrait {
+    grid-template-columns: minmax(0, 1fr);
+    overflow-wrap: anywhere;
+  }
+
+  .storybook-body .home-ribbon > p { grid-column: 1; }
+  .storybook-body .latest-tale__art--portrait > img { max-height: 12rem; }
+}
+
+@container site-home (max-width: 14rem) {
+  .storybook-body .site-nav { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .storybook-body .home-compass__brand { flex-direction: column; }
+}
