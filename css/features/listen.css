@@ -1,6 +1,6 @@
 /* Collection-first Listen room, with one player on every screen. */
 .storybook-body .panel:has(.listen-experience) {
-  scroll-padding-top: 14rem;
+  scroll-padding-top: min(14rem, 40dvh);
   background: radial-gradient(circle at 18% 0%, rgba(245,202,103,.09), transparent 24rem), linear-gradient(145deg, #0b2b20, #051710);
 }
 /* Keyboard visibility is adjusted for the player; a large native inset clips focus in Safari. */
@@ -55,7 +55,7 @@
 .listen-experience :is(button, input, summary):focus-visible { outline: .18rem solid #f4cf72; outline-offset: .2rem; }
 @media (max-width: 44rem) {
   .storybook-body .panel:has(.listen-experience) { max-height: calc(100dvh - 1rem); padding: .85rem; }
-  .storybook-body .panel:has(.listen-experience) { scroll-padding-top: 17rem; }
+  .storybook-body .panel:has(.listen-experience) { scroll-padding-top: min(17rem, 40dvh); }
   .listen-experience { gap: .9rem; }
   .listen-heading h2 { font-size: 1.85rem; }
   .listen-heading > p:last-child { font-size: .8rem; }
@@ -85,6 +85,9 @@
    the listening room's available width, so ordinary phone layouts stay intact. */
 @container listen-room (max-width: 27rem) {
   .listen-experience .audiobook-episodes { grid-template-columns: minmax(0, 1fr); }
+  @media (orientation: landscape) and (max-height: 38rem) {
+    .listen-player { position: relative; top: auto; }
+  }
 }
 @container listen-room (max-width: 15rem) {
   .listen-collections .audiobook-series,

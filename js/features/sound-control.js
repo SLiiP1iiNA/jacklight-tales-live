@@ -57,10 +57,10 @@ export function initSoundControl(audioPath, mobileAudioPath = "", tracks = []) {
   }
 
   function applyResumePosition() {
-    if (pendingResumeTime === null || !soundEnabled || audio.readyState < 1) return;
+    if (pendingResumeTime === null || audio.readyState < 1) return;
     try {
       audio.currentTime = pendingResumeTime;
-      pendingResumeTime = null;
+      if (soundEnabled) pendingResumeTime = null;
     } catch {
       // Some mobile browsers can seek only after metadata has arrived.
     }

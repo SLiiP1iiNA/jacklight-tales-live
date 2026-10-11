@@ -724,7 +724,7 @@ function leaveJourney() {
   });
   window.setTimeout(syncPhoneViewportMode, 120);
 
-  $('play').focus({ preventScroll: true });
+  $('play').focus();
 }
 
 function updateSeedMeter() {

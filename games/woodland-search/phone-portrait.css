@@ -1,5 +1,5 @@
 /* Woodland Search — phones in portrait.
-   Welcome fits inside one screen; gameplay keeps the established portrait layout. */
+   Welcome fills small screens; gameplay keeps the established portrait layout. */
 @media (max-width:760px) and (orientation:portrait){
   html,body{width:100%;min-height:100%;overflow-x:hidden}
 
@@ -24,7 +24,7 @@
     place-items:center;
     overflow:visible;
   }
-  .welcome-copy{width:min(100%,430px);text-align:center}
+  .welcome-copy{width:min(100%,430px);min-width:0;text-align:center}
   .welcome-mark{width:3.35rem;margin:0 auto .12rem}
   #welcome .eyebrow{font-size:.58rem;letter-spacing:.18em}
   #welcome h1{
@@ -50,6 +50,7 @@
     font-size:.61rem;
   }
   #play{
+    max-width:100%;
     min-height:46px;
     padding:.62rem 1.05rem;
     font-size:.78rem;

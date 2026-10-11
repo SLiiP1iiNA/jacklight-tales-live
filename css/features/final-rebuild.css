@@ -619,3 +619,66 @@
     min-height: 0;
   }
 }
+
+/* Let enlarged text reflow inside its available space. */
+.storybook-body .site-shell {
+  container: site-home / inline-size;
+}
+
+.storybook-body .site-header {
+  flex-wrap: wrap;
+}
+
+.storybook-body .site-nav,
+.storybook-body .header-actions {
+  min-width: 0;
+  max-width: 100%;
+  flex-wrap: wrap;
+}
+
+.storybook-body .site-footer > *,
+.storybook-body .site-footer__brand p,
+.storybook-body .site-footer__legal a,
+.storybook-body .site-footer__legal button {
+  min-width: 0;
+  max-width: 100%;
+  overflow-wrap: anywhere;
+}
+
+@media (min-width: 44.01rem) {
+  .storybook-body .site-footer {
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 1.5fr) minmax(0, auto);
+  }
+}
+
+.storybook-body .places-grid {
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 14rem), 1fr));
+}
+
+.storybook-body .game-teaser,
+.storybook-body .game-teaser > div,
+.storybook-body .game-teaser__badge {
+  min-width: 0;
+  max-width: 100%;
+  overflow-wrap: anywhere;
+}
+
+.storybook-body .game-teaser__badge {
+  white-space: normal;
+}
+
+@container site-home (max-width: 60rem) {
+  .storybook-body .site-nav {
+    order: 3;
+    display: grid;
+    width: 100%;
+    flex: 1 0 100%;
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+  }
+}
+
+@container site-home (max-width: 44rem) {
+  .storybook-body .site-nav {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}

@@ -16,7 +16,8 @@
   max-width: none !important;
   max-height: none !important;
   margin: 0 !important;
-  overflow: hidden !important;
+  overflow-x: hidden !important;
+  overflow-y: auto !important;
   padding:
     max(.7rem, env(safe-area-inset-top))
     max(.9rem, env(safe-area-inset-right))
@@ -45,7 +46,7 @@
 }
 
 .storybook-body .panel--watch .panel__close {
-  position: absolute !important;
+  position: fixed !important;
   z-index: 30;
   top: max(.7rem, env(safe-area-inset-top));
   right: max(.8rem, env(safe-area-inset-right));
@@ -65,7 +66,9 @@
   height: 100%;
   min-height: 0;
   gap: 0;
+  container: cinema-room / inline-size;
 }
+
 
 .cinema-room {
   display: grid;
@@ -658,3 +661,55 @@ a.cinema-room__support {
     white-space: nowrap;
   }
 }
+
+/* Text enlargement can make tablet and landscape controls taller than the
+   fixed cinema rows. Let the complete player and controls scroll together. */
+@media (min-width: 45rem), (orientation: landscape) {
+  @container cinema-room (max-width: 27rem) {
+    .cinema-room {
+      height: auto;
+      min-height: 100%;
+      grid-template-rows: auto auto auto;
+    }
+    .cinema-room__top {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      align-items: start;
+      gap: .6rem;
+    }
+    .cinema-room__links {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      width: 100%;
+      min-width: 0;
+    }
+    .cinema-room__links a {
+      min-width: 0;
+      overflow-wrap: anywhere;
+    }
+    .cinema-room__screen {
+      grid-template-rows: auto auto;
+      overflow: visible;
+    }
+    .cinema-room__screen-head,
+    .cinema-room__footer,
+    .cinema-room__socials {
+      display: flex;
+      flex-wrap: wrap;
+    }
+    .cinema-room__player {
+      width: 100% !important;
+      height: auto !important;
+      max-height: none !important;
+      aspect-ratio: 16 / 9 !important;
+    }
+    .cinema-room__footer p,
+    .cinema-room__support {
+      min-width: 0;
+      max-width: 100%;
+      white-space: normal;
+      overflow-wrap: anywhere;
+    }
+  }
+}
+
