@@ -1,6 +1,16 @@
 export function initGameTransition() {
   let travelling = false;
+  let transitionScreen = null;
+  let navigationTimer = 0;
   const GAME_STATE_KEY = "jacklight:woodland-audio-state";
+
+  window.addEventListener("pageshow", event => {
+    if (!event.persisted) return;
+    window.clearTimeout(navigationTimer);
+    transitionScreen?.remove();
+    transitionScreen = null;
+    travelling = false;
+  });
 
   document.addEventListener("click", async event => {
     const link = event.target.closest("a[data-game-launch]");
@@ -11,13 +21,14 @@ export function initGameTransition() {
     const siteAudio = document.querySelector("#woodland-audio");
     const mobile = window.matchMedia("(max-width: 900px), (pointer: coarse)").matches;
 
-    if (siteAudio && !siteAudio.paused) {
+    if (siteAudio) {
       try {
         sessionStorage.setItem(GAME_STATE_KEY, JSON.stringify({
-          enabled: true,
-          currentTime: siteAudio.currentTime
+          enabled: siteAudio.getAttribute("data-sound-enabled") !== "false",
+          currentTime: siteAudio.currentTime,
+          trackIndex: Number(siteAudio.getAttribute("data-sound-track") || 0)
         }));
-        if (!mobile) {
+        if (!mobile && !siteAudio.paused) {
           siteAudio.pause();
         }
       } catch {}
@@ -28,6 +39,7 @@ export function initGameTransition() {
 
     const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const overlay = document.createElement("div");
+    transitionScreen = overlay;
     overlay.className = "game-transition-screen";
     overlay.setAttribute("aria-live", "polite");
     overlay.innerHTML = `
@@ -42,7 +54,7 @@ export function initGameTransition() {
       await window.jltMobileSiteAudioTransition(reduceMotion ? 40 : 520);
     }
 
-    window.setTimeout(() => {
+    navigationTimer = window.setTimeout(() => {
       window.location.href = link.href;
     }, reduceMotion ? 40 : 620);
   });

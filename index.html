@@ -16,11 +16,22 @@
     <meta name="twitter:title" content="JackLight Tales — The Whispering Woods">
     <meta name="twitter:description" content="Step through the lanternlight and wander with Barnaby.">
     <meta name="twitter:image" content="https://jacklighttales.com/assets/images/site/jacklight-tales-banner.webp">
-    <link rel="preload" as="image" href="assets/images/prototype/gateway-desktop.webp" fetchpriority="high">
-    <link rel="preload" as="image" href="assets/images/prototype/gateway-mobile.webp" media="(max-width: 44rem)">
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "@id": "https://jacklighttales.com/#website",
+        "name": "JackLight Tales",
+        "url": "https://jacklighttales.com/",
+        "description": "Gentle story worlds, beginning with Barnaby and the Whispering Woods — animated tales, artwork, audio and little games for curious hearts.",
+        "inLanguage": "en-GB"
+      }
+    </script>
+    <link rel="preload" as="image" href="assets/images/prototype/gateway-desktop.webp" media="not all and (max-width: 44rem)" fetchpriority="high">
+    <link rel="preload" as="image" href="assets/images/prototype/gateway-mobile.webp" media="(max-width: 44rem)" fetchpriority="high">
     <link rel="icon" type="image/png" href="assets/branding/jlt-favicon.png">
     <link rel="apple-touch-icon" href="assets/branding/jlt-favicon.png">
-    <link rel="stylesheet" href="css/main.css?v=20261005-regression1">
+    <link rel="stylesheet" href="css/main.css?v=20261011-full-scour-final1">
     <title>JackLight Tales — The Whispering Woods</title>
   </head>
 
@@ -155,14 +166,14 @@
 
       <section class="games-path" aria-labelledby="games-path-title">
         <div class="games-path__media" aria-hidden="true">
-          <img class="games-path__scene" src="games/woodland-search/assets/whispering-woods-landscape-10.webp" alt="">
-          <img class="games-path__friend" src="assets/images/characters/little-guardian.png" alt="">
+          <img class="games-path__scene" src="games/woodland-search/assets/halloween-bg-02-pumpkin-patch.webp" alt="" loading="lazy" decoding="async">
+          <img class="games-path__friend" src="assets/images/characters/barnaby.webp" alt="" loading="lazy" decoding="async">
           <div class="games-path__glow"></div>
         </div>
         <div class="games-path__copy">
           <p class="eyebrow">Play in the Whispering Woods</p>
-          <h2 id="games-path-title">A little game path has opened.</h2>
-          <p>Search wide woodland scenes for Barnaby and his friends. No timer, no score — just careful looking and a little celebration when you find them.</p>
+          <h2 id="games-path-title">A little Halloween adventure is waiting.</h2>
+          <p>Find Barnaby and his friends in ten cosy Halloween places, with Heart Seeds, autumn treasures and gentle hints along the way.</p>
           <div class="games-path__actions">
             <button class="story-button story-button--sun" type="button" data-panel="games">Open the games path <span aria-hidden="true">◈</span></button>
             <a class="text-path" href="games/woodland-search/index.html" data-game-launch>Play Woodland Search <span aria-hidden="true">→</span></a>
@@ -193,7 +204,7 @@
 
       <section class="latest-tale" aria-labelledby="latest-title">
         <div class="latest-tale__art latest-tale__art--portrait">
-          <img src="assets/images/characters/barnaby.png" alt="Barnaby in his yellow sweater, ready for an adventure" loading="lazy" decoding="async">
+          <img src="assets/images/characters/barnaby.webp" alt="Barnaby in his yellow sweater, ready for an adventure" loading="lazy" decoding="async">
           <div class="latest-tale__wordmark"><img src="assets/branding/jlt-lantern.webp" alt="" loading="lazy"><strong>JackLight Tales</strong><span>Fresh from the woods</span></div>
         </div>
         <div class="latest-tale__copy">
@@ -234,10 +245,11 @@
       </section>
     </div>
 
-    <audio id="woodland-audio" preload="none" loop><source src="" type="audio/mpeg"></audio>
+    <audio id="woodland-audio" preload="none"><source src="" type="audio/mpeg"></audio>
 
     <noscript><div class="noscript-message">JackLight Tales needs JavaScript enabled to open the woodland paths. Please enable it and reload the page.</div></noscript>
-    <script type="module" src="js/app.js?v=20261006-audit1"></script>
-    <!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "b491039d1f03468b849f7aa762dd905a"}'></script><!-- End Cloudflare Web Analytics -->
+    <script type="module" src="js/app.js?v=20261011-full-scour-final1"></script>
+    <!-- Cloudflare Web Analytics: manual installation for this GitHub Pages site. -->
+    <script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token":"b491039d1f03468b849f7aa762dd905a"}'></script>
 </body>
 </html>

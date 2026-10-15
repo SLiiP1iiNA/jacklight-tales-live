@@ -5,7 +5,7 @@
 }
 
 html {
-  min-width: 20rem;
+  min-width: 0;
   scroll-behavior: smooth;
 }
 

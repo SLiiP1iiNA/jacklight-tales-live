@@ -11,14 +11,22 @@ export const siteConfig = {
     entranceBackgroundMobile: "assets/images/prototype/gateway-mobile.webp",
     worldMap: "assets/images/prototype/world-map-desktop.webp",
     worldMapMobile: "assets/images/prototype/world-map-mobile.webp",
-    cardImages: {
-      watch: "assets/images/cards/watch.png",
-      listen: "assets/images/cards/listen.png",
-      characters: "assets/images/cards/characters.png",
-      artwork: "assets/images/cards/artwork.png",
-    },
     woodlandAudio: "https://pub-9ea739df2a0c435bbc605d2f4bfc6fb5.r2.dev/Website%20-%20Jingles/Morning_in_the_Clearing-v2.mp3",
     woodlandAudioMobile: "https://pub-9ea739df2a0c435bbc605d2f4bfc6fb5.r2.dev/Website%20-%20Jingles/Morning_in_the_Clearing-v2_-24dB.mp3",
+    woodlandTracks: [
+      {
+        desktop: "https://pub-9ea739df2a0c435bbc605d2f4bfc6fb5.r2.dev/Website%20-%20Jingles/Morning_in_the_Clearing-v2.mp3",
+        mobile: "https://pub-9ea739df2a0c435bbc605d2f4bfc6fb5.r2.dev/Website%20-%20Jingles/Morning_in_the_Clearing-v2_-24dB.mp3",
+      },
+      {
+        desktop: "https://pub-9ea739df2a0c435bbc605d2f4bfc6fb5.r2.dev/Website%20-%20Jingles/Barnabys_Quiet_Stroll_Website.mp3",
+        mobile: "https://pub-9ea739df2a0c435bbc605d2f4bfc6fb5.r2.dev/Website%20-%20Jingles/Barnabys_Quiet_Stroll_Website_-24dB.mp3",
+      },
+      {
+        desktop: "https://pub-9ea739df2a0c435bbc605d2f4bfc6fb5.r2.dev/Website%20-%20Jingles/Where_The_Ferns_Awaken_Website.mp3",
+        mobile: "https://pub-9ea739df2a0c435bbc605d2f4bfc6fb5.r2.dev/Website%20-%20Jingles/Where_The_Ferns_Awaken_Website_-24dB.mp3",
+      },
+    ],
     entranceVideo: "",
   },
 
@@ -26,14 +34,14 @@ export const siteConfig = {
     watch: "partials/watch.html",
     listen: "partials/listen.html",
     explore: "partials/explore.html",
-    games: "partials/games.html",
+    games: "partials/games.html?v=20261011-ten-friends1",
     grownups: "partials/grownups.html",
   },
 
   content: {
     stories: "content/stories.json",
     characters: "content/characters.json",
-    gallery: "content/gallery.json",
+    gallery: "content/gallery.json?v=20261011-full-scour-final1",
     socialLinks: "content/social-links.json",
     audioLibrary: "content/audio-library.json",
   },

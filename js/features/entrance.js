@@ -25,7 +25,11 @@ export function initEntrance(settings = {}) {
     window.clearTimeout(landingTimer);
     entrance.classList.add(immediate ? "is-leaving" : "is-opening");
     entrance.setAttribute("aria-hidden", "true");
-    sessionStorage.setItem(ENTRANCE_SEEN_KEY, "true");
+    try {
+      sessionStorage.setItem(ENTRANCE_SEEN_KEY, "true");
+    } catch {
+      // The entrance must still open when browser storage is unavailable.
+    }
     main.inert = false;
     document.body.classList.add("entrance-transitioning");
 
@@ -55,7 +59,12 @@ export function initEntrance(settings = {}) {
     window.requestAnimationFrame(() => enterButton.focus({ preventScroll: true }));
   }
 
-  const alreadySeen = sessionStorage.getItem(ENTRANCE_SEEN_KEY) === "true";
+  let alreadySeen = false;
+  try {
+    alreadySeen = sessionStorage.getItem(ENTRANCE_SEEN_KEY) === "true";
+  } catch {
+    // Without storage, simply show the welcome again on the next visit.
+  }
   if (settings.showOncePerSession && alreadySeen) {
     entrance.hidden = true;
     entrance.setAttribute("aria-hidden", "true");

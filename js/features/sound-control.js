@@ -1,4 +1,4 @@
-export function initSoundControl(audioPath, mobileAudioPath = "") {
+export function initSoundControl(audioPath, mobileAudioPath = "", tracks = []) {
   const button = document.querySelector("#sound-control");
   const audio = document.querySelector("#woodland-audio");
   if (!button || !audio) return;
@@ -15,15 +15,24 @@ export function initSoundControl(audioPath, mobileAudioPath = "") {
   let listenOpen = false;
   let cinemaOpen = false;
   let audiobookPlaying = false;
+  let ambienceWhenPaused = false;
+  let activeStoryAudio = null;
   let resumeTimer = null;
   let siteAudioStarted = false;
+  let playbackRequested = false;
   let fadeFrame = null;
   let finishFade = null;
   let restoredFromGame = false;
   let soundEnabled = true;
   let audioRequestVersion = 0;
+  const playlist = tracks.filter(track => track?.desktop);
+  if (!playlist.length && audioPath) playlist.push({ desktop: audioPath, mobile: mobileAudioPath });
+  let trackIndex = 0;
+  let pendingResumeTime = null;
+  let trackNeedsLoad = false;
+  const failedTracks = new Set();
 
-  if (!audioPath) {
+  if (!playlist.length || !source) {
     button.hidden = true;
     button.disabled = true;
     return;
@@ -31,10 +40,57 @@ export function initSoundControl(audioPath, mobileAudioPath = "") {
 
   button.hidden = false;
   button.disabled = false;
-  source.src = isMobile() && mobileAudioPath ? mobileAudioPath : audioPath;
   audio.volume = 0;
-  audio.loop = true;
-  audio.load();
+  audio.loop = playlist.length === 1;
+  audio.setAttribute("data-sound-enabled", "true");
+  selectTrack(0, false);
+
+  function selectTrack(index, load = true) {
+    cancelFade();
+    trackIndex = index;
+    const track = playlist[trackIndex];
+    source.src = isMobile() && track.mobile ? track.mobile : track.desktop;
+    audio.setAttribute("data-sound-track", String(trackIndex));
+    audio.volume = 0;
+    trackNeedsLoad = !load;
+    if (load) audio.load();
+  }
+
+  function applyResumePosition() {
+    if (pendingResumeTime === null || audio.readyState < 1) return;
+    try {
+      audio.currentTime = pendingResumeTime;
+      if (soundEnabled) pendingResumeTime = null;
+    } catch {
+      // Some mobile browsers can seek only after metadata has arrived.
+    }
+  }
+
+  audio.addEventListener("loadedmetadata", applyResumePosition);
+  audio.addEventListener("playing", () => failedTracks.delete(trackIndex));
+  audio.addEventListener("ended", () => {
+    if (audio.loop) return;
+    audioRequestVersion += 1;
+    pendingResumeTime = null;
+    selectTrack((trackIndex + 1) % playlist.length);
+    if (siteAudioStarted) void startWoodlandSound(listenOpen ? LISTEN_VOLUME : NORMAL_VOLUME);
+  });
+  function handleTrackError() {
+    failedTracks.add(trackIndex);
+    audioRequestVersion += 1;
+    cancelFade();
+    audio.pause();
+    audio.volume = 0;
+    setButtonState(false);
+    if (!playbackRequested || !soundEnabled || cinemaOpen || audiobookPlaying || failedTracks.size >= playlist.length) return;
+    let next = (trackIndex + 1) % playlist.length;
+    while (failedTracks.has(next)) next = (next + 1) % playlist.length;
+    pendingResumeTime = null;
+    selectTrack(next);
+    void startWoodlandSound(listenOpen ? LISTEN_VOLUME : NORMAL_VOLUME);
+  }
+  audio.addEventListener("error", handleTrackError);
+  source.addEventListener("error", handleTrackError);
 
   function clearResumeTimer() {
     if (resumeTimer) {
@@ -89,6 +145,7 @@ export function initSoundControl(audioPath, mobileAudioPath = "") {
 
   async function startWoodlandSound(target = NORMAL_VOLUME, duration = FADE_IN_MS) {
     if (!soundEnabled || cinemaOpen || audiobookPlaying) return;
+    playbackRequested = true;
     const request = ++audioRequestVersion;
     if (!audio.paused) {
       siteAudioStarted = true;
@@ -100,6 +157,11 @@ export function initSoundControl(audioPath, mobileAudioPath = "") {
     clearResumeTimer();
 
     try {
+      if (trackNeedsLoad) {
+        trackNeedsLoad = false;
+        audio.load();
+      }
+      applyResumePosition();
       await audio.play();
       if (request !== audioRequestVersion || !soundEnabled || cinemaOpen || audiobookPlaying) return;
       siteAudioStarted = true;
@@ -151,13 +213,35 @@ export function initSoundControl(audioPath, mobileAudioPath = "") {
       if (!raw) return;
       sessionStorage.removeItem(GAME_STATE_KEY);
       const state = JSON.parse(raw);
-      if (!state.enabled) return;
-      if (Number.isFinite(state.currentTime)) audio.currentTime = state.currentTime;
+      soundEnabled = Boolean(state.enabled);
+      audio.setAttribute("data-sound-enabled", String(soundEnabled));
+      if (Number.isInteger(state.trackIndex) && state.trackIndex >= 0 && state.trackIndex < playlist.length && state.trackIndex !== trackIndex) selectTrack(state.trackIndex, soundEnabled);
+      if (Number.isFinite(state.currentTime) && state.currentTime >= 0) {
+        pendingResumeTime = state.currentTime;
+        if (soundEnabled) applyResumePosition();
+        else {
+          // Keep the saved place visible while muted, and retain it for the
+          // eventual load when the visitor turns sound back on.
+          try { audio.currentTime = pendingResumeTime; } catch {}
+        }
+      }
+      if (!soundEnabled) {
+        stopWoodlandSound();
+        return;
+      }
       restoredFromGame = true;
     } catch {}
   }
 
   restoreFromGame();
+
+  window.addEventListener("pageshow", event => {
+    if (!event.persisted) return;
+    restoreFromGame();
+    if (!restoredFromGame) return;
+    startWoodlandSound(NORMAL_VOLUME, 2200);
+    restoredFromGame = false;
+  });
 
   if (restoredFromGame) {
     window.setTimeout(async () => {
@@ -185,6 +269,7 @@ export function initSoundControl(audioPath, mobileAudioPath = "") {
     cinemaOpen = event.detail.panelName === "watch";
     listenOpen = event.detail.panelName === "listen";
     audiobookPlaying = false;
+    activeStoryAudio = null;
     clearResumeTimer();
     if (cinemaOpen) {
       if (isMobile()) {
@@ -209,6 +294,8 @@ export function initSoundControl(audioPath, mobileAudioPath = "") {
 
     const storyAudio = event.detail.content.querySelector("[data-audio-element]");
     if (!storyAudio) return;
+    activeStoryAudio = storyAudio;
+    ambienceWhenPaused = Boolean(event.detail.content.querySelector("[data-audio-ambience]")?.checked);
 
     storyAudio.addEventListener("play", () => {
       if (!listenOpen || !storyAudio.isConnected) return;
@@ -224,8 +311,13 @@ export function initSoundControl(audioPath, mobileAudioPath = "") {
 
     storyAudio.addEventListener("pause", () => {
       if (!listenOpen || !storyAudio.isConnected) return;
-      audiobookPlaying = true;
+      if (storyAudio.error) return;
+      audiobookPlaying = !ambienceWhenPaused;
       clearResumeTimer();
+      if (ambienceWhenPaused) {
+        void startWoodlandSound(LISTEN_VOLUME, FADE_IN_MS);
+        return;
+      }
       const request = ++audioRequestVersion;
       fadeTo(0, FADE_OUT_MS).then((completed) => {
         if (!completed || request !== audioRequestVersion) return;
@@ -234,20 +326,37 @@ export function initSoundControl(audioPath, mobileAudioPath = "") {
       });
     });
 
-    storyAudio.addEventListener("ended", () => {
+    function resumeAfterStory() {
       if (!listenOpen || !storyAudio.isConnected) return;
       audiobookPlaying = false;
       clearResumeTimer();
       resumeTimer = window.setTimeout(() => {
         if (listenOpen) startWoodlandSound(LISTEN_VOLUME, FADE_IN_MS);
       }, 5000);
-    });
+    }
+    storyAudio.addEventListener("ended", resumeAfterStory);
+    storyAudio.addEventListener("error", resumeAfterStory);
+  });
+
+  document.addEventListener("jacklight:audiobook-ambience", event => {
+    ambienceWhenPaused = Boolean(event.detail?.enabled);
+    if (!listenOpen || !activeStoryAudio?.isConnected) return;
+    // The preference applies to paused stories, never underneath narration.
+    if (!activeStoryAudio.paused && !activeStoryAudio.ended) return;
+    clearResumeTimer();
+    audiobookPlaying = Boolean(activeStoryAudio.getAttribute("src")) && !ambienceWhenPaused;
+    if (ambienceWhenPaused) {
+      void startWoodlandSound(LISTEN_VOLUME, FADE_IN_MS);
+    } else {
+      stopWoodlandSound();
+    }
   });
 
   document.addEventListener("jacklight:panel-closed", () => {
     cinemaOpen = false;
     listenOpen = false;
     audiobookPlaying = false;
+    activeStoryAudio = null;
     clearResumeTimer();
     startWoodlandSound(NORMAL_VOLUME, FADE_IN_MS);
   });
@@ -257,9 +366,15 @@ export function initSoundControl(audioPath, mobileAudioPath = "") {
 
     if (audio.paused) {
       soundEnabled = true;
+      audio.setAttribute("data-sound-enabled", "true");
+      if (audio.error || failedTracks.has(trackIndex)) {
+        failedTracks.clear();
+        selectTrack(trackIndex);
+      }
       await startWoodlandSound(listenOpen ? LISTEN_VOLUME : NORMAL_VOLUME, FADE_IN_MS);
     } else {
       soundEnabled = false;
+      audio.setAttribute("data-sound-enabled", "false");
       const request = ++audioRequestVersion;
       const completed = await fadeTo(0, FADE_OUT_MS);
       if (!completed || request !== audioRequestVersion) return;

@@ -83,6 +83,10 @@ function showError(target, message) {
 }
 
 export function initContentPanels(contentPaths = {}) {
+  let requestVersion = 0;
+  document.addEventListener("jacklight:panel-opening", () => { requestVersion += 1; });
+  document.addEventListener("jacklight:panel-closed", () => { requestVersion += 1; });
+
   document.addEventListener("click", (event) => {
     const toggle = event.target.closest("[data-character-toggle]");
     if (!toggle) {
@@ -105,14 +109,18 @@ export function initContentPanels(contentPaths = {}) {
     }
 
     const root = event.detail.content;
+    const request = requestVersion;
+    const isCurrent = () => request === requestVersion && root.isConnected;
     const characterTarget = root.querySelector("[data-character-grid]");
     const galleryTarget = root.querySelector("[data-gallery-grid]");
 
     if (characterTarget) {
       try {
         const characters = await loadJson(contentPaths.characters);
+        if (!isCurrent()) return;
         characterTarget.replaceChildren(...characters.map(createCharacterCard));
       } catch (error) {
+        if (!isCurrent()) return;
         console.error("Character content could not be loaded", error);
         showError(characterTarget, "The woodland friends are taking a little nap. Try again soon.");
       }
@@ -121,8 +129,10 @@ export function initContentPanels(contentPaths = {}) {
     if (galleryTarget) {
       try {
         const gallery = await loadJson(contentPaths.gallery);
+        if (!isCurrent()) return;
         galleryTarget.replaceChildren(...gallery.map(createGalleryItem));
       } catch (error) {
+        if (!isCurrent()) return;
         console.error("Gallery content could not be loaded", error);
         showError(galleryTarget, "The artwork shelf is being tidied. Try again soon.");
       }
@@ -138,9 +148,16 @@ export function initContentPanels(contentPaths = {}) {
         // new cards have taken up their real space, then scroll the panel itself
         // so "Meet the friends" and "Artwork" land exactly on their headings.
         await new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve)));
-        const panelTop = panel.getBoundingClientRect().top;
-        const targetTop = target.getBoundingClientRect().top;
-        const destination = Math.max(0, panel.scrollTop + targetTop - panelTop - 20);
+        if (!isCurrent() || !target.isConnected) return;
+        // Layout offsets stay stable while the panel's entrance animation scales
+        // its visual bounding rectangles.
+        let offset = target.offsetTop;
+        let ancestor = target.offsetParent;
+        while (ancestor && ancestor !== panel) {
+          offset += ancestor.offsetTop;
+          ancestor = ancestor.offsetParent;
+        }
+        const destination = Math.max(0, offset + panel.clientTop - 20);
         panel.scrollTo({ top: destination, behavior: "smooth" });
       }
     }

@@ -192,6 +192,31 @@
 }
 
 @media (max-width: 44rem) {
+  .storybook-body .brand,
+  .storybook-body .brand__words,
+  .storybook-body .site-footer__brand,
+  .storybook-body .site-footer__brand p,
+  .storybook-body .site-footer__legal,
+  .storybook-body .site-footer__copyright {
+    min-width: 0;
+    max-width: 100%;
+    overflow-wrap: anywhere;
+  }
+
+  .storybook-body .site-footer__legal a,
+  .storybook-body .site-footer__legal button {
+    max-width: 100%;
+    overflow-wrap: anywhere;
+  }
+
+  .storybook-body .latest-tale__art--portrait {
+    aspect-ratio: auto;
+  }
+
+  .storybook-body .latest-tale__art--portrait > img {
+    height: auto;
+  }
+
   .storybook-body .storybook-glimpse,
   .storybook-body .storybook-glimpse img {
     min-height: 0;
@@ -307,11 +332,9 @@
 
 .games-path__actions .text-path { color: #ffe19a; }
 
-@media (min-width: 44.01rem) {
-  .games-path__actions .story-button--sun {
-    color: #214b38;
-    text-shadow: none;
-  }
+.games-path__actions .story-button--sun {
+  color: #214b38;
+  text-shadow: none;
 }
 
 @media (max-width: 58rem) {
@@ -595,4 +618,109 @@
   .storybook-body .youtube-placeholder {
     min-height: 0;
   }
+}
+
+/* Let enlarged text reflow inside its available space. */
+.storybook-body .site-shell {
+  container: site-home / inline-size;
+}
+
+.storybook-body .site-header {
+  flex-wrap: wrap;
+}
+
+.storybook-body .site-nav,
+.storybook-body .header-actions {
+  min-width: 0;
+  max-width: 100%;
+  flex-wrap: wrap;
+}
+
+.storybook-body .site-footer > *,
+.storybook-body .site-footer__brand p,
+.storybook-body .site-footer__legal a,
+.storybook-body .site-footer__legal button {
+  min-width: 0;
+  max-width: 100%;
+  overflow-wrap: anywhere;
+}
+
+@media (min-width: 44.01rem) {
+  .storybook-body .site-footer {
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 1.5fr) minmax(0, auto);
+  }
+}
+
+.storybook-body .places-grid {
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 14rem), 1fr));
+}
+
+.storybook-body .game-teaser,
+.storybook-body .game-teaser > div,
+.storybook-body .game-teaser__badge {
+  min-width: 0;
+  max-width: 100%;
+  overflow-wrap: anywhere;
+}
+
+.storybook-body .game-teaser__badge {
+  white-space: normal;
+}
+
+@container site-home (max-width: 60rem) {
+  .storybook-body .site-nav {
+    order: 3;
+    display: grid;
+    width: 100%;
+    flex: 1 0 100%;
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+  }
+}
+
+@container site-home (max-width: 44rem) {
+  .storybook-body .site-nav {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+.storybook-body .site-nav button {
+  min-width: 0;
+  flex-wrap: wrap;
+  justify-content: center;
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+
+.storybook-body .games-path {
+  min-width: 0;
+}
+
+.storybook-body .games-path__copy {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+/* Keep lazy portrait loading and card focus from moving the scroll position. */
+.storybook-body .panel:has(.character-grid) {
+  overflow-anchor: none;
+}
+
+@media (max-width: 58rem) {
+  .storybook-body .games-path { grid-template-columns: minmax(0, 1fr); }
+}
+
+@container site-home (max-width: 20rem) {
+  .storybook-body .home-ribbon,
+  .storybook-body .latest-tale__art--portrait {
+    grid-template-columns: minmax(0, 1fr);
+    overflow-wrap: anywhere;
+  }
+
+  .storybook-body .home-ribbon > p { grid-column: 1; }
+  .storybook-body .latest-tale__art--portrait > img { max-height: 12rem; }
+}
+
+@container site-home (max-width: 14rem) {
+  .storybook-body .site-nav { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .storybook-body .home-compass__brand { flex-direction: column; }
 }

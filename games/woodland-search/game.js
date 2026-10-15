@@ -2,6 +2,7 @@ const $ = id => document.getElementById(id);
 const { characters, scenes } = window.WOODLAND_SEARCH_DATA;
 const SETTINGS = window.WOODLAND_SEARCH_SETTINGS;
 const audioLayer = window.jltGameAudio;
+document.documentElement.style.setProperty('--journey-count', String(SETTINGS.roundsPerJourney));
 
 let journeyCast = [];
 let journeyScenes = [];
@@ -100,6 +101,17 @@ function buildJourneyCast() {
   const barnaby = characters.find(item => item.name === 'Barnaby');
   const others = shuffle(characters.filter(item => item !== barnaby));
   journeyCast = [barnaby, ...others].slice(0, SETTINGS.roundsPerJourney);
+
+  while (journeyCast.length < SETTINGS.roundsPerJourney) {
+    const batch = shuffle(characters);
+    if (!batch.length) break;
+    const previous = journeyCast[journeyCast.length - 1];
+    if (batch.length > 1 && batch[0] === previous) {
+      const differentIndex = batch.findIndex(item => item !== previous);
+      [batch[0], batch[differentIndex]] = [batch[differentIndex], batch[0]];
+    }
+    journeyCast.push(...batch.slice(0, SETTINGS.roundsPerJourney - journeyCast.length));
+  }
 }
 
 function buildJourneyScenes() {
@@ -272,28 +284,95 @@ function findSafeObjectSpot(element, candidates, blockers, pad = 10) {
   return candidates[0] || { x: 50, y: 50 };
 }
 
-function getPhoneLandscapeBlockers() {
-  if (!document.documentElement.classList.contains('phone-landscape-mode')) return [];
-  return [
-    document.querySelector('.game-actions'),
-    $('continue-path')
-  ].filter(Boolean);
+function getStatusBlocker() {
+  const status = $('status');
+  if (status.closest('[hidden]')) return null;
+  const friend = currentCharacter?.name || '';
+  const item = currentSecretItem?.name || '';
+  const messages = new Set([
+    status.textContent,
+    currentCharacter?.clue,
+    ...(currentScene?.spots || []).map(spot => spot.hint),
+    'Watch for a tiny golden glow around ' + friend + '.',
+    'Watch for the golden Heart Seed glow.',
+    'Watch for the little woodland secret glow.',
+    'You found ' + friend + '! One little secret is still hiding nearby.',
+    'You found ' + friend + '! Now look for the Heart Seed.',
+    friend + ' is scampering away! Quick — catch them!',
+    'Heart Seed found — a hidden woodland secret! ✦',
+    'Heart Seed found! Now look for the little secret hiding nearby.',
+    'Heart Seed found! Keep searching for ' + friend + '.',
+    item + ' found! A tiny woodland secret.',
+    'Secret found! This path is complete. ✦',
+    'Secret found! The Heart Seed is still hiding nearby.',
+    'Secret found! Keep searching for ' + friend + '.',
+    'This woodland picture could not open. Try leaving and starting again.',
+    'Luna audio could not start. Tap Sound off, then Sound on to try again.'
+  ]);
+  for (const x of [20, 50, 80]) {
+    for (const y of [20, 50, 80]) {
+      const direction = describePoint({ x, y });
+      messages.add('The Heart Seed is still hiding nearby. ' + direction);
+      messages.add(item + ' is still hiding nearby. ' + direction);
+    }
+  }
+
+  const rects = [status.getBoundingClientRect()];
+  // Measure final toast styles without announcing temporary text or moving
+  // targets when a toast appears. The copy is removed before the next frame.
+  const measurement = status.cloneNode(false);
+  measurement.classList.add('is-visible');
+  measurement.setAttribute('aria-hidden', 'true');
+  measurement.removeAttribute('aria-live');
+  measurement.removeAttribute('role');
+  measurement.style.visibility = 'hidden';
+  status.parentElement.append(measurement);
+  try {
+    for (const message of messages) {
+      if (!message) continue;
+      measurement.textContent = message;
+      rects.push(measurement.getBoundingClientRect());
+    }
+  } finally {
+    measurement.remove();
+  }
+  const visibleRects = rects.filter(rect => rect.width > 0 && rect.height > 0);
+  if (!visibleRects.length) return null;
+  const left = Math.min(...visibleRects.map(rect => rect.left));
+  const right = Math.max(...visibleRects.map(rect => rect.right));
+  const top = Math.min(...visibleRects.map(rect => rect.top));
+  const bottom = Math.max(...visibleRects.map(rect => rect.bottom));
+  const bounds = { left, right, top, bottom, width: right - left, height: bottom - top };
+  return { getBoundingClientRect: () => bounds };
+}
+
+function getSceneBlockers() {
+  const blockers = [...document.querySelectorAll('.mission-hud, #route-strip, .seed-meter, .game-actions, #continue-path')]
+    .filter(element => {
+      if (element.closest('[hidden]') || !element.getClientRects().length) return false;
+      const rect = element.getBoundingClientRect();
+      const visibility = getComputedStyle(element).visibility;
+      return rect.width > 0 && rect.height > 0 && visibility !== 'hidden' && visibility !== 'collapse';
+    });
+  const statusBlocker = getStatusBlocker();
+  if (statusBlocker) blockers.push(statusBlocker);
+  return blockers;
 }
 
 function resolveObjectOverlaps() {
   const pip = $('pip');
   const seed = $('heart-seed');
   const secret = $('secret-item');
-  const landscapeBlockers = getPhoneLandscapeBlockers();
+  const sceneBlockers = getSceneBlockers();
 
   if (!pip.hidden) {
     placeObjectAtPoint(pip, currentSpot, 8);
 
-    if (landscapeBlockers.some(blocker => objectsOverlap(pip, blocker, 8))) {
+    if (sceneBlockers.some(blocker => objectsOverlap(pip, blocker, 8))) {
       currentSpot = findSafeObjectSpot(
         pip,
         shuffle(currentScene.spots || []),
-        landscapeBlockers,
+        sceneBlockers,
         8
       );
     }
@@ -307,7 +386,7 @@ function resolveObjectOverlaps() {
     currentSeedSpot = findSafeObjectSpot(
       seed,
       seedCandidates,
-      [pip, ...landscapeBlockers],
+      [pip, ...sceneBlockers],
       8
     );
   }
@@ -320,19 +399,19 @@ function resolveObjectOverlaps() {
     currentSecretSpot = findSafeObjectSpot(
       secret,
       secretCandidates,
-      [pip, seed, ...landscapeBlockers],
+      [pip, seed, ...sceneBlockers],
       8
     );
   }
 
   if (!seed.hidden && (
     objectsOverlap(seed, pip, 8) ||
-    landscapeBlockers.some(blocker => objectsOverlap(seed, blocker, 8))
+    sceneBlockers.some(blocker => objectsOverlap(seed, blocker, 8))
   )) {
     currentSeedSpot = findSafeObjectSpot(
       seed,
       shuffle(currentScene.seedSpots || []),
-      [pip, secret, ...landscapeBlockers],
+      [pip, secret, ...sceneBlockers],
       8
     );
   }
@@ -340,12 +419,12 @@ function resolveObjectOverlaps() {
   if (!secret.hidden && (
     objectsOverlap(secret, pip, 8) ||
     objectsOverlap(secret, seed, 8) ||
-    landscapeBlockers.some(blocker => objectsOverlap(secret, blocker, 8))
+    sceneBlockers.some(blocker => objectsOverlap(secret, blocker, 8))
   )) {
     currentSecretSpot = findSafeObjectSpot(
       secret,
       shuffle(currentScene.secretItem?.spots || []),
-      [pip, seed, ...landscapeBlockers],
+      [pip, seed, ...sceneBlockers],
       8
     );
   }
@@ -403,7 +482,7 @@ function updateRoundObjective() {
 
   if (!secretItemFoundThisRound && currentSecretItem) {
     $('target-title').textContent = 'Find the secret';
-    $('mission-line').textContent = 'One little ' + currentSecretItem.name.toLowerCase() + ' is still hiding somewhere nearby.';
+    $('mission-line').textContent = currentSecretItem.name + ' is still hiding somewhere nearby.';
     return;
   }
 
@@ -464,6 +543,18 @@ async function applySceneVisual(scene) {
   root.dataset.sceneName = scene?.name || '';
 }
 
+function focusSceneIfNeeded() {
+  // Begin and Continue disappear as the scene opens. Keep keyboard focus in
+  // the picture, including while loading or showing the image retry message.
+  // Preserve any control the player has already used during loading.
+  // Safari may retain focus on the now-hidden celebration wrapper until
+  // its next rendering update, so include any hidden ancestor in the check.
+  const active = document.activeElement;
+  if (active === document.body || active === $('play') || active === $('continue-path') || active?.closest('[hidden]')) {
+    $('viewport').focus({ preventScroll: true });
+  }
+}
+
 async function loadRound() {
   clearTimers();
   found = false;
@@ -507,8 +598,11 @@ async function loadRound() {
   renderRoute();
   updateSeedMeter();
   maybePlaceSecretItem();
+  $('secret-item').hidden = true;
+  $('secret-item').disabled = true;
 
   $('stage').classList.add('scene-changing');
+  focusSceneIfNeeded();
 
   const rawSceneImage = currentScene.image || '';
   const sceneImageCandidates = [
@@ -524,9 +618,11 @@ async function loadRound() {
 
     try {
       await image.decode();
+      if (token !== loadToken || !document.body.classList.contains('game-active')) return;
       sceneLoaded = true;
       break;
     } catch {
+      if (token !== loadToken || !document.body.classList.contains('game-active')) return;
       if (image.complete && image.naturalWidth > 0) {
         sceneLoaded = true;
         break;
@@ -538,11 +634,11 @@ async function loadRound() {
     if (!sceneLoaded) throw new Error('Woodland scene image could not be loaded.');
 
     await Promise.all([
-      $('pip').querySelector('img').decode().catch(() => {}),
-      $('secret-item').querySelector('img').decode().catch(() => {})
+      $('pip').querySelector('img').decode(),
+      currentSecretItem ? $('secret-item').querySelector('img').decode() : Promise.resolve()
     ]);
   } catch {
-    if (token === loadToken) {
+    if (token === loadToken && document.body.classList.contains('game-active')) {
       $('status').textContent = 'This woodland picture could not open. Try leaving and starting again.';
       showStatusToast(5200);
       $('stage').classList.remove('scene-changing');
@@ -550,7 +646,7 @@ async function loadRound() {
     return;
   }
 
-  if (token !== loadToken) return;
+  if (token !== loadToken || !document.body.classList.contains('game-active')) return;
 
   $('pip').className = '';
   $('pip').hidden = false;
@@ -562,13 +658,28 @@ async function loadRound() {
     $('heart-seed').disabled = false;
   }
 
+  if (currentSecretItem) {
+    $('secret-item').hidden = false;
+    $('secret-item').disabled = false;
+  }
+
   positionObjects();
   $('hint').disabled = false;
   updateRoundObjective();
   resetHintState();
   $('status').textContent = 'Can you spot ' + currentCharacter.name + '? Take your time.';
+  focusSceneIfNeeded();
 
-  requestAnimationFrame(() => $('stage').classList.remove('scene-changing'));
+  requestAnimationFrame(() => {
+    if (token === loadToken && document.body.classList.contains('game-active')) {
+      $('stage').classList.remove('scene-changing');
+    }
+  });
+  if (currentScene.voiceCue) {
+    // Append the arrival after welcome/begin dialogue. A discovery can still
+    // interrupt the queue so Luna never describes a scene after it is found.
+    void playCue(currentScene.voiceCue, { interrupt: false, volume: 0.9 });
+  }
   offerHintLater();
 }
 
@@ -613,7 +724,7 @@ function leaveJourney() {
   });
   window.setTimeout(syncPhoneViewportMode, 120);
 
-  $('play').focus({ preventScroll: true });
+  $('play').focus();
 }
 
 function updateSeedMeter() {
@@ -683,7 +794,7 @@ function startMischiefRun() {
     const farFromSecret = !secretPixel || Math.hypot(pixel.left - secretPixel.left, pixel.top - secretPixel.top) > 70;
     return farFromSeed && farFromSecret;
   }));
-  const landscapeBlockers = getPhoneLandscapeBlockers();
+  const sceneBlockers = getSceneBlockers();
   const pip = $('pip');
   const originalLeft = pip.style.left;
   const originalTop = pip.style.top;
@@ -692,7 +803,7 @@ function startMischiefRun() {
   const nextSpot = findSafeObjectSpot(
     pip,
     [...candidates, ...shuffle(currentScene.spots || [])],
-    [$('heart-seed'), $('secret-item'), ...landscapeBlockers],
+    [$('heart-seed'), $('secret-item'), ...sceneBlockers],
     8
   );
   currentSpot = nextSpot;
@@ -774,7 +885,7 @@ function showCelebration({ seedJustFound = false } = {}) {
   if (finalRound) {
     $('found-kicker').textContent = 'Every path is glowing!';
     $('next-label').textContent =
-      '10 paths explored. You found ' + heartSeeds.size + ' of 10 Heart Seeds and ' + secretItems.size + ' of 10 woodland secrets.';
+      SETTINGS.roundsPerJourney + ' paths explored. You found ' + heartSeeds.size + ' of ' + SETTINGS.roundsPerJourney + ' Heart Seeds and ' + secretItems.size + ' of ' + SETTINGS.roundsPerJourney + ' Halloween secrets.';
     $('continue-path').textContent = 'Where shall we wander? ↻';
     $('continue-path').dataset.action = 'restart';
 
@@ -819,9 +930,11 @@ function handleCharacterFound() {
 
   updateRoundObjective();
   resetHintState();
-  $('status').textContent = seedFoundThisRound
-    ? 'You found ' + currentCharacter.name + '! One little secret is still hiding nearby.'
-    : 'You found ' + currentCharacter.name + '! Now look for the Heart Seed.';
+  $('status').textContent = isRoundComplete()
+    ? 'You found ' + currentCharacter.name + '! All three discoveries are safe. ✦'
+    : seedFoundThisRound
+      ? 'You found ' + currentCharacter.name + '! One little secret is still hiding nearby.'
+      : 'You found ' + currentCharacter.name + '! Now look for the Heart Seed.';
   showStatusToast(4200);
   offerHintLater();
 
@@ -961,10 +1074,10 @@ $('sound').addEventListener('click', () => {
 $('hint').addEventListener('click', () => {
   if (isRoundComplete()) return;
 
-  // Luna's hint is deliberately single-press gated: once a hint starts,
-  // the button stays locked until her current dialogue has finished.
-  // Hints remain unlimited; this only prevents audio spam/queue buildup.
-  if (audioLayer?.isPlaying?.()) return;
+  // A requested hint can interrupt the introduction or scene narration.
+  // Keep repeated hints gated until the current hint finishes speaking.
+  const activeCue = audioLayer?.current?.();
+  if ($('hint').disabled || activeCue === 'hintOne' || activeCue === 'hintTwo') return;
 
   const target = getHintTarget();
   if (!target) return;
@@ -998,7 +1111,7 @@ $('hint').addEventListener('click', () => {
       ? (currentSpot.hint || 'Look closely around the woodland details.')
       : target === 'seed'
         ? 'The Heart Seed is still hiding nearby. ' + describePoint(currentSeedSpot)
-        : 'A tiny ' + currentSecretItem.name.toLowerCase() + ' is still hiding nearby. ' + describePoint(currentSecretSpot);
+        : currentSecretItem.name + ' is still hiding nearby. ' + describePoint(currentSecretSpot);
 
     const element = target === 'character' ? $('pip') : target === 'seed' ? $('heart-seed') : $('secret-item');
     element.classList.add('hinted');
@@ -1055,9 +1168,9 @@ $('continue-path').addEventListener('click', () => {
     heartSeeds = new Set();
     secretItems = new Set();
     updateSeedMeter();
+    lockGame(false);
     loadRound();
     playCue('beginSearch', { volume: 0.9 });
-    lockGame(false);
     return;
   }
 
@@ -1076,18 +1189,18 @@ $('success').addEventListener('keydown', event => {
   if (event.key === 'Tab') {
     const controls = [...$('success').querySelectorAll('button:not(:disabled), a[href]')]
       .filter(element => element.getClientRects().length);
-    const first = controls[0];
-    const last = controls[controls.length - 1];
+    event.preventDefault();
 
-    if (!first) {
-      event.preventDefault();
+    if (!controls.length) {
       document.querySelector('.celebration').focus({ preventScroll: true });
-    } else if (event.shiftKey && (event.target === first || !controls.includes(event.target))) {
-      event.preventDefault();
-      last.focus({ preventScroll: true });
-    } else if (!event.shiftKey && (event.target === last || !controls.includes(event.target))) {
-      event.preventDefault();
-      first.focus({ preventScroll: true });
+    } else {
+      // Safari can skip links in its default Tab order. Cycle every dialog
+      // control explicitly so focus never escapes to the game behind it.
+      const current = controls.indexOf(document.activeElement);
+      const next = current < 0
+        ? (event.shiftKey ? controls.length - 1 : 0)
+        : (current + (event.shiftKey ? -1 : 1) + controls.length) % controls.length;
+      controls[next].focus({ preventScroll: true });
     }
   }
 });

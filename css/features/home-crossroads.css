@@ -18,6 +18,7 @@
   justify-items: center;
   gap: .7rem;
   min-width: 0;
+  width: 100%;
 }
 
 .storybook-body .home-compass__brand {
@@ -26,6 +27,7 @@
   justify-content: center;
   gap: clamp(.85rem, 1.6vw, 1.25rem);
   margin-bottom: .2rem;
+  max-width: 100%;
 }
 
 .storybook-body .home-compass__brand-mark {
@@ -53,6 +55,8 @@
   display: grid;
   gap: .35rem;
   text-align: left;
+  min-width: 0;
+  overflow-wrap: anywhere;
 }
 
 .storybook-body .home-compass__brand-words strong {
@@ -74,6 +78,7 @@
   font: 900 clamp(2.5rem, 5vw, 5.2rem)/.92 var(--display);
   letter-spacing: -.065em;
   text-wrap: balance;
+  overflow-wrap: anywhere;
 }
 
 .storybook-body .home-compass__intro > p:last-child {
@@ -135,8 +140,8 @@
   }
 
   .storybook-body .home-compass__brand-mark {
-    width: 4.35rem;
-    height: 4.35rem;
+    width: min(4.35rem, 22vw);
+    height: min(4.35rem, 22vw);
   }
 
   .storybook-body .home-compass__brand-words strong {
@@ -169,6 +174,22 @@
 
 /* Mobile phone spacing pass — keep all five destinations clearly separated. */
 @media (max-width: 44rem) {
+  .storybook-body .woodland-map {
+    /* At 200% text size the final sign needs about 244px below its 84% stop.
+       Grow to 1536px then, while keeping the usual 512px minimum at 16px. */
+    min-height: max(32rem, calc(64rem - 512px));
+  }
+
+  .storybook-body .woodland-map .map-stop {
+    width: max-content;
+    max-width: calc(100% - 1rem);
+  }
+
+  .storybook-body .woodland-map .map-stop__sign {
+    min-width: 0;
+    overflow-wrap: anywhere;
+  }
+
   .storybook-body .woodland-map .map-stop--watch {
     top: 10%;
   }
@@ -293,4 +314,24 @@
   .storybook-body .woodland-map .map-stop--games {
     transition: none;
   }
+}
+
+/* Use the taller map arrangement when text enlargement makes signs wider. */
+@container site-home (max-width: 44rem) {
+  .storybook-body .woodland-map {
+    min-height: max(32rem, calc(64rem - 512px));
+  }
+  .storybook-body .woodland-map .map-stop {
+    width: max-content;
+    max-width: calc(100% - 1rem);
+  }
+  .storybook-body .woodland-map .map-stop__sign {
+    min-width: 0;
+    overflow-wrap: anywhere;
+  }
+  .storybook-body .woodland-map .map-stop--watch { top: 10%; }
+  .storybook-body .woodland-map .map-stop--characters { top: 29%; }
+  .storybook-body .woodland-map .map-stop--listen { top: 48%; }
+  .storybook-body .woodland-map .map-stop--artwork { top: 67%; }
+  .storybook-body .woodland-map .map-stop--games { top: 84%; }
 }

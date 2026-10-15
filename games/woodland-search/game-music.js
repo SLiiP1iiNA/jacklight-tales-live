@@ -1,32 +1,63 @@
+/* Halloween background music, with a fixed mix beneath Luna. */
 (() => {
-  // Woodland Search background music.
-  // Desktop keeps the original tracks and working player level.
-  // Mobile uses the separately encoded -26 dB copies.
   const DESKTOP_TRACKS = [
-    'https://pub-9ea739df2a0c435bbc605d2f4bfc6fb5.r2.dev/Game%20Audio/Woodland%20Search/Luna/WDew_on_the_Clover.mp3',
-    'https://pub-9ea739df2a0c435bbc605d2f4bfc6fb5.r2.dev/Game%20Audio/Woodland%20Search/Luna/Where_Wildflowers_Bloom.mp3'
+    'https://pub-9ea739df2a0c435bbc605d2f4bfc6fb5.r2.dev/Game%20Audio/Woodland%20Search/Halloween/music/Pumpkin_Patch_Promenade_Desktop_-44.44dB.mp3?v=20261007-cors1',
+    'https://pub-9ea739df2a0c435bbc605d2f4bfc6fb5.r2.dev/Game%20Audio/Woodland%20Search/Halloween/music/Lanterns_on_the_Cobblestone_Desktop_-44.44dB.mp3?v=20261007-cors1'
   ];
-
   const MOBILE_TRACKS = [
-    'https://pub-9ea739df2a0c435bbc605d2f4bfc6fb5.r2.dev/Game%20Audio/Woodland%20Search/Luna/WDew_on_the_Clover_-26dB.mp3',
-    'https://pub-9ea739df2a0c435bbc605d2f4bfc6fb5.r2.dev/Game%20Audio/Woodland%20Search/Luna/Where_Wildflowers_Bloom_-26dB.mp3'
+    'https://pub-9ea739df2a0c435bbc605d2f4bfc6fb5.r2.dev/Game%20Audio/Woodland%20Search/Halloween/music/Pumpkin_Patch_Promenade_Mobile_-26dB.mp3?v=20261007-cors1',
+    'https://pub-9ea739df2a0c435bbc605d2f4bfc6fb5.r2.dev/Game%20Audio/Woodland%20Search/Halloween/music/Lanterns_on_the_Cobblestone_Mobile_-26dB.mp3?v=20261007-cors1'
   ];
-
-  const DESKTOP_VOLUME = 0.006;
-
   const audio = document.getElementById('woodland-music');
   if (!audio) return;
 
-  const mobile = window.matchMedia('(max-width: 900px), (pointer: coarse)').matches;
+  const mobile = window.matchMedia('(pointer: coarse)').matches;
   const tracks = mobile ? MOBILE_TRACKS : DESKTOP_TRACKS;
+  // Fixed listening mix; mobile is about 3 dB above its previous setting.
+  const playbackGain = mobile ? 0.40 : 0.73;
+  const fadeSeconds = 0.08;
+  let enabled = true;
+  let trackIndex = 0;
+  let playbackToken = 0;
+  let context = null;
+  let source = null;
+  let gain = null;
 
+  // Set CORS mode before any source assignment. The already reduced files are
+  // mixed by the GainNode; the media element itself stays at unity gain.
+  audio.crossOrigin = 'anonymous';
   audio.loop = false;
   audio.preload = 'none';
   audio.playsInline = true;
-  audio.volume = mobile ? 1 : DESKTOP_VOLUME;
+  audio.volume = 1;
 
-  let enabled = true;
-  let trackIndex = 0;
+  function getGain() {
+    return enabled ? playbackGain : 0;
+  }
+
+  function applyGain() {
+    if (!gain || !context) return;
+    const now = context.currentTime;
+    const current = gain.gain.value;
+    gain.gain.cancelScheduledValues(now);
+    gain.gain.setValueAtTime(current, now);
+    gain.gain.linearRampToValueAtTime(getGain(), now + fadeSeconds);
+  }
+
+  function ensureMixer() {
+    if (gain) return true;
+    const AudioContext = window.AudioContext || window.webkitAudioContext;
+    if (!AudioContext) return false;
+    // Each music element is attached once. Reuse this graph for both songs,
+    // replay, mute and resume; closing it would prevent safe reuse of source.
+    if (!context) context = new AudioContext();
+    if (!source) source = context.createMediaElementSource(audio);
+    gain = context.createGain();
+    gain.gain.value = getGain();
+    source.connect(gain);
+    gain.connect(context.destination);
+    return true;
+  }
 
   function loadTrack() {
     const src = tracks[trackIndex];
@@ -38,14 +69,16 @@
 
   async function start() {
     if (!enabled) return false;
-
-    loadTrack();
-
-    if (!audio.paused) return true;
-
+    const token = ++playbackToken;
     try {
-      await audio.play();
-      return true;
+      if (!ensureMixer()) return false;
+      loadTrack();
+      applyGain();
+      // Request both operations inside the initiating Play/Sound-on gesture.
+      const resumed = context.state === 'running' ? Promise.resolve() : context.resume();
+      const playing = audio.paused ? audio.play() : Promise.resolve();
+      await Promise.all([resumed, playing]);
+      return token === playbackToken && enabled;
     } catch {
       return false;
     }
@@ -53,14 +86,13 @@
 
   function playNextTrack() {
     if (!enabled) return;
-
     trackIndex = (trackIndex + 1) % tracks.length;
     loadTrack();
-
-    void audio.play().catch(() => {});
+    void start();
   }
 
   function stop() {
+    ++playbackToken;
     audio.pause();
     try { audio.currentTime = 0; } catch {}
     trackIndex = 0;
@@ -69,6 +101,7 @@
 
   function setEnabled(value) {
     enabled = Boolean(value);
+    applyGain();
     if (!enabled) stop();
   }
 
@@ -79,6 +112,7 @@
     start,
     stop,
     setEnabled,
+    getGain,
     isPlaying: () => enabled && !audio.paused,
     audio
   };
