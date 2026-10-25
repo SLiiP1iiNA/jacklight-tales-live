@@ -1,4 +1,4 @@
-import { siteConfig } from "./config/site.config.js?v=20261011-full-scour-final1";
+import { siteConfig } from "./config/site.config.js?v=20261025-series2";
 import { applySiteConfig } from "./core/apply-config.js";
 import { initPanelRouter } from "./core/panel-router.js?v=20261008-prelaunch1";
 import { initAudioPlayer } from "./features/audio-player.js?v=20261010-audit1";

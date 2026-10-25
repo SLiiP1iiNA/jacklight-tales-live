@@ -125,25 +125,24 @@
     }
   }
 
-  function getPlayerLevel(player, at = mixerContext?.currentTime) {
+  function getPlayerLevel(player) {
     const mixer = mixers.get(player);
     if (!mixer) return player.volume;
-    if (!mixer.ramp) return mixer.level;
-    const { from, to, start, duration } = mixer.ramp;
-    const progress = Math.max(0, Math.min(1, (at - start) / duration));
-    return from + (to - from) * progress;
+    return mixer.gain.gain.value;
   }
 
   function holdPlayerLevel(player, at = mixerContext?.currentTime) {
     const mixer = mixers.get(player);
     if (!mixer) return player.volume;
     const now = at;
-    const level = getPlayerLevel(player, now);
+    let level;
     if (typeof mixer.gain.gain.cancelAndHoldAtTime === 'function') {
       // Hold the render-thread ramp atomically. Removing its future endpoint
       // before setting a manual hold can briefly restore the old start gain.
       mixer.gain.gain.cancelAndHoldAtTime(now);
+      level = mixer.gain.gain.value;
     } else {
+      level = mixer.gain.gain.value;
       mixer.gain.gain.cancelScheduledValues(now);
     }
     // Anchor the next ramp at the held level and this same audio timestamp.
@@ -261,7 +260,8 @@
           // The render clock owns the envelope. A busy UI timer must not pause
           // the player before its scheduled fade has actually reached silence.
           const remaining = (now + seconds - mixerContext.currentTime) * 1000;
-          if (remaining > 0 && mixerContext.state === 'running') {
+          if (mixerContext.state === 'running' &&
+              (remaining > 0 || Math.abs(mixer.gain.gain.value - endVolume) > 0.000001)) {
             fadeTimers.set(player, setTimeout(finish, Math.max(4, remaining)));
             return;
           }

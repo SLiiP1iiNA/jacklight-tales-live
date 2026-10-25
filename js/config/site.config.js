@@ -31,7 +31,7 @@ export const siteConfig = {
   },
 
   partials: {
-    watch: "partials/watch.html",
+    watch: "partials/watch.html?v=20261025-series2",
     listen: "partials/listen.html",
     explore: "partials/explore.html",
     games: "partials/games.html?v=20261011-ten-friends1",
@@ -43,15 +43,15 @@ export const siteConfig = {
     characters: "content/characters.json",
     gallery: "content/gallery.json?v=20261011-full-scour-final1",
     socialLinks: "content/social-links.json",
-    audioLibrary: "content/audio-library.json",
+    audioLibrary: "content/audio-library.json?v=20261025-series2",
   },
 
   youtube: {
     channelUrl: "https://www.youtube.com/@JackLightTalesTV",
     verticalPlaylistUrl: "https://www.youtube.com/playlist?list=PLLLqtNZiTQjo",
     landscape: {
-      playlistId: "PLJQCais5TxzQ",
-      videoId: "QVXn6WzFrL4",
+      playlistId: "",
+      videoId: "pnUorkf-3HY",
     },
   },
 
