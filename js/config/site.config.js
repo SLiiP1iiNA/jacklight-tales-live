@@ -31,7 +31,7 @@ export const siteConfig = {
   },
 
   partials: {
-    watch: "partials/watch.html?v=20261025-series2",
+    watch: "partials/watch.html",
     listen: "partials/listen.html",
     explore: "partials/explore.html",
     games: "partials/games.html?v=20261011-ten-friends1",
@@ -50,8 +50,8 @@ export const siteConfig = {
     channelUrl: "https://www.youtube.com/@JackLightTalesTV",
     verticalPlaylistUrl: "https://www.youtube.com/playlist?list=PLLLqtNZiTQjo",
     landscape: {
-      playlistId: "",
-      videoId: "pnUorkf-3HY",
+      playlistId: "PLJQCais5TxzQ",
+      videoId: "QVXn6WzFrL4",
     },
   },
 
