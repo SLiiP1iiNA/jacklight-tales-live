@@ -42,4 +42,4 @@ http.createServer(async (req,res) => {
     res.writeHead(200, {'Content-Type':type,'Content-Length':body.length,'Cache-Control':'no-cache'});
     res.end(req.method === 'HEAD' ? undefined : body);
   } catch { res.writeHead(400).end('Bad request'); }
-}).listen(8765, '127.0.0.1', () => console.log('Local test: http://127.0.0.1:8765'));
+}).listen(8765, process.argv.includes('--lan') ? '0.0.0.0' : '127.0.0.1', () => console.log('Local test: http://127.0.0.1:8765' + (process.argv.includes('--lan') ? ' (phone testing enabled on the local network)' : '')));

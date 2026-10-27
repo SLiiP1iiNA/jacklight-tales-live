@@ -5,7 +5,7 @@
       "label": "Start local website test",
       "type": "process",
       "command": "C:\\Users\\jackw\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\node\\bin\\node.exe",
-      "args": ["${workspaceFolder}/tools/preview.mjs"],
+      "args": ["${workspaceFolder}/tools/preview.mjs", "--lan"],
       "isBackground": true,
       "problemMatcher": [],
       "presentation": {"reveal": "always", "panel": "dedicated"}

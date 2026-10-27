@@ -1,0 +1,80 @@
+/* Compact mobile navigation. Desktop labels, icons and placement stay intact. */
+.map-stop__mobile-label,
+.map-stop__mobile-icon { display: none; }
+
+@media (max-width: 44rem) {
+  .storybook-body .woodland-map .map-stop,
+  .storybook-body .woodland-map.is-ready .map-stop {
+    left: 50%;
+    right: auto;
+    width: min(76%, 14rem);
+    max-width: calc(100% - 2rem);
+    flex-direction: row;
+    gap: .6rem;
+    text-align: center;
+    transform: translate(-50%, -50%);
+  }
+
+  /* Equal centre-to-centre spacing and equal margins at the top and bottom. */
+  .storybook-body .woodland-map .map-stop--watch { top: 13%; }
+  .storybook-body .woodland-map .map-stop--characters { top: 31.5%; }
+  .storybook-body .woodland-map .map-stop--listen { top: 50%; }
+  .storybook-body .woodland-map .map-stop--artwork { top: 68.5%; }
+  .storybook-body .woodland-map .map-stop--games { top: 87%; }
+
+  .storybook-body .woodland-map .map-stop__marker {
+    width: 2.75rem;
+    height: 2.75rem;
+    min-width: 44px;
+    min-height: 44px;
+    animation: none;
+    transform: none;
+    box-shadow: 0 .2rem .7rem rgba(0, 0, 0, .2);
+  }
+
+  .storybook-body .woodland-map .map-stop__marker::after,
+  .storybook-body .woodland-map .map-stop__sign::before,
+  .storybook-body .woodland-map .map-stop__sign b,
+  .storybook-body .woodland-map .map-stop__desktop-label,
+  .storybook-body .woodland-map .map-stop__desktop-icon { display: none; }
+
+  .storybook-body .woodland-map .map-stop__mobile-label { display: inline; }
+  .storybook-body .woodland-map .map-stop__mobile-icon {
+    display: block;
+    width: 1.25rem;
+    height: 1.25rem;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .storybook-body .woodland-map .map-stop__sign {
+    flex: 1;
+    min-width: 0;
+    min-height: 3.25rem;
+    padding: .65rem .7rem;
+    align-content: center;
+    border-radius: .85rem;
+    background: rgba(9, 32, 24, .88);
+    backdrop-filter: none;
+    box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .22);
+    transform: none;
+  }
+
+  .storybook-body .woodland-map .map-stop__sign strong {
+    font-size: 1rem;
+    line-height: 1.25;
+  }
+
+  /* Descriptions remain available to assistive technology. */
+  .storybook-body .woodland-map .map-stop__sign small {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+}

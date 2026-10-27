@@ -8,10 +8,11 @@ Nothing has been pushed or published. This folder is a separate local branch, lo
 
 In VS Code choose Terminal → Run Task → Start local website test. Leave that terminal running, then open http://127.0.0.1:8765/.
 
-If a preview is already running, use it rather than starting a second one. The preview is bound to this computer only; a separate phone cannot access this loopback address. Use the browser's phone-size preview for now, or request a separate phone-testing setup.
+If a preview is already running, use it rather than starting a second one. Phone testing is now enabled on the local network: connect your phone to the same Wi-Fi/router and open http://192.168.0.5:8765/. Keep this computer and the preview running. The computer's local address may change after a router restart. This does not publish the site online.
 
 ## What changed
 
+- Mobile map buttons now use one centred column, identical widths, even spacing, shorter labels and matching white icons. Desktop labels, icons and positions are preserved. Checked at 320, 390, 430 and 704 pixels; desktop bounds and visible text matched the pre-change version at 1440 pixels. All five buttons still open their destinations.
 - Corrected the leaf-boat scene against Barnaby, Pip and the frog's portraits. The homepage and artwork gallery use the same corrected image.
 - Added smaller transparent character images, with larger versions selected automatically for sharper screens. The eleven 480-pixel portraits total 708,436 bytes instead of 16,914,298 bytes (95.8% smaller). The eleven 960-pixel versions total 2,132,226 bytes (87.4% smaller).
 - The game now shares the smaller character files with the main site. Original image masters remain untouched.
