@@ -16,6 +16,14 @@
     "alt": "Barnaby's mother, an adult red fox in a cream cardigan and green skirt"
   },
   {
+    "id": "dad",
+    "name": "Dad",
+    "role": "Barnaby's adventurous dad",
+    "description": "Home at last, Dad joins Barnaby and his woodland friends, with his trusty compass ready for the next adventure.",
+    "image": "assets/images/characters/dad.webp",
+    "alt": "Barnaby's dad, an adult red fox in a green coat holding a brass compass"
+  },
+  {
     "id": "pip",
     "name": "Pip",
     "role": "A little woodland friend",

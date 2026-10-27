@@ -40,7 +40,7 @@ export const siteConfig = {
 
   content: {
     stories: "content/stories.json",
-    characters: "content/characters.json",
+    characters: "content/characters.json?v=20261027-dad",
     gallery: "content/gallery.json?v=20261011-full-scour-final1",
     socialLinks: "content/social-links.json",
     audioLibrary: "content/audio-library.json?v=20261025-series2",
