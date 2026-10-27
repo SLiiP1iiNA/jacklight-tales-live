@@ -1,0 +1,12 @@
+/* The entrance already covers this decorative background. */
+.storybook-body.entrance-active .site-shell::before { background-image: none; }
+/* Keep the lantern glow static; only transform/opacity animate. */
+.map-stop__marker {
+  box-shadow: 0 0 0 0.22rem rgba(255,242,190,.08), 0 0 1.4rem color-mix(in srgb, var(--stop-color) 45%, transparent);
+}
+.entrance-active .map-stop__marker,
+.entrance-active .map-stop__marker::after,
+.entrance-active .woodland-map__mist { animation-play-state: paused; }
+@media (prefers-reduced-motion: reduce) {
+  .map-stop__marker, .map-stop__marker::after { animation: none; }
+}

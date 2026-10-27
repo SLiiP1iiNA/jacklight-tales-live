@@ -54,14 +54,14 @@
   // completely different file underneath it.
   const secondPlayer = document.createElement('audio');
   secondPlayer.id = 'luna-audio-2';
-  secondPlayer.preload = 'auto';
+  secondPlayer.preload = 'none';
   secondPlayer.playsInline = true;
   secondPlayer.setAttribute('aria-hidden', 'true');
   firstPlayer.insertAdjacentElement('afterend', secondPlayer);
 
   const players = [firstPlayer, secondPlayer];
   players.forEach(player => {
-    player.preload = 'auto';
+    player.preload = 'none';
     player.playsInline = true;
     player.crossOrigin = 'anonymous';
   });

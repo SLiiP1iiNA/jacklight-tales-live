@@ -1,0 +1,987 @@
+/* Source: games/woodland-search/tokens.css */
+:root{
+  color-scheme:dark;
+  --bg:#06150f;
+  --forest:#0b2b1e;
+  --forest-2:#123a29;
+  --forest-3:#1a4b35;
+  --gold:#b99a52;
+  --gold-bright:#ffe39a;
+  --cream:#fff4d6;
+  --text:#eef5e9;
+  --muted:#c4d1c0;
+  --line:rgba(255,225,153,.28);
+  --glass:rgba(5,27,19,.88);
+  --scene-ratio:1672 / 941;
+  --radius:22px;
+  --radius-small:16px;
+  --tap:44px;
+  --character-desktop:clamp(54px,4.2vw,82px);
+  --character-tablet:clamp(48px,6vw,70px);
+  --character-phone:clamp(42px,11vw,54px);
+}
+/* Source: games/woodland-search/base.css */
+*{box-sizing:border-box}
+:root{font-synthesis:none}
+html,body{margin:0;min-height:100%;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+body{background:
+  radial-gradient(circle at 50% -10rem,rgba(79,128,88,.3),transparent 34rem),
+  linear-gradient(180deg,#102c20 0%,#06150f 68%);
+  overflow-x:hidden}
+[hidden]{display:none!important}
+button,a{-webkit-tap-highlight-color:transparent}
+button{min-height:var(--tap);font:700 .9rem/1 system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:var(--cream);background:#173e2c;border:1px solid rgba(255,222,143,.48);border-radius:999px;padding:.7rem 1rem;cursor:pointer;touch-action:manipulation}
+button:disabled{opacity:.46;cursor:default}
+button:focus-visible,a:focus-visible,#viewport:focus-visible{outline:3px solid #ffcf62;outline-offset:3px}
+h1,h2,h3,p{margin-top:0}
+h1,h2,h3{font-family:Georgia,"Times New Roman",serif;font-weight:400;color:var(--cream)}
+.eyebrow{margin:0;text-transform:uppercase;letter-spacing:.16em;color:#f5ce72;font-size:.72rem;font-weight:800}
+.site-bar,footer{display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:1rem clamp(1rem,4vw,4rem)}
+.site-bar{position:relative;z-index:4}
+.brand{display:flex;align-items:center;gap:.65rem;color:var(--cream);text-decoration:none;font:700 1.35rem Georgia,serif}
+.brand img{width:3rem;height:3rem;object-fit:contain;filter:drop-shadow(0 0 12px rgba(239,197,96,.25))}
+.game-home-link{display:inline-flex;align-items:center;gap:.35rem;color:var(--muted);text-decoration:none;font-weight:750}
+.game-home-link:hover,.game-home-link:focus-visible{color:var(--gold-bright)}
+main{width:100%;margin:0 auto}
+footer{justify-content:center;color:var(--muted);font-size:.82rem}
+
+#welcome{width:min(1180px,100%);margin:0 auto;padding:clamp(.6rem,2vw,1.5rem) clamp(.85rem,3vw,2rem) 2rem;display:grid;grid-template-columns:minmax(0,.86fr) minmax(360px,1.14fr);gap:clamp(1.4rem,4vw,4rem);align-items:center}
+.welcome-copy{text-align:left}
+.welcome-mark{width:clamp(4.7rem,8vw,6.7rem);height:auto;margin-bottom:.4rem;filter:drop-shadow(0 0 24px rgba(243,202,100,.18))}
+#welcome h1{max-width:13ch;margin:.28rem 0 .8rem;font-size:clamp(2.6rem,5.5vw,5.3rem);line-height:.94;letter-spacing:-.045em}
+.welcome-copy>p:not(.eyebrow){max-width:38rem;margin:0 0 1rem;color:var(--muted);font-size:clamp(.95rem,1.2vw,1.08rem);line-height:1.62}
+.welcome-promises{display:flex;flex-wrap:wrap;gap:.45rem;margin:0 0 1.1rem}
+.welcome-promises span{padding:.45rem .72rem;border:1px solid rgba(255,220,132,.2);border-radius:999px;background:rgba(255,255,255,.035);color:#e7eadf;font-size:.76rem}
+.primary-action{border-color:#e7c35f;background:linear-gradient(135deg,#f7df8c,#d5a83f);color:#1b261e;font-weight:900;box-shadow:0 .8rem 2rem rgba(0,0,0,.2)}
+.journey-preview{min-width:0;padding:.65rem;border:1px solid rgba(255,222,143,.22);border-radius:26px;background:rgba(5,24,17,.58);box-shadow:0 1.8rem 4rem rgba(0,0,0,.28)}
+.journey-preview__scene{overflow:hidden;border-radius:19px;aspect-ratio:16/9;background:#0a2118}
+.journey-preview__scene img{display:block;width:100%;height:100%;object-fit:cover}
+.journey-preview ol{list-style:none;display:grid;grid-template-columns:repeat(3,1fr);gap:.3rem;margin:.6rem 0 0;padding:0}
+.journey-preview li{min-width:0;display:grid;gap:.24rem;padding:.38rem .22rem;text-align:center;color:var(--muted)}
+.journey-preview li span{display:grid;place-items:center;width:1.48rem;height:1.48rem;margin:auto;border:1px solid rgba(255,222,143,.35);border-radius:50%;color:#f4d57f;font-size:.6rem;font-weight:900}
+.journey-preview li strong{font-size:.6rem;line-height:1.15}
+
+#game{min-width:0}
+#stage{position:relative;isolation:isolate;overflow:hidden;background:#0a2118}
+#viewport,#scene{width:100%;height:100%;overflow:hidden}
+#viewport{position:absolute;inset:0}
+#scene{position:relative}
+#woods{display:block;width:100%;height:100%;object-fit:cover;object-position:center;user-select:none;-webkit-user-drag:none}
+#pip{position:absolute;z-index:8;transform:translate(-50%,-90%);padding:0;border:0;background:transparent;border-radius:50%;min-height:0;line-height:0;overflow:visible}
+#pip img{display:block;width:100%;height:auto;max-height:100%;object-fit:contain;filter:brightness(.88) saturate(.9) drop-shadow(0 .2rem .25rem rgba(0,0,0,.48));pointer-events:none}
+#pip.hinted{
+  outline:3px solid #ffe17c!important;
+  outline-offset:2px;
+  box-shadow:0 0 0 8px rgba(255,225,124,.22),0 0 30px 8px rgba(255,225,124,.92)!important;
+}
+#heart-seed.hinted,#secret-item.hinted{
+  outline:3px solid #ffe17c!important;
+  outline-offset:2px;
+  box-shadow:0 0 0 8px rgba(255,225,124,.22),0 0 30px 8px rgba(255,225,124,.92)!important;
+}
+#heart-seed.hinted span{
+  filter:drop-shadow(0 0 8px #ffe17c) drop-shadow(0 0 14px rgba(255,225,124,.8));
+}
+#secret-item.hinted img{
+  filter:drop-shadow(0 0 12px #ffe17c) drop-shadow(0 .28rem .34rem rgba(0,0,0,.34));
+}
+
+#pip.found{filter:drop-shadow(0 0 15px rgba(255,225,124,.86))}
+#pip.mischief-running{filter:drop-shadow(0 0 13px rgba(255,224,129,.9)) drop-shadow(0 .25rem .3rem rgba(0,0,0,.42))}
+
+.fireflies{position:absolute;inset:0;pointer-events:none;z-index:3}
+.fireflies span{position:absolute;width:4px;height:4px;border-radius:50%;background:#ffe99f;box-shadow:0 0 12px 4px rgba(255,226,124,.25);opacity:.58}
+.fireflies span:nth-child(1){left:13%;top:20%}.fireflies span:nth-child(2){left:31%;top:63%}.fireflies span:nth-child(3){left:49%;top:29%}.fireflies span:nth-child(4){left:67%;top:56%}.fireflies span:nth-child(5){left:84%;top:25%}.fireflies span:nth-child(6){left:74%;top:78%}
+#heart-seed,#secret-item{position:absolute;z-index:26;width:58px;height:58px;min-height:0;padding:0;border:0;background:transparent;transform:translate(-50%,-50%);overflow:visible}
+#heart-seed span{display:block;width:15px;height:22px;margin:auto;border-radius:70% 28% 70% 30%;transform:rotate(38deg);background:linear-gradient(145deg,#fff5a9 5%,#b7dc63 45%,#54974f 100%);box-shadow:0 0 8px #f8df71,0 0 20px rgba(124,205,93,.6)}
+#secret-item::before{content:"";position:absolute;inset:7px;border-radius:50%;background:radial-gradient(circle,rgba(255,226,132,.28),transparent 70%);filter:blur(2px);z-index:-1}
+#secret-item img{display:block;width:56px;height:56px;margin:auto;object-fit:contain;filter:drop-shadow(0 .32rem .38rem rgba(0,0,0,.38)) drop-shadow(0 0 11px rgba(255,218,115,.62))}
+#heart-seed.collected,#secret-item.collected{animation:seed-pop .42s ease both}
+.seed-meter.seed-earned,.secret-meter.secret-earned{animation:seed-meter-bump .62s ease both}
+@keyframes seed-meter-bump{0%,100%{transform:scale(1)}35%{transform:scale(1.16)}65%{transform:scale(.98)}}
+.leaf-puff{position:absolute;z-index:14;transform:translate(-50%,-50%);pointer-events:none;font-size:1rem;animation:leaf-puff .8s ease-out both}
+
+.mission-hud,.route-strip,.seed-meter,#status,.game-actions{position:absolute;z-index:20}
+.mission-hud{top:max(.8rem,env(safe-area-inset-top));left:max(.8rem,env(safe-area-inset-left));width:min(330px,32vw);display:grid;grid-template-columns:68px minmax(0,1fr);gap:.7rem;align-items:center;padding:.62rem .7rem;border:1px solid rgba(255,222,143,.38);border-radius:20px;background:rgba(7,31,22,.91);box-shadow:0 .8rem 2rem rgba(0,0,0,.28)}
+.reference{display:block;width:64px;height:72px;object-fit:contain;filter:drop-shadow(0 .35rem .45rem rgba(0,0,0,.32))}
+.mission-kicker{margin:0 0 .12rem;color:#f0c966;font-size:.56rem;font-weight:900;letter-spacing:.08em;text-transform:uppercase}
+#target-title{margin:0;font-size:clamp(1.12rem,1.45vw,1.55rem);line-height:1}
+#mission-line{margin:.24rem 0 0;color:rgba(244,247,239,.72);font-size:.7rem;line-height:1.3}
+.route-strip{top:max(.8rem,env(safe-area-inset-top));left:50%;transform:translateX(-50%);display:grid;grid-template-columns:repeat(var(--journey-count,6),minmax(0,1fr));align-items:center;gap:.18rem;width:min(500px,42vw);padding:.28rem .34rem;border:1px solid rgba(255,222,143,.25);border-radius:999px;background:rgba(5,27,19,.82)}
+.route-node{display:grid;place-items:center;min-width:0;color:rgba(239,243,233,.55);font-size:.54rem}
+.route-node span{display:grid;place-items:center;width:1.38rem;height:1.38rem;border:1px solid rgba(255,226,151,.28);border-radius:50%;font-size:.52rem}
+.route-node strong{display:none}
+.route-node.is-current{color:#fff1ba}.route-node.is-current span{border-color:#f0c85f;background:rgba(220,172,55,.22)}
+.route-node.is-complete{color:#dbe7cd}.route-node.is-complete span{border-color:#94bd77;background:#315b37;color:#fff}
+.seed-meter{top:max(.8rem,env(safe-area-inset-top));right:max(.8rem,env(safe-area-inset-right));display:flex;align-items:center;gap:.45rem;min-height:42px;padding:.45rem .7rem;border:1px solid rgba(255,222,143,.34);border-radius:999px;background:rgba(5,27,19,.88);color:#fff0b2}
+.seed-icon{width:12px;height:18px;border-radius:70% 28% 70% 30%;transform:rotate(38deg);background:linear-gradient(145deg,#fff5a9,#73b95d);box-shadow:0 0 10px rgba(213,235,115,.55)}
+.seed-meter strong{font-size:.7rem}
+.secret-meter{top:calc(max(.8rem,env(safe-area-inset-top)) + 48px)}
+.secret-icon{display:grid;place-items:center;width:15px;height:15px;color:#ffe8a4;font-size:.72rem;text-shadow:0 0 9px rgba(255,220,121,.7)}
+.secret-meter strong{font-size:.7rem}
+#status{left:50%;bottom:4.75rem;transform:translateX(-50%);max-width:min(640px,70vw);margin:0;padding:.42rem .8rem;border:1px solid rgba(255,222,143,.24);border-radius:999px;background:rgba(5,27,19,.86);color:#ffe6a4;font-size:.76rem;line-height:1.15;text-align:center;white-space:normal}
+.path-continue{position:absolute;z-index:21;left:50%;bottom:6.65rem;transform:translateX(-50%);min-height:38px;padding:.45rem .85rem;border:1px solid rgba(255,222,143,.45);border-radius:999px;background:rgba(27,67,48,.94);color:#fff0b2;font-size:.68rem;box-shadow:0 .55rem 1.4rem rgba(0,0,0,.25)}
+.path-continue:hover,.path-continue:focus-visible{border-color:#f0c85f;background:#315b37}
+.game-actions{left:50%;bottom:max(.75rem,env(safe-area-inset-bottom));transform:translateX(-50%);display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.4rem;width:min(570px,68vw);padding:.38rem;border:1px solid rgba(255,222,143,.25);border-radius:999px;background:rgba(5,27,19,.9);box-shadow:0 .8rem 2rem rgba(0,0,0,.28)}
+.game-actions button{min-width:0;min-height:42px;padding:.45rem .55rem;background:rgba(27,67,48,.84);font-size:.72rem}
+#hint.is-offering{border-color:#f4cf72;box-shadow:0 0 0 2px rgba(244,207,114,.12)}
+
+/* Search feedback is text, so taps pass through to the picture beneath it. */
+#status{pointer-events:none}
+
+@media(prefers-reduced-motion:no-preference){
+  #stage.scene-changing{opacity:.2}
+  #stage{transition:opacity .18s ease}
+  #pip.hinted{animation:hint-pulse 1.05s ease-in-out 3}
+  #heart-seed.hinted,#secret-item.hinted{animation:hint-target-pulse 1.05s ease-in-out 3}
+  #pip.found{animation:found-pop .48s ease-out both}
+  #pip.mischief-running{animation:mischief-bob .22s ease-in-out infinite alternate}
+  .fireflies span{animation:firefly-drift 5.5s ease-in-out infinite alternate}
+  .fireflies span:nth-child(2),.fireflies span:nth-child(5){animation-delay:-2s}
+  .fireflies span:nth-child(3),.fireflies span:nth-child(6){animation-delay:-3.6s}
+  @keyframes hint-pulse{50%{transform:translate(-50%,-90%) scale(1.13)}}
+  @keyframes hint-target-pulse{50%{transform:translate(-50%,-50%) scale(1.22)}}
+  @keyframes found-pop{50%{transform:translate(-50%,-90%) scale(1.16)}}
+  @keyframes mischief-bob{to{margin-top:-2px}}
+  @keyframes firefly-drift{to{transform:translate(10px,-9px);opacity:.9}}
+}
+@keyframes seed-pop{to{opacity:0;transform:translate(-50%,-65%) scale(1.7)}}
+@keyframes leaf-puff{0%{opacity:0;transform:translate(-50%,-50%) scale(.55)}25%{opacity:.8}100%{opacity:0;transform:translate(-50%,-100%) scale(1.25) rotate(12deg)}}
+
+@media(max-width:760px){
+  .site-bar{padding:.7rem .75rem}
+  .brand{font-size:1rem;gap:.4rem}.brand img{width:2.5rem;height:2.5rem}
+  .game-home-link{font-size:.7rem}
+  footer{font-size:.7rem}
+  #welcome{grid-template-columns:1fr;padding:.5rem .8rem 1.2rem;text-align:center}
+  .welcome-copy{text-align:center}
+  #welcome h1{max-width:none;font-size:clamp(2.25rem,11vw,3.3rem)}
+  .welcome-promises{justify-content:center}
+  .journey-preview{padding:.45rem;border-radius:18px}
+  .journey-preview__scene{border-radius:14px}
+  .journey-preview ol{grid-template-columns:repeat(3,1fr);gap:.08rem}
+  .journey-preview li{padding:.24rem .08rem}
+  .journey-preview li strong{font-size:.48rem}
+  .route-strip{width:calc(100% - 1.2rem)}
+  .route-node span{width:1.22rem;height:1.22rem;font-size:.46rem}
+}
+
+
+/* Four legacy background slots currently contain duplicate artwork.
+   Distinct treatments keep each path visually different without changing
+   the scene-coordinate system used by the hidden finds. */
+#scene::after{content:"";position:absolute;inset:0;z-index:1;pointer-events:none;opacity:0;transition:opacity .35s ease}
+#woods{position:relative;z-index:0}
+#scene[data-scene-variant="sunlit"] #woods{filter:saturate(1.08) brightness(1.08) contrast(1.03) sepia(.05)}
+#scene[data-scene-variant="sunlit"]::after{opacity:1;background:linear-gradient(180deg,rgba(255,244,190,.10),rgba(255,255,255,0))}
+#scene[data-scene-variant="old-trail"] #woods{filter:saturate(.82) brightness(.82) contrast(1.08) hue-rotate(-7deg)}
+#scene[data-scene-variant="old-trail"]::after{opacity:1;background:linear-gradient(180deg,rgba(34,61,39,.16),rgba(8,30,20,.10))}
+#scene[data-scene-variant="evening"] #woods{filter:saturate(.88) brightness(.70) contrast(1.06) sepia(.14) hue-rotate(7deg)}
+#scene[data-scene-variant="evening"]::after{opacity:1;background:linear-gradient(180deg,rgba(89,54,103,.12),rgba(244,164,91,.16))}
+#scene[data-scene-variant="meadow"] #woods{filter:saturate(1.18) brightness(1.05) contrast(.98) hue-rotate(4deg)}
+#scene[data-scene-variant="meadow"]::after{opacity:1;background:linear-gradient(180deg,rgba(255,247,198,.08),rgba(117,181,86,.08))}
+
+
+/* Golden Circus Ticket — keep the generous invisible hit target, but render
+   only the ticket artwork. No visible button box, border or rectangular glow. */
+#secret-item[data-secret-id="circus-ticket"]{
+  z-index:40;
+  width:72px;
+  height:58px;
+  min-height:0;
+  padding:0;
+  border:0;
+  border-radius:0;
+  background:transparent;
+  box-shadow:none;
+  overflow:visible;
+}
+#secret-item[data-secret-id="circus-ticket"]::before,
+#secret-item[data-secret-id="circus-ticket"]::after{
+  content:none;
+  display:none;
+}
+#secret-item[data-secret-id="circus-ticket"] img{
+  position:absolute;
+  z-index:1;
+  left:50%;
+  top:50%;
+  width:72px;
+  height:92px;
+  margin:0;
+  transform:translate(-50%,-47%);
+  object-fit:contain;
+  object-position:center bottom;
+  filter:drop-shadow(0 .22rem .28rem rgba(0,0,0,.42)) drop-shadow(0 0 9px rgba(255,232,151,.78));
+  pointer-events:none;
+}
+/* Hints glow around the artwork itself instead of revealing the hitbox. */
+#secret-item[data-secret-id="circus-ticket"].hinted{
+  outline:0!important;
+  box-shadow:none!important;
+}
+#secret-item[data-secret-id="circus-ticket"].hinted img{
+  filter:drop-shadow(0 0 12px #ffe17c)
+         drop-shadow(0 0 20px rgba(255,225,124,.72))
+         drop-shadow(0 .22rem .28rem rgba(0,0,0,.42));
+}
+
+/* Source: games/woodland-search/desktop.css */
+/* Woodland Search — desktop / large landscape */
+@media (min-width:1101px){
+  body.game-active{position:fixed;inset:0;width:100vw;height:100dvh;overflow:hidden}
+  body.game-active .site-bar,body.game-active footer{display:none}
+  body.game-active main{position:fixed;inset:0;width:100vw;height:100dvh;overflow:hidden}
+  #game:not([hidden]){position:absolute;inset:0;width:100vw;height:100dvh}
+  #stage{position:absolute;inset:0;width:100%;height:100%;border-radius:0}
+  #pip{width:clamp(58px,4.5vw,82px)}
+}
+
+@media (min-width:1450px){
+  .mission-hud{width:350px}
+  #mission-line{font-size:.76rem}
+  .route-node strong{font-size:.62rem}
+}
+/* Source: games/woodland-search/tablet.css */
+/* Woodland Search — tablets and compact laptops */
+@media (min-width:701px) and (max-width:1100px){
+  body.game-active{position:fixed;inset:0;width:100vw;height:100dvh;overflow:hidden}
+  body.game-active .site-bar,body.game-active footer{display:none}
+  body.game-active main{position:fixed;inset:0;width:100vw;height:100dvh;overflow:hidden}
+  #game:not([hidden]){position:absolute;inset:0;width:100%;height:100%}
+  #stage{position:absolute;inset:.55rem;border-radius:18px}
+  #pip{width:clamp(52px,6vw,70px)}
+  .mission-hud{top:1rem;left:1rem;width:min(310px,40vw);grid-template-columns:58px minmax(0,1fr);padding:.55rem .62rem}
+  .reference{width:54px;height:62px}
+  #mission-line{font-size:.64rem}
+  .route-strip{top:1rem}
+  .route-node strong{display:none}
+  .seed-meter{top:1rem;right:1rem}
+   .secret-meter{top:calc(1rem + 46px);right:1rem}
+  .game-actions{width:min(560px,72vw)}
+}
+
+@media (min-width:701px) and (max-width:1100px) and (orientation:portrait){
+  #stage{inset:.5rem}
+  .mission-hud{width:min(360px,52vw)}
+  .route-strip{top:auto;bottom:4.8rem}
+  #status{bottom:7.5rem;max-width:76vw}
+  .game-actions{bottom:1rem;width:min(600px,82vw)}
+}
+
+/* Keep the route between the mission card and counters on landscape tablets. */
+@media (min-width:701px) and (max-width:1100px) and (min-height:561px) and (orientation:landscape){
+  .route-strip{
+    left:auto;
+    right:6.4rem;
+    transform:none;
+    width:min(500px,calc(100% - min(310px,40vw) - 9.4rem));
+  }
+}
+
+/* Source: games/woodland-search/phone-portrait.css */
+/* Woodland Search — phones in portrait.
+   Welcome fills small screens; gameplay keeps the established portrait layout. */
+@media (max-width:760px) and (orientation:portrait){
+  html,body{width:100%;min-height:100%;overflow-x:hidden}
+
+  /* The welcome fills the screen and can scroll when text is enlarged. */
+  body:not(.game-active){height:auto;min-height:100svh;overflow-y:auto}
+  body:not(.game-active) .site-bar{
+    min-height:56px;
+    flex-wrap:wrap;
+    padding:max(.28rem,env(safe-area-inset-top)) .68rem .28rem;
+  }
+  body:not(.game-active) .brand{gap:.35rem;font-size:.88rem}
+  body:not(.game-active) .brand img{width:2.15rem;height:2.15rem}
+  body:not(.game-active) .game-home-link{font-size:.61rem}
+  body:not(.game-active) .brand,body:not(.game-active) .game-home-link{min-width:0;max-width:100%}
+  body:not(.game-active) footer{display:none}
+
+  #welcome{
+    width:100%;
+    min-height:calc(100svh - 56px);
+    padding:.4rem .9rem max(.7rem,env(safe-area-inset-bottom));
+    display:grid;
+    place-items:center;
+    overflow:visible;
+  }
+  .welcome-copy{width:min(100%,430px);min-width:0;text-align:center}
+  .welcome-mark{width:3.35rem;margin:0 auto .12rem}
+  #welcome .eyebrow{font-size:.58rem;letter-spacing:.18em}
+  #welcome h1{
+    max-width:10ch;
+    margin:.2rem auto .55rem;
+    font-size:clamp(2.15rem,11.2vw,3.05rem);
+    line-height:.91;
+    letter-spacing:-.04em;
+  }
+  .welcome-copy>p:not(.eyebrow){
+    max-width:23rem;
+    margin:0 auto .68rem;
+    font-size:.8rem;
+    line-height:1.38;
+  }
+  .welcome-promises{
+    justify-content:center;
+    gap:.3rem;
+    margin:0 0 .72rem;
+  }
+  .welcome-promises span{
+    padding:.34rem .52rem;
+    font-size:.61rem;
+  }
+  #play{
+    max-width:100%;
+    min-height:46px;
+    padding:.62rem 1.05rem;
+    font-size:.78rem;
+  }
+  .journey-preview{display:none}
+
+  /* Established portrait gameplay */
+  body.game-active{position:fixed;inset:0;width:100vw;height:100dvh;overflow:hidden}
+  body.game-active .site-bar,body.game-active footer{display:none}
+  body.game-active main{position:fixed;inset:0;width:100vw;height:100dvh;padding:0;overflow:hidden}
+  #game:not([hidden]){position:absolute;inset:0;width:100%;height:100%}
+  #stage{position:absolute;inset:0;width:100%;height:100%;border-radius:0}
+  #woods{object-fit:cover}
+  #pip{width:clamp(44px,12vw,58px)}
+
+  .mission-hud{top:calc(max(.45rem,env(safe-area-inset-top)) + 2.15rem);left:.5rem;width:min(250px,69vw);grid-template-columns:48px minmax(0,1fr);gap:.42rem;padding:.4rem .46rem;border-radius:15px;background:rgba(6,29,20,.94)}
+  .reference{width:44px;height:50px}
+  .mission-kicker{font-size:.43rem}
+  #target-title{font-size:1rem}
+  #mission-line{margin-top:.14rem;font-size:.55rem;line-height:1.16;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+
+  .seed-meter{top:calc(max(.45rem,env(safe-area-inset-top)) + 2.15rem);right:.5rem;min-height:34px;padding:.3rem .48rem}
+  .secret-meter{top:calc(max(.45rem,env(safe-area-inset-top)) + 4.75rem);right:.5rem}
+  .seed-icon{width:9px;height:14px}
+  .secret-icon{width:11px;height:11px;font-size:.5rem}
+  .seed-meter strong{font-size:.55rem}
+
+  /* Journey progress sits at the very top of the portrait game screen.
+     Keep the mission card below it so the route numbers never sit over the
+     card text. */
+  .route-strip{top:max(.35rem,env(safe-area-inset-top));bottom:auto;gap:.24rem;padding:.24rem .32rem}
+  .route-node{gap:0}
+  .route-node strong{display:none}
+  .route-node span{width:1.28rem;height:1.28rem;font-size:.48rem}
+
+  .mission-hud{top:calc(max(.45rem,env(safe-area-inset-top)) + 2.85rem)}
+  .seed-meter{top:calc(max(.45rem,env(safe-area-inset-top)) + 2.85rem)}
+  .secret-meter{top:calc(max(.45rem,env(safe-area-inset-top)) + 5.45rem)}
+
+  #status{bottom:5.1rem;max-width:86vw;padding:.3rem .58rem;font-size:.62rem;background:rgba(5,27,19,.94)}
+  .path-continue{bottom:8.05rem;max-width:88vw;min-height:38px;padding:.4rem .7rem;font-size:.6rem}
+  .game-actions{bottom:calc(.45rem + env(safe-area-inset-bottom));width:calc(100% - 1rem);gap:.3rem;padding:.3rem;border-radius:18px;background:rgba(5,27,19,.95)}
+  .game-actions button{min-height:42px;padding:.38rem .25rem;font-size:.62rem}
+
+  #heart-seed{width:44px;height:44px;min-height:44px;z-index:16;touch-action:manipulation}
+  #heart-seed span{width:13px;height:19px;pointer-events:none}
+}
+
+@media (max-width:380px) and (orientation:portrait){
+  #welcome h1{font-size:2.12rem}
+  .welcome-copy>p:not(.eyebrow){font-size:.75rem;line-height:1.32}
+  .welcome-promises span{padding:.3rem .42rem;font-size:.56rem}
+  #play{min-height:44px}
+
+  .mission-hud{width:72vw;grid-template-columns:42px minmax(0,1fr)}
+  .reference{width:39px;height:44px}
+  #target-title{font-size:.9rem}
+  #mission-line{font-size:.51rem}
+  .game-actions button{font-size:.57rem}
+}
+
+/* Mobile portrait feedback: keep found/hint messages above the bottom
+   controls so they remain readable and tappable content is never obscured. */
+@media (max-width:760px) and (orientation:portrait) {
+  #status.is-visible {
+    bottom: 6.15rem !important;
+    z-index: 45 !important;
+    max-width: 88vw !important;
+    white-space: normal !important;
+    overflow: visible !important;
+    text-overflow: clip !important;
+    box-shadow: 0 .45rem 1rem rgba(0,0,0,.24);
+  }
+}
+
+/* Source: games/woodland-search/phone-landscape.css */
+/* Woodland Search — PHONE LANDSCAPE.
+   This file deliberately uses BOTH a viewport media query and a JS-applied
+   html.phone-landscape-mode class. That avoids iOS Safari falling back to the
+   tablet HUD when its browser chrome changes the reported viewport size. */
+
+@media (orientation:landscape) and (max-height:560px) and (max-width:1100px){
+  html{--jlt-phone-landscape:1}
+}
+
+/* The JS class is the authoritative phone-landscape switch. The media-query
+   form below is kept as a no-JS fallback. */
+/* NOTE: selectors are duplicated with :is() so the same rules work from the
+   JS class or the media-query fallback below. */
+html.phone-landscape-mode,
+html.phone-landscape-mode body{
+  width:100%;
+  height:100%;
+  overflow-x:hidden;
+}
+
+html.phone-landscape-mode body:not(.game-active){
+  height:auto;
+  min-height:100svh;
+  overflow:visible;
+}
+html.phone-landscape-mode body:not(.game-active) .site-bar{
+  min-height:40px;
+  flex-wrap:wrap;
+  padding:max(.12rem,env(safe-area-inset-top)) max(.5rem,env(safe-area-inset-right)) .12rem max(.5rem,env(safe-area-inset-left));
+}
+html.phone-landscape-mode body:not(.game-active) .brand{gap:.24rem;font-size:.72rem}
+html.phone-landscape-mode body:not(.game-active) .brand img{width:1.6rem;height:1.6rem}
+html.phone-landscape-mode body:not(.game-active) .game-home-link{font-size:.52rem}
+html.phone-landscape-mode body:not(.game-active) .brand,html.phone-landscape-mode body:not(.game-active) .game-home-link{min-width:0;max-width:100%}
+html.phone-landscape-mode body:not(.game-active) footer{display:none!important}
+html.phone-landscape-mode #welcome{
+  width:100%;
+  grid-template-columns:1fr;
+  height:auto;
+  min-height:calc(100svh - 40px);
+  padding:.18rem 1rem max(.28rem,env(safe-area-inset-bottom));
+  display:grid;
+  grid-template-columns:1fr!important;
+  place-items:center;
+  overflow:visible;
+}
+html.phone-landscape-mode .welcome-copy{width:min(92vw,640px);text-align:center}
+html.phone-landscape-mode .welcome-mark{width:2rem;margin:0 auto .03rem}
+html.phone-landscape-mode #welcome .eyebrow{font-size:.43rem}
+html.phone-landscape-mode #welcome h1{max-width:none;margin:.05rem 0 .2rem;font-size:1.72rem;line-height:.92}
+html.phone-landscape-mode .welcome-copy>p:not(.eyebrow){max-width:39rem;margin:0 auto .25rem;font-size:.58rem;line-height:1.2}
+html.phone-landscape-mode .welcome-promises{justify-content:center;gap:.2rem;margin:0 0 .28rem}
+html.phone-landscape-mode .welcome-promises span{padding:.2rem .34rem;font-size:.46rem}
+html.phone-landscape-mode #play{min-height:31px;padding:.34rem .72rem;font-size:.58rem}
+html.phone-landscape-mode .journey-preview{display:none!important}
+
+/* Safari fallback: when the page returns from the game it can briefly
+   report stale viewport dimensions to JavaScript. Keep the welcome screen in
+   the compact landscape-phone layout from CSS alone as well. */
+@media (orientation:landscape) and (max-height:560px) and (max-width:1100px){
+  html:not(.phone-landscape-mode) body:not(.game-active){
+    width:100%;
+    height:auto;
+    min-height:100svh;
+    overflow-x:hidden;
+    overflow-y:auto;
+  }
+  html:not(.phone-landscape-mode) body:not(.game-active) .site-bar{
+    min-height:40px;
+    flex-wrap:wrap;
+    padding:max(.12rem,env(safe-area-inset-top)) max(.5rem,env(safe-area-inset-right)) .12rem max(.5rem,env(safe-area-inset-left));
+  }
+  html:not(.phone-landscape-mode) body:not(.game-active) .brand{gap:.24rem;font-size:.72rem}
+  html:not(.phone-landscape-mode) body:not(.game-active) .brand img{width:1.6rem;height:1.6rem}
+  html:not(.phone-landscape-mode) body:not(.game-active) .game-home-link{font-size:.52rem}
+  html:not(.phone-landscape-mode) body:not(.game-active) .brand,html:not(.phone-landscape-mode) body:not(.game-active) .game-home-link{min-width:0;max-width:100%}
+  html:not(.phone-landscape-mode) body:not(.game-active) footer{display:none!important}
+  html:not(.phone-landscape-mode) #welcome{
+    width:100%;
+    height:auto;
+    min-height:calc(100svh - 40px);
+    padding:.18rem 1rem max(.28rem,env(safe-area-inset-bottom));
+    display:grid;
+    place-items:center;
+    overflow:visible;
+    grid-template-columns:1fr;
+    gap:0;
+  }
+  html:not(.phone-landscape-mode) .welcome-copy{width:min(92vw,640px);text-align:center}
+  html:not(.phone-landscape-mode) .welcome-mark{width:2rem;margin:0 auto .03rem}
+  html:not(.phone-landscape-mode) #welcome .eyebrow{font-size:.43rem}
+  html:not(.phone-landscape-mode) #welcome h1{max-width:none;margin:.05rem 0 .2rem;font-size:1.72rem;line-height:.92}
+  html:not(.phone-landscape-mode) .welcome-copy>p:not(.eyebrow){max-width:39rem;margin:0 auto .25rem;font-size:.58rem;line-height:1.2}
+  html:not(.phone-landscape-mode) .welcome-promises{justify-content:center;gap:.2rem;margin:0 0 .28rem}
+  html:not(.phone-landscape-mode) .welcome-promises span{padding:.2rem .34rem;font-size:.46rem}
+  html:not(.phone-landscape-mode) #play{min-height:31px;padding:.34rem .72rem;font-size:.58rem}
+  html:not(.phone-landscape-mode) .journey-preview{display:none!important}
+}
+
+/* Game: the picture owns the screen. */
+html.phone-landscape-mode body.game-active{position:fixed!important;inset:0!important;width:100vw!important;height:100dvh!important;overflow:hidden!important}
+html.phone-landscape-mode body.game-active .site-bar,
+html.phone-landscape-mode body.game-active footer{display:none!important}
+html.phone-landscape-mode body.game-active main{position:fixed!important;inset:0!important;width:100vw!important;height:100dvh!important;padding:0!important;overflow:hidden!important}
+html.phone-landscape-mode #game:not([hidden]){position:absolute!important;inset:0!important;width:100vw!important;height:100dvh!important;display:block!important}
+html.phone-landscape-mode #stage{position:absolute!important;inset:0!important;width:100%!important;height:100%!important;max-width:none!important;max-height:none!important;border-radius:0!important}
+html.phone-landscape-mode #viewport,
+html.phone-landscape-mode #scene{position:absolute!important;inset:0!important;width:100%!important;height:100%!important;overflow:hidden!important;border-radius:0!important}
+html.phone-landscape-mode #woods{width:100%!important;height:100%!important;object-fit:cover!important;object-position:center!important}
+html.phone-landscape-mode #pip{width:clamp(38px,5.2vw,48px)!important}
+
+/* Tiny mission chip — title only. */
+html.phone-landscape-mode .mission-hud{
+  top:max(.04rem,env(safe-area-inset-top))!important;
+  z-index:49!important;
+  left:max(.22rem,env(safe-area-inset-left))!important;
+  width:auto!important;
+  max-width:180px!important;
+  min-height:0!important;
+  display:grid!important;
+  grid-template-columns:24px minmax(0,1fr)!important;
+  gap:.2rem!important;
+  align-items:center!important;
+  padding:.14rem .22rem!important;
+  border-radius:9px!important;
+  background:rgba(5,27,19,.72)!important;
+  border-color:rgba(255,222,143,.22)!important;
+  box-shadow:none!important;
+  backdrop-filter:blur(3px);
+}
+html.phone-landscape-mode .reference{width:22px!important;height:25px!important}
+html.phone-landscape-mode .mission-kicker,
+html.phone-landscape-mode #mission-line{display:none!important}
+html.phone-landscape-mode #target-title{
+  margin:0!important;
+  font-family:Georgia,"Times New Roman",serif!important;
+  font-size:.68rem!important;
+  line-height:1.05!important;
+  white-space:nowrap!important;
+  overflow:hidden!important;
+  text-overflow:ellipsis!important;
+}
+
+/* Ten tiny route numbers — fixed at the very top of the game screen. */
+html.phone-landscape-mode .route-strip{
+  top:max(.04rem,env(safe-area-inset-top))!important;
+  width:min(500px,42vw)!important;
+  left:50%!important;
+  transform:translateX(-50%)!important;
+  z-index:50!important;
+  gap:.1rem!important;
+  padding:.09rem .14rem!important;
+  border-radius:999px!important;
+  background:rgba(5,27,19,.62)!important;
+  border-color:rgba(255,222,143,.18)!important;
+  box-shadow:none!important;
+}
+html.phone-landscape-mode .route-node{gap:0!important}
+html.phone-landscape-mode .route-node strong{display:none!important}
+html.phone-landscape-mode .route-node span{width:.9rem!important;height:.9rem!important;font-size:.36rem!important}
+
+/* Seed counter stays visible but occupies almost no artwork. */
+html.phone-landscape-mode .seed-meter{
+  top:max(.04rem,env(safe-area-inset-top))!important;
+  right:max(.08rem,env(safe-area-inset-right))!important;
+  z-index:49!important;
+  min-height:20px!important;
+  gap:.16rem!important;
+  padding:.12rem .26rem!important;
+  background:rgba(5,27,19,.68)!important;
+  border-color:rgba(255,222,143,.2)!important;
+  box-shadow:none!important;
+}
+html.phone-landscape-mode .secret-meter{
+  top:calc(max(.04rem,env(safe-area-inset-top)) + 22px)!important;
+  right:max(.08rem,env(safe-area-inset-right))!important;
+}
+html.phone-landscape-mode .seed-icon{width:6px!important;height:9px!important}
+html.phone-landscape-mode .secret-icon{width:6px!important;height:6px!important;font-size:.34rem!important}
+html.phone-landscape-mode .seed-meter strong{font-size:.44rem!important}
+
+/* Normal status text is removed. Hints / found messages appear briefly. */
+html.phone-landscape-mode .path-continue{bottom:3.55rem!important;min-height:34px!important;padding:.16rem .48rem!important;font-size:.5rem!important}
+html.phone-landscape-mode #status{
+  display:none!important;
+  left:50%!important;
+  top:auto!important;
+  bottom:calc(2.05rem + env(safe-area-inset-bottom))!important;
+  transform:translateX(-50%)!important;
+  width:max-content!important;
+  max-width:56vw!important;
+  margin:0!important;
+  padding:.18rem .42rem!important;
+  font-size:.5rem!important;
+  line-height:1.05!important;
+  white-space:nowrap!important;
+  overflow:hidden!important;
+  text-overflow:ellipsis!important;
+  background:rgba(5,27,19,.88)!important;
+  pointer-events:none!important;
+}
+html.phone-landscape-mode #status.is-visible{display:block!important}
+
+/* Slim control strip — no giant three-button wall. */
+html.phone-landscape-mode .game-actions{
+  left:50%!important;
+  bottom:max(.14rem,env(safe-area-inset-bottom))!important;
+  transform:translateX(-50%)!important;
+  width:min(270px,55vw)!important;
+  display:grid!important;
+  grid-template-columns:repeat(3,minmax(0,1fr))!important;
+  gap:.1rem!important;
+  padding:.1rem!important;
+  border-radius:999px!important;
+  background:rgba(5,27,19,.72)!important;
+  border-color:rgba(255,222,143,.18)!important;
+  box-shadow:none!important;
+}
+html.phone-landscape-mode .game-actions button{
+  min-width:0!important;
+  min-height:34px!important;
+  height:34px!important;
+  padding:.14rem .2rem!important;
+  font-size:0!important;
+  line-height:1!important;
+}
+html.phone-landscape-mode #hint::after{content:"Hint";font-size:.5rem}
+html.phone-landscape-mode #hint.is-offering::after{content:"Hint?";font-size:.5rem}
+html.phone-landscape-mode #sound::after{content:"♫ On";font-size:.5rem}
+html.phone-landscape-mode #sound[aria-pressed="false"]::after{content:"♫ Off";font-size:.5rem}
+html.phone-landscape-mode #leave::after{content:"Leave";font-size:.5rem}
+
+/* The visible seed stays small, but the tappable area is a full 44px. */
+html.phone-landscape-mode #heart-seed{
+  width:44px!important;
+  height:44px!important;
+  min-height:44px!important;
+  padding:0!important;
+  z-index:16!important;
+  touch-action:manipulation!important;
+}
+html.phone-landscape-mode #heart-seed span{width:11px!important;height:16px!important;pointer-events:none!important}
+
+/* No-JS fallback for actual phone-landscape viewports. */
+@media (orientation:landscape) and (max-height:560px) and (max-width:1100px){
+  html:not(.phone-landscape-mode) body.game-active{position:fixed;inset:0;width:100vw;height:100dvh;overflow:hidden}
+  html:not(.phone-landscape-mode) body.game-active .site-bar,
+  html:not(.phone-landscape-mode) body.game-active footer{display:none!important}
+  html:not(.phone-landscape-mode) body.game-active main{position:fixed;inset:0;width:100vw;height:100dvh;padding:0;overflow:hidden}
+  html:not(.phone-landscape-mode) #game:not([hidden]),
+  html:not(.phone-landscape-mode) #stage,
+  html:not(.phone-landscape-mode) #viewport,
+  html:not(.phone-landscape-mode) #scene{position:absolute;inset:0;width:100%;height:100%}
+  html:not(.phone-landscape-mode) .mission-hud{width:min(180px,25vw)}
+  html:not(.phone-landscape-mode) #mission-line{display:none}
+  html:not(.phone-landscape-mode) .route-node strong{display:none}
+  html:not(.phone-landscape-mode) .game-actions{width:min(246px,50vw)}
+}
+
+
+/* Mobile landscape feedback: found/hint messages must sit clearly above
+   the bottom controls instead of being swallowed by the control strip. */
+html.phone-landscape-mode #status.is-visible {
+  display: block !important;
+  bottom: calc(3.65rem + env(safe-area-inset-bottom)) !important;
+  z-index: 45 !important;
+  width: max-content !important;
+  max-width: 76vw !important;
+  white-space: normal !important;
+  overflow: visible !important;
+  text-overflow: clip !important;
+  padding: .24rem .55rem !important;
+  line-height: 1.15 !important;
+  border-color: rgba(255,222,143,.3) !important;
+  box-shadow: 0 .45rem 1rem rgba(0,0,0,.24) !important;
+}
+
+@media (orientation:landscape) and (max-height:560px) and (max-width:1100px) {
+  html:not(.phone-landscape-mode) #status.is-visible {
+    display: block !important;
+    bottom: calc(3.65rem + env(safe-area-inset-bottom)) !important;
+    z-index: 45 !important;
+    width: max-content !important;
+    max-width: 76vw !important;
+    white-space: normal !important;
+    overflow: visible !important;
+    text-overflow: clip !important;
+  }
+}
+/* Landscape mobile final HUD positioning:
+   - keep the found/secret notification just above the control buttons
+   - tuck both progress counters into the extreme top-right corner */
+html.phone-landscape-mode .seed-meter{
+  top:max(.02rem,env(safe-area-inset-top))!important;
+  right:max(.02rem,env(safe-area-inset-right))!important;
+  padding:.10rem .22rem!important;
+  min-height:19px!important;
+}
+html.phone-landscape-mode .secret-meter{
+  top:calc(max(.02rem,env(safe-area-inset-top)) + 20px)!important;
+  right:max(.02rem,env(safe-area-inset-right))!important;
+}
+html.phone-landscape-mode #status.is-visible{
+  bottom:calc(2.45rem + env(safe-area-inset-bottom))!important;
+}
+
+
+/* Final mobile-landscape welcome fix.
+   Safari can restore stale grid geometry when the game is left. The welcome
+   screen is intentionally reduced to one centred column here so no desktop
+   width can push the copy off either edge of the viewport. */
+html.phone-landscape-mode #welcome:not([hidden]){
+  display:flex!important;
+  flex-direction:column!important;
+  align-items:center!important;
+  justify-content:center!important;
+  width:100%!important;
+  max-width:none!important;
+  margin:0!important;
+  box-sizing:border-box!important;
+  overflow:visible!important;
+}
+html.phone-landscape-mode .welcome-copy{
+  width:100%!important;
+  max-width:640px!important;
+  margin:0 auto!important;
+  box-sizing:border-box!important;
+  text-align:center!important;
+}
+html.phone-landscape-mode #welcome h1{
+  width:100%!important;
+  max-width:100%!important;
+  margin-left:0!important;
+  margin-right:0!important;
+  font-size:clamp(1.45rem,4vw,1.72rem)!important;
+  line-height:.95!important;
+  text-wrap:balance!important;
+}
+html.phone-landscape-mode .welcome-copy>p:not(.eyebrow){
+  width:100%!important;
+  max-width:39rem!important;
+  margin-left:auto!important;
+  margin-right:auto!important;
+  box-sizing:border-box!important;
+}
+
+/* Same welcome geometry without relying on the JS class. */
+@media (orientation:landscape) and (max-height:560px) and (max-width:1100px){
+  html:not(.phone-landscape-mode) #welcome:not([hidden]){
+    display:flex!important;
+    flex-direction:column!important;
+    align-items:center!important;
+    justify-content:center!important;
+    width:100%!important;
+    max-width:none!important;
+    margin:0!important;
+    box-sizing:border-box!important;
+    overflow:visible!important;
+  }
+  html:not(.phone-landscape-mode) .welcome-copy{
+    width:100%!important;
+    max-width:640px!important;
+    margin:0 auto!important;
+    box-sizing:border-box!important;
+    text-align:center!important;
+  }
+  html:not(.phone-landscape-mode) #welcome h1{
+    width:100%!important;
+    max-width:100%!important;
+    margin-left:0!important;
+    margin-right:0!important;
+    font-size:clamp(1.45rem,4vw,1.72rem)!important;
+    line-height:.95!important;
+    text-wrap:balance!important;
+  }
+  html:not(.phone-landscape-mode) .welcome-copy>p:not(.eyebrow){
+    width:100%!important;
+    max-width:39rem!important;
+    margin-left:auto!important;
+    margin-right:auto!important;
+    box-sizing:border-box!important;
+  }
+}
+
+/* Compact landscape compatibility for older/smaller iPhones.
+   Intentionally narrow: classic 568x320 / 667x375 style Safari viewports only.
+   Larger modern phones keep the normal phone-landscape layout above. */
+@media (orientation:landscape) and (max-width:700px) and (max-height:390px){
+  /* Old Safari may not understand dvh/svh. Inset + percentage sizing keeps the
+     game locked to the actually visible page area without changing modern phones. */
+  body.game-active,
+  body.game-active main,
+  #game:not([hidden]),
+  #stage,
+  #viewport,
+  #scene{
+    width:100%!important;
+    height:100%!important;
+    max-width:none!important;
+    max-height:none!important;
+    overflow:hidden!important;
+  }
+
+  /* Free up the top row so mission, route and counters cannot collide. */
+  html.phone-landscape-mode .mission-hud{
+    top:max(.03rem,env(safe-area-inset-top))!important;
+    left:max(.12rem,env(safe-area-inset-left))!important;
+    width:auto!important;
+    max-width:116px!important;
+    min-height:0!important;
+    grid-template-columns:1fr!important;
+    gap:0!important;
+    padding:.10rem .18rem!important;
+    border-radius:8px!important;
+  }
+  .mission-hud .reference{display:none!important}
+  html.phone-landscape-mode #target-title{
+    font-size:.57rem!important;
+    line-height:1!important;
+    max-width:108px!important;
+  }
+
+  .route-strip{
+    top:max(.03rem,env(safe-area-inset-top))!important;
+    gap:.055rem!important;
+    padding:.055rem .09rem!important;
+  }
+  .route-node span{
+    width:.76rem!important;
+    height:.76rem!important;
+    font-size:.30rem!important;
+  }
+
+  .seed-meter{
+    top:max(.03rem,env(safe-area-inset-top))!important;
+    right:max(.03rem,env(safe-area-inset-right))!important;
+    min-height:17px!important;
+    gap:.10rem!important;
+    padding:.07rem .16rem!important;
+  }
+  .secret-meter{
+    top:calc(max(.03rem,env(safe-area-inset-top)) + 18px)!important;
+    right:max(.03rem,env(safe-area-inset-right))!important;
+  }
+  .seed-meter strong{font-size:.38rem!important}
+  .seed-icon{width:5px!important;height:8px!important}
+  .secret-icon{width:5px!important;height:5px!important;font-size:.30rem!important}
+
+  /* Keep controls centred but a little narrower on the short old viewport. */
+  .game-actions{
+    bottom:max(.10rem,env(safe-area-inset-bottom))!important;
+    width:min(228px,52vw)!important;
+    gap:.07rem!important;
+    padding:.07rem!important;
+  }
+  .game-actions button{
+    min-height:32px!important;
+    height:32px!important;
+    padding:.10rem .14rem!important;
+  }
+  #hint::after,
+  #hint.is-offering::after,
+  #sound::after,
+  #sound[aria-pressed="false"]::after,
+  #leave::after{font-size:.46rem!important}
+
+  /* Found/hint feedback stays above the smaller control strip. */
+  #status.is-visible{
+    bottom:calc(2.20rem + env(safe-area-inset-bottom))!important;
+    max-width:68vw!important;
+    padding:.18rem .42rem!important;
+    font-size:.46rem!important;
+    line-height:1.1!important;
+  }
+}
+
+/* Source: games/woodland-search/celebration.css */
+/* Woodland Search 2.0 — discovery celebration. */
+#success{position:absolute;z-index:60;inset:0;display:grid;place-items:center;padding:clamp(.45rem,1.6vw,1rem);background:rgba(3,18,12,.5);backdrop-filter:blur(3px)}
+.celebration{position:relative;isolation:isolate;width:min(720px,90vw);display:grid;grid-template-columns:112px minmax(0,1fr);grid-template-areas:"portrait copy" "portrait route" "actions actions";gap:.65rem 1rem;align-items:center;padding:1.1rem;border:1px solid rgba(255,224,139,.66);border-radius:24px;background:linear-gradient(145deg,rgba(42,91,57,.99),rgba(10,40,27,.99));box-shadow:0 1.5rem 4rem rgba(0,0,0,.5);text-align:left;overflow:hidden}
+.celebration:focus{outline:none}
+.celebration-burst{position:absolute;inset:0;pointer-events:none;overflow:hidden}
+.celebration-burst span{position:absolute;opacity:0;font-size:1rem}
+.celebration-burst span:nth-child(1){left:8%;top:9%}.celebration-burst span:nth-child(2){left:20%;bottom:8%}.celebration-burst span:nth-child(3){right:8%;top:10%}.celebration-burst span:nth-child(4){right:18%;bottom:10%}.celebration-burst span:nth-child(5){left:43%;top:5%}.celebration-burst span:nth-child(6){left:50%;bottom:4%}.celebration-burst span:nth-child(7){right:34%;top:13%}.celebration-burst span:nth-child(8){left:32%;bottom:12%}
+.found-portrait{grid-area:portrait;display:block;width:104px;height:118px;justify-self:center;object-fit:contain;filter:drop-shadow(0 .5rem .6rem rgba(0,0,0,.32))}
+.celebration-copy-wrap{grid-area:copy;min-width:0}
+.found-kicker{margin:0 0 .1rem;color:#ffe39a;font-size:.62rem;font-weight:900;letter-spacing:.1em;text-transform:uppercase}
+.celebration h2{margin:.05rem 0 .25rem;font-size:clamp(1.55rem,3vw,2.25rem);line-height:1}
+#celebration-copy{margin:0;color:#e9efe4;font-size:.82rem;line-height:1.4}
+.celebration-badges{display:flex;flex-wrap:wrap;gap:.35rem;margin-top:.55rem}
+.celebration-badges span{padding:.3rem .5rem;border:1px solid rgba(255,225,151,.24);border-radius:999px;background:rgba(255,255,255,.05);color:#ffe8a8;font-size:.62rem;font-weight:800}
+.celebration-badges #secret-result{display:inline-flex;align-items:center;gap:.3rem}
+#secret-result-image{width:22px;height:22px;object-fit:contain;filter:drop-shadow(0 0 .35rem rgba(255,220,120,.38))}
+#secret-result-name{display:inline-block}
+.journey-result{grid-area:route;display:flex;align-items:center;gap:.7rem;min-width:0;padding:.55rem .65rem;border:1px solid rgba(255,230,160,.18);border-radius:13px;background:rgba(4,28,18,.35)}
+.result-route{display:grid;grid-template-columns:repeat(var(--journey-count,6),1fr);gap:.22rem;flex:0 0 auto}
+.result-route span{display:grid;place-items:center;width:1.15rem;height:1.15rem;border-radius:50%;border:1px solid rgba(255,225,153,.2);color:rgba(255,239,183,.4);font-size:.55rem}
+.result-route span.is-lit{background:#446d41;border-color:#e3c96d;color:#fff1aa;box-shadow:0 0 12px rgba(231,207,100,.18)}
+#next-label{margin:0;color:#ffe5a3;font-size:.72rem;line-height:1.3}
+.celebration-actions{grid-area:actions;display:flex;align-items:center;justify-content:center;gap:.55rem;margin-top:.12rem}
+.celebration-actions .primary-action{min-height:42px;padding:.55rem 1rem;font-size:.74rem}
+#finish{display:inline-flex;align-items:center;justify-content:center;min-height:42px;padding:.55rem .9rem;border:1px solid rgba(255,224,139,.34);border-radius:999px;background:rgba(255,255,255,.04);color:#ffe9b0;text-decoration:none;font-size:.68rem;font-weight:800}
+#finish:hover,#finish:focus-visible{background:rgba(255,225,144,.1);border-color:rgba(255,224,139,.6)}
+@media(max-width:760px){
+  #success{padding:.3rem}
+  .celebration{width:min(94vw,560px);grid-template-columns:66px minmax(0,1fr);gap:.4rem .58rem;padding:.65rem;border-radius:17px}
+  .found-portrait{width:60px;height:70px}
+  .found-kicker{font-size:.44rem}
+  .celebration h2{font-size:1.08rem;margin:.02rem 0 .1rem}
+  #celebration-copy{font-size:.58rem;line-height:1.23}
+  .celebration-badges{gap:.2rem;margin-top:.35rem}
+  .celebration-badges span{padding:.22rem .38rem;font-size:.49rem}
+#secret-result-image{width:16px;height:16px}
+  .journey-result{gap:.4rem;padding:.38rem .45rem}
+  .result-route{gap:.16rem}
+  .result-route span{width:.78rem;height:.78rem;font-size:.36rem}
+  #next-label{font-size:.53rem}
+  .celebration-actions{gap:.3rem;flex-wrap:wrap}
+  .celebration-actions .primary-action,#finish{min-height:34px;padding:.35rem .55rem;font-size:.56rem}
+}
+@media(max-width:760px) and (orientation:landscape){
+  /* Larger win card on mobile landscape only. */
+  .celebration{width:min(820px,92vw);grid-template-columns:96px minmax(0,1fr);gap:.6rem .85rem;padding:.85rem;border-radius:20px}
+  .found-portrait{width:88px;height:100px}
+  .found-kicker{font-size:.56rem}
+  .celebration h2{font-size:1.45rem;margin:.04rem 0 .16rem}
+  #celebration-copy{font-size:.7rem;line-height:1.28}
+  .celebration-badges{gap:.28rem;margin-top:.42rem}
+  .celebration-badges span{padding:.28rem .46rem;font-size:.56rem}
+  #secret-result-image{width:19px;height:19px}
+  .journey-result{gap:.55rem;padding:.46rem .55rem}
+  .result-route{gap:.18rem}
+  .result-route span{width:.98rem;height:.98rem;font-size:.42rem}
+  #next-label{font-size:.62rem}
+  .celebration-actions{gap:.38rem}
+  .celebration-actions .primary-action,#finish{min-height:38px;padding:.42rem .72rem;font-size:.62rem}
+}
+@media(max-width:380px) and (orientation:portrait){
+  /* Give the journey summary its own line beside the portrait. */
+  .journey-result{flex-direction:column;align-items:flex-start;gap:.32rem}
+}
+@media(prefers-reduced-motion:no-preference){
+  .found-portrait{animation:found-hop .45s cubic-bezier(.2,1.3,.3,1) both}
+  .celebration{animation:celebration-arrive .28s ease-out both}
+  .celebration-burst span{animation:woodland-burst 1s ease-out both}
+  .celebration-burst span:nth-child(2),.celebration-burst span:nth-child(5){animation-delay:.07s}
+  .celebration-burst span:nth-child(3),.celebration-burst span:nth-child(6){animation-delay:.13s}
+  .celebration-burst span:nth-child(4),.celebration-burst span:nth-child(7){animation-delay:.19s}
+  .celebration-burst span:nth-child(8){animation-delay:.25s}
+  @keyframes found-hop{0%{opacity:0;transform:translateY(.35rem) scale(.82)}100%{opacity:1;transform:none}}
+  @keyframes celebration-arrive{from{opacity:0;transform:scale(.96)}to{opacity:1;transform:none}}
+  @keyframes woodland-burst{0%{opacity:0;transform:translateY(.3rem) scale(.7)}30%{opacity:1}100%{opacity:0;transform:translateY(-1.2rem) scale(1.18) rotate(10deg)}}
+}
+
+/* Actual Heart Seed visual in the celebration badge. */
+.celebration-badges #seed-result{display:inline-flex;align-items:center;gap:.32rem}
+.celebration-badges #seed-result .celebration-seed-icon{
+  display:block!important;
+  width:12px!important;
+  height:18px!important;
+  flex:0 0 12px;
+  margin:0!important;
+  padding:0!important;
+  border:0!important;
+  border-radius:70% 28% 70% 30%!important;
+  transform:rotate(38deg);
+  background:linear-gradient(145deg,#fff5a9 5%,#b7dc63 45%,#54974f 100%)!important;
+  box-shadow:0 0 7px #f8df71,0 0 14px rgba(124,205,93,.62)!important;
+}
+@media(max-width:760px){
+  .celebration-badges #seed-result .celebration-seed-icon{
+    width:9px!important;
+    height:14px!important;
+    flex-basis:9px;
+  }
+}

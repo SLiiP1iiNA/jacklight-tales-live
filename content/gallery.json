@@ -34,8 +34,11 @@
     "id": "leaf-boat-adventure",
     "title": "A leaf becomes a boat",
     "description": "Barnaby, Pip and the little frog turn an autumn stream into a tiny adventure.",
-    "image": "assets/images/gallery/barnaby-leaf-boat.webp",
-    "alt": "Barnaby, Pip and the tiny green frog riding a giant autumn leaf along a sparkling woodland stream"
+    "image": "assets/images/optimized/barnaby-leaf-boat-corrected.a2b2d8dc77.webp",
+    "alt": "Barnaby, Pip and the tiny green frog riding a giant autumn leaf along a sparkling woodland stream",
+    "srcset": "assets/images/optimized/barnaby-leaf-boat-corrected-840.d2ca30ec0c.webp 840w, assets/images/optimized/barnaby-leaf-boat-corrected.a2b2d8dc77.webp 1672w",
+    "width": 1672,
+    "height": 941
   },
   {
     "id": "barnaby-burrow",

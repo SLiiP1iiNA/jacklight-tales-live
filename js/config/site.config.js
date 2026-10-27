@@ -34,14 +34,14 @@ export const siteConfig = {
     watch: "partials/watch.html",
     listen: "partials/listen.html",
     explore: "partials/explore.html",
-    games: "partials/games.html?v=20261011-ten-friends1",
+    games: "partials/games.html?v=20261027-local-speed1",
     grownups: "partials/grownups.html",
   },
 
   content: {
     stories: "content/stories.json",
-    characters: "content/characters.json?v=20261027-dad",
-    gallery: "content/gallery.json?v=20261011-full-scour-final1",
+    characters: "content/characters.json?v=20261027-local-speed1",
+    gallery: "content/gallery.json?v=20261027-local-speed1",
     socialLinks: "content/social-links.json",
     audioLibrary: "content/audio-library.json?v=20261025-series2",
   },

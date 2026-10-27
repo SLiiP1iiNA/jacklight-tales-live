@@ -30,10 +30,19 @@ function makeElement(tagName, className, text) {
 }
 
 function createCharacterCard(item) {
+  const tagSizes = "(max-width: 480px) 94vw, (max-width: 768px) 46vw, (max-width: 1120px) 30vw, 24vw";
   const card = makeElement("article", "character-card");
   card.dataset.characterCard = item.id;
   const portrait = makeElement("div", "character-card__portrait");
   const image = makeElement("img");
+  if (item.srcset) {
+    image.srcset = item.srcset;
+    image.sizes = tagSizes;
+  }
+  if (item.width && item.height) {
+    image.width = item.width;
+    image.height = item.height;
+  }
   image.src = item.image;
   image.alt = item.alt || item.name;
   image.loading = "lazy";
@@ -62,8 +71,17 @@ function createCharacterCard(item) {
 }
 
 function createGalleryItem(item) {
+  const tagSizes = "(max-width: 700px) 90vw, 600px";
   const figure = makeElement("figure", "gallery-item");
   const image = makeElement("img");
+  if (item.srcset) {
+    image.srcset = item.srcset;
+    image.sizes = tagSizes;
+  }
+  if (item.width && item.height) {
+    image.width = item.width;
+    image.height = item.height;
+  }
   image.src = item.image;
   image.alt = item.alt || item.title;
   image.loading = "lazy";

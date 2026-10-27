@@ -4,87 +4,120 @@
     "name": "Barnaby",
     "role": "The curious explorer",
     "description": "A five-year-old fox with big questions, a warm yellow sweater and a habit of choosing the most interesting path.",
-    "image": "assets/images/characters/barnaby.webp",
-    "alt": "Barnaby, a young red fox in a yellow knitted sweater"
+    "image": "assets/images/optimized/barnaby-480.baf19e3f1f.webp",
+    "alt": "Barnaby, a young red fox in a yellow knitted sweater",
+    "srcset": "assets/images/optimized/barnaby-480.baf19e3f1f.webp 480w, assets/images/optimized/barnaby-960.16ef017fcb.webp 960w",
+    "width": 480,
+    "height": 576
   },
   {
     "id": "mum",
     "name": "Mum",
     "role": "Barnaby's loving mum",
     "description": "Kind, patient and always ready with a calm answer, a warm hug or a clever woodland idea.",
-    "image": "assets/images/characters/mum.webp",
-    "alt": "Barnaby's mother, an adult red fox in a cream cardigan and green skirt"
+    "image": "assets/images/optimized/mum-480.6946ace115.webp",
+    "alt": "Barnaby's mother, an adult red fox in a cream cardigan and green skirt",
+    "srcset": "assets/images/optimized/mum-480.6946ace115.webp 480w, assets/images/optimized/mum-960.3d618fc3d9.webp 960w",
+    "width": 480,
+    "height": 572
   },
   {
     "id": "dad",
     "name": "Dad",
     "role": "Barnaby's adventurous dad",
     "description": "Home at last, Dad joins Barnaby and his woodland friends, with his trusty compass ready for the next adventure.",
-    "image": "assets/images/characters/dad.webp",
-    "alt": "Barnaby's dad, an adult red fox in a green coat holding a brass compass"
+    "image": "assets/images/optimized/dad-480.f61160143d.webp",
+    "alt": "Barnaby's dad, an adult red fox in a green coat holding a brass compass",
+    "srcset": "assets/images/optimized/dad-480.f61160143d.webp 480w, assets/images/optimized/dad-960.5bc9be069b.webp 960w",
+    "width": 480,
+    "height": 720
   },
   {
     "id": "pip",
     "name": "Pip",
     "role": "A little woodland friend",
     "description": "A small, big-eared companion who notices details that everyone else misses.",
-    "image": "assets/images/characters/pip.webp",
-    "alt": "Pip, a small golden-brown mouse with large ears and green eyes"
+    "image": "assets/images/optimized/pip-480.0f916319e5.webp",
+    "alt": "Pip, a small golden-brown mouse with large ears and green eyes",
+    "srcset": "assets/images/optimized/pip-480.0f916319e5.webp 480w, assets/images/optimized/pip-960.9c39a295fb.webp 960w",
+    "width": 480,
+    "height": 566
   },
   {
     "id": "little-guardian",
     "name": "The Little Guardian",
     "role": "Keeper of the old paths",
     "description": "A magical leaf-covered guardian who watches over the deeper secrets of the Whispering Woods.",
-    "image": "assets/images/characters/little-guardian.webp",
-    "alt": "The Little Guardian, a golden woodland creature covered in leaves and quills"
+    "image": "assets/images/optimized/little-guardian-480.acbac8de44.webp",
+    "alt": "The Little Guardian, a golden woodland creature covered in leaves and quills",
+    "srcset": "assets/images/optimized/little-guardian-480.acbac8de44.webp 480w, assets/images/optimized/little-guardian-960.572002fc3a.webp 960w",
+    "width": 480,
+    "height": 600
   },
   {
     "id": "tiny-green-frog",
     "name": "The Tiny Green Frog",
     "role": "Barnaby's quiet companion",
     "description": "A cheerful little adventurer who often rides in Barnaby's bicycle basket and says plenty without words.",
-    "image": "assets/images/characters/tiny-green-frog.webp",
-    "alt": "A friendly tiny green frog with big golden eyes"
+    "image": "assets/images/optimized/tiny-green-frog-480.86bc5a3143.webp",
+    "alt": "A friendly tiny green frog with big golden eyes",
+    "srcset": "assets/images/optimized/tiny-green-frog-480.86bc5a3143.webp 480w, assets/images/optimized/tiny-green-frog-960.a04cebcd6c.webp 960w",
+    "width": 480,
+    "height": 498
   },
   {
     "id": "willow",
     "name": "Willow",
     "role": "A thoughtful friend",
     "description": "A gentle young fox who brings patience, imagination and a teal scarf to every woodland problem.",
-    "image": "assets/images/characters/willow.webp",
-    "alt": "Willow, a young red fox wearing a teal scarf"
+    "image": "assets/images/optimized/willow-480.1b46f65bcd.webp",
+    "alt": "Willow, a young red fox wearing a teal scarf",
+    "srcset": "assets/images/optimized/willow-480.1b46f65bcd.webp 480w, assets/images/optimized/willow-960.7721a6bbf8.webp 960w",
+    "width": 480,
+    "height": 720
   },
   {
     "id": "twinkle",
     "name": "Twinkle",
     "role": "A glow of hope",
     "description": "A tiny golden Glowkin whose light makes dark paths feel a little less mysterious.",
-    "image": "assets/images/characters/twinkle.webp",
-    "alt": "Twinkle, a tiny glowing golden woodland creature"
+    "image": "assets/images/optimized/twinkle-480.3600903057.webp",
+    "alt": "Twinkle, a tiny glowing golden woodland creature",
+    "srcset": "assets/images/optimized/twinkle-480.3600903057.webp 480w, assets/images/optimized/twinkle-960.571e4b6584.webp 960w",
+    "width": 480,
+    "height": 600
   },
   {
     "id": "human-girl",
     "name": "The Human Girl",
     "role": "A visitor from beyond the woods",
     "description": "A curious child who reminds Barnaby that wonder can connect very different worlds.",
-    "image": "assets/images/characters/human-girl.webp",
-    "alt": "A young human girl wearing a flower-patterned blue jacket and pink boots"
+    "image": "assets/images/optimized/human-girl-480.5e483b36b6.webp",
+    "alt": "A young human girl wearing a flower-patterned blue jacket and pink boots",
+    "srcset": "assets/images/optimized/human-girl-480.5e483b36b6.webp 480w, assets/images/optimized/human-girl-960.f53f5620e2.webp 960w",
+    "width": 480,
+    "height": 720
   },
   {
     "id": "mr-alder",
     "name": "Mr Alder",
     "role": "The lantern maker",
     "description": "A friendly badger who makes warm lights for the village and knows when a path needs guiding.",
-    "image": "assets/images/characters/mr-alder.webp",
-    "alt": "Mr Alder, a friendly badger holding a glowing lantern"
+    "image": "assets/images/optimized/mr-alder-480.2633fcbbac.webp",
+    "alt": "Mr Alder, a friendly badger holding a glowing lantern",
+    "srcset": "assets/images/optimized/mr-alder-480.2633fcbbac.webp 480w, assets/images/optimized/mr-alder-960.62f38e83fc.webp 960w",
+    "width": 480,
+    "height": 576
   },
   {
     "id": "mr-bramble",
     "name": "Mr Bramble",
     "role": "The retired toymaker",
     "description": "A wise hedgehog with a love of maps, handmade toys and unfinished routes worth following.",
-    "image": "assets/images/characters/mr-bramble.webp",
-    "alt": "Mr Bramble, a friendly hedgehog wearing spectacles and a rust-coloured scarf"
+    "image": "assets/images/optimized/mr-bramble-480.443a105de9.webp",
+    "alt": "Mr Bramble, a friendly hedgehog wearing spectacles and a rust-coloured scarf",
+    "srcset": "assets/images/optimized/mr-bramble-480.443a105de9.webp 480w, assets/images/optimized/mr-bramble-960.87764595eb.webp 960w",
+    "width": 480,
+    "height": 576
   }
 ]
