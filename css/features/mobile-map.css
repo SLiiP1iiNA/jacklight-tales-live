@@ -1,0 +1,20 @@
+/* Original mobile signs, alternating left/right along the woodland path. */
+@media (max-width: 44rem) {
+  .storybook-body .woodland-map .map-stop--watch,
+  .storybook-body .woodland-map .map-stop--listen,
+  .storybook-body .woodland-map .map-stop--games {
+    left: 4%;
+    right: auto;
+  }
+  .storybook-body .woodland-map .map-stop--characters,
+  .storybook-body .woodland-map .map-stop--artwork {
+    left: auto;
+    right: 4%;
+  }
+  .storybook-body .woodland-map .map-stop--games {
+    transform: translateY(1rem) scale(.88);
+  }
+  .storybook-body .woodland-map.is-ready .map-stop--games {
+    transform: translateY(0) scale(1);
+  }
+}

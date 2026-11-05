@@ -16,11 +16,23 @@ export function initEntrance(settings = {}) {
   let landingTimer = 0;
   let isClosing = false;
 
+  function loadMainArtwork() {
+    document.querySelectorAll('[data-deferred-src]').forEach((image) => {
+      if (image.dataset.deferredSrcset) {
+        image.srcset = image.dataset.deferredSrcset;
+        delete image.dataset.deferredSrcset;
+      }
+      image.src = image.dataset.deferredSrc;
+      delete image.dataset.deferredSrc;
+    });
+  }
+
   function hideEntrance({ immediate = false } = {}) {
     if (isClosing) {
       return;
     }
     isClosing = true;
+    loadMainArtwork();
     window.clearTimeout(exitTimer);
     window.clearTimeout(landingTimer);
     entrance.classList.add(immediate ? "is-leaving" : "is-opening");
@@ -66,6 +78,7 @@ export function initEntrance(settings = {}) {
     // Without storage, simply show the welcome again on the next visit.
   }
   if (settings.showOncePerSession && alreadySeen) {
+    loadMainArtwork();
     entrance.hidden = true;
     entrance.setAttribute("aria-hidden", "true");
     main.inert = false;

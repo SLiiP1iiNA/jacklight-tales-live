@@ -1,0 +1,21 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Start local website test",
+      "type": "process",
+      "command": "C:\\Users\\jackw\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\node\\bin\\node.exe",
+      "args": ["${workspaceFolder}/tools/preview.mjs", "--lan"],
+      "isBackground": true,
+      "problemMatcher": [],
+      "presentation": {"reveal": "always", "panel": "dedicated"}
+    },
+    {
+      "label": "Rebuild website styles",
+      "type": "process",
+      "command": "C:\\Users\\jackw\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\node\\bin\\node.exe",
+      "args": ["${workspaceFolder}/tools/build-styles.mjs"],
+      "problemMatcher": []
+    }
+  ]
+}

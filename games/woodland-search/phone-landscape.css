@@ -107,7 +107,7 @@ html.phone-landscape-mode #stage{position:absolute!important;inset:0!important;w
 html.phone-landscape-mode #viewport,
 html.phone-landscape-mode #scene{position:absolute!important;inset:0!important;width:100%!important;height:100%!important;overflow:hidden!important;border-radius:0!important}
 html.phone-landscape-mode #woods{width:100%!important;height:100%!important;object-fit:cover!important;object-position:center!important}
-html.phone-landscape-mode #pip{width:clamp(38px,5.2vw,48px)!important}
+html.phone-landscape-mode #pip{width:calc(clamp(44px,5.8vw,54px) * var(--character-scale, 1))!important}
 
 /* Tiny mission chip — title only. */
 html.phone-landscape-mode .mission-hud{
@@ -230,7 +230,7 @@ html.phone-landscape-mode #sound::after{content:"♫ On";font-size:.5rem}
 html.phone-landscape-mode #sound[aria-pressed="false"]::after{content:"♫ Off";font-size:.5rem}
 html.phone-landscape-mode #leave::after{content:"Leave";font-size:.5rem}
 
-/* The visible seed stays small, but the tappable area is a full 44px. */
+/* Keep the larger visible seed inside a full 44px tappable area. */
 html.phone-landscape-mode #heart-seed{
   width:44px!important;
   height:44px!important;
@@ -239,7 +239,7 @@ html.phone-landscape-mode #heart-seed{
   z-index:16!important;
   touch-action:manipulation!important;
 }
-html.phone-landscape-mode #heart-seed span{width:11px!important;height:16px!important;pointer-events:none!important}
+html.phone-landscape-mode #heart-seed span{width:15px!important;height:22px!important;pointer-events:none!important}
 
 /* No-JS fallback for actual phone-landscape viewports. */
 @media (orientation:landscape) and (max-height:560px) and (max-width:1100px){

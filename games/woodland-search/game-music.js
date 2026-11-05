@@ -1,13 +1,7 @@
-/* Halloween background music, with a fixed mix beneath Luna. */
+/* Seasonal background music, with a fixed mix beneath Luna. */
 (() => {
-  const DESKTOP_TRACKS = [
-    'https://pub-9ea739df2a0c435bbc605d2f4bfc6fb5.r2.dev/Game%20Audio/Woodland%20Search/Halloween/music/Pumpkin_Patch_Promenade_Desktop_-44.44dB.mp3?v=20261007-cors1',
-    'https://pub-9ea739df2a0c435bbc605d2f4bfc6fb5.r2.dev/Game%20Audio/Woodland%20Search/Halloween/music/Lanterns_on_the_Cobblestone_Desktop_-44.44dB.mp3?v=20261007-cors1'
-  ];
-  const MOBILE_TRACKS = [
-    'https://pub-9ea739df2a0c435bbc605d2f4bfc6fb5.r2.dev/Game%20Audio/Woodland%20Search/Halloween/music/Pumpkin_Patch_Promenade_Mobile_-26dB.mp3?v=20261007-cors1',
-    'https://pub-9ea739df2a0c435bbc605d2f4bfc6fb5.r2.dev/Game%20Audio/Woodland%20Search/Halloween/music/Lanterns_on_the_Cobblestone_Mobile_-26dB.mp3?v=20261007-cors1'
-  ];
+  const DESKTOP_TRACKS = window.WOODLAND_SEARCH_SEASON.music.desktop;
+  const MOBILE_TRACKS = window.WOODLAND_SEARCH_SEASON.music.mobile;
   const audio = document.getElementById('woodland-music');
   if (!audio) return;
 

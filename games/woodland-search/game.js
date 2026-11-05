@@ -1,8 +1,37 @@
 const $ = id => document.getElementById(id);
 const { characters, scenes } = window.WOODLAND_SEARCH_DATA;
+const SEASON = window.WOODLAND_SEARCH_SEASON;
 const SETTINGS = window.WOODLAND_SEARCH_SETTINGS;
 const audioLayer = window.jltGameAudio;
 document.documentElement.style.setProperty('--journey-count', String(SETTINGS.roundsPerJourney));
+
+// Seasonal content changes here; the layout and game rules stay shared.
+function applySeasonPresentation() {
+  Object.entries(SEASON.palette).forEach(([name, value]) => document.documentElement.style.setProperty('--season-' + name, value));
+  document.documentElement.dataset.fireflies = String(SEASON.fireflies);
+  document.querySelectorAll('.celebration-burst span').forEach((el, index) => { el.textContent = SEASON.particles[index % SEASON.particles.length]; });
+  document.title = SEASON.title + ' · JackLight Tales';
+  $('welcome-title').textContent = SEASON.title;
+  document.querySelector('.ws-intro').textContent = SEASON.intro;
+  document.querySelector('.ws-description').textContent = SEASON.description;
+  const hero = document.querySelector('.ws-hero-art');
+  hero.src = SEASON.hero.image;
+  hero.alt = SEASON.hero.alt;
+  $('play').textContent = 'Play ' + SEASON.title;
+  const places = document.querySelector('.ws-all-places ul');
+  places.replaceChildren(...scenes.map(scene => {
+    const item = document.createElement('li'); item.textContent = scene.name; return item;
+  }));
+  document.querySelectorAll('.ws-postcards figure').forEach((card, index) => {
+    const scene = scenes[SEASON.previewScenes[index]];
+    card.querySelector('img').src = scene.image;
+    card.querySelector('img').alt = scene.name;
+    card.querySelector('h3').textContent = scene.name;
+    card.querySelector('figcaption span').textContent = SEASON.previewCaptions[index];
+  });
+  document.querySelector('.ws-steps li:last-child img').src = 'assets/' + scenes[8].secretItem.image;
+}
+applySeasonPresentation();
 
 let journeyCast = [];
 let journeyScenes = [];
@@ -298,7 +327,7 @@ function getStatusBlocker() {
     'Watch for the little woodland secret glow.',
     'You found ' + friend + '! One little secret is still hiding nearby.',
     'You found ' + friend + '! Now look for the Heart Seed.',
-    friend + ' is scampering away! Quick — catch them!',
+    friend + ' has found another hiding place. Take your time!',
     'Heart Seed found — a hidden woodland secret! ✦',
     'Heart Seed found! Now look for the little secret hiding nearby.',
     'Heart Seed found! Keep searching for ' + friend + '.',
@@ -459,10 +488,10 @@ function describePoint(point) {
   if (!point) return 'Look carefully through the woodland scene.';
   const horizontal = point.x < 34 ? 'left' : point.x > 66 ? 'right' : 'middle';
   const vertical = point.y < 40 ? 'upper' : point.y > 65 ? 'lower' : 'middle';
-  if (horizontal === 'middle' && vertical === 'middle') return 'Look around the middle of the woodland scene.';
-  if (horizontal === 'middle') return 'Look in the ' + vertical + ' middle of the woodland scene.';
-  if (vertical === 'middle') return 'Look around the middle-' + horizontal + ' part of the woodland scene.';
-  return 'Look in the ' + vertical + '-' + horizontal + ' part of the woodland scene.';
+  if (horizontal === 'middle' && vertical === 'middle') return 'Look in the middle of the picture.';
+  if (horizontal === 'middle') return 'Look towards the ' + (vertical === 'upper' ? 'top' : 'bottom') + ' of the picture, in the middle.';
+  if (vertical === 'middle') return 'Look on the ' + horizontal + ' side of the picture.';
+  return 'Look towards the ' + (vertical === 'upper' ? 'top' : 'bottom') + ' ' + horizontal + ' of the picture.';
 }
 
 function updateRoundObjective() {
@@ -470,7 +499,7 @@ function updateRoundObjective() {
 
   if (!found) {
     $('target-title').textContent = 'Find ' + currentCharacter.name;
-    $('mission-line').textContent = (currentScene.intro + ' ' + (currentCharacter.clue || '')).trim();
+    $('mission-line').textContent = currentCharacter.clue || currentScene.intro;
     return;
   }
 
@@ -511,7 +540,7 @@ function offerHintLater() {
   hintOfferTimer = setTimeout(() => {
     if (isRoundComplete() || hintLevel > 0) return;
     $('hint').classList.add('is-offering');
-    $('hint').textContent = found ? 'Need help finding the next little thing?' : 'Need a little hint?';
+    $('hint').textContent = 'Need a little hint?';
   }, SETTINGS.hintOfferMs);
 }
 
@@ -569,11 +598,15 @@ async function loadRound() {
 
   currentScene = journeyScenes[roundIndex];
   currentCharacter = journeyCast[roundIndex];
+  $('pip').style.setProperty('--character-scale', currentCharacter.displayScale || 1);
   applySceneVisual(currentScene);
   currentSpot = chooseSpot(currentScene);
   currentSeedSpot = chooseSeedSpot(currentScene, currentSpot);
 
   $('success').hidden = true;
+  $('success').classList.remove('journey-complete');
+  $('discovery-album').hidden = true;
+  $('album-grid').replaceChildren();
   $('pip').style.transition = '';
   $('pip').hidden = true;
   $('heart-seed').hidden = true;
@@ -587,7 +620,7 @@ async function loadRound() {
   $('path-number').textContent = 'Path ' + (roundIndex + 1) + ' of ' + SETTINGS.roundsPerJourney;
   $('place-name').textContent = currentScene.name;
   $('target-title').textContent = 'Find ' + currentCharacter.name;
-  $('mission-line').textContent = (currentScene.intro + ' ' + (currentCharacter.clue || '')).trim();
+  $('mission-line').textContent = currentCharacter.clue || currentScene.intro;
   $('reference').src = 'assets/' + currentCharacter.image;
   $('reference').alt = currentCharacter.name;
   $('pip').querySelector('img').src = 'assets/' + currentCharacter.image;
@@ -692,6 +725,7 @@ function startJourney() {
   secretItems = new Set();
   secretFindBag = [];
   lastSecretFindCue = null;
+  window.scrollTo(0, 0);
   $('welcome').hidden = true;
   $('game').hidden = false;
   document.body.classList.add('game-active');
@@ -815,7 +849,7 @@ function startMischiefRun() {
   mischiefEscapedThisRound = true;
   $('pip').classList.add('mischief-running');
   $('hint').disabled = true;
-  $('status').textContent = currentCharacter.name + ' is scampering away! Quick — catch them!';
+  $('status').textContent = currentCharacter.name + ' has found another hiding place. Take your time!';
   showStatusToast(2200);
 
   requestAnimationFrame(() => {
@@ -854,6 +888,24 @@ async function unlockCelebrationControls() {
   $('continue-path').focus({ preventScroll: true });
 }
 
+function renderDiscoveryAlbum() {
+  const grid = $('album-grid');
+  grid.replaceChildren(...journeyScenes.map((scene, index) => {
+    const card = document.createElement('figure');
+    const pictures = document.createElement('div');
+    [journeyCast[index], scene.secretItem].forEach(item => {
+      const img = document.createElement('img');
+      img.src = 'assets/' + item.image; img.alt = item.name;
+      pictures.append(img);
+    });
+    const caption = document.createElement('figcaption');
+    const name = document.createElement('strong'); name.textContent = journeyCast[index].name;
+    const treasure = document.createElement('span'); treasure.textContent = scene.secretItem.name;
+    caption.append(name, treasure); card.append(pictures, caption); return card;
+  }));
+  $('discovery-album').hidden = false;
+}
+
 function showCelebration({ seedJustFound = false } = {}) {
   if (!isRoundComplete() || !$('success').hidden || !document.body.classList.contains('game-active')) return;
   clearTimeout(hintOfferTimer);
@@ -883,10 +935,14 @@ function showCelebration({ seedJustFound = false } = {}) {
   $('finish').hidden = !finalRound;
 
   if (finalRound) {
-    $('found-kicker').textContent = 'Every path is glowing!';
+    $('success').classList.add('journey-complete');
+    $('found-kicker').textContent = 'What a wonderful adventure!';
+    $('win-title').textContent = SEASON.finishTitle;
+    $('celebration-copy').textContent = SEASON.finishMessage;
+    renderDiscoveryAlbum();
     $('next-label').textContent =
-      SETTINGS.roundsPerJourney + ' paths explored. You found ' + heartSeeds.size + ' of ' + SETTINGS.roundsPerJourney + ' Heart Seeds and ' + secretItems.size + ' of ' + SETTINGS.roundsPerJourney + ' Halloween secrets.';
-    $('continue-path').textContent = 'Where shall we wander? ↻';
+      SETTINGS.roundsPerJourney + ' paths explored. You found ' + heartSeeds.size + ' of ' + SETTINGS.roundsPerJourney + ' Heart Seeds and ' + secretItems.size + ' of ' + SETTINGS.roundsPerJourney + ' woodland secrets.';
+    $('continue-path').textContent = 'Play again ↻';
     $('continue-path').dataset.action = 'restart';
 
     if (seedJustFound) {
@@ -900,7 +956,7 @@ function showCelebration({ seedJustFound = false } = {}) {
       ? 'A little secret was waiting too.'
       : 'Wonderful spotting!';
     $('next-label').textContent = 'Next path: ' + nextScene.name + '.';
-    $('continue-path').textContent = 'Where shall we wander? →';
+    $('continue-path').textContent = 'Next woodland place →';
     $('continue-path').dataset.action = 'continue';
 
     const nextWanderCue = chooseNextWanderCue();
@@ -918,7 +974,7 @@ function showCelebration({ seedJustFound = false } = {}) {
 
 function handleCharacterFound() {
   if (found) return;
-  if (currentCharacter?.mischief && !mischiefEscapedThisRound) {
+  if (currentCharacter?.mischief && !mischiefEscapedThisRound && hintLevel === 0 && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
     startMischiefRun();
     return;
   }
@@ -948,7 +1004,7 @@ function makeLeafPuff(event) {
 
   const puff = document.createElement('span');
   puff.className = 'leaf-puff';
-  puff.textContent = Math.random() > 0.45 ? '🍃' : '✦';
+  puff.textContent = SEASON.particles[Math.floor(Math.random() * SEASON.particles.length)];
   puff.style.left = (event.clientX - rect.left) + 'px';
   puff.style.top = (event.clientY - rect.top) + 'px';
   $('scene').append(puff);
@@ -1107,16 +1163,18 @@ $('hint').addEventListener('click', () => {
 
   if (hintLevel === 0) {
     hintLevel = 1;
-    const firstHint = target === 'character'
-      ? (currentSpot.hint || 'Look closely around the woodland details.')
-      : target === 'seed'
-        ? 'The Heart Seed is still hiding nearby. ' + describePoint(currentSeedSpot)
-        : currentSecretItem.name + ' is still hiding nearby. ' + describePoint(currentSecretSpot);
+    const targetElement = target === 'character' ? $('pip') : target === 'seed' ? $('heart-seed') : $('secret-item');
+    const bounds = targetElement.getBoundingClientRect();
+    const picture = $('viewport').getBoundingClientRect();
+    const visiblePoint = {x: (bounds.left + bounds.width / 2 - picture.left) / picture.width * 100,
+      y: (bounds.top + bounds.height / 2 - picture.top) / picture.height * 100};
+    const name = target === 'character' ? currentCharacter.name : target === 'seed' ? 'The Heart Seed' : currentSecretItem.name;
+    const firstHint = name + ' is waiting for you. ' + describePoint(visiblePoint);
 
     const element = target === 'character' ? $('pip') : target === 'seed' ? $('heart-seed') : $('secret-item');
     element.classList.add('hinted');
     $('status').textContent = firstHint;
-    showStatusToast(4800);
+    showStatusToast(6500);
     $('hint').disabled = true;
     $('hint').textContent = 'Hint playing…';
 

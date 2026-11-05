@@ -5,43 +5,7 @@
  * player that is currently producing the outgoing waveform.
  */
 (() => {
-  const base = 'https://pub-9ea739df2a0c435bbc605d2f4bfc6fb5.r2.dev/Game%20Audio/Woodland%20Search/Halloween/luna/';
-  const files = {
-    welcome: 'welcome.mp3',
-    beginSearch: 'begin-search.mp3',
-    hintOne: 'hint-one.mp3',
-    hintTwo: 'hint-two.mp3',
-    friendFound: 'friend-found-01.mp3',
-    friendFound2: 'friend-found-02.mp3',
-    friendFound3: 'friend-found-03.mp3',
-    friendFound4: 'friend-found-04.mp3',
-    friendFound5: 'friend-found-05.mp3',
-    barnabyFound: 'barnaby-found.mp3',
-    heartSeed: 'heart-seed-found.mp3',
-    secretFind1: 'secret-found-01.mp3',
-    secretFind2: 'secret-found-02.mp3',
-    secretFind3: 'secret-found-03.mp3',
-    nextLocation: 'next-location.mp3',
-    nextWander1: 'next-wander-01.mp3',
-    nextWander2: 'next-wander-02.mp3',
-    nextWander3: 'next-wander-03.mp3',
-    allFound: 'everything-found-v2.mp3',
-    goodbye: 'goodbye.mp3',
-    costumeRoom: 'scene-01-costume-room.mp3',
-    pumpkinPatch: 'scene-02-pumpkin-patch.mp3',
-    bakeryBridge: 'scene-03-bakery-bridge.mp3',
-    harvestGames: 'scene-04-harvest-games-green.mp3',
-    lanternLane: 'scene-05-lantern-lane.mp3',
-    clockTowerSquare: 'scene-06-clock-tower-square.mp3',
-    lanternPond: 'scene-07-lantern-pond.mp3',
-    appleOrchard: 'scene-08-apple-orchard.mp3',
-    hayMaze: 'scene-09-hay-maze.mp3',
-    fireflyGlade: 'scene-10-firefly-glade.mp3'
-  };
-
-  const slots = Object.fromEntries(
-    Object.entries(files).map(([key, name]) => [key, base + encodeURIComponent(name)])
-  );
+  const slots = window.WOODLAND_SEARCH_SEASON.voice;
 
   const firstPlayer = document.getElementById('luna-audio');
   if (!firstPlayer) {
@@ -54,14 +18,14 @@
   // completely different file underneath it.
   const secondPlayer = document.createElement('audio');
   secondPlayer.id = 'luna-audio-2';
-  secondPlayer.preload = 'auto';
+  secondPlayer.preload = 'none';
   secondPlayer.playsInline = true;
   secondPlayer.setAttribute('aria-hidden', 'true');
   firstPlayer.insertAdjacentElement('afterend', secondPlayer);
 
   const players = [firstPlayer, secondPlayer];
   players.forEach(player => {
-    player.preload = 'auto';
+    player.preload = 'none';
     player.playsInline = true;
     player.crossOrigin = 'anonymous';
   });

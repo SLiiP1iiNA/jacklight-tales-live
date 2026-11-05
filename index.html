@@ -31,7 +31,7 @@
     <link rel="preload" as="image" href="assets/images/prototype/gateway-mobile.webp" media="(max-width: 44rem)" fetchpriority="high">
     <link rel="icon" type="image/png" href="assets/branding/jlt-favicon.png">
     <link rel="apple-touch-icon" href="assets/branding/jlt-favicon.png">
-    <link rel="stylesheet" href="css/main.css?v=20261011-full-scour-final1">
+    <link rel="stylesheet" href="css/site.bundle.a517043617.css">
     <title>JackLight Tales — The Whispering Woods</title>
   </head>
 
@@ -41,7 +41,7 @@
     <section class="entrance" id="entrance" aria-label="Welcome to JackLight Tales">
       <picture class="entrance__scene" aria-hidden="true">
         <source media="(max-width: 44rem)" srcset="assets/images/prototype/gateway-mobile.webp">
-        <img src="assets/images/prototype/gateway-desktop.webp" alt="">
+        <img src="assets/images/prototype/gateway-desktop.webp" alt="" fetchpriority="high" decoding="async">
       </picture>
       <div class="entrance__veil" aria-hidden="true"></div>
       <div class="entrance__fireflies" aria-hidden="true">
@@ -51,7 +51,7 @@
 
       <div class="entrance__story">
         <div class="entrance__brand-lockup">
-          <img src="assets/branding/jlt-lantern.webp" alt="" aria-hidden="true">
+          <img src="assets/images/optimized/lantern-256.121e8dae50.webp" alt="" aria-hidden="true">
           <span>JACKLIGHT TALES</span>
         </div>
         <p class="eyebrow">A little story world by the lanternlight</p>
@@ -67,7 +67,7 @@
       <div class="entrance__portal" aria-hidden="true">
         <picture>
           <source media="(max-width: 44rem)" srcset="assets/images/prototype/world-map-mobile.webp">
-          <img src="assets/images/prototype/world-map-desktop.webp" alt="">
+          <img src="assets/images/prototype/world-map-desktop.webp" alt="" fetchpriority="low" decoding="async">
         </picture>
       </div>
 
@@ -77,7 +77,7 @@
     <main class="site-shell" id="main-site" tabindex="-1">
       <header class="site-header storybook-header">
         <a class="brand" href="./" aria-label="JackLight Tales home">
-          <span class="brand__mark" aria-hidden="true"><img src="assets/branding/jlt-lantern.webp" alt=""></span>
+          <span class="brand__mark" aria-hidden="true"><img src="assets/images/optimized/lantern-256.121e8dae50.webp" alt=""></span>
           <span class="brand__words">
             <strong>JackLight Tales</strong>
             <small>Barnaby · The Whispering Woods</small>
@@ -108,7 +108,7 @@
         <div class="home-compass__intro">
           <div class="home-compass__brand">
             <span class="home-compass__brand-mark" aria-hidden="true">
-              <img src="assets/branding/jlt-lantern.webp" alt="">
+              <img src="assets/images/optimized/lantern-256.121e8dae50.webp" alt="">
             </span>
             <span class="home-compass__brand-words">
               <strong>JackLight Tales</strong>
@@ -125,7 +125,7 @@
       <section class="woodland-map" id="woodland-map" aria-label="Explore the Whispering Woods">
         <picture class="woodland-map__art" aria-hidden="true">
           <source media="(max-width: 44rem)" srcset="assets/images/prototype/world-map-mobile.webp">
-          <img src="assets/images/prototype/world-map-desktop.webp" alt="" fetchpriority="high">
+          <img src="assets/images/prototype/world-map-desktop.webp" alt="" fetchpriority="low" decoding="async">
         </picture>
         <div class="woodland-map__veil" aria-hidden="true"></div>
         <div class="woodland-map__mist woodland-map__mist--one" aria-hidden="true"></div>
@@ -159,21 +159,21 @@
       </section>
 
       <section class="home-ribbon" aria-label="JackLight Tales introduction">
-        <div class="home-ribbon__mark"><img src="assets/branding/jlt-lantern.webp" alt="" aria-hidden="true"></div>
+        <div class="home-ribbon__mark"><img src="assets/images/optimized/lantern-256.121e8dae50.webp" alt="" aria-hidden="true"></div>
         <div><p class="eyebrow">The first lantern is lit</p><h2>Welcome to JackLight Tales.</h2></div>
         <p>JackLight Tales is a home for gentle story worlds. Barnaby and the Whispering Woods is the first path through the gate — with more room to grow when the next world is ready.</p>
       </section>
 
       <section class="games-path" aria-labelledby="games-path-title">
         <div class="games-path__media" aria-hidden="true">
-          <img class="games-path__scene" src="games/woodland-search/assets/halloween-bg-02-pumpkin-patch.webp" alt="" loading="lazy" decoding="async">
-          <img class="games-path__friend" src="assets/images/characters/barnaby.webp" alt="" loading="lazy" decoding="async">
+          <img class="games-path__scene" data-deferred-src="games/woodland-search/assets/evergreen/09-the-winding-woodland-path.webp" alt="" loading="lazy" decoding="async">
+          <img class="games-path__friend" data-deferred-src="assets/images/optimized/barnaby-480.baf19e3f1f.webp" data-deferred-srcset="assets/images/optimized/barnaby-480.baf19e3f1f.webp 480w, assets/images/optimized/barnaby-960.16ef017fcb.webp 960w" sizes="(max-width: 928px) 80vw, 45vw" alt="" loading="lazy" decoding="async">
           <div class="games-path__glow"></div>
         </div>
         <div class="games-path__copy">
           <p class="eyebrow">Play in the Whispering Woods</p>
-          <h2 id="games-path-title">A little Halloween adventure is waiting.</h2>
-          <p>Find Barnaby and his friends in ten cosy Halloween places, with Heart Seeds, autumn treasures and gentle hints along the way.</p>
+          <h2 id="games-path-title">A little woodland adventure is waiting.</h2>
+          <p>Find Barnaby and his friends in ten cosy woodland places, with glowing Heart Seeds, hidden treasures and gentle hints along the way.</p>
           <div class="games-path__actions">
             <button class="story-button story-button--sun" type="button" data-panel="games">Open the games path <span aria-hidden="true">◈</span></button>
             <a class="text-path" href="games/woodland-search/index.html" data-game-launch>Play Woodland Search <span aria-hidden="true">→</span></a>
@@ -192,11 +192,11 @@
 
         <div class="storybook-glimpses__grid">
           <figure class="storybook-glimpse">
-            <img src="assets/images/gallery/barnaby-mum-old-oak.webp" alt="Barnaby, Mum, Pip and the tiny green frog looking towards a vast ancient oak in the autumn woods" loading="lazy" decoding="async">
+            <img data-deferred-src="assets/images/gallery/barnaby-mum-old-oak.webp" alt="Barnaby, Mum, Pip and the tiny green frog looking towards a vast ancient oak in the autumn woods" loading="lazy" decoding="async">
             <figcaption><strong>The Old Oak</strong><span>Some paths become enormous when you stop and look up.</span></figcaption>
           </figure>
           <figure class="storybook-glimpse">
-            <img src="assets/images/gallery/barnaby-leaf-boat.webp" alt="Barnaby, Pip and the tiny green frog riding a giant autumn leaf along a sparkling woodland stream" loading="lazy" decoding="async">
+            <img data-deferred-src="assets/images/optimized/barnaby-leaf-boat-corrected.a2b2d8dc77.webp" data-deferred-srcset="assets/images/optimized/barnaby-leaf-boat-corrected-840.d2ca30ec0c.webp 840w, assets/images/optimized/barnaby-leaf-boat-corrected.a2b2d8dc77.webp 1672w" sizes="(max-width: 700px) 100vw, 50vw" alt="Barnaby, Pip and the tiny green frog riding a giant autumn leaf along a sparkling woodland stream" loading="lazy" decoding="async">
             <figcaption><strong>A leaf becomes a boat</strong><span>A small idea, a bright stream and exactly enough adventure.</span></figcaption>
           </figure>
         </div>
@@ -204,8 +204,8 @@
 
       <section class="latest-tale" aria-labelledby="latest-title">
         <div class="latest-tale__art latest-tale__art--portrait">
-          <img src="assets/images/characters/barnaby.webp" alt="Barnaby in his yellow sweater, ready for an adventure" loading="lazy" decoding="async">
-          <div class="latest-tale__wordmark"><img src="assets/branding/jlt-lantern.webp" alt="" loading="lazy"><strong>JackLight Tales</strong><span>Fresh from the woods</span></div>
+          <img data-deferred-src="assets/images/optimized/barnaby-480.baf19e3f1f.webp" data-deferred-srcset="assets/images/optimized/barnaby-480.baf19e3f1f.webp 480w, assets/images/optimized/barnaby-960.16ef017fcb.webp 960w" sizes="(max-width: 928px) 80vw, 45vw" alt="Barnaby in his yellow sweater, ready for an adventure" loading="lazy" decoding="async">
+          <div class="latest-tale__wordmark"><img data-deferred-src="assets/images/optimized/lantern-256.121e8dae50.webp" alt="" loading="lazy"><strong>JackLight Tales</strong><span>Fresh from the woods</span></div>
         </div>
         <div class="latest-tale__copy">
           <p class="eyebrow">Series 2 · Episodes 31–60</p>
@@ -220,7 +220,7 @@
 
       <footer class="site-footer">
         <div class="site-footer__brand">
-          <span class="brand__mark" aria-hidden="true"><img src="assets/branding/jlt-lantern.webp" alt=""></span>
+          <span class="brand__mark" aria-hidden="true"><img src="assets/images/optimized/lantern-256.121e8dae50.webp" alt=""></span>
           <p><strong>JackLight Tales</strong><span>Gentle story worlds. Kind hearts. One lantern at a time.</span></p>
         </div>
         <div class="site-footer__socials" data-social-links aria-label="JackLight Tales social pages">
@@ -248,7 +248,7 @@
     <audio id="woodland-audio" preload="none"><source src="" type="audio/mpeg"></audio>
 
     <noscript><div class="noscript-message">JackLight Tales needs JavaScript enabled to open the woodland paths. Please enable it and reload the page.</div></noscript>
-    <script type="module" src="js/app.js?v=20261025-series2"></script>
+    <script type="module" src="js/app.js?v=20261027-local-speed1"></script>
     <!-- Cloudflare Web Analytics: manual installation for this GitHub Pages site. -->
     <script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token":"b491039d1f03468b849f7aa762dd905a"}'></script>
 </body>

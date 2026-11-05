@@ -44,7 +44,7 @@ export function initGameTransition() {
     overlay.setAttribute("aria-live", "polite");
     overlay.innerHTML = `
       <div class="game-transition-screen__inner">
-        <img src="assets/branding/jlt-lantern.webp" alt="">
+        <img src="assets/images/optimized/lantern-256.121e8dae50.webp" alt="">
         <span>Following the lantern path…</span>
       </div>`;
     document.body.append(overlay);

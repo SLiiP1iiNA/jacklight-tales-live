@@ -1,0 +1,83 @@
+/* V3: readable controls, a calm finish and a collection to enjoy together. */
+html body.game-active #welcome[hidden]{display:none!important}
+html body:not(.game-active) #welcome.woodland-welcome h1{max-width:7.5ch;white-space:normal}
+html body:not(.game-active) main{width:100%;max-width:none;padding:0}
+#welcome .ws-hero-copy{position:relative;z-index:2}
+#success{position:fixed;background:rgba(3,18,12,.88);backdrop-filter:none}
+#success .celebration{max-height:calc(100dvh - 24px);overflow-y:auto;overscroll-behavior:contain}
+#success .found-kicker{font-size:12px;line-height:1.4}
+#success #celebration-copy{font-size:15px;line-height:1.45}
+#success .celebration-badges span{font-size:12px}
+#success #next-label{font-size:13px;line-height:1.45}
+#success .celebration-actions{flex-wrap:wrap}
+#success .celebration-actions button,#success #finish{font-size:14px;min-height:44px}
+#success.journey-complete .celebration{width:min(900px,96vw);grid-template-areas:"portrait copy" "route route" "album album" "actions actions";padding:24px;gap:16px}
+#success.journey-complete .celebration-badges{display:none}
+#success.journey-complete .journey-result{justify-content:center;flex-wrap:wrap;text-align:center}
+#success.journey-complete .celebration-burst{display:none}
+.discovery-album{grid-area:album;min-width:0}
+.discovery-album h3{font-size:18px;color:#ffe8a8;text-align:center;margin:0 0 12px}
+.album-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px}
+.album-grid figure{margin:0;background:#ffffff09;border:1px solid #ffe5a326;border-radius:12px;padding:10px 6px;text-align:center}
+.album-grid figure>div{display:flex;align-items:center;justify-content:center;gap:4px;height:60px}
+.album-grid img{width:46px;height:56px;object-fit:contain}
+.album-grid img+img{width:30px;height:36px}
+.album-grid strong{display:block;font-size:13px;line-height:1.3;margin-top:7px;color:#fff2cb}
+.album-grid figcaption span{display:block;font-size:11px;line-height:1.35;color:#d1ddcc;margin-top:4px}
+.game-actions button{min-height:44px!important;font-size:13px!important}
+#hint{max-width:100%}
+#status{font-size:14px!important;line-height:1.45!important}
+.mission-kicker{font-size:12px!important;line-height:1.35}
+#mission-line{font-size:13px!important;line-height:1.4!important}
+.seed-meter strong{font-size:13px!important}
+button:focus-visible,a:focus-visible,summary:focus-visible{outline:3px solid #ffe49a;outline-offset:4px}
+@media(min-width:1101px){.mission-hud{width:370px}.route-node strong{font-size:12px}.route-node span{font-size:12px}}
+@media(max-width:760px){
+ #success .celebration{grid-template-columns:58px minmax(0,1fr);padding:14px;gap:10px}
+ #success .celebration h2{font-size:24px;line-height:1.12}
+ #success .found-portrait{width:54px;height:64px}
+ #success .journey-result{grid-column:1/-1;flex-direction:column}
+ #success .celebration-actions{grid-column:1/-1}
+ #success.journey-complete .celebration{padding:16px;gap:12px}
+ .album-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .album-grid figure{padding:8px}.album-grid figure>div{height:45px}.album-grid img{height:44px}
+ #success.journey-complete .celebration-actions{position:sticky;bottom:-16px;margin:0 -16px -16px;padding:12px;background:#123c28;border-top:1px solid #ffe5a326}
+ #success.journey-complete .celebration-actions>*{flex:1;min-width:130px;text-align:center}
+ .mission-kicker{font-size:10px!important}
+ #mission-line{font-size:12px!important}
+ #status{max-width:90vw;font-size:13px!important}
+ .game-actions button{font-size:12px!important}
+}
+@media(max-height:560px) and (orientation:landscape){
+ #success .celebration{max-height:calc(100dvh - 16px)}
+ .album-grid{grid-template-columns:repeat(5,minmax(0,1fr))}
+ .mission-kicker{font-size:10px!important}#mission-line{font-size:12px!important}
+}
+@media(prefers-reduced-motion:reduce){
+ #game *,#game *::before,#game *::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}
+ .fireflies,.celebration-burst{display:none!important}
+}
+
+/* These four colours and the little particles live with the seasonal content. */
+html[data-fireflies="false"] .fireflies{display:none}
+#success .celebration{background:linear-gradient(145deg,var(--season-panel),#0a281b)}
+#success.journey-complete .celebration-actions{background:var(--season-panel)}
+.primary-action{background:linear-gradient(135deg,var(--season-buttonStart),var(--season-buttonEnd))}
+.ws-kicker,.found-kicker,.discovery-album h3{color:var(--season-accent)}
+/* Keep landscape controls readable and usable by small hands. */
+html.phone-landscape-mode .game-actions{width:min(480px,82vw)!important}
+html.phone-landscape-mode .game-actions button{min-height:44px!important;height:auto!important;font-size:12px!important;line-height:1.2!important;padding:6px!important}
+html.phone-landscape-mode .game-actions button::after{content:none!important}
+html.phone-landscape-mode #status{bottom:58px!important;font-size:12px!important;line-height:1.4!important;white-space:normal!important;max-width:70vw!important;padding:6px 12px!important}
+html.phone-landscape-mode .mission-hud{backdrop-filter:none;background:#051b13ed!important;max-width:min(180px,26vw)!important}
+html.phone-landscape-mode #target-title{font-size:14px!important}
+html.phone-landscape-mode .seed-meter strong{font-size:11px!important}
+html.phone-landscape-mode .route-node span{width:16px!important;height:16px!important;font-size:10px!important}
+@media(max-width:380px){
+ .ws-barnaby{width:105px;right:15px}
+ .ws-hero-caption{left:20px;max-width:120px}
+ .ws-hero-caption span:first-child{font-size:18px}
+ .ws-hero-caption span:last-child{font-size:11px;max-width:115px}
+ html body:not(.game-active) .site-bar{justify-content:center}
+ html body:not(.game-active) .game-home-link{max-width:none}
+}
