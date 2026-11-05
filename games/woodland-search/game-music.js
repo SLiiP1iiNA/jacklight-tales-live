@@ -65,11 +65,12 @@
     if (!enabled) return false;
     const token = ++playbackToken;
     try {
-      if (!ensureMixer()) return false;
+      // Keep music available when Web Audio is unavailable.
+      if (!ensureMixer()) audio.volume = getGain();
       loadTrack();
       applyGain();
       // Request both operations inside the initiating Play/Sound-on gesture.
-      const resumed = context.state === 'running' ? Promise.resolve() : context.resume();
+      const resumed = !context || context.state === 'running' ? Promise.resolve() : context.resume();
       const playing = audio.paused ? audio.play() : Promise.resolve();
       await Promise.all([resumed, playing]);
       return token === playbackToken && enabled;
