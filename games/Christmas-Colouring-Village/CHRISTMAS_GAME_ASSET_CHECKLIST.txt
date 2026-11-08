@@ -1,0 +1,534 @@
+BARNABY'S CHRISTMAS COLOURING VILLAGE
+CHRISTMAS GAME ASSET CHECKLIST
+Local prototype — production plan, 7 November 2026
+
+SECTION C — SIMPLE PRODUCTION SUMMARY (placed first as requested)
+
+Total images needed: 18 PNG deliverables / distinct compositions.
+Existing images potentially reusable: 4 (already copied unchanged into the game).
+New images needed: 14 (1 village + 4 room interiors + 9 colouring masters).
+Luna voice recordings needed: 19 (all new; none supplied yet).
+Other character recordings needed: 0.
+Music tracks needed: 1 (existing track copied; 0 new compositions required).
+Sound effects needed: 3 (already synthesised in game; 0 recording files required).
+
+The nine colouring PNG masters also need nine interactive SVG versions of the SAME compositions. These are vector implementation files, not nine extra drawings. Final colouring uses SVG; supplying only a PNG cannot replace the tap-to-fill regions. Temporary functional SVGs already exist. Their final production replacement is still outstanding.
+
+NEXT FILES TO GIVE CODEX: 14 new PNGs listed below, plus the 19 exact MP3s in Section B. Supply the nine paired SVGs if an illustrator can create closed fill regions; otherwise give the PNG masters for a separate SVG conversion and validation pass. Existing story cards and music need no new delivery. Jack must review all final art against references before replacing placeholders.
+
+Game folder: C:\JackLight-Tales-Website\jacklight-tales-live\JackLight-Tales-Website\games\Christmas-Colouring-Village
+Local website: http://127.0.0.1:8765/
+Game: http://127.0.0.1:8765/games/Christmas-Colouring-Village/
+Start preview using the existing VS Code task "Start local website test". Nothing is published by this task.
+
+STATUS: PLAYABLE LOCAL PROTOTYPE, NOT FINAL ART OR FINAL AUDIO.
+Village layout, four room backgrounds and all nine colouring pictures are temporary drawings. Story cards are existing production art, unmodified. No character has been generated or redesigned for this prototype. Luna is represented by exact captions until her recordings are supplied; there is no synthetic substitute voice.
+
+SERIES 4 AUDIT — SOURCES, CONTINUITY AND LIMITS
+
+Primary production root: C:\Barnaby - Series 4
+Read the episode narration scripts across Episodes 91–120 and the corresponding audiobook stories. Reviewed image-prompt continuity for settings and objects used here, character profiles, and scene-art contact sheets across the three episode groups. Existing scene pictures were sampled for audit; the four reused files are explicitly identified below. Animation videos were not exhaustively reviewed and audio takes were not auditioned for voice reuse.
+
+Character reference directory: C:\Barnaby - Series 4\aCharacters-Episodes
+Barnaby: orange-red fox child, cream muzzle/chest, green eyes, yellow jumper, one white-tipped tail; winter clothing is episode-specific.
+Pip: tiny warm-brown MOUSE, cream muzzle/belly, very large rounded ears, green eyes, green neckerchief, one thin tail; outdoor rust-red hat and tiny backpack where the episode specifies.
+Willow: russet/cream fox child, moss-green eyes, teal scarf with gold stitches, teal cardigan and plum-brown trousers where specified.
+Mum: adult russet fox, hazel-brown eyes, cream cardigan and green skirt in the home Christmas scenes; her winter-pantry clothing is different.
+Dad: tall russet fox, green eyes, established green explorer clothing. His appearance varies between audiobook and short-video versions; do not insert him into a short-video scene based only on the audiobook.
+Mr Bramble: elderly HEDGEHOG, brown/cream spines, spectacles, moss-green waistcoat, cream shirt and soft brown scarf.
+Mr Alder: older BADGER, black-and-cream markings, spectacles, forest-green shirt and dark leather apron.
+Tiny Green Frog: extremely small bright-green frog; not a clothed fox-sized companion.
+Grandma: elderly russet fox, silver brows/cheeks, hazel eyes, oatmeal dress, cranberry shawl indoors; cranberry cloak outdoors.
+Grandpa: elderly auburn fox, silver muzzle/brows, amber-brown eyes, brown waistcoat indoors; green cloak and mustard scarf outdoors.
+The Little Guardian belongs to Episode 94's special lantern scene. Neither the Guardian, Twinkle nor the Human Girl is inserted into the Christmas village.
+
+CONFLICTS FOUND — DO NOT SILENTLY PROPAGATE:
+1. Episode104_Master_Image_Prompts.txt calls Mr Bramble a badger in Scene 6; the scene art also shows a badger. Character_Mr_Bramble.txt and Episodes 97/105 establish him as a hedgehog. Exclude Scene 6 from reuse here; the selected Scene 2 contains Barnaby, Mum and Pip only. Original production files remain untouched.
+2. Episode103_Master_Image_Prompts.txt refers to Episode 104 as the Little Guardian's lantern story. The actual Episode 104 folder and narration are The Winter Pantry. The lantern mystery is Episode 94. Use actual episode identities, not that stale cross-reference.
+3. Audiobook versions add Dad to several late-series home/journey scenes where short-video prompts explicitly omit him (notably 108, 115 and 116). Keep each format's cast separate. The game uses object-only new art and existing scene cards, so it does not decide this production conflict by inventing a scene.
+4. Episode 119's image prompt calls its workshop Mr Alder's; its audiobook describes making the table at Mr Bramble's. The feeding-table picture here shows only the completed table outdoors; the pantry offers the colouring sheet as a game activity, not a literal reenactment.
+5. Episode 110 narration references the village bell during the journey while the audiobook ends the day at the pine-grove shelter farther away. No literal travel map is recreated in this prototype.
+
+The village arrangement is an explorable game layout inspired by established places, not a claim that these buildings occupy these exact positions in canon. The burrow bake is NOT relocated to an invented bakery. The Episode 113 tree is a living spruce in a stone bed, with handmade bows, orange rings, pinecones and wooden stars; its decorations are not electric lights. Lanterns illuminate nearby paths from Episode 114. Grandparents arrive in Episode 115, stockings are empty in 116, gifts belong to 117, and bird feeding grows through 118–120.
+
+EPISODE 91 — First frost, not snow: Barnaby, Mum, Pip and Frog share its wonder; no Christmas decoration yet.
+EPISODE 92 — Fitted winter woollies for Barnaby, Pip and Frog; warm home chest, green hat and cream mittens.
+EPISODE 93 — Pip’s first home beneath beech roots; leaf bed, acorn cup, blanket; repaired as a traveller shelter.
+EPISODE 94 — Missing bridge, stepping stones and the Little Guardian’s spiral lantern; keep separate from ordinary Christmas lanterns.
+EPISODE 95 — Willow’s family tree, teal/gold stitching and wooden fox token; no invented relatives.
+EPISODE 96 — Barnaby and Mr Alder in the lantern workshop; old map and Wayfinder lantern; Mr Bramble absent from the short-video scenes.
+EPISODE 97 — Mr Bramble and Mr Alder reconcile; stone-and-timber cottage and Wayfinder objects; Bramble is a hedgehog.
+EPISODE 98 — Mum’s memory box: tiny yellow mitten, blanket patch, pressed bluebell and a new yarn braid.
+EPISODE 99 — Frog’s quiet first winter at the Secret Pond; edge ice, cream wrap, no snowfall yet.
+EPISODE 100 — Bronze community bell under timber shelter; Dad and the neighbours repair its braided rope.
+EPISODE 101 — First sustained snowfall; shallow snow, bootprints and tiny frog tracks.
+EPISODE 102 — Missing cream mitten and rust-red spare; Pip notices threads, village bell handle provides the clue.
+EPISODE 103 — Travelling dormouse at Pip’s first home; space, blanket and acorn cup rather than crowded gifts.
+EPISODE 104 — Shared winter pantry beside village green; accessible shelves of apples, roots, acorns, seeds and berry jars.
+EPISODE 105 — Mr Bramble’s toy workshop; four-wheel wooden robin, equal wheels and careful axle alignment.
+EPISODE 106 — Christmas list becomes thoughtful gifts for Pip, Frog and Mum; tops, lily-pad float and bookmark.
+EPISODE 107 — Burrow kitchen bake with Barnaby, Mum, Pip and Willow; apple/oat/berry loaf, no Frog or separate bakery.
+EPISODE 108 — Mum’s worn wooden star repaired with wool; five wooden pieces, faded red loop; no grandparent flashback.
+EPISODE 109 — Grandparents’ letter, leaf seal, picture-map, hills/river/bridge/pinewood; preparing for their journey.
+EPISODE 110 — Grandparents travel in winter cloaks, share a drink and biscuit, rest safely with an enclosed lantern.
+EPISODE 111 — Mum and Barnaby polish an old brass path lantern and hang it at the final turning.
+EPISODE 112 — Mum, Barnaby and Bramble clear joining patches of road; scene artwork is named Scene1.png etc.
+EPISODE 113 — Living village pine in circular stone bed; Barnaby, Willow, Bramble and Alder bring handmade decorations.
+EPISODE 114 — Lantern parade joins separate pools of light; ordinary enclosed lanterns, no magic.
+EPISODE 115 — Grandparents reach the burrow after the parade; soup, bags and family welcome. Format-specific cast differs.
+EPISODE 116 — Mum’s small green stocking and Barnaby’s yellow/green stocking; both empty; no Santa, gifts or indoor tree.
+EPISODE 117 — Christmas morning: socks, clementine, wooden acorn; Pip’s top, Frog’s float, Mum’s bookmark, Barnaby’s robin; village feast.
+EPISODE 118 — Barnaby and Grandpa follow a real robin; toy gets a small scuff; feeding stone in winter hollow.
+EPISODE 119 — Friends build open roofed feeding table; oats, seeds, rowan berries; robin, sparrow, blue tit.
+EPISODE 120 — Shared promise to keep feeding birds; food stored on a low burrow shelf; care continues after Christmas.
+
+SECTION A — IMAGES
+
+Counting rules: the village PNG includes all four building exteriors, the tree, bell and paths; no separate building sprites are required. UI controls, snow, captions, colour swatches and status marks are code, not missing image assets. No separate character cutouts, logo remake, thumbnail set or new character designs are needed. The website Christmas feature reuses the village scenery; no extra card image is needed. Its current image path points to the temporary village SVG; switch that one card image to the final village PNG during the final-art integration pass. Do not produce unlisted duplicate variants.
+
+FINAL PNGS: place new environment PNGs under assets/final/. Colouring PNG masters go under assets/final/ too. The paired playable SVGs go under assets/colouring/. Original production images and character references must never be overwritten.
+
+Environment PNGs load automatically when the exact filenames below exist; the current SVG fallback remains until then. Replacing the village background requires the same layout anchors or a deliberate hotspot alignment adjustment and phone/tablet retest. Supplying a colouring PNG alone does not change gameplay. The prototype SVGs use stable data-region labels, closed shapes, white uncoloured fills, and viewBox 0 0 800 600. Keep stable region labels when possible to preserve saved colours; if region meanings change, migrate/version the saved state.
+
+IMAGE 001 — Village background including all four buildings
+Filename: Christmas_Village_Background.png
+What it must show: Snowy village at blue-gold dusk with warm cottage windows. Keep four large separate entrances: Alder workshop centred 20% x / 42% y; Bramble cottage 80% / 41%; burrow 20% / 71%; pantry 80% / 71%. Buildings occupy about 22% of width and 28% of height. Living spruce in circular stone bed centred 50% / 54%, bronze bell in low wooden shelter at 50% / 84%. Clear cream snowy paths connect all entrances. Leave upper-centre 35–65% x / 0–25% y calm for title. Pantry has no window or chimney; burrow sits in roots; Bramble cottage stone/timber with moss-trimmed roof and round window; Alder a timber/stone workshop cottage. Use handmade tree decorations from 113, ordinary path lanterns from 114, shallow gentle snow, welcoming evening sky. Exact map arrangement is a game adaptation. Do not add crowds, baubles, electric tree lights, Santa, reindeer or new buildings.
+References: Episodes 96/97/100/104/105/111/113/114; use actual scene images plus their master prompts
+Characters: None. Character-free environment.
+Dimensions / ratio: 2800 × 1700 px, 28:17 landscape, opaque PNG
+Asset category: Village background including all four buildings
+Status: NEW ART REQUIRED. Current temporary art: assets/placeholders/village.svg
+Place finished PNG: C:\JackLight-Tales-Website\jacklight-tales-live\JackLight-Tales-Website\games\Christmas-Colouring-Village\assets\final\Christmas_Village_Background.png
+
+READY-TO-USE MASTER IMAGE PROMPT:
+Premium painterly 3D JackLight Tales children’s-book illustration, soft gouache textures, warm handcrafted woodland detail, rounded safe shapes, cinematic but gentle blue-and-gold winter light. Use the supplied actual episode frames as architecture and object references. Preserve established geometry; do not copy a conflicting character design. No writing, logos, watermarks, modern machinery, exposed flames or sharp tools. One standalone image, no collage. Snowy village at blue-gold dusk with warm cottage windows. Keep four large separate entrances: Alder workshop centred 20% x / 42% y; Bramble cottage 80% / 41%; burrow 20% / 71%; pantry 80% / 71%. Buildings occupy about 22% of width and 28% of height. Living spruce in circular stone bed centred 50% / 54%, bronze bell in low wooden shelter at 50% / 84%. Clear cream snowy paths connect all entrances. Leave upper-centre 35–65% x / 0–25% y calm for title. Pantry has no window or chimney; burrow sits in roots; Bramble cottage stone/timber with moss-trimmed roof and round window; Alder a timber/stone workshop cottage. Use handmade tree decorations from 113, ordinary path lanterns from 114, shallow gentle snow, welcoming evening sky. Exact map arrangement is a game adaptation. Do not add crowds, baubles, electric tree lights, Santa, reindeer or new buildings. Characters: None. Character-free environment. Output exactly 2800 × 1700 px, 28:17 landscape, opaque PNG.
+
+IMAGE 002 — Interior background
+Filename: Interior_Burrow.png
+What it must show: Rounded tree-root kitchen, honey-oak preparation table, cream sink, safe closed stone oven, moss-green rug. A connected sitting alcove has the round window, Mum’s repaired wooden star and exactly two empty stockings. This combines the home settings of Episodes 107, 108 and 116; it is a game adaptation, not a single episode frame. Composition: straight-on cosy room, clear lower central honey-oak activity table from x 15–85%, y 68–90%; leave x 42–58%, y 16–56% calm for separate framed story card. Keep doorway and shelves distinct, floor clear. No labels or new characters. Allow a narrow portrait responsive presentation without hiding the activity table.
+References: Episode 107, Scene 2, plus object episodes stated in requirements
+Characters: None in new background; existing story card remains a separate framed picture.
+Dimensions / ratio: 2800 × 1700 px, 28:17 landscape, opaque PNG
+Asset category: Interior background
+Status: NEW ART REQUIRED. Current temporary art: assets/placeholders/burrow.svg
+Place finished PNG: C:\JackLight-Tales-Website\jacklight-tales-live\JackLight-Tales-Website\games\Christmas-Colouring-Village\assets\final\Interior_Burrow.png
+
+READY-TO-USE MASTER IMAGE PROMPT:
+Premium painterly 3D JackLight Tales children’s-book illustration, soft gouache textures, warm handcrafted woodland detail, rounded safe shapes, cinematic but gentle blue-and-gold winter light. Use the supplied actual episode frames as architecture and object references. Preserve established geometry; do not copy a conflicting character design. No writing, logos, watermarks, modern machinery, exposed flames or sharp tools. One standalone image, no collage. Rounded tree-root kitchen, honey-oak preparation table, cream sink, safe closed stone oven, moss-green rug. A connected sitting alcove has the round window, Mum’s repaired wooden star and exactly two empty stockings. This combines the home settings of Episodes 107, 108 and 116; it is a game adaptation, not a single episode frame. Composition: straight-on cosy room, clear lower central honey-oak activity table from x 15–85%, y 68–90%; leave x 42–58%, y 16–56% calm for separate framed story card. Keep doorway and shelves distinct, floor clear. No labels or new characters. Allow a narrow portrait responsive presentation without hiding the activity table. Characters: None in new background; existing story card remains a separate framed picture. Output exactly 2800 × 1700 px, 28:17 landscape, opaque PNG.
+
+IMAGE 003 — Interior background
+Filename: Interior_Toymaker.png
+What it must show: Stone-and-timber cottage, rounded dark-oak door, small round window, broad honey-oak worktable, curved shelves of wooden animals, tops and blocks, woven rug, enclosed amber lamp; all tools stored safely. No invented Christmas decorations. Composition: straight-on cosy room, clear lower central honey-oak activity table from x 15–85%, y 68–90%; leave x 42–58%, y 16–56% calm for separate framed story card. Keep doorway and shelves distinct, floor clear. No labels or new characters. Allow a narrow portrait responsive presentation without hiding the activity table.
+References: Episode 105, Scene 2, plus object episodes stated in requirements
+Characters: None in new background; existing story card remains a separate framed picture.
+Dimensions / ratio: 2800 × 1700 px, 28:17 landscape, opaque PNG
+Asset category: Interior background
+Status: NEW ART REQUIRED. Current temporary art: assets/placeholders/toys.svg
+Place finished PNG: C:\JackLight-Tales-Website\jacklight-tales-live\JackLight-Tales-Website\games\Christmas-Colouring-Village\assets\final\Interior_Toymaker.png
+
+READY-TO-USE MASTER IMAGE PROMPT:
+Premium painterly 3D JackLight Tales children’s-book illustration, soft gouache textures, warm handcrafted woodland detail, rounded safe shapes, cinematic but gentle blue-and-gold winter light. Use the supplied actual episode frames as architecture and object references. Preserve established geometry; do not copy a conflicting character design. No writing, logos, watermarks, modern machinery, exposed flames or sharp tools. One standalone image, no collage. Stone-and-timber cottage, rounded dark-oak door, small round window, broad honey-oak worktable, curved shelves of wooden animals, tops and blocks, woven rug, enclosed amber lamp; all tools stored safely. No invented Christmas decorations. Composition: straight-on cosy room, clear lower central honey-oak activity table from x 15–85%, y 68–90%; leave x 42–58%, y 16–56% calm for separate framed story card. Keep doorway and shelves distinct, floor clear. No labels or new characters. Allow a narrow portrait responsive presentation without hiding the activity table. Characters: None in new background; existing story card remains a separate framed picture. Output exactly 2800 × 1700 px, 28:17 landscape, opaque PNG.
+
+IMAGE 004 — Interior background
+Filename: Interior_Lanternmaker.png
+What it must show: Timber-and-stone room, chestnut workbench, ordered shelves of bronze lantern frames and rounded coloured panes, polishing cloths, round-topped window. Adapt Episode 96 architecture to a snowy Christmas view from Episodes 111–114. Tree colouring is an imagined craft-table activity inspired by Episode 113, not a claim it happened here. Composition: straight-on cosy room, clear lower central honey-oak activity table from x 15–85%, y 68–90%; leave x 42–58%, y 16–56% calm for separate framed story card. Keep doorway and shelves distinct, floor clear. No labels or new characters. Allow a narrow portrait responsive presentation without hiding the activity table.
+References: Episode 96, Scene 2, plus object episodes stated in requirements
+Characters: None in new background; existing story card remains a separate framed picture.
+Dimensions / ratio: 2800 × 1700 px, 28:17 landscape, opaque PNG
+Asset category: Interior background
+Status: NEW ART REQUIRED. Current temporary art: assets/placeholders/lanterns.svg
+Place finished PNG: C:\JackLight-Tales-Website\jacklight-tales-live\JackLight-Tales-Website\games\Christmas-Colouring-Village\assets\final\Interior_Lanternmaker.png
+
+READY-TO-USE MASTER IMAGE PROMPT:
+Premium painterly 3D JackLight Tales children’s-book illustration, soft gouache textures, warm handcrafted woodland detail, rounded safe shapes, cinematic but gentle blue-and-gold winter light. Use the supplied actual episode frames as architecture and object references. Preserve established geometry; do not copy a conflicting character design. No writing, logos, watermarks, modern machinery, exposed flames or sharp tools. One standalone image, no collage. Timber-and-stone room, chestnut workbench, ordered shelves of bronze lantern frames and rounded coloured panes, polishing cloths, round-topped window. Adapt Episode 96 architecture to a snowy Christmas view from Episodes 111–114. Tree colouring is an imagined craft-table activity inspired by Episode 113, not a claim it happened here. Composition: straight-on cosy room, clear lower central honey-oak activity table from x 15–85%, y 68–90%; leave x 42–58%, y 16–56% calm for separate framed story card. Keep doorway and shelves distinct, floor clear. No labels or new characters. Allow a narrow portrait responsive presentation without hiding the activity table. Characters: None in new background; existing story card remains a separate framed picture. Output exactly 2800 × 1700 px, 28:17 landscape, opaque PNG.
+
+IMAGE 005 — Interior background
+Filename: Interior_Pantry.png
+What it must show: Round stone-and-timber storehouse in a bank under an oak, rounded dark-oak door and shingled awning; no chimney or window. Curved timber shelves, flagstone floor, clear aisle, roots low, sealed berry jars middle, apples visible, seeds and acorns at mouse height. Light from open doorway only. Bird-table colouring recalls Episodes 119–120; the actual table remains in the winter hollow. Composition: straight-on cosy room, clear lower central honey-oak activity table from x 15–85%, y 68–90%; leave x 42–58%, y 16–56% calm for separate framed story card. Keep doorway and shelves distinct, floor clear. No labels or new characters. Allow a narrow portrait responsive presentation without hiding the activity table.
+References: Episode 104, Scene 2, plus object episodes stated in requirements
+Characters: None in new background; existing story card remains a separate framed picture.
+Dimensions / ratio: 2800 × 1700 px, 28:17 landscape, opaque PNG
+Asset category: Interior background
+Status: NEW ART REQUIRED. Current temporary art: assets/placeholders/pantry.svg
+Place finished PNG: C:\JackLight-Tales-Website\jacklight-tales-live\JackLight-Tales-Website\games\Christmas-Colouring-Village\assets\final\Interior_Pantry.png
+
+READY-TO-USE MASTER IMAGE PROMPT:
+Premium painterly 3D JackLight Tales children’s-book illustration, soft gouache textures, warm handcrafted woodland detail, rounded safe shapes, cinematic but gentle blue-and-gold winter light. Use the supplied actual episode frames as architecture and object references. Preserve established geometry; do not copy a conflicting character design. No writing, logos, watermarks, modern machinery, exposed flames or sharp tools. One standalone image, no collage. Round stone-and-timber storehouse in a bank under an oak, rounded dark-oak door and shingled awning; no chimney or window. Curved timber shelves, flagstone floor, clear aisle, roots low, sealed berry jars middle, apples visible, seeds and acorns at mouse height. Light from open doorway only. Bird-table colouring recalls Episodes 119–120; the actual table remains in the winter hollow. Composition: straight-on cosy room, clear lower central honey-oak activity table from x 15–85%, y 68–90%; leave x 42–58%, y 16–56% calm for separate framed story card. Keep doorway and shelves distinct, floor clear. No labels or new characters. Allow a narrow portrait responsive presentation without hiding the activity table. Characters: None in new background; existing story card remains a separate framed picture. Output exactly 2800 × 1700 px, 28:17 landscape, opaque PNG.
+
+IMAGE 006 — Colouring master, with paired interactive SVG
+Filename: Colouring_Loaf.png
+What it must show: A domed apple-oat-and-winter-berry loaf with exactly three leaf-shaped marks on top, a forest-green round baking dish, two apples and a small bowl of edible winter berries. No stars, knives, chef costume or holly berries. Bold clean warm-black outlines on pure white. No gradients, shading, texture, grey fills, hatch marks or tiny details. Large separate closed regions suitable for finger taps by ages 3–8. Centre the subject within a 7% margin. The child may colour freely; reference colours describe canon, not a required answer. Use three-quarter perspective where needed to show structural parts clearly.
+References: Episode 107, Scene 6
+Characters: None. Objects only; no newly drawn named characters.
+Dimensions / ratio: 1600 × 1200 px, 4:3 landscape, white opaque background
+Asset category: Colouring master, with paired interactive SVG
+Status: NEW ART REQUIRED. Current temporary art: assets/colouring/loaf.svg
+Place finished PNG: C:\JackLight-Tales-Website\jacklight-tales-live\JackLight-Tales-Website\games\Christmas-Colouring-Village\assets\final\Colouring_Loaf.png
+
+READY-TO-USE MASTER IMAGE PROMPT:
+Create one professional children’s colouring-book master, clean black line art on white. Use the supplied actual Series 4 frames only as object references. Preserve the listed object geometry. No text, watermark, border or multi-panel layout. A domed apple-oat-and-winter-berry loaf with exactly three leaf-shaped marks on top, a forest-green round baking dish, two apples and a small bowl of edible winter berries. No stars, knives, chef costume or holly berries. Bold clean warm-black outlines on pure white. No gradients, shading, texture, grey fills, hatch marks or tiny details. Large separate closed regions suitable for finger taps by ages 3–8. Centre the subject within a 7% margin. The child may colour freely; reference colours describe canon, not a required answer. Use three-quarter perspective where needed to show structural parts clearly. Characters: None. Objects only; no newly drawn named characters. Output exactly 1600 × 1200 px, 4:3 landscape, white opaque background.
+
+Paired playable vector: C:\JackLight-Tales-Website\jacklight-tales-live\JackLight-Tales-Website\games\Christmas-Colouring-Village\assets\colouring\loaf.svg. Redraw/trace into semantic closed fill regions; decorative outlines must not intercept taps. Keep transparent gaps in Mum’s open star. Verify four wheels for robin, four legs/posts for feeding table. Test tap, keyboard fill, erase, undo, reset and PNG export after replacement.
+
+IMAGE 007 — Colouring master, with paired interactive SVG
+Filename: Colouring_Star.png
+What it must show: Five slender rounded honey-oak sticks forming an open five-point star, five cream wool bindings, worn gold edges and one faded red hanging loop. Not the solid village tree topper. Bold clean warm-black outlines on pure white. No gradients, shading, texture, grey fills, hatch marks or tiny details. Large separate closed regions suitable for finger taps by ages 3–8. Centre the subject within a 7% margin. The child may colour freely; reference colours describe canon, not a required answer. Use three-quarter perspective where needed to show structural parts clearly.
+References: Episode 108, Scenes 4–6
+Characters: None. Objects only; no newly drawn named characters.
+Dimensions / ratio: 1600 × 1200 px, 4:3 landscape, white opaque background
+Asset category: Colouring master, with paired interactive SVG
+Status: NEW ART REQUIRED. Current temporary art: assets/colouring/star.svg
+Place finished PNG: C:\JackLight-Tales-Website\jacklight-tales-live\JackLight-Tales-Website\games\Christmas-Colouring-Village\assets\final\Colouring_Star.png
+
+READY-TO-USE MASTER IMAGE PROMPT:
+Create one professional children’s colouring-book master, clean black line art on white. Use the supplied actual Series 4 frames only as object references. Preserve the listed object geometry. No text, watermark, border or multi-panel layout. Five slender rounded honey-oak sticks forming an open five-point star, five cream wool bindings, worn gold edges and one faded red hanging loop. Not the solid village tree topper. Bold clean warm-black outlines on pure white. No gradients, shading, texture, grey fills, hatch marks or tiny details. Large separate closed regions suitable for finger taps by ages 3–8. Centre the subject within a 7% margin. The child may colour freely; reference colours describe canon, not a required answer. Use three-quarter perspective where needed to show structural parts clearly. Characters: None. Objects only; no newly drawn named characters. Output exactly 1600 × 1200 px, 4:3 landscape, white opaque background.
+
+Paired playable vector: C:\JackLight-Tales-Website\jacklight-tales-live\JackLight-Tales-Website\games\Christmas-Colouring-Village\assets\colouring\star.svg. Redraw/trace into semantic closed fill regions; decorative outlines must not intercept taps. Keep transparent gaps in Mum’s open star. Verify four wheels for robin, four legs/posts for feeding table. Test tap, keyboard fill, erase, undo, reset and PNG export after replacement.
+
+IMAGE 008 — Colouring master, with paired interactive SVG
+Filename: Colouring_Stockings.png
+What it must show: Two separate empty stockings on two pegs: left smaller faded-green body, cream cuff and toe, cranberry heel patch; right slightly larger sunflower-yellow body, moss-green cuff and knitted leaf motif, cream toe and heel. No gifts or third stocking. Bold clean warm-black outlines on pure white. No gradients, shading, texture, grey fills, hatch marks or tiny details. Large separate closed regions suitable for finger taps by ages 3–8. Centre the subject within a 7% margin. The child may colour freely; reference colours describe canon, not a required answer. Use three-quarter perspective where needed to show structural parts clearly.
+References: Episode 116, Scenes 7–8
+Characters: None. Objects only; no newly drawn named characters.
+Dimensions / ratio: 1600 × 1200 px, 4:3 landscape, white opaque background
+Asset category: Colouring master, with paired interactive SVG
+Status: NEW ART REQUIRED. Current temporary art: assets/colouring/stockings.svg
+Place finished PNG: C:\JackLight-Tales-Website\jacklight-tales-live\JackLight-Tales-Website\games\Christmas-Colouring-Village\assets\final\Colouring_Stockings.png
+
+READY-TO-USE MASTER IMAGE PROMPT:
+Create one professional children’s colouring-book master, clean black line art on white. Use the supplied actual Series 4 frames only as object references. Preserve the listed object geometry. No text, watermark, border or multi-panel layout. Two separate empty stockings on two pegs: left smaller faded-green body, cream cuff and toe, cranberry heel patch; right slightly larger sunflower-yellow body, moss-green cuff and knitted leaf motif, cream toe and heel. No gifts or third stocking. Bold clean warm-black outlines on pure white. No gradients, shading, texture, grey fills, hatch marks or tiny details. Large separate closed regions suitable for finger taps by ages 3–8. Centre the subject within a 7% margin. The child may colour freely; reference colours describe canon, not a required answer. Use three-quarter perspective where needed to show structural parts clearly. Characters: None. Objects only; no newly drawn named characters. Output exactly 1600 × 1200 px, 4:3 landscape, white opaque background.
+
+Paired playable vector: C:\JackLight-Tales-Website\jacklight-tales-live\JackLight-Tales-Website\games\Christmas-Colouring-Village\assets\colouring\stockings.svg. Redraw/trace into semantic closed fill regions; decorative outlines must not intercept taps. Keep transparent gaps in Mum’s open star. Verify four wheels for robin, four legs/posts for feeding table. Test tap, keyboard fill, erase, undo, reset and PNG export after replacement.
+
+IMAGE 009 — Colouring master, with paired interactive SVG
+Filename: Colouring_Robin.png
+What it must show: Honey-oak robin pull-toy, rounded body and head, blunt beak, two carved wings, brick-red breast, exactly four matching wooden wheels on two axles, cream braided pull cord. Three-quarter view must reveal all four wheels; no live-bird legs. Bold clean warm-black outlines on pure white. No gradients, shading, texture, grey fills, hatch marks or tiny details. Large separate closed regions suitable for finger taps by ages 3–8. Centre the subject within a 7% margin. The child may colour freely; reference colours describe canon, not a required answer. Use three-quarter perspective where needed to show structural parts clearly.
+References: Episode 105, Scene 6; 117, Scene 8
+Characters: None. Objects only; no newly drawn named characters.
+Dimensions / ratio: 1600 × 1200 px, 4:3 landscape, white opaque background
+Asset category: Colouring master, with paired interactive SVG
+Status: NEW ART REQUIRED. Current temporary art: assets/colouring/robin.svg
+Place finished PNG: C:\JackLight-Tales-Website\jacklight-tales-live\JackLight-Tales-Website\games\Christmas-Colouring-Village\assets\final\Colouring_Robin.png
+
+READY-TO-USE MASTER IMAGE PROMPT:
+Create one professional children’s colouring-book master, clean black line art on white. Use the supplied actual Series 4 frames only as object references. Preserve the listed object geometry. No text, watermark, border or multi-panel layout. Honey-oak robin pull-toy, rounded body and head, blunt beak, two carved wings, brick-red breast, exactly four matching wooden wheels on two axles, cream braided pull cord. Three-quarter view must reveal all four wheels; no live-bird legs. Bold clean warm-black outlines on pure white. No gradients, shading, texture, grey fills, hatch marks or tiny details. Large separate closed regions suitable for finger taps by ages 3–8. Centre the subject within a 7% margin. The child may colour freely; reference colours describe canon, not a required answer. Use three-quarter perspective where needed to show structural parts clearly. Characters: None. Objects only; no newly drawn named characters. Output exactly 1600 × 1200 px, 4:3 landscape, white opaque background.
+
+Paired playable vector: C:\JackLight-Tales-Website\jacklight-tales-live\JackLight-Tales-Website\games\Christmas-Colouring-Village\assets\colouring\robin.svg. Redraw/trace into semantic closed fill regions; decorative outlines must not intercept taps. Keep transparent gaps in Mum’s open star. Verify four wheels for robin, four legs/posts for feeding table. Test tap, keyboard fill, erase, undo, reset and PNG export after replacement.
+
+IMAGE 010 — Colouring master, with paired interactive SVG
+Filename: Colouring_Top.png
+What it must show: One new smooth wooden acorn-shaped spinning top, with a short spindle, rounded acorn cap and tapered body. A still life of the toy only; no Pip character redraw, writing or magic. Bold clean warm-black outlines on pure white. No gradients, shading, texture, grey fills, hatch marks or tiny details. Large separate closed regions suitable for finger taps by ages 3–8. Centre the subject within a 7% margin. The child may colour freely; reference colours describe canon, not a required answer. Use three-quarter perspective where needed to show structural parts clearly.
+References: Episode 106; 117, Scene 4
+Characters: None. Objects only; no newly drawn named characters.
+Dimensions / ratio: 1600 × 1200 px, 4:3 landscape, white opaque background
+Asset category: Colouring master, with paired interactive SVG
+Status: NEW ART REQUIRED. Current temporary art: assets/colouring/top.svg
+Place finished PNG: C:\JackLight-Tales-Website\jacklight-tales-live\JackLight-Tales-Website\games\Christmas-Colouring-Village\assets\final\Colouring_Top.png
+
+READY-TO-USE MASTER IMAGE PROMPT:
+Create one professional children’s colouring-book master, clean black line art on white. Use the supplied actual Series 4 frames only as object references. Preserve the listed object geometry. No text, watermark, border or multi-panel layout. One new smooth wooden acorn-shaped spinning top, with a short spindle, rounded acorn cap and tapered body. A still life of the toy only; no Pip character redraw, writing or magic. Bold clean warm-black outlines on pure white. No gradients, shading, texture, grey fills, hatch marks or tiny details. Large separate closed regions suitable for finger taps by ages 3–8. Centre the subject within a 7% margin. The child may colour freely; reference colours describe canon, not a required answer. Use three-quarter perspective where needed to show structural parts clearly. Characters: None. Objects only; no newly drawn named characters. Output exactly 1600 × 1200 px, 4:3 landscape, white opaque background.
+
+Paired playable vector: C:\JackLight-Tales-Website\jacklight-tales-live\JackLight-Tales-Website\games\Christmas-Colouring-Village\assets\colouring\top.svg. Redraw/trace into semantic closed fill regions; decorative outlines must not intercept taps. Keep transparent gaps in Mum’s open star. Verify four wheels for robin, four legs/posts for feeding table. Test tap, keyboard fill, erase, undo, reset and PNG export after replacement.
+
+IMAGE 011 — Colouring master, with paired interactive SVG
+Filename: Colouring_Lantern.png
+What it must show: One enclosed aged-brass lantern with rounded roof, sturdy loop handle, amber glass panes and steady warm light; no exposed candle, flame, spiral magic or Little Guardian. A simple snowy post base. Bold clean warm-black outlines on pure white. No gradients, shading, texture, grey fills, hatch marks or tiny details. Large separate closed regions suitable for finger taps by ages 3–8. Centre the subject within a 7% margin. The child may colour freely; reference colours describe canon, not a required answer. Use three-quarter perspective where needed to show structural parts clearly.
+References: Episode 111, Scenes 3–5; 114
+Characters: None. Objects only; no newly drawn named characters.
+Dimensions / ratio: 1600 × 1200 px, 4:3 landscape, white opaque background
+Asset category: Colouring master, with paired interactive SVG
+Status: NEW ART REQUIRED. Current temporary art: assets/colouring/lantern.svg
+Place finished PNG: C:\JackLight-Tales-Website\jacklight-tales-live\JackLight-Tales-Website\games\Christmas-Colouring-Village\assets\final\Colouring_Lantern.png
+
+READY-TO-USE MASTER IMAGE PROMPT:
+Create one professional children’s colouring-book master, clean black line art on white. Use the supplied actual Series 4 frames only as object references. Preserve the listed object geometry. No text, watermark, border or multi-panel layout. One enclosed aged-brass lantern with rounded roof, sturdy loop handle, amber glass panes and steady warm light; no exposed candle, flame, spiral magic or Little Guardian. A simple snowy post base. Bold clean warm-black outlines on pure white. No gradients, shading, texture, grey fills, hatch marks or tiny details. Large separate closed regions suitable for finger taps by ages 3–8. Centre the subject within a 7% margin. The child may colour freely; reference colours describe canon, not a required answer. Use three-quarter perspective where needed to show structural parts clearly. Characters: None. Objects only; no newly drawn named characters. Output exactly 1600 × 1200 px, 4:3 landscape, white opaque background.
+
+Paired playable vector: C:\JackLight-Tales-Website\jacklight-tales-live\JackLight-Tales-Website\games\Christmas-Colouring-Village\assets\colouring\lantern.svg. Redraw/trace into semantic closed fill regions; decorative outlines must not intercept taps. Keep transparent gaps in Mum’s open star. Verify four wheels for robin, four legs/posts for feeding table. Test tap, keyboard fill, erase, undo, reset and PNG export after replacement.
+
+IMAGE 012 — Colouring master, with paired interactive SVG
+Filename: Colouring_Tree.png
+What it must show: A living spruce rooted in a circular honey-grey stone bed, decorated with red-wool bows, dried orange rings on cream twine, natural polished pinecones and flat honey-oak stars, one larger solid wooden topper. No electric lights, glass baubles, candy canes, tinsel or cut-tree pot. Bold clean warm-black outlines on pure white. No gradients, shading, texture, grey fills, hatch marks or tiny details. Large separate closed regions suitable for finger taps by ages 3–8. Centre the subject within a 7% margin. The child may colour freely; reference colours describe canon, not a required answer. Use three-quarter perspective where needed to show structural parts clearly.
+References: Episode 113, Scenes 5–6
+Characters: None. Objects only; no newly drawn named characters.
+Dimensions / ratio: 1600 × 1200 px, 4:3 landscape, white opaque background
+Asset category: Colouring master, with paired interactive SVG
+Status: NEW ART REQUIRED. Current temporary art: assets/colouring/tree.svg
+Place finished PNG: C:\JackLight-Tales-Website\jacklight-tales-live\JackLight-Tales-Website\games\Christmas-Colouring-Village\assets\final\Colouring_Tree.png
+
+READY-TO-USE MASTER IMAGE PROMPT:
+Create one professional children’s colouring-book master, clean black line art on white. Use the supplied actual Series 4 frames only as object references. Preserve the listed object geometry. No text, watermark, border or multi-panel layout. A living spruce rooted in a circular honey-grey stone bed, decorated with red-wool bows, dried orange rings on cream twine, natural polished pinecones and flat honey-oak stars, one larger solid wooden topper. No electric lights, glass baubles, candy canes, tinsel or cut-tree pot. Bold clean warm-black outlines on pure white. No gradients, shading, texture, grey fills, hatch marks or tiny details. Large separate closed regions suitable for finger taps by ages 3–8. Centre the subject within a 7% margin. The child may colour freely; reference colours describe canon, not a required answer. Use three-quarter perspective where needed to show structural parts clearly. Characters: None. Objects only; no newly drawn named characters. Output exactly 1600 × 1200 px, 4:3 landscape, white opaque background.
+
+Paired playable vector: C:\JackLight-Tales-Website\jacklight-tales-live\JackLight-Tales-Website\games\Christmas-Colouring-Village\assets\colouring\tree.svg. Redraw/trace into semantic closed fill regions; decorative outlines must not intercept taps. Keep transparent gaps in Mum’s open star. Verify four wheels for robin, four legs/posts for feeding table. Test tap, keyboard fill, erase, undo, reset and PNG export after replacement.
+
+IMAGE 013 — Colouring master, with paired interactive SVG
+Filename: Colouring_Basket.png
+What it must show: A low accessible shelf with two distinct baskets: one with apples and one with acorns; a plain sealed berry-preserve jar alongside. Large simple closed areas, no labels, sweets or food characters. Bold clean warm-black outlines on pure white. No gradients, shading, texture, grey fills, hatch marks or tiny details. Large separate closed regions suitable for finger taps by ages 3–8. Centre the subject within a 7% margin. The child may colour freely; reference colours describe canon, not a required answer. Use three-quarter perspective where needed to show structural parts clearly.
+References: Episode 104, Scenes 4–5
+Characters: None. Objects only; no newly drawn named characters.
+Dimensions / ratio: 1600 × 1200 px, 4:3 landscape, white opaque background
+Asset category: Colouring master, with paired interactive SVG
+Status: NEW ART REQUIRED. Current temporary art: assets/colouring/basket.svg
+Place finished PNG: C:\JackLight-Tales-Website\jacklight-tales-live\JackLight-Tales-Website\games\Christmas-Colouring-Village\assets\final\Colouring_Basket.png
+
+READY-TO-USE MASTER IMAGE PROMPT:
+Create one professional children’s colouring-book master, clean black line art on white. Use the supplied actual Series 4 frames only as object references. Preserve the listed object geometry. No text, watermark, border or multi-panel layout. A low accessible shelf with two distinct baskets: one with apples and one with acorns; a plain sealed berry-preserve jar alongside. Large simple closed areas, no labels, sweets or food characters. Bold clean warm-black outlines on pure white. No gradients, shading, texture, grey fills, hatch marks or tiny details. Large separate closed regions suitable for finger taps by ages 3–8. Centre the subject within a 7% margin. The child may colour freely; reference colours describe canon, not a required answer. Use three-quarter perspective where needed to show structural parts clearly. Characters: None. Objects only; no newly drawn named characters. Output exactly 1600 × 1200 px, 4:3 landscape, white opaque background.
+
+Paired playable vector: C:\JackLight-Tales-Website\jacklight-tales-live\JackLight-Tales-Website\games\Christmas-Colouring-Village\assets\colouring\basket.svg. Redraw/trace into semantic closed fill regions; decorative outlines must not intercept taps. Keep transparent gaps in Mum’s open star. Verify four wheels for robin, four legs/posts for feeding table. Test tap, keyboard fill, erase, undo, reset and PNG export after replacement.
+
+IMAGE 014 — Colouring master, with paired interactive SVG
+Filename: Colouring_Birds.png
+What it must show: A square open feeding tray with low rounded rim, exactly four short legs and four corner posts supporting one shallow pitched wooden roof. Oats, seeds and rowan berries; no walls, nest hole, bread or cake. No characters or birds in this object-only colouring adaptation; bird species are preserved in the source reference if later added. Bold clean warm-black outlines on pure white. No gradients, shading, texture, grey fills, hatch marks or tiny details. Large separate closed regions suitable for finger taps by ages 3–8. Centre the subject within a 7% margin. The child may colour freely; reference colours describe canon, not a required answer. Use three-quarter perspective where needed to show structural parts clearly.
+References: Episode 119, Scenes 5–6; 120, Scene 6
+Characters: None. Objects only; no newly drawn named characters.
+Dimensions / ratio: 1600 × 1200 px, 4:3 landscape, white opaque background
+Asset category: Colouring master, with paired interactive SVG
+Status: NEW ART REQUIRED. Current temporary art: assets/colouring/birds.svg
+Place finished PNG: C:\JackLight-Tales-Website\jacklight-tales-live\JackLight-Tales-Website\games\Christmas-Colouring-Village\assets\final\Colouring_Birds.png
+
+READY-TO-USE MASTER IMAGE PROMPT:
+Create one professional children’s colouring-book master, clean black line art on white. Use the supplied actual Series 4 frames only as object references. Preserve the listed object geometry. No text, watermark, border or multi-panel layout. A square open feeding tray with low rounded rim, exactly four short legs and four corner posts supporting one shallow pitched wooden roof. Oats, seeds and rowan berries; no walls, nest hole, bread or cake. No characters or birds in this object-only colouring adaptation; bird species are preserved in the source reference if later added. Bold clean warm-black outlines on pure white. No gradients, shading, texture, grey fills, hatch marks or tiny details. Large separate closed regions suitable for finger taps by ages 3–8. Centre the subject within a 7% margin. The child may colour freely; reference colours describe canon, not a required answer. Use three-quarter perspective where needed to show structural parts clearly. Characters: None. Objects only; no newly drawn named characters. Output exactly 1600 × 1200 px, 4:3 landscape, white opaque background.
+
+Paired playable vector: C:\JackLight-Tales-Website\jacklight-tales-live\JackLight-Tales-Website\games\Christmas-Colouring-Village\assets\colouring\birds.svg. Redraw/trace into semantic closed fill regions; decorative outlines must not intercept taps. Keep transparent gaps in Mum’s open star. Verify four wheels for robin, four legs/posts for feeding table. Test tap, keyboard fill, erase, undo, reset and PNG export after replacement.
+
+IMAGE 015 — Existing The cosy burrow story card
+Filename: Story_Burrow.png
+What it shows: Existing Episode 107, Scene 2; Barnaby, Mum, Pip and Willow in the established setting. Display the full composition in the framed story card; never regenerate or crop characters out for scene reuse.
+Reference/source: C:\Barnaby - Series 4\Episode 107 — Barnaby and the Great Woodland Bake\2.png
+Characters: Barnaby, Mum, Pip and Willow
+Dimensions: 941 × 1672 px; preserve original 941:1672 aspect ratio.
+Category: Existing story artwork / interior reference card.
+Status: REUSED NOW, exact byte-for-byte copy. No new generation prompt needed.
+Placement: C:\JackLight-Tales-Website\jacklight-tales-live\JackLight-Tales-Website\games\Christmas-Colouring-Village\assets\reference\Story_Burrow.png
+
+IMAGE 016 — Existing The toy workshop story card
+Filename: Story_Toymaker.png
+What it shows: Existing Episode 105, Scene 2; Barnaby, Pip and Mr Bramble in the established setting. Display the full composition in the framed story card; never regenerate or crop characters out for scene reuse.
+Reference/source: C:\Barnaby - Series 4\Episode 105 — Barnaby and the Woodland Toymaker\2.png
+Characters: Barnaby, Pip and Mr Bramble
+Dimensions: 941 × 1672 px; preserve original 941:1672 aspect ratio.
+Category: Existing story artwork / interior reference card.
+Status: REUSED NOW, exact byte-for-byte copy. No new generation prompt needed.
+Placement: C:\JackLight-Tales-Website\jacklight-tales-live\JackLight-Tales-Website\games\Christmas-Colouring-Village\assets\reference\Story_Toymaker.png
+
+IMAGE 017 — Existing The lantern workshop story card
+Filename: Story_Lanternmaker.png
+What it shows: Existing Episode 96, Scene 2; Barnaby and Mr Alder in the established setting. Display the full composition in the framed story card; never regenerate or crop characters out for scene reuse.
+Reference/source: C:\Barnaby - Series 4\Episode 96 — Barnaby and Mr Alders Old Map\2.png
+Characters: Barnaby and Mr Alder
+Dimensions: 941 × 1672 px; preserve original 941:1672 aspect ratio.
+Category: Existing story artwork / interior reference card.
+Status: REUSED NOW, exact byte-for-byte copy. No new generation prompt needed.
+Placement: C:\JackLight-Tales-Website\jacklight-tales-live\JackLight-Tales-Website\games\Christmas-Colouring-Village\assets\reference\Story_Lanternmaker.png
+
+IMAGE 018 — Existing The winter pantry story card
+Filename: Story_Pantry.png
+What it shows: Existing Episode 104, Scene 2; Barnaby, Mum and Pip in the established setting. Display the full composition in the framed story card; never regenerate or crop characters out for scene reuse.
+Reference/source: C:\Barnaby - Series 4\Episode 104 — Barnaby and the Winter Pantry\2.png
+Characters: Barnaby, Mum and Pip
+Dimensions: 941 × 1672 px; preserve original 941:1672 aspect ratio.
+Category: Existing story artwork / interior reference card.
+Status: REUSED NOW, exact byte-for-byte copy. No new generation prompt needed.
+Placement: C:\JackLight-Tales-Website\jacklight-tales-live\JackLight-Tales-Website\games\Christmas-Colouring-Village\assets\reference\Story_Pantry.png
+
+SECTION B — LUNA VOICE RECORDINGS
+
+19 new clips, all Luna. Record the dialogue exactly as written. Use the existing approved Luna voice and production settings from Woodland Search as the vocal reference, without editing those files. Do not clone a different character or have Luna claim she is physically present in an episode. Natural British English, warm and calm, child-friendly pacing, no loud surprise or exaggerated cheering. Record clean dry MP3, 44.1 or 48 kHz, consistent perceived level, no background music, clipped peaks or long lead-in. Listen-test intelligibility on a phone before final acceptance.
+
+Place ALL clips in the new game’s audio/luna/ directory. Exact filenames below are already wired into game.js through data.js. Clips play only after user interaction and when Sound is on. Captions always display the same words. Missing recordings fall back to captions, with no invented narration voice. Rapid scene changes cancel older clips; background music ducks during narration. Listen/Replay repeats the relevant instruction. No spoken clip is required for every colour tap, eraser tap, undo or reset; readable icon controls and Help cover these without repetitive narration.
+
+AUDIO 001 — Welcome
+Filename: Christmas_Welcome_001.mp3
+Speaker: Luna
+Exact dialogue: "Welcome to our Christmas village! Tap a little house, and let’s find a picture to colour."
+Trigger: Play button; no automatic speech before interaction.
+Delivery: Luna: warm, gentle and unhurried. Leave a short pause between sentences; no character impersonation.
+Placement: C:\JackLight-Tales-Website\jacklight-tales-live\JackLight-Tales-Website\games\Christmas-Colouring-Village\audio\luna\Christmas_Welcome_001.mp3
+Status: RECORDING REQUIRED.
+
+AUDIO 002 — Barnaby’s burrow
+Filename: Christmas_Burrow_002.mp3
+Speaker: Luna
+Exact dialogue: "Here is Barnaby’s cosy burrow. Shall we colour a woodland bake, Mum’s star, or the Christmas stockings?"
+Trigger: Entering Barnaby’s burrow; replay through Listen.
+Delivery: Luna: warm, gentle and unhurried. Leave a short pause between sentences; no character impersonation.
+Placement: C:\JackLight-Tales-Website\jacklight-tales-live\JackLight-Tales-Website\games\Christmas-Colouring-Village\audio\luna\Christmas_Burrow_002.mp3
+Status: RECORDING REQUIRED.
+
+AUDIO 003 — Mr Bramble’s workshop
+Filename: Christmas_Toys_003.mp3
+Speaker: Luna
+Exact dialogue: "Welcome to Mr Bramble’s workshop. He makes wonderful wooden toys. Choose a picture on the table."
+Trigger: Entering Mr Bramble’s workshop; replay through Listen.
+Delivery: Luna: warm, gentle and unhurried. Leave a short pause between sentences; no character impersonation.
+Placement: C:\JackLight-Tales-Website\jacklight-tales-live\JackLight-Tales-Website\games\Christmas-Colouring-Village\audio\luna\Christmas_Toys_003.mp3
+Status: RECORDING REQUIRED.
+
+AUDIO 004 — Mr Alder’s workshop
+Filename: Christmas_Lanterns_004.mp3
+Speaker: Luna
+Exact dialogue: "Here is Mr Alder’s workshop. Choose a welcoming lantern, or a picture of the village Christmas tree."
+Trigger: Entering Mr Alder’s workshop; replay through Listen.
+Delivery: Luna: warm, gentle and unhurried. Leave a short pause between sentences; no character impersonation.
+Placement: C:\JackLight-Tales-Website\jacklight-tales-live\JackLight-Tales-Website\games\Christmas-Colouring-Village\audio\luna\Christmas_Lanterns_004.mp3
+Status: RECORDING REQUIRED.
+
+AUDIO 005 — The winter pantry
+Filename: Christmas_Pantry_005.mp3
+Speaker: Luna
+Exact dialogue: "Welcome to the winter pantry. Choose the sharing baskets, or a picture of the birds’ feeding table."
+Trigger: Entering The winter pantry; replay through Listen.
+Delivery: Luna: warm, gentle and unhurried. Leave a short pause between sentences; no character impersonation.
+Placement: C:\JackLight-Tales-Website\jacklight-tales-live\JackLight-Tales-Website\games\Christmas-Colouring-Village\audio\luna\Christmas_Pantry_005.mp3
+Status: RECORDING REQUIRED.
+
+AUDIO 006 — The woodland bake
+Filename: Christmas_Loaf_006.mp3
+Speaker: Luna
+Exact dialogue: "Everyone helped make the woodland bake. Choose a colour, then tap a part of your picture."
+Trigger: Opening The woodland bake.
+Delivery: Luna: warm, gentle and unhurried. Leave a short pause between sentences; no character impersonation.
+Placement: C:\JackLight-Tales-Website\jacklight-tales-live\JackLight-Tales-Website\games\Christmas-Colouring-Village\audio\luna\Christmas_Loaf_006.mp3
+Status: RECORDING REQUIRED.
+
+AUDIO 007 — Mum’s Christmas star
+Filename: Christmas_Star_007.mp3
+Speaker: Luna
+Exact dialogue: "Mum’s wooden star carries happy memories. What colours will you choose?"
+Trigger: Opening Mum’s Christmas star.
+Delivery: Luna: warm, gentle and unhurried. Leave a short pause between sentences; no character impersonation.
+Placement: C:\JackLight-Tales-Website\jacklight-tales-live\JackLight-Tales-Website\games\Christmas-Colouring-Village\audio\luna\Christmas_Star_007.mp3
+Status: RECORDING REQUIRED.
+
+AUDIO 008 — Two Christmas stockings
+Filename: Christmas_Stockings_008.mp3
+Speaker: Luna
+Exact dialogue: "One stocking was Mum’s when she was little. One was made for Barnaby. Let’s colour them both."
+Trigger: Opening Two Christmas stockings.
+Delivery: Luna: warm, gentle and unhurried. Leave a short pause between sentences; no character impersonation.
+Placement: C:\JackLight-Tales-Website\jacklight-tales-live\JackLight-Tales-Website\games\Christmas-Colouring-Village\audio\luna\Christmas_Stockings_008.mp3
+Status: RECORDING REQUIRED.
+
+AUDIO 009 — The wooden robin
+Filename: Christmas_Robin_009.mp3
+Speaker: Luna
+Exact dialogue: "Mr Bramble made this little wooden robin. Can you find its four wheels?"
+Trigger: Opening The wooden robin.
+Delivery: Luna: warm, gentle and unhurried. Leave a short pause between sentences; no character impersonation.
+Placement: C:\JackLight-Tales-Website\jacklight-tales-live\JackLight-Tales-Website\games\Christmas-Colouring-Village\audio\luna\Christmas_Robin_009.mp3
+Status: RECORDING REQUIRED.
+
+AUDIO 010 — Pip’s spinning top
+Filename: Christmas_Top_010.mp3
+Speaker: Luna
+Exact dialogue: "Pip’s new spinning top was a thoughtful Christmas gift. Let’s give it some colour."
+Trigger: Opening Pip’s spinning top.
+Delivery: Luna: warm, gentle and unhurried. Leave a short pause between sentences; no character impersonation.
+Placement: C:\JackLight-Tales-Website\jacklight-tales-live\JackLight-Tales-Website\games\Christmas-Colouring-Village\audio\luna\Christmas_Top_010.mp3
+Status: RECORDING REQUIRED.
+
+AUDIO 011 — A welcoming lantern
+Filename: Christmas_Lantern_011.mp3
+Speaker: Luna
+Exact dialogue: "One little lantern can make a warm welcome. Let’s colour its frame and glass."
+Trigger: Opening A welcoming lantern.
+Delivery: Luna: warm, gentle and unhurried. Leave a short pause between sentences; no character impersonation.
+Placement: C:\JackLight-Tales-Website\jacklight-tales-live\JackLight-Tales-Website\games\Christmas-Colouring-Village\audio\luna\Christmas_Lantern_011.mp3
+Status: RECORDING REQUIRED.
+
+AUDIO 012 — Everyone’s Christmas tree
+Filename: Christmas_Tree_012.mp3
+Speaker: Luna
+Exact dialogue: "Everyone brought something for the village tree. Let’s colour its handmade decorations."
+Trigger: Opening Everyone’s Christmas tree.
+Delivery: Luna: warm, gentle and unhurried. Leave a short pause between sentences; no character impersonation.
+Placement: C:\JackLight-Tales-Website\jacklight-tales-live\JackLight-Tales-Website\games\Christmas-Colouring-Village\audio\luna\Christmas_Tree_012.mp3
+Status: RECORDING REQUIRED.
+
+AUDIO 013 — The sharing baskets
+Filename: Christmas_Basket_013.mp3
+Speaker: Luna
+Exact dialogue: "There is room for every neighbour in the winter pantry. Let’s colour the sharing baskets."
+Trigger: Opening The sharing baskets.
+Delivery: Luna: warm, gentle and unhurried. Leave a short pause between sentences; no character impersonation.
+Placement: C:\JackLight-Tales-Website\jacklight-tales-live\JackLight-Tales-Website\games\Christmas-Colouring-Village\audio\luna\Christmas_Basket_013.mp3
+Status: RECORDING REQUIRED.
+
+AUDIO 014 — The winter feeding table
+Filename: Christmas_Birds_014.mp3
+Speaker: Luna
+Exact dialogue: "The friends helped make a feeding table for the winter birds. Let’s colour its roof and tray."
+Trigger: Opening The winter feeding table.
+Delivery: Luna: warm, gentle and unhurried. Leave a short pause between sentences; no character impersonation.
+Placement: C:\JackLight-Tales-Website\jacklight-tales-live\JackLight-Tales-Website\games\Christmas-Colouring-Village\audio\luna\Christmas_Birds_014.mp3
+Status: RECORDING REQUIRED.
+
+AUDIO 015 — How to colour
+Filename: Christmas_Help_015.mp3
+Speaker: Luna
+Exact dialogue: "Tap a colour, then tap inside a shape. The eraser takes colour away. Undo goes back one step. You can save your picture with the arrow."
+Trigger: Help button in colouring view.
+Delivery: Luna: warm, gentle and unhurried. Leave a short pause between sentences; no character impersonation.
+Placement: C:\JackLight-Tales-Website\jacklight-tales-live\JackLight-Tales-Website\games\Christmas-Colouring-Village\audio\luna\Christmas_Help_015.mp3
+Status: RECORDING REQUIRED.
+
+AUDIO 016 — Gentle encouragement
+Filename: Christmas_Encourage_016.mp3
+Speaker: Luna
+Exact dialogue: "Your picture is becoming your very own. Keep choosing the colours you like."
+Trigger: Once after the third new coloured region in each picture per visit.
+Delivery: Luna: warm, gentle and unhurried. Leave a short pause between sentences; no character impersonation.
+Placement: C:\JackLight-Tales-Website\jacklight-tales-live\JackLight-Tales-Website\games\Christmas-Colouring-Village\audio\luna\Christmas_Encourage_016.mp3
+Status: RECORDING REQUIRED.
+
+AUDIO 017 — A picture full of colour
+Filename: Christmas_Celebrate_017.mp3
+Speaker: Luna
+Exact dialogue: "Look at all those lovely colours! You can keep changing your picture, or save it to keep."
+Trigger: First time all fill regions have colour in an activity per visit.
+Delivery: Luna: warm, gentle and unhurried. Leave a short pause between sentences; no character impersonation.
+Placement: C:\JackLight-Tales-Website\jacklight-tales-live\JackLight-Tales-Website\games\Christmas-Colouring-Village\audio\luna\Christmas_Celebrate_017.mp3
+Status: RECORDING REQUIRED.
+
+AUDIO 018 — Keep your picture
+Filename: Christmas_Save_018.mp3
+Speaker: Luna
+Exact dialogue: "Your picture is ready to keep. Ask a grown-up to help you save it."
+Trigger: After export preview is ready, before the download button is pressed.
+Delivery: Luna: warm, gentle and unhurried. Leave a short pause between sentences; no character impersonation.
+Placement: C:\JackLight-Tales-Website\jacklight-tales-live\JackLight-Tales-Website\games\Christmas-Colouring-Village\audio\luna\Christmas_Save_018.mp3
+Status: RECORDING REQUIRED.
+
+AUDIO 019 — Back to the village
+Filename: Christmas_Back_019.mp3
+Speaker: Luna
+Exact dialogue: "Shall we visit another little house?"
+Trigger: Returning from an interior to the village.
+Delivery: Luna: warm, gentle and unhurried. Leave a short pause between sentences; no character impersonation.
+Placement: C:\JackLight-Tales-Website\jacklight-tales-live\JackLight-Tales-Website\games\Christmas-Colouring-Village\audio\luna\Christmas_Back_019.mp3
+Status: RECORDING REQUIRED.
+
+MUSIC AND SOUND EFFECTS — SEPARATE FROM VOICE
+
+MUSIC 001 — Quiet village underscore
+Game filename: Christmas_Village_Music.mp3
+Existing source: C:\JackLight-Tales-Website\jacklight-tales-live\JackLight-Tales-Website\games\woodland-search\audio\music\Barnabys_Quiet_Stroll_Website_-24dB.mp3
+Placement: C:\JackLight-Tales-Website\jacklight-tales-live\JackLight-Tales-Website\games\Christmas-Colouring-Village\audio\music\Christmas_Village_Music.mp3
+Status: Existing track copied unchanged; already wired to the Sound toggle and looped. No new composition required. Jack may approve this as the final underscore or request an optional seasonal replacement later; an optional replacement is not counted as required new work. Final listening QA should check the loop seam, music/voice balance and phone speaker clarity. Other existing track found: Where_The_Ferns_Awaken_Website_-24dB.mp3, not needed for this one-track plan. Halloween tracks are not requested or used.
+
+SFX 001 — Colour dab
+Filename: none; generated in game.js tone('fill'). One gentle 660 Hz sine tone, short soft attack and decay. Plays after an actual fill/erase action with Sound on.
+SFX 002 — Picture complete
+Filename: none; generated in game.js tone('complete'). Quiet ascending four-note chime, once when every region is coloured in a picture per visit.
+SFX 003 — Village bell
+Filename: none; generated in game.js tone('bell'). Soft three-note bell-like chime on the bell hotspot; prototype is a stylised UI sound, not a sampled canonical bronze bell.
+Status for all three: IMPLEMENTED, no external recording needed. No separate usable SFX assets were identified in the searched Series 4 filenames. Episode narration takes are not treated as clean SFX. Review final volume on child-use devices. No alarm, autoplay sound or forced music.
+
+FINISHING AND ACCEPTANCE
+1. Supply the 14 PNGs and 19 MP3s above; convert/approve the nine final playable SVGs.
+2. Keep the four original story-card copies unchanged, and keep the canonical reference source files unchanged.
+3. Align final village entrances with the existing clickable areas; inspect all four rooms on desktop, tablet and phone.
+4. Check exact Luna words and each trigger, interruption, mute and music ducking with the real recordings. That check cannot be completed before the MP3s exist.
+5. Check every colouring region, eraser, undo (including undo after reset), browser-storage restoration, and PNG export. Test iOS long-press save / Android download on actual devices; responsive browser sizes alone are not physical-device verification.
+6. Review composition and the source conflicts above before calling artwork final. The current prototype simplifies objects for play; final redraw must satisfy all geometry, especially the robin’s four wheels, open star and feeding table posts.
+7. This checklist authorises no publishing. The live website, production assets and Woodland Search are outside the new game’s edit scope. Local integration is only the new first card in partials/games.html.
+
