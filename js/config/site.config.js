@@ -34,7 +34,7 @@ export const siteConfig = {
     watch: "partials/watch.html",
     listen: "partials/listen.html",
     explore: "partials/explore.html",
-    games: "partials/games.html?v=20261027-local-speed1",
+    games: "partials/games.html?v=20261112-private-christmas",
     grownups: "partials/grownups.html",
   },
 
