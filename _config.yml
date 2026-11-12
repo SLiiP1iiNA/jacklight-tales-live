@@ -1,0 +1,4 @@
+# Private development: exclude the complete unreleased game from GitHub Pages.
+# Release only at the beginning of Series 4, after completion and Jack approval.
+exclude:
+  - games/Christmas-Colouring-Village

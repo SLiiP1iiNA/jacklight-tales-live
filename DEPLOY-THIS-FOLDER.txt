@@ -6,3 +6,9 @@ If you use GitHub Pages or another static host, publish the CONTENTS of this fol
 The live root must contain this index.html file alongside assets/, css/, js/, partials/, content/ and games/.
 
 Do NOT publish only games/woodland-search/ or the website will open directly into the game.
+
+PRIVATE CHRISTMAS DEVELOPMENT — RELEASE GATE
+The complete games/Christmas-Colouring-Village folder is local development only.
+GitHub Pages must honour the exclusion in _config.yml. Do not bypass Jekyll or upload this folder with a manual static deployment.
+Do not add public links or remove the exclusion until the beginning of Series 4 AND the game is complete AND Jack explicitly approves release.
+Local testing: http://127.0.0.1:8765/games/Christmas-Colouring-Village/
