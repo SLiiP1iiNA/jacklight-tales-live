@@ -1,3 +1,22 @@
+LOCAL ARTWORK PROGRESS — 13 November 2026
+12 first-journey review PNGs and 12 WebP previews now exist in assets/placeholders:
+five landscape scenes, five portrait companions, lantern colouring design and Alder welcome.
+Barnaby movement remains unchanged. These are review candidates, not approved finals or integrated gameplay.
+See the TOP of CHRISTMAS_IMAGE_MASTER_PROMPTS.txt for actual dimensions, sizes, prompts and production checks.
+Outstanding: Jack's visual review; exact master-size resolution; lantern SVG tracing/pure-white regions after approval; integration, reward and device testing.
+No final artwork approval, no deployment, no new directories, no gameplay/audio/reference/SVG changes in this artwork pass.
+Remaining location art and colouring masters have not been generated in this batch.
+
+CURRENT ARTWORK SCOPE — 12 November 2026
+See the current production brief at the TOP of CHRISTMAS_IMAGE_MASTER_PROMPTS.txt in this folder.
+Barnaby is the sole playable character. The nine original colouring activities and four activity locations remain.
+Current planned artwork: 22 core subjects (11 environments, 9 colouring masters, Barnaby movement, Alder welcome), plus 11 portrait environment companions.
+The original 14 filenames are retained in the updated plan; the new market journey replaces the overhead-map direction for the rebuild only.
+First journey: entries 01–05, 17, 21, 22. Other location implementation remains deferred until Jack reviews that journey.
+Episode 111 lantern geometry is corrected to wooden frame with brass cap/handle. Existing SVG and saved-region compatibility must be preserved until approved replacement.
+No approved final PNGs currently occupy assets/final. No gameplay/art/audio files were changed by this planning pass.
+The historical checklist below remains for context; where it conflicts with the current brief, use the current brief.
+
 BARNABY'S CHRISTMAS COLOURING VILLAGE
 CHRISTMAS GAME ASSET CHECKLIST
 Local prototype — production plan, 7 November 2026

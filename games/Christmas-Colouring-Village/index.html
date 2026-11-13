@@ -1,7 +1,23 @@
 <!doctype html>
 <html lang="en-GB">
 <head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#193b51"><meta name="robots" content="noindex,nofollow"><title>Barnaby’s Christmas Colouring Village · Local prototype</title><link rel="stylesheet" href="style.css"><script src="data.js" defer></script><script src="game.js" defer></script></head>
-<body>
+<body class="market-active">
+<link rel="stylesheet" href="market.css">
+<script src="market.js" defer></script>
+<section id="market-view" aria-label="Walk through the Christmas market">
+  <div id="market-stage" tabindex="0" role="group" aria-label="Village path. Tap the snowy path to walk. Up and down arrows travel between places; Escape stops walking.">
+    <div id="market-world">
+      <picture><source id="market-source" media="(max-width:700px)" srcset="assets/placeholders/Market_Arrival_Review_Mobile.webp"><img id="market-scenery" alt="A snowy woodland market leading towards the village Christmas tree" width="1609" height="977" fetchpriority="high" src="assets/placeholders/Market_Arrival_Review.webp"></picture>
+      <div id="market-lights" aria-hidden="true"></div>
+      <div id="market-explorer" aria-label="Barnaby"><span class="market-shadow"></span><canvas id="market-character" width="320" height="320" aria-hidden="true"></canvas></div>
+      <span id="market-marker" hidden aria-hidden="true"></span>
+    </div>
+    <canvas id="market-snow" aria-hidden="true"></canvas>
+    <div id="market-curtain" aria-hidden="true"></div>
+  </div>
+  <header class="market-heading"><div><p>JACKLIGHT TALES · LOCAL ART REVIEW</p><h1 id="market-place">The Christmas market</h1><span>A Christmas made by you</span></div><div class="market-options"><button id="market-calm" aria-pressed="false">Calm motion</button><button id="market-sound" aria-pressed="false">Sound off</button></div></header>
+  <div class="market-bottom"><p id="market-status" role="status" aria-live="polite">Walk with Barnaby. Tap the snowy path, or follow the arrow.</p><nav aria-label="Village paths"><button id="market-back" disabled>← Back</button><button id="market-forward" class="market-primary">Along the lane →</button></nav><button id="market-old">Open existing colouring activities</button><small>Movement and artwork preview · tree decorating comes later</small></div>
+</section>
 <header class="topbar"><a class="brand" href="../../index.html" aria-label="Back to JackLight Tales"><span aria-hidden="true">✧</span> JACKLIGHT TALES</a><span class="test-label">LOCAL PLAYTEST</span><div class="top-actions"><button id="sound" aria-pressed="false" title="Turn sound on">♫ <span>Sound off</span></button><button id="notes-open" aria-label="Grown-up information">ⓘ</button></div></header>
 <main id="app">
 <section id="village-view" aria-labelledby="village-title">
