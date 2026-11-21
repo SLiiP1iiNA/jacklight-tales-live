@@ -1,3 +1,132 @@
+LUNA CONNECTED — 21 November 2026
+Current review build; earlier audio-pending notes below are superseded.
+
+- All 37 Cloudflare MP3s return successfully. Their ETags match the existing local recordings. No recordings, Cloudflare settings or Woodland Search files were changed.
+- 28 current-journey/shared clips are connected. Nine planned-location clips remain reserved and are never requested by the active game.
+- Added Listen, sound controls inside dialogs, exact-script captions and contextual colouring help. Scene changes and mute cancel stale narration. Rewards replace arrival lines; first-picture guidance follows the actual end of its introduction. No audio downloads before opt-in; no full-library preload.
+- Used Woodland Search's two-player fades and Web Audio gain approach in a Christmas-only luna.js. The established fixed music balance is retained, rather than automatic music pumping.
+- Measured Christmas voice sources: -21.9 to -21.6 LUFS; highest true peak -1.3 dBFS. Louder takes receive a small playback-only trim to the Woodland welcome reference of -21.7 LUFS; quieter takes are not boosted.
+- Voice gains follow Woodland: desktop 0.92; phone 0.92 x 0.64 = 0.5888 (about 3.9 dB below desktop). Phone landscape is included.
+- Christmas music source measures -35.6 LUFS. Playback gain 0.0665768 desktop / 0.303431 mobile matches the measured Woodland music reference plus its 0.73 / 0.40 playback gains: approximately -59.1 / -46.0 LUFS respectively. These are digital programme measurements, not physical speaker-volume guarantees.
+- Existing local preview server relays the Cloudflare audio without changing its code. Ordinary localhost Live Server uses the identical local copies. Published URLs retain the supplied Cloudflare path; both live site origins already receive appropriate CORS headers.
+- Browser checks passed: opt-in playback, captions, rapid tool changes, mute, burrow/workshop arrivals, colouring help, export/reset prompts, window/lantern/tree rewards, branch guidance, Woodland Search entry and return, compact 320 x 568 layout.
+- Controlled tests passed: desktop/phone/rotated-phone gains, no initial media sources, one voice after rapid changes, cancellation of pending playback, failed playback returning to idle, reserved clips unavailable.
+
+RELEASE LIMITS
+The current journey is ready for Jack's playtest. The remaining planned rooms and pictures are not yet rebuilt. Physical Android/iPhone listening and performance tests, final artwork approval and Jack's release approval remain necessary. Nothing has been published, committed or pushed. The entire Christmas folder remains excluded from GitHub Pages.
+The recording script remains simple filenames and speech only; it was not expanded or rewritten during integration.
+
+LOCAL POLISH AND RELEASE REVIEW — 20 November 2026
+This is the current status. All earlier plans and recording counts below are historical unless explicitly reconfirmed for this journey.
+
+COMPLETED IN THIS PASS
+- Destination scenery is decoded before it replaces the current scene and its buttons. Failed loads retain the current scene and let the player retry through Paths.
+- Rapid route changes show only the latest requested destination. Preloading during a walk and arrival share one request. The scenery cache retains at most three entries.
+- Barnaby moves and scales using a single transform; walking no longer reads layout dimensions or changes layout width on every animation frame.
+- Stopping and restarting a walk preserves his current scale. Scene interactions are unavailable during walking/loading, including keyboard interaction; Wait, Barnaby remains available during walking.
+- Brush input updates the visible path at most once per animation frame, with the coordinate transform cached during a stroke. Resize work is grouped into one frame.
+- Repeated fills with the same colour do not add redundant undo entries or saves.
+- Replacing a tree decoration removes the previous decoration's unfinished edit, so it cannot reappear later.
+- Export cannot be started twice at once or reopen its preview after the paintbox is closed.
+- Invisible Paths-menu image elements were removed. Phone safe-area spacing was added. Reward messages now survive asynchronous scene loading.
+- Existing saved pictures, original prototype files, source art, audio and Woodland Search are preserved. No publishing, commit or push.
+
+VERIFICATION
+- Actual browser checks: walk home; stop/restart village walk; village and Alder arrivals; workshop; fill; brush; undo/redo; PNG export preview; lantern return/reward; tree and saved decorations; Paths; Gentle mode; Woodland Search entry and browser Back.
+- Reviewed desktop 1280 x 720, phone 390 x 844, and compact 320 x 568 paintbox. No warning/error entries in the inspected browser log.
+- Controlled asynchronous checks against the actual scene-loading functions: latest destination wins, failed loads restore interaction, prefetch is reused, reward text survives loading, and cache stays bounded. Passed.
+- JavaScript syntax and whitespace checks passed.
+- Opening portrait HTML/CSS/JS, scenery and Barnaby atlas total 808,023 file bytes, excluding HTTP overhead, optional music and subsequently visited scenes. This is a file-size measurement, not a measured download speed or a physical-phone frame-rate guarantee.
+
+STILL REQUIRED BEFORE PUBLIC RELEASE
+1. FINAL ART APPROVAL: review scenery, Barnaby's tuft/gait and each interactive picture against the established references. Runtime art is still under assets/placeholders; assets/final currently contains no approved PNGs. The current five interactive designs are game interpretations, not approved tracings.
+2. REMAINING CONTENT: the active journey has the window star, wooden tree star, wool bow, orange slice and lantern. The original pantry/toymaker journeys and the remaining original colouring activities are preserved but not rebuilt into the new experience. Finish the agreed release scope without sending players back to the retired layout.
+3. LUNA: audio/luna currently has no MP3s. Rewrite the recording/cue sheet for the current crossroads, burrow, tree and workshop interactions before recording. Do not use the historical 19-clip list as the final recording order. Record with the approved voice, add captions/replay and test cues without overlap. VEO clips are not required for the current lightweight scenery/sprite approach.
+4. DEVICE AND FAMILY PLAYTEST: test actual Android and iPhone browsers, including an older phone, slow connections, repeated routes, rotation, audio interruption, artwork restoration and exported pictures. Check that a child can find the activity and understand the reward without adult instructions. Current viewport tests do not replace this.
+5. RELEASE APPROVAL AND WEBSITE INTEGRATION: retain the local-only showcase while testing. Finalise Christmas-first presentation alongside permanent Woodland Search, then obtain Jack's approval for the completed game and the Series 4 launch before publishing. GitHub Pages continues to exclude the entire Christmas folder. No release was performed here.
+
+Local preview: use the existing VS Code task "Start local website test", then open http://127.0.0.1:8765/games/Christmas-Colouring-Village/.
+
+PREVIOUS BUILD RECORDS FOLLOW
+
+WINTER CROSSROADS BUILD — 14 November 2026
+CURRENT DIRECTION: use the website's existing woodland map as the visual inspiration and connect the games through Barnaby's paths. This section supersedes the earlier home-interior-first and first-person-only notes.
+
+WHAT NOW WORKS
+- The game opens OUTSIDE Barnaby's burrow, with Barnaby facing the home.
+- Left path: Barnaby walks to the burrow and enters the existing colouring room.
+- Right path: he turns and walks towards the Christmas village, where the tree and Alder activities remain connected.
+- Forward path: he walks towards the woods, then the browser opens the unchanged existing Woodland Search at ../woodland-search/index.html. Browser Back returns to the crossroads. No return link was added inside Woodland Search.
+- A new three-direction, four-frame-per-direction walk atlas replaces the rejected atlas in runtime. The rejected files remain untouched.
+- Scene trail signs replace the permanent bottom button bar. Paths provides keyboard-accessible destination shortcuts. Decoration placement still offers Keep painting and Choose later.
+- Wait, Barnaby and Escape stop a walk. Gentle mode stops movement and allows direct navigation. Hidden-page movement does not advance; snow remains bounded and paused as before.
+- Destination scenery begins loading during the chosen walk. Only the WebP runtime images are used, not the large PNG masters.
+- All saved colouring, tree placements, lantern and window-star work is retained.
+- No public website files, Woodland Search files, audio, reference art or original SVG files were altered. No deployment or commit/push. GitHub Pages still excludes this entire Christmas folder.
+
+ARTWORK SAVED IN assets/placeholders
+Winter_Crossroads.png / Winter_Crossroads.webp — landscape; WebP 1600 x 914, 526,818 bytes.
+Winter_Crossroads_Portrait.png / Winter_Crossroads_Portrait.webp — portrait; WebP 768 x 1365, 420,914 bytes.
+Barnaby_Crossroads_Walk.png / Barnaby_Crossroads_Walk.webp — transparent 4-column x 3-row movement atlas; WebP 1152 x 864, 327,246 bytes.
+Created with the built-in image-generation tool. Originals retained in the generator output folder.
+The two opening scenery versions and the new movement sheet are local review artwork, not a claim of final approval. Inspect gait/character fidelity in motion before final release. The new woodland crossroads is a game adaptation, not a claim that this exact route occurs in an episode.
+
+REFERENCE AUTHORITY
+Website colour/depth: C:\JackLight-Tales-Website\jacklight-tales-live\JackLight-Tales-Website\assets\images\prototype\world-map-desktop.webp
+Home identity: C:\Barnaby - Series 1\Episode30 — Barnaby and the Warmest Place in the Woods\6.png
+Barnaby identity and all rear/side views: C:\Barnaby - Series 4\aCharacters-Episodes\Barnaby.png
+
+VERIFIED
+All three initial routes, arrival in the burrow, village-to-tree walking, opening the unchanged Woodland Search, returning with browser Back, stopping a walk, gentle-mode direct navigation, preserved home colouring and tree decorations, decoration cancellation, paths menu and responsive layout at 390 x 844, 320 x 568 and desktop 1366 x 768. No browser warning/error entries in the inspected session. Syntax and whitespace checks passed.
+Physical low-end phone performance, final art approval, smoother expanded gait frames, Luna narration and the remaining locations are still release work.
+
+PREVIOUS BUILD RECORDS FOLLOW
+
+LOCAL HOME-FIRST BUILD — 14 November 2026
+This is the current playable status. Earlier dated plans below are historical.
+
+LOCAL ENTRY: http://127.0.0.1:8765/games/Christmas-Colouring-Village/
+Start with the existing VS Code task "Start local website test" if the preview server is closed.
+Nothing has been committed, pushed or deployed in this build pass.
+
+IMPLEMENTED FOR REVIEW
+- Start inside Barnaby's burrow, with a window-star activity and an exit into the village.
+- Choose destinations directly in the scene or through Places. No linear Back/Along Lane movement and no handoff into the original activity screen.
+- Colour Mum's open wooden keepsake star and hang the exact creation at the home window.
+- Make solid wooden stars, wool bows or dried orange slices; choose from eight tree branches. Tap a placed decoration to edit it.
+- Enter Alder's workshop, colour a rounded wooden lantern with brass cap/handle, then see the same colours and brushwork lit outside on the hook.
+- Fill, region-clipped brush strokes, three brush sizes, sixteen colours, custom colour, clear one piece, undo/redo, reversible reset, and 1600 x 1200 PNG export.
+- Save unfinished pictures, edits to placed decorations, and placed artwork in this browser under jacklight-christmas-v4. The original jacklight-christmas-colouring-v1 data is never read, overwritten or cleared by the new journey.
+- Five scenery locations with responsive WebP companions. Snow is bounded to 20/32 flakes, drawn at approximately 30 fps, and paused indoors, behind dialogs, in gentle mode, or when the page is hidden. No videos, remote libraries or web fonts.
+- Music remains optional and starts only after the child chooses Sound. No new Luna or character audio has been generated.
+
+PRESERVATION
+Original game.js, data.js, style.css, colouring SVG files, audio, reference artwork and existing movement files are untouched. Original activity HTML is retained in an inert template inside index.html; it does not run or load its artwork.
+The rejected Barnaby walk atlas is no longer loaded. There is no replacement Barnaby sprite in this build: the experience currently uses his point of view. Character movement remains outstanding and requires the exact Series 4 character sheet.
+Public website files, Woodland Search, preview-server code and the GitHub Pages exclusion are unchanged. The whole Christmas folder remains excluded from public GitHub Pages output.
+No new directories, backups or duplicate projects were created.
+
+ART STATUS / LIMITS
+This is a playable review build, not final artwork approval or a completed release.
+The interactive vector pictures in market.js are new, simple game interpretations of the verified story objects. They are not claimed to be exact approved tracings. All nine original colouring SVG files remain unchanged.
+No new approved files have been placed in assets/final.
+Other locations and the remaining original activities, Barnaby movement, Luna narration and final artwork review remain outstanding. Real low-end phones and mobile Safari still need device testing; viewport checks are not a performance guarantee.
+
+VERIFICATION — 14 November 2026
+Browser checks completed at desktop sizes (including 1440 x 900), 390 x 844 and compact 320 x 568.
+Verified home/village/tree/workshop navigation; fill and pointer brush strokes; undo/redo; reset followed by undo; window-star placement; wooden-star, bow and orange placements; lantern reward; reload persistence; unfinished edits to an already placed star; 1600 x 1200 exported image preview; gentle-mode snow suppression; optional sound on/off.
+Corrected compact-phone sheet cropping and scene-control overlaps. Corrected Alder's layering behind the workbench and lantern alignment/framing. No browser warning/error entries in the final inspected session.
+Syntax and whitespace checks passed. Runtime HTML/CSS/JS total approximately 46 KB before compression, excluding scenery and optional audio. Current home WebP is 239 KB portrait / 397 KB landscape. These are file sizes, not measured mobile-network transfer or hardware performance.
+Review screenshot is outside the game, in the existing Codex workspace:
+C:\Users\jackw\Documents\Codex\2026-11-07\files-pasted-by-the-user-codex\Christmas_Home_First_Review.png
+
+HISTORICAL PLANS AND SOURCE REVIEW FOLLOW
+
+SOURCE-FIRST CHECK — 13 November 2026
+Jack requires the existing Series 1–6 library to be checked before further building. All six folders found; 980 direct episode images inventoried, 19 relevant episode images visually reviewed across all six series. See the SOURCE-FIRST ARTWORK AUDIT at the top of CHRISTMAS_IMAGE_MASTER_PROMPTS.txt for exact paths and reuse decisions.
+The new desired journey begins at Barnaby's burrow with meaningful colouring/decorating and freely chosen destinations. This is not implemented yet. The old movement atlas is rejected; Series 4/5/6 Barnaby sheets are identical and remain the identity authority.
+Two fresh burrow drafts remain unapproved outside the project. No gameplay or deployment changes were made during this source review.
+
 LOCAL ARTWORK PROGRESS — 13 November 2026
 12 first-journey review PNGs and 12 WebP previews now exist in assets/placeholders:
 five landscape scenes, five portrait companions, lantern colouring design and Alder welcome.

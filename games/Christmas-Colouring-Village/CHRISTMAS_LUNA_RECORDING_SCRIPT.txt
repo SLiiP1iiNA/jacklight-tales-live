@@ -1,0 +1,147 @@
+welcome.mp3
+
+Hello, little explorer. Welcome to the Whispering Woods. A Christmas made by you begins here. Choose a sign, and let's explore with Barnaby.
+
+crossroads.mp3
+
+Barnaby's burrow, the Christmas village, or Woodland Search. Where shall we go next?
+
+burrow.mp3
+
+Come into Barnaby's cosy burrow. It's a lovely place to make something for Christmas. Choose a picture when you're ready.
+
+village.mp3
+
+Look at the snowy village. There's a Christmas tree to decorate, and Mr Alder's workshop to visit. Where shall Barnaby go?
+
+village_tree.mp3
+
+This is everyone's Christmas tree. Your colours can become part of it. Choose Make a decoration to begin.
+
+alder_door.mp3
+
+Here is Mr Alder's workshop. Shall we make something that glows? Choose Come inside when you're ready.
+
+alder_workshop.mp3
+
+Mr Alder has a lantern waiting for your colours. Choose Colour a lantern, and we'll make a warm welcome for his door.
+
+window_star.mp3
+
+Mum's wooden star is made from five little sticks. What colours will you choose for its ribbon and wool?
+
+wooden_star.mp3
+
+A little wooden star for our Christmas tree. You can give it any colours you like.
+
+wool_bow.mp3
+
+Let's colour a woolly bow for the Christmas tree. What colours would you like on its loops and ribbons?
+
+orange_slice.mp3
+
+This dried orange slice can hang on the Christmas tree. Let's bring some colour to its peel and little segments.
+
+lantern.mp3
+
+A lantern can make a lovely welcome. Choose colours for its frame and glass. When you're ready, choose Light my lantern.
+
+fill_help.mp3
+
+Choose a colour, then tap inside a piece of your picture. With Fill, one tap colours the whole piece. There's no hurry.
+
+brush_help.mp3
+
+Choose Brush, then move your finger across a piece to paint. Your brush stays inside the piece where you started.
+
+clear_help.mp3
+
+Choose Clear, then tap a piece to take away its colour and brush marks. You can colour it again whenever you like.
+
+undo_redo_help.mp3
+
+Undo takes back your last change. Redo brings it back again. You can try different colours and see what you like.
+
+encouragement.mp3
+
+Those colours are making this your very own. You can keep changing things for as long as you like.
+
+choose_branch.mp3
+
+Where shall your decoration go? Choose a glowing branch. A plus marks an empty space.
+
+tree_reward.mp3
+
+There it is, on the Christmas tree. A little piece of Christmas, made by you.
+
+window_reward.mp3
+
+Your star is hanging in Barnaby's window. Look at the colours you chose. You've made his home a little more Christmassy.
+
+lantern_reward.mp3
+
+Look, your lantern is glowing beside Mr Alder's door. Those are your colours lighting up the snow.
+
+edit_creation.mp3
+
+Shall we try some different colours? You can change your creation, then put it back when you're ready.
+
+save_picture.mp3
+
+Your picture is ready to keep. Ask a grown-up to help you download a copy.
+
+start_again.mp3
+
+Would you like a fresh sheet? Choose Start again to clear this picture, or Keep painting to carry on.
+
+welcome_back.mp3
+
+Welcome back. Your saved colours are here. Shall we make something new, or visit something you've already made?
+
+saving_unavailable.mp3
+
+This browser can't keep your colours for next time. Ask a grown-up to help you save a picture before you leave.
+
+try_again.mp3
+
+That picture isn't ready just now. We can try again, or ask a grown-up for a little help.
+
+paths_menu.mp3
+
+Choose a place to visit. You can go home, explore the village, or play Woodland Search.
+
+bramble_workshop.mp3
+
+Welcome to Mr Bramble's workshop. There are little wooden treasures to colour. Choose a picture when you're ready.
+
+winter_pantry.mp3
+
+Welcome to the winter pantry. There are sharing baskets and a little feeding table to colour. Which picture would you like?
+
+woodland_bake.mp3
+
+A woodland bake, made to share. Let's colour its dish, the apples, and the loaf with three little leaf marks on top.
+
+stockings.mp3
+
+Two Christmas stockings, waiting for your colours. You can make them different, or choose colours that go together.
+
+wooden_robin.mp3
+
+Mr Bramble's little wooden robin has four wheels. Can you spot them? Let's give this Christmas toy some colour.
+
+spinning_top.mp3
+
+Here is Pip's little wooden spinning top. What colours would you like to give it?
+
+tree_picture.mp3
+
+Here's a picture of the village Christmas tree. Let's colour its branches and handmade decorations.
+
+sharing_baskets.mp3
+
+Apples in one basket, acorns in another. Let's colour these sharing baskets, and the little jar beside them.
+
+feeding_table.mp3
+
+This little table is a kind place for winter birds to find food. Let's colour its roof, tray, and wooden legs.

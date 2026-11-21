@@ -1,3 +1,219 @@
+WINTER CROSSROADS BUILD — 14 November 2026
+CURRENT DIRECTION: use the website's existing woodland map as the visual inspiration and connect the games through Barnaby's paths. This section supersedes the earlier home-interior-first and first-person-only notes.
+
+WHAT NOW WORKS
+- The game opens OUTSIDE Barnaby's burrow, with Barnaby facing the home.
+- Left path: Barnaby walks to the burrow and enters the existing colouring room.
+- Right path: he turns and walks towards the Christmas village, where the tree and Alder activities remain connected.
+- Forward path: he walks towards the woods, then the browser opens the unchanged existing Woodland Search at ../woodland-search/index.html. Browser Back returns to the crossroads. No return link was added inside Woodland Search.
+- A new three-direction, four-frame-per-direction walk atlas replaces the rejected atlas in runtime. The rejected files remain untouched.
+- Scene trail signs replace the permanent bottom button bar. Paths provides keyboard-accessible destination shortcuts. Decoration placement still offers Keep painting and Choose later.
+- Wait, Barnaby and Escape stop a walk. Gentle mode stops movement and allows direct navigation. Hidden-page movement does not advance; snow remains bounded and paused as before.
+- Destination scenery begins loading during the chosen walk. Only the WebP runtime images are used, not the large PNG masters.
+- All saved colouring, tree placements, lantern and window-star work is retained.
+- No public website files, Woodland Search files, audio, reference art or original SVG files were altered. No deployment or commit/push. GitHub Pages still excludes this entire Christmas folder.
+
+ARTWORK SAVED IN assets/placeholders
+Winter_Crossroads.png / Winter_Crossroads.webp — landscape; WebP 1600 x 914, 526,818 bytes.
+Winter_Crossroads_Portrait.png / Winter_Crossroads_Portrait.webp — portrait; WebP 768 x 1365, 420,914 bytes.
+Barnaby_Crossroads_Walk.png / Barnaby_Crossroads_Walk.webp — transparent 4-column x 3-row movement atlas; WebP 1152 x 864, 327,246 bytes.
+Created with the built-in image-generation tool. Originals retained in the generator output folder.
+The two opening scenery versions and the new movement sheet are local review artwork, not a claim of final approval. Inspect gait/character fidelity in motion before final release. The new woodland crossroads is a game adaptation, not a claim that this exact route occurs in an episode.
+
+REFERENCE AUTHORITY
+Website colour/depth: C:\JackLight-Tales-Website\jacklight-tales-live\JackLight-Tales-Website\assets\images\prototype\world-map-desktop.webp
+Home identity: C:\Barnaby - Series 1\Episode30 — Barnaby and the Warmest Place in the Woods\6.png
+Barnaby identity and all rear/side views: C:\Barnaby - Series 4\aCharacters-Episodes\Barnaby.png
+
+VERIFIED
+All three initial routes, arrival in the burrow, village-to-tree walking, opening the unchanged Woodland Search, returning with browser Back, stopping a walk, gentle-mode direct navigation, preserved home colouring and tree decorations, decoration cancellation, paths menu and responsive layout at 390 x 844, 320 x 568 and desktop 1366 x 768. No browser warning/error entries in the inspected session. Syntax and whitespace checks passed.
+Physical low-end phone performance, final art approval, smoother expanded gait frames, Luna narration and the remaining locations are still release work.
+
+LANDSCAPE CROSSROADS — Winter_Crossroads.png
+
+Create one game environment illustration, 1792 x 1024 landscape, for JackLight Tales. References: image 1 is the user's actual website woodland map and the authority for lush storybook depth, rich clear colour, sunlit atmosphere and intricate natural scenery. Image 2 is Barnaby's actual burrow exterior and the authority for the home identity: a humble round green door with round golden window, smaller round windows sheltered beneath huge tree roots. Recompose as a playable WINTER CROSSROADS outside that burrow. NO characters in this environment layer.
+Camera is a slightly elevated immersive storybook view with clear paths, not a diagram or flat map. The foreground is a generous snowy/mossy earth clearing with space at 50% across, 85% down for a separate child fox character. Three legible routes join here: LEFT winds a very short distance to Barnaby's burrow doorway at approximately x25%, y55%; FORWARD winds through the centre across a little stone footbridge and into magnificent deep evergreen woods at x50%,y35%, leading towards distant turquoise stream and waterfall; RIGHT turns to a small welcoming winter village at x78%,y47%, recognisable warm timber/stone cottages and distant clock tower, on the path beyond the foreground clearing. Distinct continuous paths must visibly connect all three destinations with no confusing dead ends. The home is the main near left location; the village is further right; the woodland is directly forward. Not a copied summer amusement park: do not include cinema, stages, easels or lettering.
+Preserve the website map's breathtaking sense of a world with foreground framing, midground destinations and distant mountain/forest depth. A BRIGHT luminous winter afternoon: deep evergreen greens, teal-blue water, rich honey-gold lanterns and sunlight, warm russet bark, jewel-blue shadows, creamy settled snow over roots and roofs, small natural holly berries. Fine tangible moss, timber, warm window glass, knitted warmth implied indoors. Winter bare deciduous branches and evergreen pines; no summer flowers or bunting. Soft sun shafts, inviting cosy colour, crisp focal paths, painterly cinematic 3D storybook quality matching the reference map. NOT dull sepia, not monochrome brown, not night, not a generic UI illustration. Snow is settled only: falling snow will animate separately. No characters, text, signs, UI controls, watermark, collage or borders. Keep all three destinations within the inner 15–85% width and 25–65% height. Deliver the single opaque landscape background.
+
+PORTRAIT CROSSROADS — Winter_Crossroads_Portrait.png
+
+Create a portrait companion of the supplied JackLight Tales winter crossroads landscape. Reference 1 is the EXACT environment to preserve. Output one opaque portrait PNG, ideally 1080 x 1920 (9:16). Same burrow building, green round door and golden windows, same evergreen woods, turquoise stream/stone bridge, same right-hand village/clock tower, same vivid golden winter daylight and jewel-blue snowy shadows. Recompose the camera for a phone, NOT a cropped landscape. Place the complete burrow doorway LEFT at x25%,y53%; the forward woodland trail and bridge at x50%,y37%; the village on the RIGHT at x76%,y47%. These are three clear paths meeting in a spacious foreground clearing with a separate character's standing position x50%,y80%. Keep important destination thresholds between x18% and x82% so tall-phone framing can show all three. Show visible continuous earth paths from the clearing left to the burrow, forward into the woods and right towards the village. Upper portrait area reveals snowy branches, sparkling sunlight, blue sky, distant mountains/waterfall. Lower area shows rich mossy rocks, snow patches, warm path, holly berries, with open ground for Barnaby. Maintain the original image's tangible bark/stone/wood and bright enchanting colour. No characters, lettering, UI, decorative borders, grids or falling snow; snowfall will be separate animation. This is the SAME place seen in portrait, not a different invented village.
+
+BARNABY DIRECTIONAL WALK — Barnaby_Crossroads_Walk.png
+
+Create a transparent PNG sprite atlas for the SAME Barnaby shown in the supplied official JackLight Tales turnaround reference. This is a technical animation asset, not a character redesign. Exactly TWELVE full-body sprites in a regular FOUR columns by THREE rows grid, ideally 2048x1536. All cells equal, fully transparent background, no text, no captions, no drawn grid lines, no floor or scenery. Centre each complete sprite in its cell with identical body scale and feet aligned to an equal baseline. No cropped ears, tails or paws; wide transparent gutters.
+Identity lock: copy the official small child fox, yellow cable-knit jumper, forest green scarf, olive shorts, brown diagonal-strap HIP satchel, bare fox paws, orange fur and one cream-tipped fluffy tail. Match the official BACK and THREE-QUARTER BACK pictures for rear head silhouette. His head has a SHORT soft central tuft between the ears and smooth natural fur behind it. Absolutely no large crest, raised strip down the back of the head, tall spikes, enlarged hair, swept-back pompadour or mohawk. Do not turn his satchel into a backpack. Child is about three heads tall, not a tall adult. Same design across all twelve cells.
+Row 1: four chronological WALK frames travelling diagonally away and to screen LEFT, facing three-quarter REAR LEFT, towards his burrow. Row 2: four chronological WALK frames travelling directly away into screen depth, facing straight REAR, toward the woods. Row 3: four chronological WALK frames travelling to screen RIGHT, facing right side/three-quarter rear right, towards the village. In EACH row the four phases are left-foot contact, right-foot passing, right-foot contact, left-foot passing. Show actual alternating legs and counter-swinging arms; do not repeat four identical standing poses and do not sidestep while facing another direction. Tail follows naturally. Each row must loop into its first frame. Consistent gentle golden-daylight illumination, detailed soft fur and knit like the reference, clean alpha edges, NO cast ground shadows. Preserve Barnaby's modest reference tuft exactly.
+
+PREVIOUS BUILD RECORDS FOLLOW
+
+LOCAL HOME-FIRST BUILD — 14 November 2026
+This is the current playable status. Earlier dated plans below are historical.
+
+LOCAL ENTRY: http://127.0.0.1:8765/games/Christmas-Colouring-Village/
+Start with the existing VS Code task "Start local website test" if the preview server is closed.
+Nothing has been committed, pushed or deployed in this build pass.
+
+IMPLEMENTED FOR REVIEW
+- Start inside Barnaby's burrow, with a window-star activity and an exit into the village.
+- Choose destinations directly in the scene or through Places. No linear Back/Along Lane movement and no handoff into the original activity screen.
+- Colour Mum's open wooden keepsake star and hang the exact creation at the home window.
+- Make solid wooden stars, wool bows or dried orange slices; choose from eight tree branches. Tap a placed decoration to edit it.
+- Enter Alder's workshop, colour a rounded wooden lantern with brass cap/handle, then see the same colours and brushwork lit outside on the hook.
+- Fill, region-clipped brush strokes, three brush sizes, sixteen colours, custom colour, clear one piece, undo/redo, reversible reset, and 1600 x 1200 PNG export.
+- Save unfinished pictures, edits to placed decorations, and placed artwork in this browser under jacklight-christmas-v4. The original jacklight-christmas-colouring-v1 data is never read, overwritten or cleared by the new journey.
+- Five scenery locations with responsive WebP companions. Snow is bounded to 20/32 flakes, drawn at approximately 30 fps, and paused indoors, behind dialogs, in gentle mode, or when the page is hidden. No videos, remote libraries or web fonts.
+- Music remains optional and starts only after the child chooses Sound. No new Luna or character audio has been generated.
+
+PRESERVATION
+Original game.js, data.js, style.css, colouring SVG files, audio, reference artwork and existing movement files are untouched. Original activity HTML is retained in an inert template inside index.html; it does not run or load its artwork.
+The rejected Barnaby walk atlas is no longer loaded. There is no replacement Barnaby sprite in this build: the experience currently uses his point of view. Character movement remains outstanding and requires the exact Series 4 character sheet.
+Public website files, Woodland Search, preview-server code and the GitHub Pages exclusion are unchanged. The whole Christmas folder remains excluded from public GitHub Pages output.
+No new directories, backups or duplicate projects were created.
+
+ART STATUS / LIMITS
+This is a playable review build, not final artwork approval or a completed release.
+The interactive vector pictures in market.js are new, simple game interpretations of the verified story objects. They are not claimed to be exact approved tracings. All nine original colouring SVG files remain unchanged.
+No new approved files have been placed in assets/final.
+Other locations and the remaining original activities, Barnaby movement, Luna narration and final artwork review remain outstanding. Real low-end phones and mobile Safari still need device testing; viewport checks are not a performance guarantee.
+
+BURROW SCENERY NOW USED LOCALLY
+The two earlier generated burrow drafts have now been copied into the existing assets/placeholders directory for review. They are not newly approved finals.
+Interior_Burrow.png: original 1586 x 992; runtime Interior_Burrow.webp: 397,380 bytes.
+Interior_Burrow_Portrait.png: original 1030 x 1527; runtime Interior_Burrow_Portrait.webp: 800 x 1186, 238,724 bytes.
+Original outputs remain untouched:
+C:\Users\jackw\.codex\generated_images\01a1b523-f72c-7d62-b013-0710b1538d23\exec-c73c8431-c1e2-458f-b653-c251360a4a7c.png
+C:\Users\jackw\.codex\generated_images\01a1b523-f72c-7d62-b013-0710b1538d23\exec-6e0085c5-a08a-4561-bc69-b93172f5aed5.png
+
+Current home-room continuity supersedes the older ART 07 kitchen/stockings composition below:
+Use Episode 115 / 1.png and 3.png as the room/door/window authority and Episode 107 / 2.png for warm timber and domestic materials. The round snowy window sits to the LEFT of the family doorway; cream knitted bench, low clear activity table, moss-green rug, warm shelves and the enclosed stove established in Episode 115. Leave the window clear for the child's separate star. Do not bake a finished star or stockings into this first playable scene.
+Exact references:
+C:\Barnaby - Series 4\Episode 115 — Barnaby and the Knock at the Burrow Door\1.png
+C:\Barnaby - Series 4\Episode 115 — Barnaby and the Knock at the Burrow Door\3.png
+C:\Barnaby - Series 4\Episode 107 — Barnaby and the Great Woodland Bake\2.png
+
+A new Barnaby standing-pose image request was rejected by the image tool; no character output was installed. The existing aCharacters-Episodes\Barnaby.png remains the identity authority. Do not restore the rejected walking atlas as a shortcut.
+
+VERIFICATION — 14 November 2026
+Browser checks completed at desktop sizes (including 1440 x 900), 390 x 844 and compact 320 x 568.
+Verified home/village/tree/workshop navigation; fill and pointer brush strokes; undo/redo; reset followed by undo; window-star placement; wooden-star, bow and orange placements; lantern reward; reload persistence; unfinished edits to an already placed star; 1600 x 1200 exported image preview; gentle-mode snow suppression; optional sound on/off.
+Corrected compact-phone sheet cropping and scene-control overlaps. Corrected Alder's layering behind the workbench and lantern alignment/framing. No browser warning/error entries in the final inspected session.
+Syntax and whitespace checks passed. Runtime HTML/CSS/JS total approximately 46 KB before compression, excluding scenery and optional audio. Current home WebP is 239 KB portrait / 397 KB landscape. These are file sizes, not measured mobile-network transfer or hardware performance.
+Review screenshot is outside the game, in the existing Codex workspace:
+C:\Users\jackw\Documents\Codex\2026-11-07\files-pasted-by-the-user-codex\Christmas_Home_First_Review.png
+
+HISTORICAL PLANS AND SOURCE REVIEW FOLLOW
+
+SOURCE-FIRST ARTWORK AUDIT — 13 November 2026
+LATEST USER DIRECTION: check existing Series 1–6 artwork BEFORE further building.
+This section takes precedence over the old market-first journey and any suggestion that the current movement preview is a finished game.
+
+AUDIT SCOPE
+Found all six folders: C:\Barnaby - Series 1 through C:\Barnaby - Series 6.
+Recursive image-file counts (including character sheets, books, branding and existing auxiliary folders):
+Series 1: 262; Series 2: 173; Series 3: 172; Series 4: 216; Series 5: 173; Series 6: 203. Total 1,199 image files, not necessarily distinct illustrations.
+Inspected dimensions of 980 images directly within Episode folders: 151 / 151 / 154 / 188 / 150 / 186 across Series 1–6 respectively.
+All 980 were portrait, overwhelmingly 941 x 1672; none was a ready-made landscape game background.
+Visually reviewed the 19 selected episode images listed below, plus the Series 4 Barnaby character sheet and existing generated identity/movement artwork. This was a targeted review, NOT visual inspection of every image or playback of existing videos.
+Read relevant narration/object specifications to distinguish story events and locations.
+
+BARNABY IDENTITY LOCK
+C:\Barnaby - Series 4\aCharacters-Episodes\Barnaby.png
+C:\Barnaby - Series 5\aCharacters\Barnaby.png
+C:\Barnaby - Series 6\aCharacters-Episodes\Barnaby.png
+These three files have identical SHA256:
+633F03B7ABBF0A3D73BE27A9910D7D78E0FE8749485F65CFDAE5083C944E57B6
+Series 4 remains the designated authority. Match FRONT, BACK and 3/4 turnaround views individually. No invented raised rear hair strip; the rear silhouette is soft with a modest central tuft. The bag is a diagonal-strap satchel resting at the hip, not a newly designed backpack.
+The current walk atlas is REJECTED by Jack, regardless of older notes calling it selected. It has not been corrected or removed from runtime yet. Do not infer approval from previous acceptance of scenery.
+The earlier Barnaby_Identity_Review.png is also not an approved replacement; a different front portrait cannot validate a rear walk cycle.
+
+EXACT EXISTING SOURCES REVIEWED
+1. Burrow exterior / building identity:
+C:\Barnaby - Series 1\Episode30 — Barnaby and the Warmest Place in the Woods\6.png
+Character-free exterior beneath enormous roots, round door/windows, lit home at night. Strong existing base. Needs winter adaptation for the Christmas game, not a replacement building.
+
+2. Family kitchen material reference:
+C:\Barnaby - Series 2\Episode38 — Barnaby's Baking Day\1.png
+Rounded timber, ceramic bowls, food preparation and established home atmosphere. Summer greenery/flowers and older character rendering are not Christmas identity references.
+
+3. Village route / established architecture:
+C:\Barnaby - Series 3\Episode61-Barnaby Discovers the Village\3.png
+Cobbled street, timber/stone buildings and tower. Autumn scene with foreground characters and story lettering. Use architecture, not a literal ready-made empty winter level; do not infer a new Pip shop from the illustrated sign.
+
+4. Alder workshop / craft materials:
+C:\Barnaby - Series 3\Episode88-Barnaby and the Lantern Maker\2.png
+Actual Alder badger, timber bench, lantern shelves and coloured glass. Foreground characters and autumn outside. Preserve the workshop identity.
+
+5–6. Winter family doorway / kitchen:
+C:\Barnaby - Series 4\Episode 107 — Barnaby and the Great Woodland Bake\1.png
+C:\Barnaby - Series 4\Episode 107 — Barnaby and the Great Woodland Bake\2.png
+Winter round doorway and familiar family kitchen. Characters are already painted into each source.
+
+7–8. Mum's star and its home display:
+C:\Barnaby - Series 4\Episode 108 — Barnaby and Mum's Christmas Star\4.png
+C:\Barnaby - Series 4\Episode 108 — Barnaby and Mum's Christmas Star\6.png
+Use the actual open wooden five-point keepsake, cream wool bindings and faded red loop. Display it at the home window. This is DISTINCT from the solid village-tree topper.
+Read Episode108_Master_Image_Prompts.txt: the Episode108 sitting room has a low table, moss-green rug, cream bench, shelves, round window and enclosed wall lamp; no fireplace/open flame in that episode. Do not blend every episode's props indiscriminately.
+
+9. Village tree decorations:
+C:\Barnaby - Series 4\Episode 113 — Barnaby and the Village Christmas Tree\5.png
+Living spruce in circular stone bed, solid wooden topper, wooden stars, red bows, orange slices and pinecones. The scene already depicts a decorated tree and characters. The playable version needs separate child-coloured decorations and an uncompleted base, not a fake reward pasted over a finished celebration.
+
+10–11. Winter sitting room and door relationship:
+C:\Barnaby - Series 4\Episode 115 — Barnaby and the Knock at the Burrow Door\1.png
+C:\Barnaby - Series 4\Episode 115 — Barnaby and the Knock at the Burrow Door\3.png
+Round snowy window beside the family door, cream bench, moss-green rug, low table and established warm room. Best winter reference pair for the proposed home-first starting scene. Star is already visible; make the child's displayed creation a separate game layer.
+
+12–14. Additional winter Alder continuity:
+C:\Barnaby - Series 5\Episode 136 — Barnaby and Mr Alder's Silent Lantern\Scene01.png
+C:\Barnaby - Series 5\Episode 136 — Barnaby and Mr Alder's Silent Lantern\Scene02.png
+C:\Barnaby - Series 5\Episode 136 — Barnaby and Mr Alder's Silent Lantern\Scene03.png
+Exterior round window/door, ornate iron bracket, warm entrance, snowy route and interior bench. Narration confirms Alder's workshop and Bramble's visit. The special dusty Wayfinder lantern is a different story object; do not substitute it for the Series 4 Episode111 colouring lantern or import later plot reveals into the Christmas activity.
+
+15. Later family kitchen:
+C:\Barnaby - Series 6\Episode 153 — Barnaby and the Breakfast He Made Himself\Scene01.png
+Familiar round window, table, ceramics, Mum and Barnaby. Useful continuity comparison for room proportions and detail, not a winter scene replacement.
+
+16. Winter windowsill / furniture detail:
+C:\Barnaby - Series 6\Episode 155 — Barnaby and the Seedling on the Windowsill\Scene01.png
+Snow through the round window, timber sill, books, fabrics and little stool. Do not introduce the later story seedling merely because it appears in this reference.
+
+17–18. Indoor play atmosphere:
+C:\Barnaby - Series 6\Episode 156 — Barnaby and Willow's Rainy-Day Game\Scene01.png
+C:\Barnaby - Series 6\Episode 156 — Barnaby and Willow's Rainy-Day Game\Scene06.png
+Round entry, rug, low table, soft furnishings and clear sense of play happening in the room. Rain/rainbow, boats and felt river belong to that episode; use room atmosphere rather than importing those activities into Christmas.
+
+19. Later home exterior detail:
+C:\Barnaby - Series 6\Episode 160 — Barnaby and the Letter from Fernhollow\Scene01.png
+Barnaby at the root-built round doorway, lantern, little window and Pip outside. Rain, flowers and the Fernhollow letter are later story elements, not Christmas props.
+
+REUSE RULE FOR THE NEXT BUILD
+For each location/object: select one main existing image, name supporting references, then identify only the necessary game adaptation (winter treatment, wider framing, unobstructed activity space or separate interactive object).
+Reuse original scenes directly where their portrait framing and baked-in subjects fit. Never overwrite original series images.
+Do not generate replacement scenery because the existing source inventory was overlooked.
+All six series inform continuity; that does not require inserting every series' props or characters into a Series 4 Christmas scene.
+Character sprites, empty gameplay backgrounds and clean colouring regions are not automatically present just because a narrative illustration exists.
+Exact final adaptation needs must be assessed against the selected source before generating.
+
+REVISED EXPERIENCE — NOT YET IMPLEMENTED
+Start at Barnaby's home. The child chooses colouring/decorating or leaving for the village.
+Use meaningful destination choices/scene hotspots, not a forced Back > Along the lane > tree slideshow.
+The village tree must receive the child's actual decorations. Mum's keepsake remains a home-window object.
+Build a coherent paintbox (large fill regions, constrained brush, undo, saved work, clear display action) inside the same visual experience.
+Remove the player-facing escape into the old prototype when the replacement journey works; preserve original files and saved colouring.
+Do not present the existing movement demo as this completed experience.
+
+STATUS AT THIS AUDIT
+No gameplay, original artwork, SVG, audio, public website or deployment changes made during this source review.
+Two newly generated burrow drafts were produced immediately BEFORE Jack requested the Series1–6 check. They remain unapproved in the generator output folder; neither was copied into the project or integrated.
+Draft landscape: C:\Users\jackw\.codex\generated_images\01a1b523-f72c-7d62-b013-0710b1538d23\exec-c73c8431-c1e2-458f-b653-c251360a4a7c.png
+Draft portrait: C:\Users\jackw\.codex\generated_images\01a1b523-f72c-7d62-b013-0710b1538d23\exec-6e0085c5-a08a-4561-bc69-b93172f5aed5.png
+These drafts must not become the automatic home authority. Existing episode artwork listed above takes precedence.
+No source named above is missing. Empty game-ready layers and approved walking animation remain outstanding deliverables, not missing story references.
+
+END SOURCE-FIRST AUDIT
+===============================================================================
+
 LOCAL ARTWORK REVIEW BATCH — 13 November 2026
 STATUS: 12 generated review PNGs + 12 derived WebP previews, saved locally. NOT approved final assets.
 This production status supplements the current creative brief below; it does not expand the authorised first journey.
