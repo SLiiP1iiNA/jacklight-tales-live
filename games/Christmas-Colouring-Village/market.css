@@ -17,63 +17,6 @@
 
 .drawing-wrap{position:relative;display:block}.drawing-wrap svg{position:absolute;inset:0;width:100%;height:100%}
 
-/* A world to enter: small trail signs, quiet controls, and a character on the ground. */
-.scene-header{padding:20px 24px 50px;background:linear-gradient(#092d2459,transparent);align-items:flex-start}
-.scene-header h1{font-size:25px;letter-spacing:.01em;text-shadow:0 2px 10px #123d32}
-.scene-header .eyebrow{font-size:9px;letter-spacing:2px;margin-bottom:5px}
-.scene-header nav button{border-radius:50px;background:#17392dba;border-color:#f6e3b76b;font-size:11px;padding:9px 13px;backdrop-filter:none}
-.scene-header nav button[aria-pressed=true]{background:#e7c47d;color:#17352e}
-.scene-footer{padding:45px 18px 14px;background:linear-gradient(transparent,#122d2270)}
-.scene-footer p{font-size:15px;max-width:530px;margin-bottom:3px;color:#fff7dd;text-shadow:0 1px 5px #10291c,0 1px 8px #10291c}
-.scene-footer small{font-size:9px;opacity:.65;letter-spacing:1px;margin-top:6px}
-.scene-actions{display:none!important}
-#scene-world .path-stop{font:600 15px/1.2 Georgia,serif;min-height:44px;padding:12px 18px;color:#fff0c5;white-space:nowrap;border:1px solid #d9ad67;border-radius:5px 10px 5px 9px;background:linear-gradient(175deg,#8d622fee,#62401eeF);box-shadow:inset 0 2px 0 #f6d89e55,inset 0 -3px 0 #3e290a66,0 5px 9px #18231977;text-shadow:0 1px #38220a;transition:filter .15s,box-shadow .15s}
-#scene-world .path-stop::before{content:'✧';color:#ffe5a2;margin-right:7px}
-#scene-world .path-stop::after{content:'';position:absolute;width:7px;height:17px;background:linear-gradient(90deg,#74502c,#a77a3f,#74502c);left:50%;bottom:-17px;box-shadow:2px 3px 3px #0b281d55;z-index:-1}
-#scene-world .path-stop:hover,#scene-world .path-stop:focus-visible{filter:brightness(1.15);box-shadow:inset 0 2px 0 #fff5,0 0 20px #ffe6a566,0 5px 9px #18231977}
-#market-view[data-place=crossroads] .scene-header h1{font-size:23px}
-#market-view[data-place=crossroads] .scene-footer{padding-bottom:20px}
-#market-view[data-place=crossroads] #scene-world .path-stop:nth-child(2)::before{content:'↑'}
-#market-view[data-place=crossroads] #scene-world .path-stop:nth-child(1)::before{content:'↖'}
-#market-view[data-place=crossroads] #scene-world .path-stop:nth-child(3)::before{content:'↗'}
-#barnaby-explorer{position:absolute;left:0;top:0;z-index:2;aspect-ratio:1;transform-origin:50% 95%;pointer-events:none}
-#barnaby-explorer canvas{position:absolute;inset:0;width:100%;height:100%;filter:drop-shadow(0 2px 2px #462f1a30)}
-.paw-shadow{position:absolute;width:29%;height:5%;left:35.5%;bottom:3.5%;border-radius:50%;background:#3c34195c;box-shadow:0 0 4px 2px #3c341930}
-#stop-walk{position:absolute;bottom:85px;left:50%;transform:translateX(-50%);z-index:6;border-radius:18px;font-size:12px;background:#17382dcc}
-.travelling #barnaby-explorer{will-change:transform}.travelling #scene-items button{pointer-events:none}
-.travelling #scene-items .path-stop{opacity:.35}
-.place-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
-.place-card{min-height:64px;text-decoration:none;border:1px solid #caaa6466}
-.place-card img{display:none}
-.place-card strong{padding:20px}
-.dialog{background:radial-gradient(ellipse at top,#34553a,#173b2c);border-color:#e8c98588}
-@media(max-width:700px){
- .scene-header{padding:17px 14px 42px;display:flex;flex-direction:column;gap:10px}
- .scene-header h1,#market-view[data-place=crossroads] .scene-header h1{font-size:22px}
- .scene-header .eyebrow{font-size:8px;letter-spacing:1.5px}
- .scene-header nav{margin:0;gap:5px}
- .scene-header nav button{font-size:10px;padding:7px 10px;min-height:36px}
- #scene-world .path-stop{font-size:12px;min-height:42px;padding:10px 11px}
- #scene-world .path-stop::before{margin-right:4px}
- .scene-footer p{font-size:13px;max-width:310px;line-height:1.4}
- .scene-footer{padding:35px 14px 13px}
- .scene-footer small{font-size:8px}
- .place-grid{grid-template-columns:1fr}
- .place-card{display:block;min-height:48px}
- .place-card strong{padding:15px}
- #stop-walk{bottom:92px}
-}
-@media(max-height:520px) and (min-width:701px){
- .scene-header{padding:10px 16px}.scene-header h1{font-size:21px}.scene-footer{padding:20px 15px 10px}.scene-footer p{font-size:12px}
-}
-
-#market-view[data-placing=true] .scene-actions{display:flex!important;margin-top:10px}#market-view[data-placing=true] .scene-actions button{font-size:12px;padding:9px 15px}
-
-/* Keep controls clear of phone notches and home indicators. */
-.scene-header{padding-top:max(17px,env(safe-area-inset-top));padding-left:max(14px,env(safe-area-inset-left));padding-right:max(14px,env(safe-area-inset-right))}
-.scene-footer,#market-view[data-place=crossroads] .scene-footer{padding-bottom:max(14px,env(safe-area-inset-bottom))}
-#place-title:focus{outline:none}
-
 /* Quiet Luna controls; the picture remains the focus. */
 .scene-header nav{flex-wrap:wrap}
 .luna-controls{display:flex;align-items:center;flex-wrap:wrap;gap:6px;margin:8px 0}
@@ -85,3 +28,238 @@
 #scene-message{max-width:620px}
 @media(max-width:700px){.luna-controls{gap:5px;margin:6px 0 0}.luna-controls button{min-height:32px;padding:6px 10px}.paint-heading{align-items:flex-start}.scene-header nav button{min-height:40px}.luna-caption{font-size:13px}}
 @media(max-width:700px) and (max-height:700px){.paint-layout{grid-template-rows:minmax(85px,1fr) minmax(0,190px)}.paint-heading [data-luna-caption]{font-size:11px;max-height:4.2em}.paint-heading h2{font-size:18px}.paint-heading .luna-controls button{font-size:11px;min-height:30px}}
+
+/* World presentation: scenery first, one consistent control language. */
+:root{--cream:#fff8e9;--gold:#f2d392;--ink:#153b34;font-family:"Trebuchet MS","Segoe UI",sans-serif}
+button{font-family:"Trebuchet MS","Segoe UI",sans-serif;font-weight:600}
+#scene-camera{position:absolute;inset:0;transform-origin:50% 58%;transition:transform .35s ease-out}
+.travelling #scene-camera{transition:none;will-change:transform}
+#scene-world{transition:opacity .35s}#scene-world.loading{opacity:.45}
+.scene-header{padding:clamp(18px,3vw,36px);padding-top:max(20px,env(safe-area-inset-top));display:flex;align-items:flex-start;justify-content:space-between;background:linear-gradient(#102a2c80,transparent);gap:12px}
+.world-brand{display:grid;gap:5px;text-shadow:0 2px 12px #061b1c}
+.world-brand>span{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:#fff4d7}
+.world-brand>strong{font-size:clamp(18px,2vw,25px);font-weight:600;letter-spacing:-.025em}
+.scene-header nav{display:flex;flex-wrap:nowrap;gap:8px;margin:0}
+.world-control{display:inline-flex;align-items:center;justify-content:center;gap:9px;border:1px solid #fff6d54d;background:#173b34e6;border-radius:50%;width:46px;height:46px;padding:11px;min-height:46px;box-shadow:0 3px 12px #10252024;font-size:14px}
+.world-control:has(span){width:auto;border-radius:30px;padding-inline:16px}
+.world-control:hover{background:#255848;border-color:#ffe2a1}
+.world-control svg{width:21px;height:21px;flex:none}
+.scene-footer{display:flex;justify-content:space-between;align-items:flex-end;gap:20px;padding:70px clamp(20px,3vw,38px) max(26px,env(safe-area-inset-bottom));background:linear-gradient(transparent,#092a2be6);text-align:left}
+.place-caption{flex:none;max-width:48%;text-shadow:0 2px 14px #082827}
+.season-label{font-size:11px;letter-spacing:.13em;text-transform:uppercase;color:#efd9a9}
+#place-title{font:600 clamp(24px,3vw,36px)/1.14 "Trebuchet MS","Segoe UI",sans-serif;letter-spacing:-.035em;margin:8px 0 0}
+#place-title:focus{outline:none}
+.scene-footer #scene-message{font:400 15px/1.5 "Trebuchet MS","Segoe UI",sans-serif;text-align:right;max-width:320px;margin:0 0 3px;color:#fff9e9;text-shadow:0 2px 6px #052525}
+.scene-footer .scene-actions{display:none}
+.narrating .scene-footer #scene-message{background:#13382ff2;border:1px solid #f5d39455;border-radius:16px;padding:14px 18px;max-width:520px;font-size:16px;text-align:left}
+.narrating .scene-footer #scene-message::before{content:'LUNA';display:block;font-size:10px;letter-spacing:.18em;color:#f0d29a;margin-bottom:5px}
+#scene-world .path-stop{width:50px;height:50px;min-height:50px;padding:0;border:0;background:none;box-shadow:none;border-radius:50%;color:#fff8e4;overflow:visible;font:600 14px/1.2 "Trebuchet MS","Segoe UI",sans-serif;transition:opacity .3s}
+#scene-world .path-stop::before,#scene-world .path-stop::after{content:none}
+.destination-orb{display:grid;place-items:center;width:50px;height:50px;border:1px solid #ffe1a5d9;border-radius:50%;background:#163b32ed;box-shadow:0 0 0 5px #fff1bc24,0 4px 16px #102a2877;transition:transform .2s,background .2s}
+.destination-orb svg{width:23px;height:23px}
+.destination-label{position:absolute;top:63px;left:50%;transform:translateX(-50%);padding:7px 12px;border-radius:20px;background:#14372fed;color:#fff6e0;box-shadow:0 3px 12px #0c252933;white-space:nowrap;font-size:14px;letter-spacing:.01em}
+#scene-world .path-stop:hover .destination-orb,#scene-world .path-stop:focus-visible .destination-orb{transform:scale(1.12);background:#f0d18c;color:#183c32}
+#scene-world .path-stop:focus-visible{outline-offset:7px}
+.travelling #scene-items .path-stop{opacity:0;pointer-events:none}
+#barnaby-explorer{position:absolute;left:0;top:0;z-index:2;aspect-ratio:1;transform-origin:50% 95%;pointer-events:none}
+#barnaby-explorer canvas{position:absolute;inset:0;width:100%;height:100%;filter:drop-shadow(0 2px 2px #462f1a30)}
+.paw-shadow{position:absolute;width:29%;height:5%;left:35.5%;bottom:3.5%;border-radius:50%;background:#3c34195c;box-shadow:0 0 4px 2px #3c341930}
+.travelling #barnaby-explorer{will-change:transform}
+#stop-walk{position:absolute;bottom:130px;left:50%;transform:translateX(-50%);z-index:6;font-size:14px;background:#17382de6}
+.dialog{background:#163a32;border:1px solid #e7d3a455;border-radius:22px;padding:28px;color:#fff5e1}
+.dialog::backdrop{background:#071e24cc}
+.dialog h2{font:600 clamp(24px,3vw,34px)/1.15 "Trebuchet MS","Segoe UI",sans-serif;letter-spacing:-.025em}
+.dialog .eyebrow{font-size:11px;letter-spacing:.12em}
+.dialog-head .close{width:44px;height:44px;min-height:44px;padding:0;flex:none}
+#places-dialog{width:min(900px,94vw)}
+.place-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.place-card{border:1px solid #d9c7a244;background:#21463c;min-height:0;border-radius:14px;text-decoration:none;display:flex;flex-direction:column;transition:background .2s}
+.place-card:hover{background:#305e4b}
+.place-card img{display:block;width:100%;height:auto;aspect-ratio:1.55;object-fit:cover}
+.place-card strong{font:600 16px/1.3 "Trebuchet MS","Segoe UI",sans-serif;padding:14px}
+#settings-dialog{width:min(490px,92vw)}
+.setting-row{display:flex;align-items:center;justify-content:space-between;gap:20px;padding:20px 0;border-top:1px solid #fff2}
+.setting-row strong{font-size:17px}.setting-row p{font-size:14px;max-width:230px;margin:5px 0 0;color:#c5d8cc}
+.setting-row button{min-width:92px;flex:none}
+.visit-note{font-size:13px;color:#c5d8cc!important;border-top:1px solid #fff2;padding-top:18px;margin-bottom:0}
+#market-view[data-placing=true] .scene-footer{flex-wrap:wrap}
+#market-view[data-placing=true] .scene-actions{display:flex;width:100%;justify-content:center;pointer-events:auto}
+.paint-heading h2{font-size:26px}.paint-heading p{font-size:14px}
+.activity-card strong{font-family:"Trebuchet MS","Segoe UI",sans-serif}
+.luna-controls button{min-height:40px;font-size:13px}
+@media(max-width:700px){
+ .scene-header{padding:18px 16px 42px;flex-direction:row;gap:8px}
+ .world-brand{gap:4px;max-width:155px}.world-brand>span{font-size:9px;letter-spacing:.15em}.world-brand>strong{font-size:18px;line-height:1.1}
+ .scene-header nav{gap:6px}.scene-header nav .world-control{width:42px;height:42px;min-height:42px;padding:10px}.scene-header nav .world-control span{display:none}
+ .world-control svg{width:20px;height:20px}
+ .scene-footer{padding:55px 20px max(22px,env(safe-area-inset-bottom));display:block;text-align:left}
+ .place-caption{max-width:100%}.season-label{font-size:10px}#place-title{font-size:27px;margin-top:6px}
+ .scene-footer #scene-message{font-size:14px;text-align:left;max-width:100%;margin:8px 0 0}
+ .narrating .place-caption{display:none}.narrating .scene-footer #scene-message{font-size:14px;padding:12px 14px}
+ #scene-world .path-stop,.destination-orb{width:46px;height:46px;min-height:46px;padding:0}
+ .destination-label{top:57px;font-size:12px;padding:7px 10px}
+ .destination-orb svg{width:21px;height:21px}
+ .place-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.place-card strong{font-size:14px;padding:12px}.dialog{padding:20px}
+ .dialog h2{font-size:26px}.setting-row{gap:12px}.setting-row strong{font-size:16px}.setting-row p{font-size:13px}
+ #stop-walk{bottom:145px}
+ .paint-heading h2{font-size:21px}
+}
+@media(max-width:360px){.scene-header{padding-inline:12px}.world-brand>strong{font-size:16px}.world-brand{max-width:125px}.scene-header nav{gap:4px}.scene-header nav .world-control{width:40px;height:42px}.place-caption #place-title{font-size:25px}}
+@media(max-height:520px) and (min-width:701px){.scene-header{padding:12px 18px}.scene-footer{padding:25px 20px 14px}#place-title{font-size:24px}.scene-footer #scene-message{font-size:13px}.world-brand>strong{font-size:20px}}
+@media(prefers-reduced-motion:reduce){#scene-camera{transition:none}}
+
+/* Shared craft controls keep the existing scenery visible during colouring. */
+#scene-world .bench-lantern{border-radius:0;filter:drop-shadow(0 13px 7px #1d100966)}
+.bench-lantern svg{filter:none}
+.bench-invitation{position:absolute;left:50%;bottom:-32px;transform:translateX(-50%);font-size:14px;white-space:nowrap;background:#173b32ed;padding:9px 16px;border-radius:24px;border:1px solid #efd7a36b;color:#fff4db;box-shadow:0 4px 15px #0003}
+.bench-lantern:hover svg{filter:drop-shadow(0 0 9px #ffe4a866)}
+#scene-world .world-lantern{transform-origin:50% 5%;isolation:isolate;filter:drop-shadow(2px 5px 3px #301b1759)}
+.world-lantern svg{position:relative;filter:none;overflow:visible}
+.lantern-halo{position:absolute;inset:5% -100% -30%;border-radius:50%;background:radial-gradient(ellipse,#ffe0a23d 4%,#ffc26f18 37%,transparent 68%);pointer-events:none;z-index:-1;opacity:1;transition:opacity 1.8s ease}
+.lantern-pool{position:absolute;width:30%;height:12%;transform:translate(-50%,-50%) rotate(-12deg);background:radial-gradient(ellipse,#ffcf8ba6,#ffc57d4d 38%,transparent 72%);pointer-events:none;opacity:.85;transition:opacity 2s ease}
+.glass-light{opacity:.8;transition:opacity 1.5s ease}
+.lantern-reveal:not(.lantern-ignited) .lantern-halo,.lantern-reveal:not(.lantern-ignited) .lantern-pool,.lantern-reveal:not(.lantern-ignited) .glass-light{opacity:0}
+.lantern-ignited .lantern-halo{animation:lamp-breath 5s 2s ease-in-out infinite alternate}
+@keyframes lamp-breath{from{opacity:.7}to{opacity:1}}
+#bench-undo,#paint-options{display:none}
+.at-bench #scene-camera{transform:scale(1.14);transform-origin:43% 72%}
+.at-craft #scene-items,.at-craft>.scene-header,.at-craft>.scene-footer{visibility:hidden}
+/* The painting remains a real modal for focus and keyboard support, but the room stays visible. */
+#paint-dialog.craft-mode{inset:0;margin:0;width:100vw;max-width:100vw;height:100dvh;max-height:100dvh;border:0;border-radius:0;background:transparent;box-shadow:none;grid-template-rows:auto minmax(0,1fr) auto;color:#fff5df;overflow:hidden}
+#paint-dialog.craft-mode::backdrop{background:linear-gradient(#061a1d77,transparent 30%,#140b0522 65%,#140b05aa)}
+.craft-mode .paint-heading{padding:20px 28px 10px;background:linear-gradient(#122a24d9,transparent);border:0;align-items:flex-start;gap:16px}
+.craft-mode .paint-heading h2{font-size:clamp(22px,2.5vw,30px);text-shadow:0 2px 8px #221306;margin-bottom:4px}
+.craft-mode .paint-heading p{font-size:14px;max-width:560px;min-height:20px;max-height:2.8em;overflow:auto;color:#fff2d7;text-shadow:0 2px 4px #15251b}
+.craft-mode .paint-heading>button{flex:none;background:#183d32ed}
+.craft-mode .paint-heading .luna-controls{margin-top:8px}
+.craft-mode .paint-heading .luna-controls button{min-height:36px;background:#183d32e6}
+.craft-mode .paint-layout{display:flex;flex-direction:column-reverse;overflow:hidden;min-height:0}
+.craft-mode .paper-desk{order:0;padding:10px 20px 20px;flex:1;min-height:120px;overflow:visible;background:transparent}
+.craft-mode .drawing-wrap{position:relative;height:100%;width:auto;max-width:90vw;aspect-ratio:440/550;min-height:0;max-height:none;flex:none;border-radius:0;background:none;box-shadow:none;filter:drop-shadow(8px 17px 9px #27130575);transform-origin:center}
+.craft-mode .drawing-wrap svg{overflow:visible}
+.craft-mode .paintbox{flex:none;max-height:40dvh;min-height:0;overflow-y:auto;overflow-x:hidden;width:min(820px,calc(100% - 40px));align-self:center;padding:16px 18px 12px;border:1px solid #e2bb7566;border-radius:20px;background:#183c32f5;box-shadow:0 10px 30px #1d130b40;display:grid;grid-template-columns:minmax(0,1fr);gap:10px}
+.craft-mode .paintbox-label{display:none}
+.craft-mode .palette{display:flex;gap:9px;padding:4px;overflow-x:auto;scrollbar-width:thin;scrollbar-color:#e2c07c66 transparent;overscroll-behavior-x:contain;touch-action:pan-x}
+.craft-mode .swatch{flex:0 0 36px;width:36px;height:36px;min-height:36px;border-width:2px}
+.craft-mode .swatch[aria-pressed=true]{outline-width:2px;outline-offset:2px}
+.craft-mode .paint-tools{display:flex;align-items:center;justify-content:center;gap:8px;margin:0;flex-wrap:wrap;grid-column:auto}
+.craft-mode .paint-tools button{font-size:14px;min-height:42px;border-radius:24px;padding:9px 17px;text-align:center}
+.craft-mode #bench-undo,.craft-mode #paint-options{display:inline-block}
+.craft-mode .brush-size{margin:0;gap:5px}.craft-mode .brush-size button{width:40px;height:40px;padding:6px;min-height:40px}
+.craft-mode .paint-history{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.craft-mode .history-tools{margin:0}.craft-mode #undo{display:none}
+.craft-mode .custom-colour{margin:2px 0;font-size:14px}
+.craft-mode:not(.expanded-tools) .custom-colour,.craft-mode:not(.expanded-tools) .paint-history,.craft-mode:not(.expanded-tools) [data-tool="erase"],.craft-mode:not(.expanded-tools) .brush-size,.craft-mode:not(.expanded-tools) #save-picture{display:none}
+.craft-mode .paint-footer{padding:12px 28px 20px;border:0;background:linear-gradient(transparent,#102b26b3);display:flex;align-items:center;justify-content:space-between;gap:12px}
+.craft-mode .paint-footer p{font-size:13px;color:#fff4db;text-shadow:0 2px 4px #192a21}
+.craft-mode .paint-footer>div{margin-left:auto;gap:10px}
+.craft-mode #finish{min-height:46px;font-size:16px;padding:12px 24px;background:#f0cf88;border-color:#fbe8bb;box-shadow:0 4px 18px #25160966}
+@media(max-width:700px){
+ #scene-world .bench-lantern{min-height:0;padding:0}
+ .bench-invitation{font-size:13px;bottom:-33px;padding:9px 13px}
+ .lantern-pool{width:44%;height:9%}
+ .craft-mode .paint-heading{padding:16px 16px 4px;gap:10px}
+ .craft-mode .paint-heading h2{font-size:22px}
+ .craft-mode .paint-heading p{font-size:13px;line-height:1.4;max-height:2.8em}
+ .craft-mode .paint-heading .luna-controls button{font-size:12px;min-height:34px;padding:7px 12px}
+ .craft-mode .paper-desk{padding:8px 16px 14px}
+ .craft-mode .paintbox{width:calc(100% - 24px);padding:10px 10px 8px;gap:6px;border-radius:18px;max-height:38dvh}
+ .craft-mode .palette{gap:9px;padding:4px 3px 7px}.craft-mode .swatch{flex-basis:40px;width:40px;height:40px;min-height:40px}
+ .craft-mode .paint-tools{gap:6px;justify-content:space-between}
+ .craft-mode .paint-tools button{font-size:13px;min-height:40px;padding:9px 14px}
+ .craft-mode .paint-footer{padding:8px 14px max(12px,env(safe-area-inset-bottom));display:flex}
+ .craft-mode .paint-footer p{max-width:130px;font-size:11px;margin:0}
+ .craft-mode .paint-footer>div{justify-content:flex-end;flex-wrap:wrap}
+ .craft-mode #finish{font-size:14px;min-height:44px;padding:11px 17px}
+ .craft-mode .drawing-wrap{max-width:85vw}
+}
+@media(max-width:700px) and (max-height:700px){
+ .craft-mode .paint-heading{padding:10px 12px 2px}.craft-mode .paint-heading h2{font-size:19px;margin-bottom:3px}
+ .craft-mode .paint-heading p{font-size:12px;min-height:17px}.craft-mode .paint-heading .luna-controls{margin-top:4px}
+ .craft-mode .paint-heading .luna-controls button{min-height:32px;padding:6px 11px}
+ .craft-mode .paper-desk{min-height:80px;padding-block:5px 10px}
+ .craft-mode .paintbox{max-height:32dvh;padding:6px 8px;gap:2px}
+ .craft-mode .paint-tools button{padding:7px 12px;min-height:38px}
+ .craft-mode .swatch{flex-basis:36px;width:36px;height:36px;min-height:36px}
+ .craft-mode .paint-footer{padding-top:7px;padding-bottom:8px}
+}
+@media(max-height:520px) and (min-width:701px){
+ .craft-mode .paint-heading{padding:10px 18px 2px}.craft-mode .paint-heading h2{font-size:20px}
+ .craft-mode .paint-heading p{font-size:12px}.craft-mode .paint-heading .luna-controls{position:absolute;right:75px;top:5px}
+ .craft-mode .paintbox{padding:6px 12px;gap:2px;max-height:35dvh}.craft-mode .swatch{flex-basis:30px;width:30px;height:30px;min-height:30px}
+ .craft-mode .paint-tools button{min-height:34px;padding:6px 13px}
+ .craft-mode .paint-footer{padding:6px 18px 10px}.craft-mode #finish{min-height:38px;padding:8px 18px}
+ .craft-mode .paper-desk{padding:4px;min-height:60px}
+}
+
+.at-bench #alder-host{visibility:visible}
+
+.craft-mode .paint-colours,.craft-mode .paint-tools{min-width:0}
+
+.craft-mode .paint-heading .luna-controls button[aria-pressed=true]{background:var(--gold);color:var(--ink)}
+.craft-mode .paint-heading [data-luna-caption]{max-height:none;overflow:visible}
+
+/* Shared in-world painting: the same controls for all five keepsakes. */
+.at-table #scene-camera{transform:scale(1.08);transform-origin:32% 70%}
+.craft-mode .drawing-wrap{max-width:85vw}
+.craft-mode .paper-desk{position:relative}
+.craft-mode .paintbox{border-color:#e3bd7f88;background:linear-gradient(155deg,#254c3df7,#112f29fa)}
+.craft-mode .swatch{width:44px;height:44px;min-height:44px;flex-basis:44px}
+.craft-mode .paint-tools button,.craft-mode .paint-heading .luna-controls button{min-height:44px}
+#scene-world .creation[data-slot^="tree"]{min-width:48px;min-height:48px;display:grid;place-items:center}
+.creation[data-slot^="tree"] svg{max-height:70px;filter:drop-shadow(1px 3px 2px #28180880)}
+#scene-world .branch{width:48px;height:48px}
+.scene-footer .scene-actions:has(.placement-undo){display:flex;pointer-events:auto;flex:none}
+.scene-footer .scene-actions:has(.placement-undo)>button:not(.placement-undo){display:none}
+.placement-undo{font-size:13px;padding:10px 16px;background:#173b32ed}
+#alder-host{transform-origin:50% 90%;animation:alder-breathe 7s ease-in-out infinite}
+@keyframes alder-breathe{0%,100%{transform:translate(-50%,-50%) rotate(-.25deg)}50%{transform:translate(-50%,-50%) rotate(.25deg)}}
+@media(max-width:700px){
+ .scene-footer .scene-actions:has(.placement-undo){margin-top:10px;justify-content:flex-start}
+ .craft-mode .paint-tools button{padding:8px 11px;min-height:44px}
+ .craft-mode .swatch{width:44px;height:44px;min-height:44px;flex-basis:44px}
+ .craft-mode .paint-heading .luna-controls button{min-height:40px}
+ .craft-mode .paint-footer p{font-size:12px}
+}
+/* Short screens use a side tray, keeping the object large and the core tools visible. */
+@media(max-height:520px) and (min-width:480px){
+ #paint-dialog.craft-mode{grid-template-rows:auto minmax(0,1fr) auto}
+ .craft-mode .paint-heading{min-height:58px;padding:8px 14px 4px}
+ .craft-mode .paint-heading h2{font-size:19px}
+ .craft-mode .paint-heading p{max-width:45vw;font-size:12px}
+ .craft-mode .paint-heading [data-luna-caption]{max-width:47vw;max-height:48px;overflow:auto}
+ .craft-mode .paint-heading .luna-controls{position:absolute;right:68px;top:4px;margin:0;display:flex;gap:5px}
+ .craft-mode .paint-heading .luna-controls button{min-height:40px;padding:8px 12px}
+ .craft-mode .paint-layout{display:grid;grid-template-columns:250px minmax(0,1fr);grid-template-rows:minmax(0,1fr);gap:12px;padding:0 14px}
+ .craft-mode .paintbox{align-self:stretch;width:100%;max-height:none;min-height:0;padding:8px;border-radius:16px;gap:6px;display:flex;flex-direction:column;overflow:auto}
+ .craft-mode .paint-colours{flex:none}
+ .craft-mode .palette{display:flex;overflow-x:auto;gap:8px;padding:4px}
+ .craft-mode .swatch{width:44px;height:44px;min-height:44px;flex-basis:44px}
+ .craft-mode .paint-tools{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin:0;flex:none}
+ .craft-mode .paint-tools button{min-height:44px;padding:8px;font-size:14px}
+ .craft-mode .brush-size{grid-column:1/-1;justify-content:center}
+ .craft-mode .paint-history{flex:none}
+ .craft-mode .paper-desk{order:0;padding:6px 20px;min-height:0;overflow:hidden}
+ .craft-mode .drawing-wrap{height:100%;max-width:100%;max-height:100%}
+ .craft-mode .paint-footer{padding:6px 14px;min-height:54px}
+ .craft-mode #finish{min-height:44px;padding:10px 18px}
+ #market-view[data-placing=true] .place-caption{display:none}
+ #market-view[data-placing=true] .scene-footer{padding:12px 16px;gap:8px;align-items:center}
+ #market-view[data-placing=true] .scene-footer #scene-message{font-size:13px;max-width:45%}
+ #market-view[data-placing=true] .scene-actions{width:auto;margin-left:auto}
+}
+
+.creation[data-slot^="tree"] svg{width:100%;height:100%;max-height:100%}
+@media(min-width:900px){.craft-mode .paintbox{width:min(960px,calc(100% - 40px))}}
+
+@media(max-height:520px) and (min-width:480px) and (max-width:650px){
+ .craft-mode .paint-layout{grid-template-columns:190px minmax(0,1fr);gap:8px;padding-inline:8px}
+ .craft-mode .paint-heading{padding-inline:10px;min-height:64px}
+ .craft-mode .paint-heading h2{font-size:16px;max-width:49vw}
+ .craft-mode .paint-heading p{font-size:11px;max-width:48vw}
+ .craft-mode .paint-heading .luna-controls{right:60px;gap:3px;top:7px}
+ .craft-mode .paint-heading .luna-controls button{font-size:11px;padding:7px 8px}
+ .craft-mode .paper-desk{padding:4px}
+ .craft-mode .paint-footer p{max-width:44%;font-size:11px}
+ .craft-mode .paint-footer{padding:5px 8px}
+}

@@ -1,3 +1,40 @@
+SHARED COLOURING AND PHONE POLISH — 22 November 2026
+Local review build. This supersedes the earlier note that only the lantern uses the in-scene editor.
+
+- All five current activities now use the existing scenery and one compact paint tray. Wooden stars, wool bows and orange slices gain lightweight material shading; original region geometry, saved colours and brush marks are retained. PNG keepsakes remain plain 1600 x 1200 pictures.
+- Short landscape screens use a side tray with the picture alongside it. Primary paint controls remain visible at 568 x 320 and 844 x 390; portrait reviewed at 320 x 568. No new raster, video, audio or library downloads.
+- All eight tree targets share a collision-free responsive layout, including empty branches and saved decorations. Larger minimum edit targets help small fingers.
+- Undo last decoration restores a replaced picture and its unfinished edits, or removes a newly placed decoration. The single most recent placement recovery survives reopening the browser. Older placements are not a full history. Existing saved artwork is preserved.
+- Visible paths now return from the tree to the village and from the village to the burrow crossroads.
+- Barnaby follows rounded paths with direction-aware poses and scale-aware step timing, using the existing walk sheet. Alder has a restrained breathing motion. Gentle mode and background-tab animation pauses still apply. These changes do not replace the limited character animation artwork or claim final art approval.
+- Verified: eight-target layout at 320 x 568, 390 x 844, 667 x 375, 844 x 390, 1024 x 768 and 1280 x 720; browser replacement/reload/undo restored all five original tree decorations exactly; fill/undo; brush clipping/undo; 1600 x 1200 export preview; all five material renderers have valid SVG references and leave input artwork untouched; plain exports do not contain material overlays.
+- Still required before release: Jack's visual/play review and physical Android/iPhone performance, touch, download and speaker checks. Browser viewport tests are not real-device tests. No publishing approval is implied.
+
+ALDER WORKSHOP JOURNEY — 22 November 2026
+Local implementation for Jack's review. No release approval implied.
+To test with the usual VS Code Go Live button, open http://localhost:5500/games/Christmas-Colouring-Village/ directly. The ordinary homepage intentionally does not expose this private game.
+
+- The existing lantern now waits on Alder's bench. Selecting it opens a close view in the existing room, with Alder still visible, rather than the opaque green paint window.
+- Compact paint tray: colours, Fill, Brush, Undo and More. More retains clearing, brush sizes, colour mixing, redo, reset and PNG export. Other colouring activities retain their existing editor.
+- The same saved region colours and brush strokes render on the bench, in the editor and outside. Material overlays add glass highlights, light wood grain and edge shading without modifying the saved picture. Export remains the plain 1600 x 1200 colouring keepsake.
+- Finish returns to the existing exterior hook. Glass illumination, a surrounding glow and warm light on the snow fade in; Luna's existing lantern_reward recording accompanies the reveal. Gentle mode shows the completed light immediately, without the animation.
+- Tapping the finished lantern returns to the workshop to edit it. Step outside and Back to the village provide direct exits. The tree activity marker has been moved away from Barnaby.
+- No new image/audio files, libraries, folders or video backgrounds. Existing scenery, character artwork, original SVG files, recordings, audio mix and Woodland Search are unchanged.
+- Verified: desktop and 390 x 844 / 320 x 568 layouts; fill/undo; brush clipping/undo; More controls; PNG preview at 1600 x 1200; reopen/edit; reduced-motion lighting; region/colour/stroke preservation and unique SVG identifiers in the renderer. Final normal-motion reveal starts with glass opacity 0 and reaches 0.8; the existing lantern_reward.mp3 played to completion. No browser console errors observed.
+
+Remaining art limitations: the existing lantern silhouette is retained, and Barnaby still uses the existing limited walk sheet. This pass implements the complete workshop interaction and light reveal; it does not claim final character animation or photographic material rendering. Real-device listening/performance and Jack's visual approval remain outstanding. Nothing committed, pushed or published.
+
+WORLD PRESENTATION REVIEW — 21 November 2026
+Jack rejected the previous presentation as dated and disconnected. This is a local revision for review, NOT final artwork or release approval.
+
+- Replaced wooden label buttons with consistent destination markers placed on the scene. Home, Woodland Search and the village remain linked.
+- Simplified the world header, moved location context to the lower edge, replaced the mixed serif interface typography, and moved sound/gentle mode into a settings panel.
+- Explore now shows existing location artwork instead of a plain text list. No replacement scenery or characters were generated.
+- Slower distance-driven walk poses and eased movement, plus restrained scene-camera transitions. Gentle mode skips these transitions and snow.
+- Existing four-pose-per-direction Barnaby sheet is STILL a visual limitation. The movement is NOT approved as final. A proper consistent walk cycle/rig matching the established character references is needed before claiming polished character animation. No new hair, costume or character design is authorised by this interface revision.
+- Luna recording files, audio mix, saved colouring, original artwork and Woodland Search are preserved. No commit, push or deployment in this pass.
+- Browser verification: desktop travel and arrival, settings sound switch, gentle-mode immediate travel, location chooser, burrow star and workshop lantern editors at 390 x 844 and 320 x 568. No browser errors observed. Final character animation, scene-to-scene geography and dimensional integration of coloured objects still require a dedicated art/gameplay pass.
+
 LUNA CONNECTED — 21 November 2026
 Current review build; earlier audio-pending notes below are superseded.
 
