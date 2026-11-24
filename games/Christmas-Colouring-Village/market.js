@@ -83,7 +83,15 @@ function save(){
 let scene='crossroads',requestedScene=scene,portrait=innerWidth/innerHeight<1.12,sceneToken=0,pending=null,uid=0;
 let worldWidth=0,worldHeight=0,sceneReady=false;
 let edit=null,art=blank(),undo=[],redo=[],colour=palette[0][1],tool='fill',size=18,stroke=null,beforeStroke=null;
-let calm=matchMedia('(prefers-reduced-motion: reduce)').matches;
+const motionPreference=matchMedia('(prefers-reduced-motion: reduce)');
+const preferenceKey=KEY+'-preferences';let preferences={};
+try{const saved=JSON.parse(localStorage.getItem(preferenceKey)||'{}');if(saved&&typeof saved==='object')preferences=saved;}catch(e){}
+const modestDevice=Boolean(navigator.connection?.saveData||(navigator.deviceMemory&&navigator.deviceMemory<=4)||(navigator.hardwareConcurrency&&navigator.hardwareConcurrency<=4));
+let light=typeof preferences.light==='boolean'?preferences.light:modestDevice;
+let calm=motionPreference.matches||preferences.calm===true;
+let captionsOn=preferences.captions===true;
+function savePreferences(){try{localStorage.setItem(preferenceKey,JSON.stringify(preferences));}catch(e){}}
+
 const mount=$('#market-view');
 const icons={
  home:'<path d="m3 11 9-8 9 8M5 10v10h14V10M9 20v-7h6v7"/>',
@@ -97,15 +105,15 @@ const icons={
 function icon(name){return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'+icons[name]+'</svg>';}
 
 mount.innerHTML='<div id="scene-stage"><div id="scene-camera"><div id="scene-world"><img id="scene-image" alt="" fetchpriority="high" decoding="async"><div id="scene-items"></div></div></div><canvas id="snow" aria-hidden="true"></canvas></div>'+
- '<header class="scene-header"><div class="world-brand"><span>JackLight Tales</span><strong>The Whispering Woods</strong></div><nav aria-label="World controls"><button id="crossroads" class="world-control" aria-label="Return to the crossroads">'+icon('home')+'</button><button id="places" class="world-control" aria-label="Open the woodland paths">'+icon('map')+'<span>Explore</span></button><button id="settings" class="world-control" aria-label="Open settings">'+icon('settings')+'</button></nav></header>'+
+ '<header class="scene-header"><div class="world-brand"><span>JackLight Tales</span><strong>The Whispering Woods</strong></div><nav aria-label="World controls"><button id="crossroads" class="world-control" aria-label="Return to the crossroads">'+icon('home')+'</button><button id="places" class="world-control labelled-control" aria-label="Open the woodland paths">'+icon('map')+'<span>Explore</span></button><button id="settings" class="world-control" aria-label="Open settings">'+icon('settings')+'</button></nav></header>'+
  '<button id="stop-walk" hidden>Wait, Barnaby</button><footer class="scene-footer"><div class="place-caption"><span class="season-label">A Christmas made by you</span><h1 id="place-title"></h1></div><p id="scene-message" aria-live="polite"></p><div class="scene-actions" id="scene-actions"></div></footer>'+
- '<dialog class="dialog" id="settings-dialog" aria-labelledby="settings-title"><div class="dialog-head"><div><p class="eyebrow">Make yourself comfortable</p><h2 id="settings-title">Your visit</h2></div><button data-close="settings-dialog" aria-label="Close settings">✕</button></div><div class="setting-row"><div><strong>Music &amp; Luna</strong><p>Gentle music and a familiar voice.</p></div><button id="sound" aria-pressed="false">Sound off</button></div><div class="setting-row"><div><strong>Gentle mode</strong><p>No falling snow or animated journeys.</p></div><button id="calm" aria-label="Gentle mode" aria-pressed="'+calm+'">'+(calm?'On':'Off')+'</button></div><p class="visit-note">Your colours stay saved in this browser.<br>Private preview · not released.</p></dialog>'+
+ '<dialog class="dialog" id="settings-dialog" aria-labelledby="settings-title"><div class="dialog-head"><div><p class="eyebrow">Make yourself comfortable</p><h2 id="settings-title">Your visit</h2></div><button data-close="settings-dialog" aria-label="Close settings">✕</button></div><div class="setting-row"><div><strong>Music &amp; Luna</strong><p>Gentle music and a familiar voice.</p></div><button id="sound" aria-pressed="false">Sound off</button></div><div class="setting-row"><div><strong>Gentle mode</strong><p>No falling snow or animated journeys.</p></div><button id="calm" aria-label="Gentle mode" aria-pressed="'+calm+'">'+(calm?'On':'Off')+'</button></div><div class="setting-row"><div><strong>Light mode</strong><p>Less snow and softer effects for smoother play.</p></div><button id="light-mode" aria-label="Light mode" aria-pressed="'+light+'">'+(light?'On':'Off')+'</button></div><p class="visit-note">Your colours stay saved in this browser.<br>Private preview · not released.</p></dialog>'+
  '<dialog class="dialog" id="places-dialog" aria-labelledby="places-title"><div class="dialog-head"><div><p class="eyebrow">Follow your curiosity</p><h2 id="places-title">Where shall we go?</h2></div><button class="close" data-close="places-dialog" aria-label="Close places">✕</button></div><div class="place-grid">'+[['crossroads','Our woodland paths'],['home','Inside our burrow'],['market','The village'],['square','Our Christmas tree'],['approach','Alder’s shop']].map(([id,t])=>'<button class="place-card" data-go="'+id+'"><img loading="lazy" src="'+ASSETS+scenes[id].file+'.webp" alt=""><strong>'+t+'</strong></button>').join('')+'</div></dialog>'+
  '<dialog class="dialog" id="activities-dialog" aria-labelledby="activities-title"><div class="dialog-head"><div><p class="eyebrow">Something made by you</p><h2 id="activities-title">A gift for our tree</h2><p>Choose a decoration to make your own.</p></div><button class="close" data-close="activities-dialog" aria-label="Close decorations">✕</button></div><div class="activity-grid" id="activity-cards"></div></dialog>'+
  '<dialog class="dialog" id="paint-dialog" aria-labelledby="paint-title"><header class="paint-heading"><div><h2 id="paint-title"></h2><p>Tap to fill. Brush marks stay inside the piece you start on.</p></div><button data-close="paint-dialog" aria-label="Keep picture and close">✕</button></header><div class="paint-layout"><aside class="paintbox" aria-label="Paintbox"><div class="paint-colours"><p class="paintbox-label">Your colours</p><div class="palette">'+palette.map(([name,c])=>'<button class="swatch" style="--paint:'+c+'" data-colour="'+c+'" aria-label="'+name+'" aria-pressed="'+(c===colour)+'"></button>').join('')+'</div><label class="custom-colour">Mix your own colour <input id="custom-colour" type="color" value="'+colour+'" aria-label="Choose any colour"></label></div><div class="paint-tools"><button data-tool="fill" aria-label="Fill a piece" aria-pressed="true">Fill</button><button data-tool="brush" aria-label="Paint with a brush" aria-pressed="false">Brush</button><button data-tool="erase" aria-label="Clear a piece" aria-pressed="false">Clear</button><div class="brush-size" aria-label="Brush size" hidden>'+[8,18,34].map((n,i)=>'<button data-size="'+n+'" aria-label="'+['Small','Medium','Large'][i]+' brush" aria-pressed="'+(n===size)+'">'+['•','●','⬤'][i]+'</button>').join('')+'</div></div><div class="paint-history"><div class="history-tools"><button id="undo">Undo</button><button id="redo">Redo</button></div><button id="reset-picture">Start again</button></div></aside><div class="paper-desk"><div class="drawing-wrap" id="drawing"></div></div></div><footer class="paint-footer"><p id="paint-status" aria-live="polite"></p><div><button id="save-picture">Save a picture</button><button id="finish" class="gold"></button></div></footer></dialog>'+
  '<dialog class="dialog" id="reset-dialog" aria-labelledby="reset-title"><h2 id="reset-title">A fresh sheet?</h2><p>This clears this picture. You can still use Undo afterwards.</p><div class="dialog-actions"><button data-close="reset-dialog">Keep painting</button><button id="confirm-reset" class="gold">Start again</button></div></dialog>'+
  '<dialog class="dialog" id="export-dialog" aria-labelledby="export-title"><div class="dialog-head"><h2 id="export-title">Your Christmas keepsake</h2><button data-close="export-dialog" aria-label="Close picture preview">✕</button></div><img id="export-image" alt="Your finished colouring picture"><p class="storage-note">Save this picture to keep it outside this browser.</p><div class="dialog-actions"><a id="download-picture" class="gold" download>Download PNG</a></div></dialog>';
-document.body.classList.toggle('calm',calm);
+document.body.classList.toggle('calm',calm);document.body.classList.toggle('light-mode',light);
 function shape(r,attrs=''){return '<'+r.tag+' '+r.attrs+' '+attrs+'/>';}
 // One set of regions and brush marks serves the editor, bench and placed lantern.
 // Material overlays change presentation only; saved colour values remain untouched.
@@ -142,24 +150,37 @@ function hotspot(label,wide,tall,fn){
  const symbol=/[Ss]tar|decoration|tree/.test(label)?'star':/Woodland/.test(label)?'woods':/lantern|Alder/.test(label)?'lantern':/burrow|inside|outside/.test(label)?'home':'map';
  b.innerHTML='<span class="destination-orb">'+icon(symbol)+'</span><span class="destination-label">'+label+'</span>';position(b,portrait?tall:wide);b.onclick=fn;$('#scene-items').append(b);
 }
-const branchesWide=[[49,28],[44,38],[57,39],[48,47],[60,51],[42,57],[52,60],[56,62]];
-const branchesTall=[[49,24],[43,34],[57,34],[48,43],[60,47],[41,52],[51,57],[57,58]];
+// Leave the treetop clear for the later story-led star activity.
+const branchesWide=[[52,28],[46,38],[57,40],[43,48],[54,50],[40,59],[50,61],[61,60]];
+const branchesTall=[[53,28],[47,36],[60,38],[44,45],[57,47],[39,54],[52,56],[66,55]];
+const treeCount=()=>branchesWide.reduce((n,_,i)=>n+Number(!!state.placements['tree'+i]),0);
+function treeLights(){
+ const count=treeCount();if(!count)return;
+ const layer=document.createElement('div');layer.className='tree-lights';layer.setAttribute('aria-hidden','true');
+ const anchors=portrait?branchesTall:branchesWide;
+ // Three small, steady lights per completed decoration. No animation loop or media download.
+ anchors.forEach(([x,y],i)=>{if(state.placements['tree'+i])for(let tier=0;tier<3;tier++){
+  const dot=document.createElement('span');dot.style.left=(x+[-2.3,2.5,.8][tier])+'%';dot.style.top=(y+[-2,2.4,4][tier])+'%';layer.append(dot);
+ }});
+ $('#scene-items').append(layer);
+}
 function creation(slot,wide,tall,width,phoneWidth){
  const v=state.placements[slot];if(!v)return;
  const b=document.createElement('button');b.dataset.slot=slot;b.className='creation'+(slot==='lantern'?' lit':'');b.setAttribute('aria-label','Edit your '+defs[v.type].name);b.style.width=(portrait?phoneWidth:width)+'%';position(b,portrait?tall:wide);b.innerHTML=svgArt(v.type,v.art,{tight:true,material:true});b.onclick=()=>openPaint(v.type,slot);$('#scene-items').append(b);
 }
 function benchLantern(){
  const stored=state.edits.lantern?.art||state.placements.lantern?.art||state.drafts.lantern||blank();
- const b=document.createElement('button');b.id='bench-lantern';b.className='creation bench-lantern';b.setAttribute('aria-label','Colour a lantern');
+ const returning=!!state.placements.lantern,label=returning?'Change your lantern':'Colour a lantern';
+ const b=document.createElement('button');b.id='bench-lantern';b.className='creation bench-lantern';b.setAttribute('aria-label',label);
  position(b,portrait?[41,55]:[43,64]);b.style.width=(portrait?26:14)+'%';
- b.innerHTML=svgArt('lantern',stored,{tight:true,material:true})+'<span class="bench-invitation">Colour a lantern</span>';
+ b.innerHTML=svgArt('lantern',stored,{tight:true,material:true})+'<span class="bench-invitation">'+label+'</span>';
  b.onclick=()=>openPaint('lantern',state.placements.lantern?'lantern':null);$('#scene-items').append(b);
 }
 function placedLantern(){
  const placed=state.placements.lantern;if(!placed)return;
  const pool=document.createElement('div');pool.className='lantern-pool';pool.setAttribute('aria-hidden','true');position(pool,portrait?[78,66]:[76,82]);$('#scene-items').append(pool);
- const b=document.createElement('button');b.id='placed-lantern';b.className='creation world-lantern';b.setAttribute('aria-label','Edit your Alder’s wooden lantern');
- b.style.width=(portrait?14:9)+'%';position(b,portrait?[79,56.2]:[76.6,72.2]);
+ const b=document.createElement('button');b.id='placed-lantern';b.className='creation world-lantern';b.setAttribute('aria-label','Change your lantern');
+ b.style.width=(portrait?12.5:8)+'%';position(b,portrait?[79,56.2]:[76.6,72.2]);
  b.innerHTML='<span class="lantern-halo" aria-hidden="true"></span>'+svgArt('lantern',placed.art,{tight:true,material:true,lit:true});
  b.onclick=async()=>{if(await go('workshop'))openPaint('lantern','lantern');};$('#scene-items').append(b);
 }
@@ -178,9 +199,13 @@ function revealLantern(){
 }
 function placeDecoration(slot){
  if(!pending)return;
+ const wasComplete=treeCount()===8;
  state.placementUndo={slot,previous:state.placements[slot]?clone(state.placements[slot]):null,edit:state.edits[slot]?clone(state.edits[slot]):null};
  state.placements[slot]=clone(pending);delete state.edits[slot];pending=null;save();renderScene();
- $('#scene-message').textContent='Your colours belong here. You can undo this decoration whenever you need.';
+ const complete=treeCount()===8;
+ if(complete&&!wasComplete)mount.classList.add('tree-celebrating');
+ $('#scene-message').textContent=complete?'Every branch made by you. Your Christmas tree is glowing!':'A little more Christmas magic. '+treeCount()+' of 8 branches decorated.';
+ fitTrailSigns();fitTreeItems();
  onSceneNarration('square','tree_reward',false);
 }
 function undoDecoration(){
@@ -191,11 +216,12 @@ function undoDecoration(){
  $('#place-title').focus({preventScroll:true});
 }
 // Lay out all eight targets together, including empty branches, so placing and editing agree.
+function footerContentTop(){return Math.min(innerHeight,...Array.from($('.scene-footer').children).filter(e=>e.getClientRects().length).map(e=>e.getBoundingClientRect().top));}
 function fitTreeItems(){
  if(scene!=='square'||!worldWidth)return;
  const r=$('#scene-world').getBoundingClientRect(),header=$('.scene-header nav').getBoundingClientRect();
- const itemSize=Math.max(48,Math.min(64,worldWidth*.045)),gap=itemSize+8;
- const top=header.bottom+32,bottom=Math.max(top+112,innerHeight-(portrait?148:92));
+ const itemSize=Math.max(52,Math.min(78,worldWidth*.052)),gap=itemSize+7;
+ const top=header.bottom+32,bottom=Math.max(top+112,Math.min(innerHeight-(portrait?148:92),footerContentTop()-itemSize/2-12));
  const anchors=(portrait?branchesTall:branchesWide).map(([x,y])=>({x:Math.max(32,Math.min(innerWidth-32,r.left+x*worldWidth/100)),y:Math.max(top,Math.min(bottom,r.top+y*worldHeight/100))}));
  for(let pass=0;pass<60;pass++)for(let i=0;i<8;i++)for(let j=i+1;j<8;j++){
   const a=anchors[i],b=anchors[j],dx=b.x-a.x,dy=b.y-a.y;
@@ -207,9 +233,14 @@ function fitTreeItems(){
  $('#scene-items').querySelectorAll('[data-slot^="tree"]').forEach(b=>{const a=anchors[Number(b.dataset.slot.slice(4))];b.style.left=(a.x-r.left)+'px';b.style.top=(a.y-r.top)+'px';if(b.classList.contains('creation')){b.style.width=itemSize+'px';b.style.height=itemSize+'px';}});
 }
 function renderScene(){
- mount.dataset.place=scene;mount.dataset.placing=String(!!pending);$('#crossroads').hidden=scene==='crossroads';$('#place-title').textContent=scenes[scene].title;
+ mount.classList.remove('tree-celebrating');mount.classList.toggle('tree-complete',scene==='square'&&treeCount()===8);
+ mount.classList.toggle('can-undo-decoration',scene==='square'&&!pending&&!!state.placementUndo);mount.dataset.place=scene;mount.dataset.placing=String(!!pending);$('#crossroads').hidden=scene==='crossroads';$('#place-title').textContent=scenes[scene].title;
  $('#scene-message').textContent=pending?'Choose a glowing branch for your decoration.':scenes[scene].text;
+ if(!pending&&scene==='square')$('#scene-message').textContent=treeCount()===8?'Your tree is glowing. Every decoration is yours to change.':treeCount()?treeCount()+' of 8 branches decorated. Shall we make another?':'Eight branches waiting for your colours.';
+ if(!pending&&state.placements.lantern&&['approach','workshop'].includes(scene))$('#scene-message').textContent=scene==='approach'?'Your lantern is glowing here. Come inside to change its colours.':'Your lantern, ready for new colours whenever you like.';
+ if(!pending&&scene==='home'&&state.placements.window)$('#scene-message').textContent='Your star is hanging in our window. Its colours are yours to change.';
  $('#scene-items').replaceChildren();$('#scene-actions').replaceChildren();$('#places').disabled=!!pending;$('#crossroads').disabled=!!pending;
+ if(scene==='square')treeLights();
  if(pending){
   (portrait?branchesTall:branchesWide).forEach((xy,i)=>{const b=document.createElement('button');b.className='branch';position(b,xy);b.textContent=state.placements['tree'+i]?'↺':'+';b.setAttribute('aria-label',(state.placements['tree'+i]?'Replace decoration on':'Choose')+' branch '+(i+1));b.dataset.slot='tree'+i;b.onclick=()=>placeDecoration('tree'+i);$('#scene-items').append(b);});
   action('Keep painting',()=>{const p=pending;pending=null;renderScene();openPaint(p.type,null,p.art);});
@@ -219,9 +250,9 @@ function renderScene(){
   hotspot('Woodland Search',[51,42],[51,43],()=>travel('woods'));
   hotspot('Christmas village',[81,56],[75,49],()=>travel('market'));
  }else if(scene==='home'){
-  hotspot('Colour a window star',[31,70],[33,60],()=>openPaint('window',state.placements.window?'window':null));
+  hotspot(state.placements.window?'Change your window star':'Colour a window star',[31,70],[33,60],()=>openPaint('window',state.placements.window?'window':null));
   hotspot('Step outside',[76,45],[76,43],()=>go('crossroads'));
-  action('Make a window star',()=>openPaint('window',state.placements.window?'window':null));action('Explore the village',()=>go('crossroads'));
+  action(state.placements.window?'Change your window star':'Make a window star',()=>openPaint('window',state.placements.window?'window':null));action('Explore the village',()=>go('crossroads'));
  }else if(scene==='market'){
   hotspot('Home to the burrow',[17,76],[20,72],()=>go('crossroads'));
   hotspot('The village tree',[57,43],[56,41],()=>travel('square',{row:1,wide:[[50,85],[53,68],[55,57]],tall:[[50,82],[52,67],[54,57]],scale:.62}));hotspot('Alder’s workshop',[34,48],[31,49],()=>travel('approach',{row:0,wide:[[50,85],[44,72],[35,59]],tall:[[50,82],[41,70],[32,59]],scale:.67}));
@@ -239,7 +270,7 @@ function renderScene(){
   benchLantern();
   hotspot('Step outside',[88,50],[80,65],()=>go('approach'));
   const host=document.createElement('img');host.id='alder-host';host.src=ASSETS+'Alder_Welcome.webp';host.alt='Alder the badger welcomes you at his workbench';host.style.width=portrait?'45%':'31%';host.style.left=portrait?'70%':'68%';host.style.top=portrait?'45%':'53%';const hostWindow=document.createElement('div');hostWindow.style.cssText='position:absolute;inset:0;pointer-events:none;clip-path:inset(0 0 '+(portrait?'45.2':'34.4')+'% 0)';hostWindow.append(host);$('#scene-items').append(hostWindow);
-  action('Make my lantern',()=>openPaint('lantern',state.placements.lantern?'lantern':null));action('Step outside',()=>go('approach'));
+  action(state.placements.lantern?'Change your lantern':'Make my lantern',()=>openPaint('lantern',state.placements.lantern?'lantern':null));action('Step outside',()=>go('approach'));
  }
  if(scene==='home')creation('window',[31,23],[33,34],11,17);
  if(scene==='approach')placedLantern();
@@ -256,7 +287,14 @@ function fitScene(){
 }
 function fitTrailSigns(){
  const world=$('#scene-world'),stage=$('#scene-stage'),r=world.getBoundingClientRect();const minY=$('.scene-header nav').getBoundingClientRect().bottom+24;
- world.querySelectorAll('.path-stop').forEach(b=>{const hw=Math.max(b.offsetWidth/2+10,80),hh=b.offsetHeight/2;const x=r.left+Number(b.dataset.x)*world.clientWidth/100;const y=r.top+Number(b.dataset.y)*world.clientHeight/100;b.style.left=(Math.max(hw,Math.min(stage.clientWidth-hw,x))-r.left)+'px';b.style.top=(Math.max(minY+hh,Math.min(stage.clientHeight-110-hh,y))-r.top)+'px';});
+ const footerTop=footerContentTop();
+ world.querySelectorAll('.path-stop').forEach(b=>{
+  const label=b.querySelector('.destination-label'),hw=Math.max(b.offsetWidth,label.offsetWidth)/2+12,hh=b.offsetHeight/2,below=label.offsetTop+label.offsetHeight-hh;
+  // Tree navigation sits outside the decorating area, including on short screens.
+  const x=scene==='square'?(Number(b.dataset.x)<50?hw:stage.clientWidth-hw):r.left+Number(b.dataset.x)*world.clientWidth/100;
+  const y=scene==='square'?footerTop-12-below:r.top+Number(b.dataset.y)*world.clientHeight/100;
+  b.style.left=(Math.max(hw,Math.min(stage.clientWidth-hw,x))-r.left)+'px';b.style.top=(Math.max(minY+hh,Math.min(footerTop-12-below,y))-r.top)+'px';
+ });
 }
 // Keep only three decoded scenery promises. Load a destination once, during its walk.
 const scenePictures=new Map();
@@ -267,7 +305,7 @@ function loadScenePicture(next){
  const picture=new Image();picture.decoding='async';picture.src=src;
  ready=picture.decode().then(()=>picture).catch(error=>{scenePictures.delete(src);throw error;});
  scenePictures.set(src,ready);
- while(scenePictures.size>3)scenePictures.delete(scenePictures.keys().next().value);
+ while(scenePictures.size>(light?1:3))scenePictures.delete(scenePictures.keys().next().value);
  return ready;
 }
 async function go(next,message,voiceCue){
@@ -280,8 +318,8 @@ async function go(next,message,voiceCue){
   const previous=$('#scene-image');picture.id='scene-image';picture.alt=scenes[next].title+' in the snowy Whispering Woods';
   if(previous!==picture)previous.replaceWith(picture);
   const changed=sceneReady&&scene!==next;scene=next;renderScene();fitScene();sceneReady=true;
-  if(changed&&!calm)$('#scene-camera').animate([{opacity:0,transform:'scale(1.035)'},{opacity:1,transform:'scale(1)'}],{duration:650,easing:'cubic-bezier(.22,.61,.36,1)'});
-  if(message)$('#scene-message').textContent=message;
+  if(changed&&!calm&&!light)$('#scene-camera').animate([{opacity:0,transform:'scale(1.035)'},{opacity:1,transform:'scale(1)'}],{duration:650,easing:'cubic-bezier(.22,.61,.36,1)'});
+  if(message){$('#scene-message').textContent=message;fitTrailSigns();fitTreeItems();}
   if(voiceCue==='lantern_reward')revealLantern();else onSceneNarration(next,voiceCue,changed);
   if(changed){$('#place-title').tabIndex=-1;$('#place-title').focus({preventScroll:true});}
   return true;
@@ -302,25 +340,35 @@ function openPaint(type,slot=null,value=null){
  mount.classList.add('at-craft');mount.classList.toggle('at-table',type==='window');mount.classList.toggle('at-bench',type==='lantern');
  edit={type,slot};art=clone(value||(slot?(state.edits[slot]?.art||state.placements[slot]?.art):null)||state.drafts[type]||blank());undo=[];redo=[];stroke=null;
  $('#paint-title').textContent=defs[type].name;
- $('.paint-heading p').textContent=type==='lantern'?'Choose a colour, then touch your lantern.':type==='window'?'Make a wooden star for our window.':'Make something lovely for our tree.';
- $('#finish').textContent=slot?.startsWith('tree')?'Put it back on the tree':defs[type].finish;
- renderPaint();openDialog('paint-dialog');paintActions=0;paintCue=slot?'edit_creation':pictureCues[type];introCue=slot?null:paintCue;readCue(paintCue);if(!storageOK)readCue('saving_unavailable',{once:true});
- if(type==='lantern'&&origin&&!calm){
+ $('.paint-heading p').textContent=slot==='lantern'?'Try new colours, then hang your lantern back outside.':slot==='window'?'Try new colours for your window star.':type==='lantern'?'Choose a colour, then touch your lantern.':type==='window'?'Make a wooden star for our window.':'Make something lovely for our tree.';
+ $('#finish').textContent=slot?.startsWith('tree')?'Put it back on the tree':slot==='lantern'?'Hang it back outside':defs[type].finish;
+ syncPalette(true);renderPaint();openDialog('paint-dialog');paintActions=0;paintCue=slot?'edit_creation':pictureCues[type];introCue=slot?null:paintCue;readCue(paintCue);if(!storageOK)readCue('saving_unavailable',{once:true});
+ if(type==='lantern'&&origin&&!calm&&!light){
   const target=$('#drawing').getBoundingClientRect();$('#drawing').inert=true;
   benchIntro=$('#drawing').animate([{transform:'translate('+(origin.x+origin.width/2-target.x-target.width/2)+'px,'+(origin.y+origin.height/2-target.y-target.height/2)+'px) scale('+(origin.width/target.width)+')',opacity:.4},{transform:'none',opacity:1}],{duration:520,easing:'cubic-bezier(.22,.61,.36,1)'});
   benchIntro.finished.then(()=>{$('#drawing').inert=false;}).catch(()=>{});
  }
 }
 function paintStatus(message){
- $('#paint-status').textContent=message||(storageOK?'Your picture saves here as you paint. Take your time.':'Browser saving is unavailable. Use “Save a picture” to keep your art.');
+ $('#paint-status').textContent=message||(storageOK?'Saved on this device.':'Browser saving is unavailable. Use “Save a picture” to keep your art.');
 }
 function renderPaint(){
  $('#drawing').innerHTML=svgArt(edit.type,art,{interactive:true,tight:true,material:true});$('#undo').disabled=!undo.length;$('#bench-undo').disabled=!undo.length;$('#redo').disabled=!redo.length;paintStatus();
 }
 function saveDraft(){if(edit){if(edit.slot)state.edits[edit.slot]={type:edit.type,art:clone(art)};else state.drafts[edit.type]=clone(art);save();}}
 function commit(previous){
- undo.push(previous);if(undo.length>25)undo.shift();redo=[];saveDraft();renderPaint();onPaintAction();
+ undo.push(previous);if(undo.length>(light?12:25))undo.shift();redo=[];saveDraft();renderPaint();onPaintAction();
 }
+let palettePage=0;
+const moreColours=document.createElement('button');moreColours.id='more-colours';moreColours.type='button';moreColours.textContent='More colours';moreColours.setAttribute('aria-label','Show more colours');moreColours.hidden=true;$('.palette').after(moreColours);
+function syncPalette(followSelection=false){
+ const paged=portrait&&innerWidth<=700;
+ if(followSelection){const index=palette.findIndex(p=>p[1]===colour);if(index>=0)palettePage=Math.floor(index/8);}
+ $('.paint-colours').classList.toggle('paged-colours',paged);moreColours.hidden=!paged;
+ document.querySelectorAll('[data-colour]').forEach((b,i)=>{b.hidden=paged&&Math.floor(i/8)!==palettePage;});
+ moreColours.setAttribute('aria-label',palettePage?'Show warm colours':'Show cool colours');
+}
+moreColours.onclick=()=>{palettePage=1-palettePage;syncPalette();};
 function selectColour(c){colour=c;$('#custom-colour').value=c;document.querySelectorAll('[data-colour]').forEach(b=>b.setAttribute('aria-pressed',b.dataset.colour===c));}
 document.querySelectorAll('[data-colour]').forEach(b=>b.onclick=()=>selectColour(b.dataset.colour));
 $('#custom-colour').oninput=e=>selectColour(e.target.value);
@@ -425,7 +473,7 @@ function syncExplorer(){
 function stopTravel(announce=true){
  cancelAnimationFrame(walkFrame);walkToken++;walking=false;
  $('#scene-items').inert=mount.getAttribute('aria-busy')==='true';
- mount.classList.remove('travelling');$('#scene-camera').style.transform='';$('#stop-walk').hidden=true;$('#places').disabled=!!pending;
+ mount.classList.remove('travelling');$('#scene-camera').style.transform='';$('#stop-walk').hidden=true;$('#places').disabled=!!pending;updateSnow();
  if(announce){walker.frame=0;drawBarnaby();explorer.setAttribute('aria-label','Barnaby waiting on the path');$('#scene-message').textContent='Take your time. Choose a path when you’re ready.';}
 }
 const routes={
@@ -451,7 +499,7 @@ function travel(destination,custom){
  const routePoints=(portrait?route.tall:route.wide).map(p=>p.slice());routePoints[0]=[walker.x,walker.y];const points=smoothRoute(routePoints);
  const world=$('#scene-world'), lengths=points.slice(1).map((p,i)=>Math.hypot((p[0]-points[i][0])*world.clientWidth/100,(p[1]-points[i][1])*world.clientHeight/100));
  const total=lengths.reduce((a,b)=>a+b,0), duration=Math.max(2100,Math.min(5200,total*9));
- walking=true;$('#scene-items').inert=true;$('#places').disabled=true;const token=++walkToken;mount.classList.add('travelling');$('#stop-walk').hidden=false;
+ walking=true;$('#scene-items').inert=true;$('#places').disabled=true;const token=++walkToken;mount.classList.add('travelling');updateSnow();$('#stop-walk').hidden=false;
  $('#scene-message').textContent=destination==='woods'?'Into the woods, together…':destination==='home'?'Home is just a few pawsteps away…':'Let’s follow the lanterns…';
  explorer.setAttribute('aria-label','Barnaby walking '+(route.row===0?'left':route.row===2?'right':'forward'));
  const startScale=walker.scale;walker.row=route.row;let elapsed=0,last=0,lastFrame=-1,lastRow=-1,stride=0,previousDistance=0;
@@ -471,7 +519,7 @@ function travel(destination,custom){
   if(lateral>.8)walker.row=dx<0?0:2;else if(lateral<.45)walker.row=1;
   stride+=(progress*total-previousDistance)/Math.max(12,worldHeight*.03*walker.scale);previousDistance=progress*total;
   walker.frame=Math.floor(stride)%4;
-  $('#scene-camera').style.transform='scale('+(1+progress*.035)+')';
+  if(!light)$('#scene-camera').style.transform='scale('+(1+progress*.035)+')';
   if(lastFrame!==walker.frame||lastRow!==walker.row){explorer.setAttribute('aria-label','Barnaby walking '+(walker.row===0?'left':walker.row===2?'right':'forward'));drawBarnaby();lastFrame=walker.frame;lastRow=walker.row;}
   placeBarnaby();
   if(t<1)walkFrame=requestAnimationFrame(step);else arrive();
@@ -485,7 +533,7 @@ window.addEventListener('pageshow',e=>{if(e.persisted){stopTravel(false);go('cro
 
 // Christmas narration uses the proven Woodland voice envelopes and device mix.
 const luna=window.jltChristmasAudio,music=window.jltChristmasMusic;
-let soundOn=false,caption=null,paintCue='fill_help',helpCue='fill_help',paintActions=0,introCue=null,encourageTimer=0;
+let soundOn=false,caption=null,activeCue=null,paintCue='fill_help',helpCue='fill_help',paintActions=0,introCue=null,encourageTimer=0;
 const heard=new Set();
 const restoredArt=[...Object.values(state.drafts),...Object.values(state.placements).map(p=>p.art),...Object.values(state.edits).map(p=>p.art)].some(a=>Object.keys(a.fills).length||a.strokes.length);
 let sceneCue=restoredArt?'welcome_back':'welcome';
@@ -496,25 +544,25 @@ function topDialog(){return [...document.querySelectorAll('dialog[open]')].at(-1
 function currentCue(){
  const d=topDialog();
  if(d?.id==='activities-dialog'||d?.id==='settings-dialog')return null;
- if(caption&&(d?d.contains(caption.node):caption.node.id==='scene-message'))return caption.id;
+ if(activeCue&&luna.isPlaying())return activeCue;
  return d?({ 'places-dialog':'paths_menu','activities-dialog':'village_tree','paint-dialog':paintCue,'reset-dialog':'start_again','export-dialog':'save_picture','luna-help-dialog':helpCue }[d.id]||sceneCue):sceneCue;
 }
 function restoreCaption(){
  if(caption?.node.isConnected&&caption.node.textContent===caption.text)caption.node.textContent=caption.before;
  caption=null;mount.classList.remove('narrating');
 }
-function showCaption(id){
+function showCaption(id,force=false){
  const words=window.CHRISTMAS_LUNA.clips[id]?.text;if(!words)return;
- restoreCaption();const d=topDialog();
+ restoreCaption();if(!captionsOn&&!force)return;const d=topDialog();
  const node=d?.querySelector('[data-luna-caption]')||$('#scene-message');
  caption={id,node,before:node.textContent,text:words};node.textContent=words;if(!d)mount.classList.add('narrating');
 }
 function stopNarration(immediate=false){
- clearTimeout(encourageTimer);introCue=null;luna.stop({immediate});restoreCaption();
+ clearTimeout(encourageTimer);introCue=null;activeCue=null;luna.stop({immediate});restoreCaption();
 }
 function readCue(id,{once=false}={}){
  if(!soundOn||document.hidden||!luna.slots[id]||(once&&heard.has(id)))return;
- showCaption(id);
+ activeCue=id;showCaption(id);
  void luna.play(id).then(started=>{if(started)heard.add(id);});
 }
 function refreshSoundButtons(){
@@ -527,7 +575,11 @@ function setSound(value,speak=true){
 }
 const audioButtons='<button type="button" data-luna-listen aria-label="Listen to Luna">Listen</button><button type="button" data-luna-sound aria-pressed="false">Sound off</button>';
 $('#sound').setAttribute('data-luna-sound','');
-const listen=document.createElement('button');listen.type='button';listen.className='world-control';listen.innerHTML=icon('sound')+'<span>Luna</span>';listen.setAttribute('data-luna-listen','');listen.setAttribute('aria-label','Listen to Luna');$('#settings').before(listen);
+const captionsRow=document.createElement('div');captionsRow.className='setting-row';
+captionsRow.innerHTML='<div><strong>Luna captions</strong><p>Read along while Luna speaks.</p></div><button id="captions" aria-label="Luna captions" aria-pressed="'+captionsOn+'">'+(captionsOn?'On':'Off')+'</button>';
+$('#settings-dialog .visit-note').before(captionsRow);
+$('#captions').onclick=()=>{captionsOn=!captionsOn;preferences.captions=captionsOn;savePreferences();$('#captions').setAttribute('aria-pressed',captionsOn);$('#captions').textContent=captionsOn?'On':'Off';if(!captionsOn)restoreCaption();};
+const listen=document.createElement('button');listen.type='button';listen.className='world-control labelled-control';listen.innerHTML=icon('sound')+'<span>Luna</span>';listen.setAttribute('data-luna-listen','');listen.setAttribute('aria-label','Listen to Luna');$('#settings').before(listen);
 const paintHelp=document.createElement('dialog');paintHelp.id='luna-help-dialog';paintHelp.className='dialog';paintHelp.setAttribute('aria-labelledby','luna-help-title');
 paintHelp.innerHTML='<div class="dialog-head"><h2 id="luna-help-title">A little help</h2><button class="close" aria-label="Close colouring help">✕</button></div><div class="luna-help-choices">'+[['fill_help','Filling colours'],['brush_help','Using the brush'],['clear_help','Clearing a piece'],['undo_redo_help','Undo and redo']].map(([id,label])=>'<button data-help-cue="'+id+'">'+label+'</button>').join('')+'</div>';
 mount.append(paintHelp);paintHelp.querySelector('.close').onclick=()=>closeDialog('luna-help-dialog');
@@ -550,7 +602,7 @@ document.querySelectorAll('[data-luna-sound]').forEach(b=>b.onclick=()=>setSound
 document.querySelectorAll('[data-luna-listen]').forEach(b=>b.onclick=()=>{if(walking||mount.getAttribute('aria-busy')==='true')return;if(!soundOn)setSound(true,false);readCue(currentCue());});
 function onSceneNarration(next,cue,changed){
  if(cue){sceneCue=cue;readCue(cue);}
- else if(changed){sceneCue=sceneCues[next];readCue(sceneCue,{once:next!=='crossroads'});}
+ else if(changed){const revisit=(state.placements.lantern&&['approach','workshop'].includes(next))||(next==='home'&&state.placements.window);sceneCue=revisit?'edit_creation':sceneCues[next];readCue(sceneCue,{once:next!=='crossroads'});}
 }
 function onPaintAction(){
  introCue=null;paintActions++;clearTimeout(encourageTimer);
@@ -560,6 +612,7 @@ function onPaintAction(){
  },2500);
 }
 window.addEventListener('christmas-audio-ended',e=>{
+ if(activeCue===e.detail.name)activeCue=null;
  const finishedCaption=caption;
  if((!topDialog()||topDialog()?.id==='paint-dialog')&&finishedCaption?.id===e.detail.name)setTimeout(()=>{if(caption===finishedCaption)restoreCaption();},1800);
  if(e.detail.name===introCue&&topDialog()?.id==='paint-dialog'&&paintActions===0&&tool==='fill'){
@@ -567,32 +620,35 @@ window.addEventListener('christmas-audio-ended',e=>{
  }
 });
 window.addEventListener('christmas-audio-error',()=>{
+ if(activeCue)showCaption(activeCue,true);
  document.querySelectorAll('[data-luna-listen]').forEach(b=>b.title='Read along, or tap Listen to try Luna again.');
 });
 window.addEventListener('pagehide',()=>{cancelLanternReveal();stopNarration(true);music.stop();});
 let snowFrame=0,flakes=[],lastSnow=0;
 const snow=$('#snow'),ctx=snow.getContext('2d');
 function resizeSnow(){
- const dpr=Math.min(devicePixelRatio||1,1.25);snow.width=Math.round(innerWidth*dpr);snow.height=Math.round(innerHeight*dpr);ctx.setTransform(dpr,0,0,dpr,0,0);
- flakes=Array.from({length:portrait?20:32},()=>({x:Math.random()*innerWidth,y:Math.random()*innerHeight,r:.8+Math.random()*1.7,s:9+Math.random()*15}));
+ const dpr=Math.min(devicePixelRatio||1,light?1:1.25);snow.width=Math.round(innerWidth*dpr);snow.height=Math.round(innerHeight*dpr);ctx.setTransform(dpr,0,0,dpr,0,0);
+ flakes=Array.from({length:light?(portrait?8:12):(portrait?20:32)},()=>({x:Math.random()*innerWidth,y:Math.random()*innerHeight,r:.8+Math.random()*1.7,s:9+Math.random()*15}));
 }
 function tick(t){
- snowFrame=requestAnimationFrame(tick);if(t-lastSnow<33)return;const dt=Math.min((t-lastSnow)/1000,.08);lastSnow=t;ctx.clearRect(0,0,innerWidth,innerHeight);ctx.fillStyle='#fff9';
- for(const f of flakes){f.y+=f.s*dt;f.x+=Math.sin(t/3000+f.y/100)*4*dt;if(f.y>innerHeight+4){f.y=-4;f.x=Math.random()*innerWidth;}ctx.beginPath();ctx.arc(f.x,f.y,f.r,0,Math.PI*2);ctx.fill();}
+ snowFrame=requestAnimationFrame(tick);if(t-lastSnow<(light?50:33))return;const dt=Math.min((t-lastSnow)/1000,.08);lastSnow=t;ctx.clearRect(0,0,innerWidth,innerHeight);ctx.fillStyle='#fff9';ctx.beginPath();
+ for(const f of flakes){f.y+=f.s*dt;f.x+=Math.sin(t/3000+f.y/100)*4*dt;if(f.y>innerHeight+4){f.y=-4;f.x=Math.random()*innerWidth;}ctx.moveTo(f.x+f.r,f.y);ctx.arc(f.x,f.y,f.r,0,Math.PI*2);}ctx.fill();
 }
 function updateSnow(){
  cancelAnimationFrame(snowFrame);snowFrame=0;
- const active=scenes[scene].out&&!calm&&!document.hidden&&!document.querySelector('dialog[open]');
+ const active=scenes[scene].out&&!walking&&!calm&&!document.hidden&&!document.querySelector('dialog[open]');
  snow.hidden=!active;if(active){lastSnow=performance.now();snowFrame=requestAnimationFrame(tick);}
 }
-$('#calm').onclick=()=>{calm=!calm;if(calm&&walking)stopTravel();document.body.classList.toggle('calm',calm);$('#calm').setAttribute('aria-pressed',calm);$('#calm').textContent=calm?'On':'Off';updateSnow();};
-matchMedia('(prefers-reduced-motion: reduce)').addEventListener('change',e=>{calm=e.matches;if(calm&&walking)stopTravel();document.body.classList.toggle('calm',calm);$('#calm').setAttribute('aria-pressed',calm);$('#calm').textContent=calm?'On':'Off';updateSnow();});
+$('#calm').onclick=()=>{calm=!calm;preferences.calm=calm;savePreferences();if(calm&&walking)stopTravel();document.body.classList.toggle('calm',calm);$('#calm').setAttribute('aria-pressed',calm);$('#calm').textContent=calm?'On':'Off';updateSnow();};
+const onMotionPreference=e=>{calm=e.matches||preferences.calm===true;if(calm&&walking)stopTravel();document.body.classList.toggle('calm',calm);$('#calm').setAttribute('aria-pressed',calm);$('#calm').textContent=calm?'On':'Off';updateSnow();};
+if(motionPreference.addEventListener)motionPreference.addEventListener('change',onMotionPreference);else motionPreference.addListener(onMotionPreference);
+$('#light-mode').onclick=()=>{light=!light;preferences.light=light;savePreferences();document.body.classList.toggle('light-mode',light);$('#light-mode').setAttribute('aria-pressed',light);$('#light-mode').textContent=light?'On':'Off';while(scenePictures.size>(light?1:3))scenePictures.delete(scenePictures.keys().next().value);resizeSnow();updateSnow();};
 document.addEventListener('visibilitychange',()=>{document.body.classList.toggle('page-hidden',document.hidden);updateSnow();if(document.hidden){stopNarration(true);music.stop();}else if(soundOn)void music.start();});
 let resizeFrame=0;
 window.addEventListener('resize',()=>{
  if(brushMatrix)brushMatrix=null;
  if(resizeFrame)return;
- resizeFrame=requestAnimationFrame(()=>{resizeFrame=0;const p=innerWidth/innerHeight<1.12;if(p!==portrait){portrait=p;go(requestedScene);}else fitScene();resizeSnow();updateSnow();});
+ resizeFrame=requestAnimationFrame(()=>{resizeFrame=0;const p=innerWidth/innerHeight<1.12;if(p!==portrait){portrait=p;go(requestedScene);}else fitScene();syncPalette(true);resizeSnow();updateSnow();});
 });
 resizeSnow();go('crossroads');
 })();
